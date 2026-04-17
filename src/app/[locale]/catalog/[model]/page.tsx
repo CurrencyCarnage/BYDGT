@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { getAllModels, getModelById, getLocalizedValue, formatPrice } from "@/lib/models";
 import ModelConfigurator from "@/components/configurator/ModelConfigurator";
+import ModelHeroMedia from "@/components/catalog/ModelHeroMedia";
 
 export function generateStaticParams() {
   const models = getAllModels();
@@ -81,49 +81,13 @@ export default function ModelDetailPage({
 
         {/* Hero Area */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 mb-16">
-          {/* Hero media — video for sealion, image for others */}
-          <div className="relative aspect-[16/10] bg-bg-secondary rounded-container overflow-hidden">
-            {model.images.heroVideo ? (
-              <video
-                src={model.images.heroVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover object-center"
-              />
-            ) : model.images.hero ? (
-              <Image
-                src={model.images.hero}
-                alt={name}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-center"
-                priority
-              />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <p className="text-text-muted text-sm">Image Coming Soon</p>
-              </div>
-            )}
-
-            {/* Subtle overlay for badge legibility */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
-
-            {/* Type badge */}
-            <div className="absolute top-4 left-4">
-              <span className={model.type === "EV" ? "badge-ev" : "badge-phev"}>
-                {model.type}
-              </span>
-            </div>
-
-            {/* Category badge */}
-            <div className="absolute top-4 right-4">
-              <span className="text-caption text-text-muted bg-bg-tertiary px-3 py-1 rounded-full">
-                {model.category}
-              </span>
-            </div>
-          </div>
+          <ModelHeroMedia
+            heroVideo={model.images.heroVideo}
+            hero={model.images.hero}
+            name={name}
+            type={model.type}
+            category={model.category}
+          />
 
           {/* Model Info */}
           <div>
