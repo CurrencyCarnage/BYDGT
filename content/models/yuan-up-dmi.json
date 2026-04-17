@@ -1,0 +1,46 @@
+{
+  "id": "yuan-up-dmi",
+  "name": { "en": "BYD Yuan Up DM-i", "ka": "BYD Yuan Up DM-i" },
+  "tagline": {
+    "en": "Smart urban hybrid — efficient, compact, unstoppable",
+    "ka": "ჭკვიანი ურბანული ჰიბრიდი — ეკონომიური, კომპაქტური, შეუჩერებელი"
+  },
+  "category": "Compact SUV",
+  "type": "PHEV",
+  "basePrice": 22000,
+  "currency": "USD",
+  "specs": {
+    "range_km": 1100,
+    "electric_range_km": 80,
+    "power_hp": 150,
+    "acceleration_0_100": 8.9,
+    "top_speed_kmh": 170,
+    "battery_kwh": 12.9
+  },
+  "configurations": {
+    "colors": [
+      { "id": "midnight-black", "name": { "en": "Midnight Black", "ka": "შუაღამის შავი" }, "hex": "#1A1A1A", "priceModifier": 0 },
+      { "id": "arctic-white", "name": { "en": "Arctic White", "ka": "არქტიკული თეთრი" }, "hex": "#F5F5F5", "priceModifier": 400 },
+      { "id": "ocean-teal", "name": { "en": "Ocean Teal", "ka": "ოკეანის ფირუზისფერი" }, "hex": "#2A7B88", "priceModifier": 600 },
+      { "id": "sand-gold", "name": { "en": "Sand Gold", "ka": "ქვიშის ოქროსფერი" }, "hex": "#C4A862", "priceModifier": 600 }
+    ],
+    "variants": [
+      { "id": "standard", "name": { "en": "Standard", "ka": "სტანდარტი" }, "priceModifier": 0 },
+      { "id": "premium", "name": { "en": "Premium", "ka": "პრემიუმი" }, "priceModifier": 2500 }
+    ]
+  },
+  "images": {
+    "hero": "/images/models/yuan-up-dmi/hero.jpg",
+    "gallery": [],
+    "colorViews": {}
+  },
+  "features": [
+    { "en": "DM-i Plug-in Hybrid Drivetrain", "ka": "DM-i ჩართვადი ჰიბრიდული ძრავი" },
+    { "en": "10.1\" HD Touchscreen Infotainment", "ka": "10.1\" HD სენსორული ინფოგართობის სისტემა" },
+    { "en": "Automatic Emergency Braking", "ka": "ავტომატური საგანგებო დამუხრუჭება" },
+    { "en": "Lane Departure Warning", "ka": "ზოლიდან გადახვევის გაფრთხილება" },
+    { "en": "Rear Parking Sensors & Camera", "ka": "უკანა პარკირების სენსორები და კამერა" }
+  ],
+  "isAvailable": true,
+  "isFeatured": true
+}

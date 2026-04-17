@@ -1,0 +1,73 @@
+{
+  "common": {
+    "brandName": "GT Group",
+    "brandTagline": "Official BYD Dealer in Georgia",
+    "currency": "USD",
+    "learnMore": "Learn More",
+    "viewAll": "View All Models",
+    "bookTestDrive": "Book Test Drive",
+    "contactUs": "Contact Us",
+    "whatsapp": "WhatsApp",
+    "startingFrom": "Starting from",
+    "specs": "Specifications",
+    "features": "Features",
+    "gallery": "Gallery",
+    "compare": "Compare",
+    "back": "Back",
+    "language": "Language",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "nav": {
+    "home": "Home",
+    "catalog": "Models",
+    "compare": "Compare",
+    "booking": "Test Drive",
+    "contact": "Contact"
+  },
+  "home": {
+    "heroTitle": "The Future of Driving Starts Here",
+    "heroSubtitle": "Discover BYD's revolutionary electric and hybrid vehicles, now available in Georgia through GT Group",
+    "heroCta": "Explore Models",
+    "featuredTitle": "Featured Models",
+    "featuredSubtitle": "Handpicked vehicles that define the next generation of mobility",
+    "brandTitle": "Why GT Group?",
+    "brandText": "As Georgia's official BYD partner, GT Group brings you cutting-edge electric and plug-in hybrid vehicles with full local warranty, service support, and the promise of a cleaner, smarter future on Georgian roads.",
+    "brandCta": "Get in Touch"
+  },
+  "catalog": {
+    "title": "Our Models",
+    "subtitle": "Explore the complete BYD lineup available in Georgia",
+    "filterAll": "All",
+    "filterEV": "Electric (EV)",
+    "filterPHEV": "Hybrid (PHEV)",
+    "range": "Range",
+    "power": "Power",
+    "acceleration": "0-100 km/h"
+  },
+  "model": {
+    "configurator": "Configure Your Vehicle",
+    "selectColor": "Select Color",
+    "selectVariant": "Select Variant",
+    "totalPrice": "Total Price",
+    "included": "Included",
+    "specsTitle": "Technical Specifications",
+    "range": "Total Range",
+    "electricRange": "Electric Range",
+    "power": "Power",
+    "acceleration": "0-100 km/h",
+    "topSpeed": "Top Speed",
+    "battery": "Battery",
+    "featuresTitle": "Key Features"
+  },
+  "footer": {
+    "description": "GT Group — Your trusted partner for BYD electric vehicles in Georgia. Experience the future of mobility today.",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Info",
+    "followUs": "Follow Us",
+    "address": "Tbilisi, Georgia",
+    "phone": "+995 XXX XXX XXX",
+    "email": "info@gtgroup.ge",
+    "rights": "All rights reserved."
+  }
+}

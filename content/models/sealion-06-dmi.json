@@ -1,0 +1,50 @@
+{
+  "id": "sealion-06-dmi",
+  "name": { "en": "BYD Sealion 06 DM-i", "ka": "BYD Sealion 06 DM-i" },
+  "tagline": {
+    "en": "Command the road with intelligent hybrid power",
+    "ka": "მართეთ გზა ინტელექტუალური ჰიბრიდული ძალით"
+  },
+  "category": "SUV",
+  "type": "PHEV",
+  "basePrice": 35000,
+  "currency": "USD",
+  "specs": {
+    "range_km": 1200,
+    "electric_range_km": 100,
+    "power_hp": 197,
+    "acceleration_0_100": 7.5,
+    "top_speed_kmh": 180,
+    "battery_kwh": 15.2
+  },
+  "configurations": {
+    "colors": [
+      { "id": "midnight-black", "name": { "en": "Midnight Black", "ka": "შუაღამის შავი" }, "hex": "#1A1A1A", "priceModifier": 0 },
+      { "id": "arctic-white", "name": { "en": "Arctic White", "ka": "არქტიკული თეთრი" }, "hex": "#F5F5F5", "priceModifier": 500 },
+      { "id": "cosmos-grey", "name": { "en": "Cosmos Grey", "ka": "კოსმოსის ნაცრისფერი" }, "hex": "#5C5C6E", "priceModifier": 700 },
+      { "id": "aurora-blue", "name": { "en": "Aurora Blue", "ka": "აურორის ლურჯი" }, "hex": "#1E3A5F", "priceModifier": 800 },
+      { "id": "crimson-red", "name": { "en": "Crimson Red", "ka": "ალისფერი წითელი" }, "hex": "#8B1A1A", "priceModifier": 800 }
+    ],
+    "variants": [
+      { "id": "comfort", "name": { "en": "Comfort", "ka": "კომფორტი" }, "priceModifier": 0 },
+      { "id": "luxury", "name": { "en": "Luxury", "ka": "ლუქსი" }, "priceModifier": 3000 },
+      { "id": "flagship", "name": { "en": "Flagship", "ka": "ფლაგმანი" }, "priceModifier": 5500 }
+    ]
+  },
+  "images": {
+    "hero": "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",
+    "heroVideo": "/images/models/sealion-06-dmi/sealion-6-promo.mp4",
+    "gallery": [],
+    "colorViews": {}
+  },
+  "features": [
+    { "en": "DM-i Super Hybrid Technology", "ka": "DM-i სუპერ ჰიბრიდული ტექნოლოგია" },
+    { "en": "12.8\" Rotating Touchscreen Display", "ka": "12.8\" მბრუნავი სენსორული ეკრანი" },
+    { "en": "Intelligent Adaptive Cruise Control", "ka": "ინტელექტუალური ადაპტური კრუიზ კონტროლი" },
+    { "en": "360° Panoramic Camera System", "ka": "360° პანორამული კამერის სისტემა" },
+    { "en": "NFC Digital Key", "ka": "NFC ციფრული გასაღები" },
+    { "en": "Vehicle-to-Load (V2L) Power Output", "ka": "Vehicle-to-Load (V2L) დენის გამომავალი" }
+  ],
+  "isAvailable": true,
+  "isFeatured": true
+}

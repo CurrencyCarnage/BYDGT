@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #0A0A0F;
+    color: #FFFFFF;
+    font-family: "Inter", system-ui, sans-serif;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: rgba(0, 212, 255, 0.3);
+    color: #FFFFFF;
+  }
+}
+
+@layer components {
+  /* Glassmorphism card */
+  .glass-card {
+    @apply bg-[rgba(255,255,255,0.05)] backdrop-blur-[12px] border border-[rgba(255,255,255,0.1)] rounded-card;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card:hover {
+    @apply border-[rgba(0,212,255,0.3)] shadow-glow;
+    transform: translateY(-2px);
+  }
+
+  /* Accent gradient button */
+  .btn-primary {
+    @apply bg-accent-gradient text-white font-medium px-6 py-3 rounded-button;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary:hover {
+    @apply shadow-glow;
+    transform: translateY(-1px);
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply border border-accent text-accent font-medium px-6 py-3 rounded-button bg-transparent;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-secondary:hover {
+    @apply bg-[rgba(0,212,255,0.1)];
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply text-accent font-medium px-6 py-3 rounded-button bg-transparent;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-ghost:hover {
+    @apply bg-[rgba(0,212,255,0.05)];
+  }
+
+  /* Type badges */
+  .badge-ev {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-caption uppercase tracking-wider bg-badge-ev-bg text-badge-ev;
+  }
+
+  .badge-phev {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-caption uppercase tracking-wider bg-badge-phev-bg text-badge-phev;
+  }
+
+  /* Section container */
+  .section-container {
+    @apply max-w-container mx-auto px-4 md:px-8;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

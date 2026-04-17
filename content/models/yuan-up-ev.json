@@ -1,0 +1,45 @@
+{
+  "id": "yuan-up-ev",
+  "name": { "en": "BYD Yuan Up EV", "ka": "BYD Yuan Up EV" },
+  "tagline": {
+    "en": "Pure electric freedom for the modern city",
+    "ka": "სუფთა ელექტრო თავისუფლება თანამედროვე ქალაქისთვის"
+  },
+  "category": "Compact SUV",
+  "type": "EV",
+  "basePrice": 25000,
+  "currency": "USD",
+  "specs": {
+    "range_km": 401,
+    "power_hp": 177,
+    "acceleration_0_100": 7.9,
+    "top_speed_kmh": 160,
+    "battery_kwh": 45.1
+  },
+  "configurations": {
+    "colors": [
+      { "id": "midnight-black", "name": { "en": "Midnight Black", "ka": "შუაღამის შავი" }, "hex": "#1A1A1A", "priceModifier": 0 },
+      { "id": "arctic-white", "name": { "en": "Arctic White", "ka": "არქტიკული თეთრი" }, "hex": "#F5F5F5", "priceModifier": 400 },
+      { "id": "electric-blue", "name": { "en": "Electric Blue", "ka": "ელექტრო ლურჯი" }, "hex": "#0055AA", "priceModifier": 600 },
+      { "id": "forest-green", "name": { "en": "Forest Green", "ka": "ტყის მწვანე" }, "hex": "#1D4D3E", "priceModifier": 600 }
+    ],
+    "variants": [
+      { "id": "standard-range", "name": { "en": "Standard Range", "ka": "სტანდარტული მანძილი" }, "priceModifier": 0 },
+      { "id": "long-range", "name": { "en": "Long Range", "ka": "გრძელი მანძილი" }, "priceModifier": 3500 }
+    ]
+  },
+  "images": {
+    "hero": "/images/models/yuan-up-ev/hero.jpg",
+    "gallery": [],
+    "colorViews": {}
+  },
+  "features": [
+    { "en": "BYD Blade Battery Technology", "ka": "BYD Blade ბატარეის ტექნოლოგია" },
+    { "en": "DC Fast Charging (30-80% in 30 min)", "ka": "DC სწრაფი დამუხტვა (30-80% 30 წუთში)" },
+    { "en": "10.1\" Rotating Touchscreen", "ka": "10.1\" მბრუნავი სენსორული ეკრანი" },
+    { "en": "Regenerative Braking System", "ka": "რეგენერაციული დამუხრუჭების სისტემა" },
+    { "en": "Intelligent Voice Assistant", "ka": "ინტელექტუალური ხმოვანი ასისტენტი" }
+  ],
+  "isAvailable": true,
+  "isFeatured": false
+}

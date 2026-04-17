@@ -1,0 +1,49 @@
+{
+  "id": "seal-06-dmi",
+  "name": { "en": "BYD Seal 06 DM-i", "ka": "BYD Seal 06 DM-i" },
+  "tagline": {
+    "en": "Elegance meets efficiency — the hybrid that redefines driving",
+    "ka": "ელეგანტურობა ხვდება ეფექტურობას — ჰიბრიდი, რომელიც მართვას ახლებურად განსაზღვრავს"
+  },
+  "category": "SUV",
+  "type": "PHEV",
+  "basePrice": 30000,
+  "currency": "USD",
+  "specs": {
+    "range_km": 1150,
+    "electric_range_km": 90,
+    "power_hp": 179,
+    "acceleration_0_100": 7.9,
+    "top_speed_kmh": 175,
+    "battery_kwh": 13.8
+  },
+  "configurations": {
+    "colors": [
+      { "id": "midnight-black", "name": { "en": "Midnight Black", "ka": "შუაღამის შავი" }, "hex": "#1A1A1A", "priceModifier": 0 },
+      { "id": "arctic-white", "name": { "en": "Arctic White", "ka": "არქტიკული თეთრი" }, "hex": "#F5F5F5", "priceModifier": 500 },
+      { "id": "titanium-silver", "name": { "en": "Titanium Silver", "ka": "ტიტანის ვერცხლისფერი" }, "hex": "#8A8A9A", "priceModifier": 600 },
+      { "id": "sapphire-blue", "name": { "en": "Sapphire Blue", "ka": "საფირონის ლურჯი" }, "hex": "#1B3A6B", "priceModifier": 700 },
+      { "id": "burgundy-red", "name": { "en": "Burgundy Red", "ka": "ბურგუნდიული წითელი" }, "hex": "#6B1B2A", "priceModifier": 700 }
+    ],
+    "variants": [
+      { "id": "comfort", "name": { "en": "Comfort", "ka": "კომფორტი" }, "priceModifier": 0 },
+      { "id": "luxury", "name": { "en": "Luxury", "ka": "ლუქსი" }, "priceModifier": 2800 },
+      { "id": "flagship", "name": { "en": "Flagship", "ka": "ფლაგმანი" }, "priceModifier": 4800 }
+    ]
+  },
+  "images": {
+    "hero": "/images/models/seal-06-dmi/hero.jpg",
+    "gallery": [],
+    "colorViews": {}
+  },
+  "features": [
+    { "en": "DM-i Super Hybrid System", "ka": "DM-i სუპერ ჰიბრიდული სისტემა" },
+    { "en": "12.8\" Adaptive Touchscreen", "ka": "12.8\" ადაპტური სენსორული ეკრანი" },
+    { "en": "Intelligent Cruise Assist", "ka": "ინტელექტუალური კრუიზ ასისტენტი" },
+    { "en": "Panoramic Glass Roof", "ka": "პანორამული მინის სახურავი" },
+    { "en": "Wireless Phone Charging", "ka": "ტელეფონის უსადენო დამუხტვა" },
+    { "en": "6-Speaker Premium Audio", "ka": "6-დინამიკიანი პრემიუმ აუდიო" }
+  ],
+  "isAvailable": true,
+  "isFeatured": true
+}
