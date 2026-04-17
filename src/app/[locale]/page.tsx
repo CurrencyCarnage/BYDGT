@@ -22,8 +22,8 @@ export default function HomePage() {
           ? "მართეთ გზა ინტელექტუალური ჰიბრიდული ძალით"
           : "Command the road with intelligent hybrid power",
       type: "PHEV" as const,
-      gradient: "bg-gradient-to-br from-[#0A0A1F] via-[#0D1A2E] to-[#0A0A0F]",
-      accentColor: "rgba(0,120,200,0.5)",
+      gradient: "bg-gradient-to-br from-[#0F1014] via-[#111318] to-[#0A0A0F]",
+      accentColor: "rgba(93,99,104,0.5)",
       href: "/catalog/sealion-06-dmi",
       image: "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",
       video: "/images/models/sealion-06-dmi/sealion-6-promo.mp4",
@@ -42,7 +42,7 @@ export default function HomePage() {
           : "Elegance meets efficiency — redefine driving",
       type: "PHEV" as const,
       gradient: "bg-gradient-to-br from-[#0F0A1A] via-[#1A0F20] to-[#0A0A0F]",
-      accentColor: "rgba(80,40,180,0.4)",
+      accentColor: "rgba(127,133,137,0.4)",
       href: "/catalog/seal-06-dmi",
       image: "/images/models/seal-06-dmi/hero.jpg",
       specs: [
@@ -60,7 +60,7 @@ export default function HomePage() {
           : "Pure electric freedom for the modern city",
       type: "EV" as const,
       gradient: "bg-gradient-to-br from-[#051A10] via-[#0A1F15] to-[#0A0A0F]",
-      accentColor: "rgba(0,180,100,0.35)",
+      accentColor: "rgba(93,99,104,0.35)",
       href: "/catalog/yuan-up-ev",
       image: "/images/models/yuan-up-ev/hero.jpg",
       specs: [
@@ -169,8 +169,8 @@ export default function HomePage() {
 
       {/* WHY GT GROUP */}
       <section className="relative py-section-sm md:py-section-lg overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0D1A2E] to-[#0A0A0F]" />
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-[#00D4FF]/[0.04] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#111318] to-[#0A0A0F]" />
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-[#8A9099]/[0.04] to-transparent" />
         {/* Smooth fade into surrounding black sections */}
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#0A0A0F] to-transparent pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0A0A0F] to-transparent pointer-events-none" />

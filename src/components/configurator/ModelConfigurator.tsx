@@ -42,7 +42,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
               onClick={() => setSelectedColor(color)}
               className={`group flex items-center gap-3 px-4 py-3 rounded-card border transition-all duration-200 ${
                 selectedColor.id === color.id
-                  ? "border-accent bg-[rgba(0,212,255,0.05)]"
+                  ? "border-accent bg-[rgba(138,144,153,0.05)]"
                   : "border-glass-border hover:border-glass-border-hover"
               }`}
             >
@@ -82,7 +82,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
               onClick={() => setSelectedVariant(variant)}
               className={`px-5 py-4 rounded-card border text-left transition-all duration-200 ${
                 selectedVariant.id === variant.id
-                  ? "border-accent bg-[rgba(0,212,255,0.05)]"
+                  ? "border-accent bg-[rgba(138,144,153,0.05)]"
                   : "border-glass-border hover:border-glass-border-hover"
               }`}
             >

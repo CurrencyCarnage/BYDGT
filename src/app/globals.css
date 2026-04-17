@@ -23,7 +23,7 @@
   }
 
   ::selection {
-    background-color: rgba(0, 212, 255, 0.3);
+    background-color: rgba(138, 144, 153, 0.35);
     color: #FFFFFF;
   }
 }
@@ -36,7 +36,7 @@
   }
 
   .glass-card:hover {
-    @apply border-[rgba(0,212,255,0.3)] shadow-glow;
+    @apply border-[rgba(138,144,153,0.3)] shadow-glow;
     transform: translateY(-2px);
   }
 
@@ -58,7 +58,7 @@
   }
 
   .btn-secondary:hover {
-    @apply bg-[rgba(0,212,255,0.1)];
+    @apply bg-[rgba(138,144,153,0.1)];
   }
 
   /* Ghost button */
@@ -68,7 +68,7 @@
   }
 
   .btn-ghost:hover {
-    @apply bg-[rgba(0,212,255,0.05)];
+    @apply bg-[rgba(138,144,153,0.05)];
   }
 
   /* Type badges */

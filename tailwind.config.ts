@@ -21,11 +21,11 @@ const config: Config = {
           border: "rgba(255,255,255,0.1)",
           "border-hover": "rgba(255,255,255,0.15)",
         },
-        // Primary accent — electric cyan
+        // Primary accent — telegrey / dark grey (client 073 + 076)
         accent: {
-          DEFAULT: "#00D4FF",
-          glow: "rgba(0,212,255,0.15)",
-          dark: "#0066FF",
+          DEFAULT: "#8A9099",
+          glow: "rgba(138,144,153,0.15)",
+          dark: "#5D6368",
         },
         // Text
         text: {
@@ -86,15 +86,15 @@ const config: Config = {
         glass: "12px",
       },
       boxShadow: {
-        glow: "0 0 20px rgba(0,212,255,0.15)",
-        "glow-lg": "0 0 40px rgba(0,212,255,0.2)",
-        "glow-sm": "0 0 10px rgba(0,212,255,0.1)",
+        glow: "0 0 20px rgba(138,144,153,0.15)",
+        "glow-lg": "0 0 40px rgba(138,144,153,0.2)",
+        "glow-sm": "0 0 10px rgba(138,144,153,0.1)",
         "glow-green": "0 0 20px rgba(104,216,155,0.2)",
         "card": "0 8px 32px rgba(0,0,0,0.4)",
         "card-hover": "0 16px 48px rgba(0,0,0,0.6)",
       },
       backgroundImage: {
-        "accent-gradient": "linear-gradient(135deg, #00D4FF, #0066FF)",
+        "accent-gradient": "linear-gradient(135deg, #8A9099, #5D6368)",
         "hero-gradient": "linear-gradient(180deg, transparent 40%, #0A0A0F 100%)",
         "section-gradient": "linear-gradient(180deg, #0A0A0F 0%, #12121A 50%, #0A0A0F 100%)",
         "card-gradient": "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)",
@@ -121,8 +121,8 @@ const config: Config = {
           "100%": { opacity: "1", transform: "translateX(0)" },
         },
         glowPulse: {
-          "0%, 100%": { boxShadow: "0 0 20px rgba(0,212,255,0.15)" },
-          "50%": { boxShadow: "0 0 40px rgba(0,212,255,0.3)" },
+          "0%, 100%": { boxShadow: "0 0 20px rgba(138,144,153,0.15)" },
+          "50%": { boxShadow: "0 0 40px rgba(138,144,153,0.3)" },
         },
         ticker: {
           "0%": { transform: "translateX(0)" },
