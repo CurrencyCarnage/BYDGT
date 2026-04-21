@@ -1,24 +1,21 @@
 import { notFound } from "next/navigation";
-import { useTranslations, useLocale } from "next-intl";
+import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
-import { getAllModels, getModelById, getLocalizedValue, formatPrice } from "@/lib/models";
+import { getModelById, getLocalizedValue, formatPrice } from "@/lib/models";
 import ModelConfigurator from "@/components/configurator/ModelConfigurator";
 import ModelHeroMedia from "@/components/catalog/ModelHeroMedia";
 
-export function generateStaticParams() {
-  const models = getAllModels();
-  return models.map((model) => ({ model: model.id }));
-}
-
-export default function ModelDetailPage({
+export default async function ModelDetailPage({
   params,
 }: {
   params: { model: string; locale: string };
 }) {
-  const model = getModelById(params.model);
-  const t = useTranslations("model");
-  const tCommon = useTranslations("common");
-  const locale = useLocale();
+  const [model, t, tCommon, locale] = await Promise.all([
+    getModelById(params.model),
+    getTranslations("model"),
+    getTranslations("common"),
+    getLocale(),
+  ]);
 
   if (!model) {
     notFound();

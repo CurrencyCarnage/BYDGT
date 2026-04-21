@@ -1,10 +1,10 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { getAvailableModels } from "@/lib/models";
 import CatalogGrid from "@/components/catalog/CatalogGrid";
 
-export default function CatalogPage() {
-  const t = useTranslations("catalog");
-  const models = getAvailableModels();
+export default async function CatalogPage() {
+  const t = await getTranslations("catalog");
+  const models = await getAvailableModels();
 
   return (
     <div className="pt-24 md:pt-32 pb-section-sm md:pb-section-lg">

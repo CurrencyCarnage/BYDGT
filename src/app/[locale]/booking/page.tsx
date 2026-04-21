@@ -1,11 +1,13 @@
-import { useLocale } from "next-intl";
+import { getLocale } from "next-intl/server";
 import { getAvailableModels } from "@/lib/models";
 import BookingForm from "@/components/ui/BookingForm";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
-export default function BookingPage() {
-  const locale = useLocale();
-  const models = getAvailableModels();
+export default async function BookingPage() {
+  const [locale, models] = await Promise.all([
+    getLocale(),
+    getAvailableModels(),
+  ]);
 
   return (
     <div className="pt-24 md:pt-32 pb-section-sm md:pb-section-lg">

@@ -8,9 +8,24 @@ export default function ContactPage() {
   const contactDetails = [
     {
       icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+          />
         </svg>
       ),
       label: locale === "ka" ? "მისამართი" : "Address",
@@ -19,8 +34,18 @@ export default function ContactPage() {
     },
     {
       icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+          />
         </svg>
       ),
       label: locale === "ka" ? "ტელეფონი" : "Phone",
@@ -29,8 +54,18 @@ export default function ContactPage() {
     },
     {
       icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
         </svg>
       ),
       label: "Email",
@@ -44,7 +79,8 @@ export default function ContactPage() {
         </svg>
       ),
       label: "WhatsApp",
-      value: locale === "ka" ? "პირდაპირ დაგვიკავშირდით" : "Chat with us directly",
+      value:
+        locale === "ka" ? "პირდაპირ დაგვიკავშირდით" : "Chat with us directly",
       href: "https://wa.me/995XXXXXXXXX",
     },
   ];
@@ -54,13 +90,25 @@ export default function ContactPage() {
       <div className="section-container">
         {/* Header */}
         <ScrollReveal className="mb-14">
-          <p className="text-xs text-white/30 uppercase tracking-[0.2em] mb-3" style={{ fontFamily: "var(--font-source-sans)" }}>
+          <p
+            className="text-xs text-white/30 uppercase tracking-[0.2em] mb-3"
+            style={{ fontFamily: "var(--font-source-sans)" }}
+          >
             {locale === "ka" ? "კონტაქტი" : "Contact"}
           </p>
-          <h1 className="text-3xl md:text-display font-bold text-white mb-4" style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.02em" }}>
+          <h1
+            className="text-3xl md:text-display font-bold text-white mb-4"
+            style={{
+              fontFamily: "var(--font-source-sans)",
+              letterSpacing: "-0.02em",
+            }}
+          >
             {locale === "ka" ? "დაგვიკავშირდით" : "Get in Touch"}
           </h1>
-          <p className="text-white/50 font-light max-w-lg" style={{ fontFamily: "var(--font-source-sans)" }}>
+          <p
+            className="text-white/50 font-light max-w-lg"
+            style={{ fontFamily: "var(--font-source-sans)" }}
+          >
             {locale === "ka"
               ? "მზად ვართ ყველა კითხვაზე გიპასუხოთ — ავტომობილებიდან ფინანსებამდე"
               : "Ready to answer all your questions — from vehicle specs to financing options"}
@@ -73,14 +121,28 @@ export default function ContactPage() {
             {contactDetails.map((item, i) => (
               <ScrollReveal key={item.label} delay={i * 0.08}>
                 {item.href ? (
-                  <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
-                    className="flex items-start gap-4 p-5 rounded-card bg-white/[0.03] border border-white/[0.07] hover:border-white/20 transition-all duration-200 group">
+                  <a
+                    href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-4 p-5 rounded-card bg-white/[0.03] border border-white/[0.07] hover:border-white/20 transition-all duration-200 group"
+                  >
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/[0.06] flex items-center justify-center text-white/60 group-hover:text-accent transition-colors duration-200">
                       {item.icon}
                     </div>
                     <div>
-                      <p className="text-xs text-white/30 uppercase tracking-wider mb-0.5" style={{ fontFamily: "var(--font-source-sans)" }}>{item.label}</p>
-                      <p className="text-sm text-white group-hover:text-accent transition-colors duration-200" style={{ fontFamily: "var(--font-source-sans)" }}>{item.value}</p>
+                      <p
+                        className="text-xs text-white/30 uppercase tracking-wider mb-0.5"
+                        style={{ fontFamily: "var(--font-source-sans)" }}
+                      >
+                        {item.label}
+                      </p>
+                      <p
+                        className="text-sm text-white group-hover:text-accent transition-colors duration-200"
+                        style={{ fontFamily: "var(--font-source-sans)" }}
+                      >
+                        {item.value}
+                      </p>
                     </div>
                   </a>
                 ) : (
@@ -89,8 +151,18 @@ export default function ContactPage() {
                       {item.icon}
                     </div>
                     <div>
-                      <p className="text-xs text-white/30 uppercase tracking-wider mb-0.5" style={{ fontFamily: "var(--font-source-sans)" }}>{item.label}</p>
-                      <p className="text-sm text-white" style={{ fontFamily: "var(--font-source-sans)" }}>{item.value}</p>
+                      <p
+                        className="text-xs text-white/30 uppercase tracking-wider mb-0.5"
+                        style={{ fontFamily: "var(--font-source-sans)" }}
+                      >
+                        {item.label}
+                      </p>
+                      <p
+                        className="text-sm text-white"
+                        style={{ fontFamily: "var(--font-source-sans)" }}
+                      >
+                        {item.value}
+                      </p>
                     </div>
                   </div>
                 )}
@@ -101,11 +173,24 @@ export default function ContactPage() {
             <ScrollReveal delay={0.3}>
               <div className="rounded-card overflow-hidden border border-white/[0.07] h-52 bg-bg-tertiary flex items-center justify-center">
                 <div className="text-center">
-                  <svg className="w-10 h-10 text-white/20 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                  <svg
+                    className="w-10 h-10 text-white/20 mx-auto mb-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1}
+                      d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                    />
                   </svg>
-                  <p className="text-white/25 text-xs tracking-widest" style={{ fontFamily: "var(--font-source-sans)" }}>
-                    {locale === "ka" ? "რუქა მალე" : "MAP COMING SOON"}
+                  <p
+                    className="text-white/25 text-xs tracking-widest"
+                    style={{ fontFamily: "var(--font-source-sans)" }}
+                  >
+                    {locale === "ka" ? "რუკა მალე" : "MAP COMING SOON"}
                   </p>
                 </div>
               </div>

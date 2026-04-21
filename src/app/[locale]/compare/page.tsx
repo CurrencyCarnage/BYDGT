@@ -1,11 +1,11 @@
-import { useLocale } from "next-intl";
+import { getLocale } from "next-intl/server";
 import { getAvailableModels } from "@/lib/models";
 import CompareGrid from "@/components/compare/CompareGrid";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
-export default function ComparePage() {
-  const locale = useLocale();
-  const models = getAvailableModels();
+export default async function ComparePage() {
+  const locale = await getLocale();
+  const models = await getAvailableModels();
 
   return (
     <div className="pt-24 md:pt-32 pb-section-sm md:pb-section-lg">

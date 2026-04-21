@@ -1,34 +1,40 @@
-import { CarModel } from "./types";
+import { promises as fs } from "fs";
+import path from "path";
+import type { CarModel } from "./types";
 
 export type { CarModel, LocalizedString, ColorOption, VariantOption, CarSpecs } from "./types";
 export { getLocalizedValue, formatPrice } from "./types";
 
-// Static JSON imports — bundled at build time, no filesystem access at runtime.
-// This works on Vercel, GitHub Pages, and any static/serverless host.
-import sealionData from "../../content/models/sealion-06-dmi.json";
-import sealData from "../../content/models/seal-06-dmi.json";
-import yuanUpDmiData from "../../content/models/yuan-up-dmi.json";
-import yuanUpEvData from "../../content/models/yuan-up-ev.json";
+const MODELS_DIR = path.join(process.cwd(), "content", "models");
 
-const ALL_MODELS: CarModel[] = [
-  sealionData as unknown as CarModel,
-  sealData as unknown as CarModel,
-  yuanUpDmiData as unknown as CarModel,
-  yuanUpEvData as unknown as CarModel,
-];
-
-export function getAllModels(): CarModel[] {
-  return ALL_MODELS;
+async function readAllFromDisk(): Promise<CarModel[]> {
+  const files = await fs.readdir(MODELS_DIR);
+  const models = await Promise.all(
+    files
+      .filter((f) => f.endsWith(".json"))
+      .map(async (file) => {
+        const raw = await fs.readFile(path.join(MODELS_DIR, file), "utf-8");
+        return JSON.parse(raw) as CarModel;
+      })
+  );
+  return models;
 }
 
-export function getModelById(id: string): CarModel | undefined {
-  return ALL_MODELS.find((m) => m.id === id);
+export async function getAllModels(): Promise<CarModel[]> {
+  return readAllFromDisk();
 }
 
-export function getFeaturedModels(): CarModel[] {
-  return ALL_MODELS.filter((m) => m.isFeatured);
+export async function getModelById(id: string): Promise<CarModel | undefined> {
+  const models = await readAllFromDisk();
+  return models.find((m) => m.id === id);
 }
 
-export function getAvailableModels(): CarModel[] {
-  return ALL_MODELS.filter((m) => m.isAvailable);
+export async function getFeaturedModels(): Promise<CarModel[]> {
+  const models = await readAllFromDisk();
+  return models.filter((m) => m.isFeatured);
+}
+
+export async function getAvailableModels(): Promise<CarModel[]> {
+  const models = await readAllFromDisk();
+  return models.filter((m) => m.isAvailable);
 }
