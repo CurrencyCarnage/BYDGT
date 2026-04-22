@@ -1,9 +1,10 @@
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
 
 export default function Footer() {
   const t = useTranslations("footer");
   const tNav = useTranslations("nav");
+  const locale = useLocale();
 
   const currentYear = new Date().getFullYear();
 
@@ -17,8 +18,11 @@ export default function Footer() {
               <span className="text-2xl font-bold tracking-widest text-white group-hover:text-white/90 transition-colors duration-300" style={{ fontFamily: "'Source Sans Pro', sans-serif", letterSpacing: "0.12em" }}>
                 BYD
               </span>
-              <span className="mx-2 h-5 w-px bg-white/30 self-center hidden sm:block" />
-              <span className="text-2xl font-light tracking-wider text-white/85 group-hover:text-[#68D89B] transition-all duration-300" style={{ fontFamily: "'Source Sans Pro', sans-serif", letterSpacing: "0.08em" }}>
+              <span className="ml-2 text-2xl font-bold text-[#68D89B]/70 group-hover:text-[#68D89B] transition-colors duration-300" style={{ fontFamily: "'Source Sans Pro', sans-serif", letterSpacing: "0.08em" }}>
+                {locale === "ka" ? "თბილისი" : "Tbilisi"}
+              </span>
+              <span className="mx-2.5 h-5 w-px bg-white/25 self-center" />
+              <span className="text-2xl font-light tracking-wider text-white/70 group-hover:text-white/90 transition-all duration-300" style={{ fontFamily: "'Source Sans Pro', sans-serif", letterSpacing: "0.08em" }}>
                 GT
               </span>
             </Link>
@@ -35,6 +39,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {[
                 { href: "/" as const, label: tNav("home") },
+                { href: "/about" as const, label: tNav("about") },
                 { href: "/catalog" as const, label: tNav("catalog") },
                 { href: "/compare" as const, label: tNav("compare") },
                 { href: "/booking" as const, label: tNav("booking") },

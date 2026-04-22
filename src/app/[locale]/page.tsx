@@ -169,76 +169,13 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {/* FEATURED MODELS */}
-      <section className="py-section-sm md:py-section-lg">
-        <div className="section-container">
-          <ScrollReveal className="text-center mb-14">
-            <p
-              className="text-xs text-white/40 uppercase tracking-[0.2em] mb-4"
-              style={{ fontFamily: "var(--font-source-sans)" }}
-            >
-              {locale === "ka" ? "ჩვენი ავტომობილები" : "Our Lineup"}
-            </p>
-            <h2
-              className="text-3xl md:text-display font-bold text-white mb-4"
-              style={{
-                fontFamily: "var(--font-source-sans)",
-                letterSpacing: "-0.02em",
-              }}
-            >
-              {t("featuredTitle")}
-            </h2>
-            <p
-              className="text-white/50 max-w-xl mx-auto font-light"
-              style={{ fontFamily: "var(--font-source-sans)" }}
-            >
-              {t("featuredSubtitle")}
-            </p>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredModels.map((model, i) => (
-              <ScrollReveal key={model.id} delay={i * 0.12}>
-                <ModelCard model={model} locale={locale} />
-              </ScrollReveal>
-            ))}
-          </div>
-
-          <ScrollReveal delay={0.3} className="text-center mt-10">
-            <Link
-              href="/catalog"
-              className="inline-flex items-center gap-2 border border-white/20 text-white/70 hover:text-white hover:border-white/50 px-7 py-3 rounded-button transition-all duration-200"
-              style={{
-                fontFamily: "var(--font-source-sans)",
-                letterSpacing: "0.04em",
-              }}
-            >
-              {tCommon("viewAll")}
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </Link>
-          </ScrollReveal>
-        </div>
-      </section>
-
       {/* WHY GT GROUP */}
       <section className="relative py-section-sm md:py-section-lg overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#111318] to-[#0A0A0F]" />
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-[#8A9099]/[0.04] to-transparent" />
-        {/* Smooth fade into surrounding black sections */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#0A0A0F] to-transparent pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0A0A0F] to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1E2330] to-[#1A1E28]" />
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-[#B8BEC8]/[0.06] to-transparent" />
+        {/* Smooth fade into surrounding sections */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#1A1E28] to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#1A1E28] to-transparent pointer-events-none" />
         <div className="relative section-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <ScrollReveal direction="left">
@@ -264,8 +201,8 @@ export default async function HomePage() {
                 {t("brandText")}
               </p>
               <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-white text-[#0A0A0F] font-semibold px-7 py-3.5 rounded-button hover:bg-white/90 transition-all duration-200"
+                href="/about"
+                className="inline-flex items-center gap-2 bg-white text-[#1A1E28] font-semibold px-7 py-3.5 rounded-button hover:bg-white/90 transition-all duration-200"
                 style={{ fontFamily: "var(--font-source-sans)" }}
               >
                 {t("brandCta")}
@@ -371,6 +308,69 @@ export default async function HomePage() {
         </div>
       </div>
 
+      {/* FEATURED MODELS */}
+      <section className="py-section-sm md:py-section-lg">
+        <div className="section-container">
+          <ScrollReveal className="text-center mb-14">
+            <p
+              className="text-xs text-white/40 uppercase tracking-[0.2em] mb-4"
+              style={{ fontFamily: "var(--font-source-sans)" }}
+            >
+              {locale === "ka" ? "ჩვენი ავტომობილები" : "Our Lineup"}
+            </p>
+            <h2
+              className="text-3xl md:text-display font-bold text-white mb-4"
+              style={{
+                fontFamily: "var(--font-source-sans)",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              {t("featuredTitle")}
+            </h2>
+            <p
+              className="text-white/50 max-w-xl mx-auto font-light"
+              style={{ fontFamily: "var(--font-source-sans)" }}
+            >
+              {t("featuredSubtitle")}
+            </p>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredModels.map((model, i) => (
+              <ScrollReveal key={model.id} delay={i * 0.12}>
+                <ModelCard model={model} locale={locale} />
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal delay={0.3} className="text-center mt-10">
+            <Link
+              href="/catalog"
+              className="inline-flex items-center gap-2 border border-white/20 text-white/70 hover:text-white hover:border-white/50 px-7 py-3 rounded-button transition-all duration-200"
+              style={{
+                fontFamily: "var(--font-source-sans)",
+                letterSpacing: "0.04em",
+              }}
+            >
+              {tCommon("viewAll")}
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </Link>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* BOTTOM CTA */}
       <section className="py-24 text-center">
         <div className="section-container">
@@ -397,7 +397,7 @@ export default async function HomePage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/booking"
-                className="inline-flex items-center gap-2 bg-accent text-[#0A0A0F] font-semibold px-8 py-4 rounded-button hover:bg-accent/90 hover:shadow-glow-lg transition-all duration-200"
+                className="inline-flex items-center gap-2 bg-accent text-[#1A1E28] font-semibold px-8 py-4 rounded-button hover:bg-accent/90 hover:shadow-glow-lg transition-all duration-200"
                 style={{
                   fontFamily: "var(--font-source-sans)",
                   letterSpacing: "0.02em",

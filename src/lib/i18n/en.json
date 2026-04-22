@@ -20,6 +20,7 @@
   },
   "nav": {
     "home": "Home",
+    "about": "About Us",
     "catalog": "Models",
     "compare": "Compare",
     "booking": "Test Drive",
@@ -33,7 +34,7 @@
     "featuredSubtitle": "Handpicked vehicles that define the next generation of mobility",
     "brandTitle": "Why GT Group?",
     "brandText": "As Georgia's official BYD partner, GT Group brings you cutting-edge electric and plug-in hybrid vehicles with full local warranty, service support, and the promise of a cleaner, smarter future on Georgian roads.",
-    "brandCta": "Get in Touch"
+    "brandCta": "About BYD"
   },
   "catalog": {
     "title": "Our Models",

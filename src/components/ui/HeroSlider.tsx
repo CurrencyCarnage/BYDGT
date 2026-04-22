@@ -136,7 +136,7 @@ export default function HeroSlider({
           <div className="absolute inset-0 bg-gradient-to-b from-[#070B14]/60 via-transparent to-transparent" />
 
           {/* Bottom fade into page */}
-          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0A0A0F] to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#1A1E28] to-transparent" />
 
           {/* Accent color tint — very subtle, ties image to slide identity */}
           <div
@@ -220,7 +220,7 @@ export default function HeroSlider({
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href={slide.href}
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white text-[#0A0A0F] font-semibold rounded-button hover:bg-white/90 transition-all duration-200 hover:shadow-[0_0_30px_rgba(255,255,255,0.18)]"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white text-[#1A1E28] font-semibold rounded-button hover:bg-white/90 transition-all duration-200 hover:shadow-[0_0_30px_rgba(255,255,255,0.18)]"
                   style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "0.02em" }}
                 >
                   {heroCta}

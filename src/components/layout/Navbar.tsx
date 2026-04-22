@@ -21,6 +21,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: "/" as const, label: t("home") },
+    { href: "/about" as const, label: t("about") },
     { href: "/catalog" as const, label: t("catalog") },
     { href: "/compare" as const, label: t("compare") },
     { href: "/booking" as const, label: t("booking") },
@@ -36,24 +37,33 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-[#0A0A0F]/95 backdrop-blur-[16px] border-b border-white/[0.07] shadow-[0_4px_30px_rgba(0,0,0,0.4)]"
+          ? "bg-bg-primary/95 backdrop-blur-[16px] border-b border-white/[0.07] shadow-[0_4px_30px_rgba(0,0,0,0.4)]"
           : "bg-transparent border-b border-transparent"
       }`}
     >
       <div className="section-container">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo — BYD brand white + GT dealer identity */}
+          {/* Logo — BYD brand white + GT dealer identity + city */}
           <Link href="/" className="flex items-center group">
-            {/* BYD — white per brand guidelines for dark backgrounds */}
-            <span className="text-xl md:text-2xl font-bold tracking-widest text-white group-hover:text-white/90 transition-colors duration-300"
-              style={{ fontFamily: "'Source Sans Pro', sans-serif", letterSpacing: "0.12em" }}>
+            {/* BYD */}
+            <span
+              className="text-xl md:text-2xl font-bold tracking-widest text-white group-hover:text-white/90 transition-colors duration-300"
+              style={{ fontFamily: "'Source Sans Pro', sans-serif", letterSpacing: "0.12em" }}
+            >
               BYD
             </span>
-            {/* Divider per co-branding guidelines */}
-            <span className="mx-2 h-5 w-px bg-white/30 self-center hidden sm:block" />
-            {/* GT — dealer brand, subtle green glow on hover */}
+            {/* City — same size, accent color */}
             <span
-              className="text-xl md:text-2xl font-light tracking-wider text-white/85 group-hover:text-[#68D89B] transition-all duration-300"
+              className="ml-2 text-xl md:text-2xl font-bold text-[#68D89B]/70 group-hover:text-[#68D89B] transition-colors duration-300"
+              style={{ fontFamily: "'Source Sans Pro', sans-serif", letterSpacing: "0.08em" }}
+            >
+              {locale === "ka" ? "თბილისი" : "Tbilisi"}
+            </span>
+            {/* Divider */}
+            <span className="mx-2.5 h-5 w-px bg-white/25 self-center" />
+            {/* GT — dealer brand */}
+            <span
+              className="text-xl md:text-2xl font-light tracking-wider text-white/70 group-hover:text-white/90 transition-all duration-300"
               style={{ fontFamily: "'Source Sans Pro', sans-serif", letterSpacing: "0.08em" }}
             >
               GT
@@ -107,7 +117,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div className={`md:hidden overflow-hidden transition-all duration-400 ${isOpen ? "max-h-80" : "max-h-0"}`}>
-        <div className="bg-[#0A0A0F]/98 backdrop-blur-[16px] section-container py-4 space-y-1 border-t border-white/[0.06]">
+        <div className="bg-bg-primary/98 backdrop-blur-[16px] section-container py-4 space-y-1 border-t border-white/[0.06]">
           {navLinks.map((link) => (
             <Link
               key={link.href}

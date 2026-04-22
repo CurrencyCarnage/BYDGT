@@ -1,0 +1,32 @@
+{
+  "id": "td-1776881223759-8yy7o6",
+  "createdAt": "2026-04-22T18:07:03.759Z",
+  "fullName": "Mama Sheni",
+  "phone": "555420420",
+  "email": "zalianrtulimaili@gmail.com",
+  "modelFamilyId": "sealion-06",
+  "modelFamilyName": "BYD Sealion 06",
+  "versionId": "sealion-06-dmi",
+  "versionLabel": "DM-i / PHEV",
+  "preferredDate": "2026-04-24",
+  "preferredTimeSlot": "14:00 - 15:00",
+  "message": "pls let me drive the car",
+  "language": "en",
+  "dealershipLocation": {
+    "name": "BYD Tbilisi",
+    "address": "Kakheti Hwy 45A, Tbilisi, Georgia",
+    "lat": 41.685144,
+    "lng": 44.89098
+  },
+  "agreement": {
+    "accepted": true,
+    "acceptedAt": "2026-04-22T18:07:02.931Z",
+    "agreementVersion": "test-drive-v1",
+    "minAgeConfirmed": true,
+    "driversLicenseConfirmed": true,
+    "contactConsentConfirmed": true,
+    "safetyAcknowledgementConfirmed": true,
+    "ip": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 OPR/129.0.0.0"
+  }
+}

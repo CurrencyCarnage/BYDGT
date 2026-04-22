@@ -10,7 +10,7 @@
   },
   "category": "SUV",
   "type": "PHEV",
-  "basePrice": 35000,
+  "basePrice": 36000,
   "currency": "USD",
   "specs": {
     "range_km": 1200,

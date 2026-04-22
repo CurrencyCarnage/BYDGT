@@ -9,29 +9,29 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Core backgrounds
+        // Core backgrounds — dark silver palette (meaningfully lighter than black)
         bg: {
-          primary: "#0A0A0F",
-          secondary: "#12121A",
-          tertiary: "#1A1A28",
+          primary: "#1A1E28",
+          secondary: "#1E2330",
+          tertiary: "#262C38",
         },
-        // Glass effects
+        // Glass effects — silver-tinted, visible against lighter bg
         glass: {
-          fill: "rgba(255,255,255,0.05)",
-          border: "rgba(255,255,255,0.1)",
-          "border-hover": "rgba(255,255,255,0.15)",
+          fill: "rgba(200,210,225,0.08)",
+          border: "rgba(200,210,225,0.16)",
+          "border-hover": "rgba(200,210,225,0.30)",
         },
-        // Primary accent — telegrey / dark grey (client 073 + 076)
+        // Primary accent — bright silver / steel
         accent: {
-          DEFAULT: "#8A9099",
-          glow: "rgba(138,144,153,0.15)",
-          dark: "#5D6368",
+          DEFAULT: "#B8BEC8",
+          glow: "rgba(184,190,200,0.25)",
+          dark: "#8A919E",
         },
-        // Text
+        // Text — silver whites and greys
         text: {
           primary: "#FFFFFF",
-          secondary: "#A0A0B0",
-          muted: "#606070",
+          secondary: "#C4CCD8",
+          muted: "#8A9099",
         },
         // BYD official brand colors (from dealership brand guide)
         byd: {
@@ -86,17 +86,17 @@ const config: Config = {
         glass: "12px",
       },
       boxShadow: {
-        glow: "0 0 20px rgba(138,144,153,0.15)",
-        "glow-lg": "0 0 40px rgba(138,144,153,0.2)",
-        "glow-sm": "0 0 10px rgba(138,144,153,0.1)",
+        glow: "0 0 24px rgba(184,190,200,0.28)",
+        "glow-lg": "0 0 48px rgba(184,190,200,0.38)",
+        "glow-sm": "0 0 12px rgba(184,190,200,0.16)",
         "glow-green": "0 0 20px rgba(104,216,155,0.2)",
         "card": "0 8px 32px rgba(0,0,0,0.4)",
         "card-hover": "0 16px 48px rgba(0,0,0,0.6)",
       },
       backgroundImage: {
-        "accent-gradient": "linear-gradient(135deg, #8A9099, #5D6368)",
-        "hero-gradient": "linear-gradient(180deg, transparent 40%, #0A0A0F 100%)",
-        "section-gradient": "linear-gradient(180deg, #0A0A0F 0%, #12121A 50%, #0A0A0F 100%)",
+        "accent-gradient": "linear-gradient(135deg, #B8BEC8, #8A919E)",
+        "hero-gradient": "linear-gradient(180deg, transparent 40%, #1A1E28 100%)",
+        "section-gradient": "linear-gradient(180deg, #1A1E28 0%, #1E2330 50%, #1A1E28 100%)",
         "card-gradient": "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)",
       },
       animation: {
@@ -121,8 +121,8 @@ const config: Config = {
           "100%": { opacity: "1", transform: "translateX(0)" },
         },
         glowPulse: {
-          "0%, 100%": { boxShadow: "0 0 20px rgba(138,144,153,0.15)" },
-          "50%": { boxShadow: "0 0 40px rgba(138,144,153,0.3)" },
+          "0%, 100%": { boxShadow: "0 0 24px rgba(184,190,200,0.28)" },
+          "50%": { boxShadow: "0 0 48px rgba(184,190,200,0.42)" },
         },
         ticker: {
           "0%": { transform: "translateX(0)" },
