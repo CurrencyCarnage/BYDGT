@@ -29,11 +29,6 @@ export default function ShowroomSlider({ slides, label, heading }: ShowroomSlide
     setCurrent((c) => (c - 1 + slides.length) % slides.length);
   };
 
-  const goTo = (idx: number) => {
-    setDirection(idx > current ? 1 : -1);
-    setCurrent(idx);
-  };
-
   useEffect(() => {
     const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
