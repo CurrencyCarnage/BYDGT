@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
@@ -35,7 +35,7 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-medium text-text-secondary uppercase tracking-widest">
+        <label className="text-xs font-medium text-white/60 uppercase tracking-widest">
           Username
         </label>
         <input
@@ -44,13 +44,13 @@ export default function LoginForm() {
           onChange={(e) => setUsername(e.target.value)}
           required
           autoComplete="username"
-          className="bg-bg-tertiary border border-glass-border rounded-button px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-gt-green transition-colors duration-200"
+          className="bg-[#2C2F30] border border-glass-border px-4 py-3 text-white placeholder-text-muted focus:outline-none focus:border-byd-red transition-colors duration-200"
           placeholder="Enter username"
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-medium text-text-secondary uppercase tracking-widest">
+        <label className="text-xs font-medium text-white/60 uppercase tracking-widest">
           Password
         </label>
         <input
@@ -59,13 +59,13 @@ export default function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
           required
           autoComplete="current-password"
-          className="bg-bg-tertiary border border-glass-border rounded-button px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-gt-green transition-colors duration-200"
+          className="bg-[#2C2F30] border border-glass-border px-4 py-3 text-white placeholder-text-muted focus:outline-none focus:border-byd-red transition-colors duration-200"
           placeholder="Enter password"
         />
       </div>
 
       {error && (
-        <p className="text-sm text-error bg-error/10 border border-error/20 rounded-button px-4 py-3">
+        <p className="text-sm text-error bg-error/10 border border-error/20 px-4 py-3">
           {error}
         </p>
       )}
@@ -73,7 +73,7 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="mt-2 bg-gt-green text-bg-primary font-semibold py-3 px-6 rounded-button hover:bg-gt-green/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-glow-green"
+        className="mt-2 bg-byd-red text-white font-semibold py-3 px-6 hover:bg-byd-red/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
       >
         {loading ? "Signing in…" : "Sign In"}
       </button>

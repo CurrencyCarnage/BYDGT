@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -128,18 +128,18 @@ export default function TestDriveModal({
 
           {/* Modal */}
           <motion.div
-            className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto bg-bg-secondary border border-white/[0.1] rounded-card shadow-2xl"
+            className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto bg-[#1C1E1F] border border-white/[0.1] shadow-2xl"
             initial={{ scale: 0.95, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.95, y: 20 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
           >
             {/* Header */}
-            <div className="sticky top-0 bg-bg-secondary/95 backdrop-blur-sm border-b border-white/[0.06] px-6 py-5 z-10">
+            <div className="sticky top-0 bg-[#1C1E1F]/95 backdrop-blur-sm border-b border-white/[0.06] px-6 py-5 z-10">
               <div className="flex items-start justify-between">
                 <h2
                   className="text-lg font-bold text-white pr-8"
-                  style={{ fontFamily: "var(--font-source-sans)" }}
+                  style={{ fontFamily: "var(--font-montserrat)" }}
                 >
                   {t.title}
                 </h2>
@@ -159,7 +159,7 @@ export default function TestDriveModal({
               {/* Intro */}
               <p
                 className="text-sm text-white/60 leading-relaxed"
-                style={{ fontFamily: "var(--font-source-sans)" }}
+                style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 {t.intro}
               </p>
@@ -170,19 +170,19 @@ export default function TestDriveModal({
                   <li
                     key={i}
                     className="flex items-start gap-2.5 text-sm text-white/75"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
+                    style={{ fontFamily: "var(--font-montserrat)" }}
                   >
-                    <span className="mt-0.5 w-1.5 h-1.5 rounded-full bg-gt-green shrink-0" />
+                    <span className="mt-0.5 w-1.5 h-1.5 rounded-full bg-byd-red shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
 
               {/* Disclaimer */}
-              <div className="bg-white/[0.03] border border-white/[0.06] rounded-button p-4">
+              <div className="bg-white/[0.03] border border-white/[0.06] p-4">
                 <p
                   className="text-xs text-white/40 leading-relaxed"
-                  style={{ fontFamily: "var(--font-source-sans)" }}
+                  style={{ fontFamily: "var(--font-montserrat)" }}
                 >
                   {t.disclaimer}
                 </p>
@@ -202,7 +202,7 @@ export default function TestDriveModal({
                         onChange={() => toggle(idx)}
                         className="sr-only peer"
                       />
-                      <div className="w-5 h-5 rounded border border-white/20 bg-white/[0.04] peer-checked:bg-gt-green peer-checked:border-gt-green transition-all duration-200 flex items-center justify-center">
+                      <div className="w-5 h-5 rounded border border-white/20 bg-white/[0.04] peer-checked:bg-byd-red peer-checked:border-byd-red transition-all duration-200 flex items-center justify-center">
                         {checks[idx] && (
                           <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -212,7 +212,7 @@ export default function TestDriveModal({
                     </div>
                     <span
                       className="text-sm text-white/65 group-hover:text-white/80 transition-colors leading-snug"
-                      style={{ fontFamily: "var(--font-source-sans)" }}
+                      style={{ fontFamily: "var(--font-montserrat)" }}
                     >
                       {label}
                     </span>
@@ -222,12 +222,12 @@ export default function TestDriveModal({
             </div>
 
             {/* Footer buttons */}
-            <div className="sticky bottom-0 bg-bg-secondary/95 backdrop-blur-sm border-t border-white/[0.06] px-6 py-4 flex flex-col sm:flex-row gap-3">
+            <div className="sticky bottom-0 bg-[#1C1E1F]/95 backdrop-blur-sm border-t border-white/[0.06] px-6 py-4 flex flex-col sm:flex-row gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 py-3 px-5 border border-white/15 text-white/60 rounded-button hover:border-white/30 hover:text-white/80 transition-all duration-200 text-sm font-medium"
-                style={{ fontFamily: "var(--font-source-sans)" }}
+                className="flex-1 py-3 px-5 border border-white/15 text-white/60 hover:border-white/30 hover:text-white/80 transition-all duration-200 text-sm font-medium"
+                style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 {t.cancel}
               </button>
@@ -235,8 +235,8 @@ export default function TestDriveModal({
                 type="button"
                 onClick={handleConfirm}
                 disabled={!allChecked}
-                className="flex-1 py-3 px-5 bg-gt-green text-[#1A1E28] font-semibold rounded-button hover:bg-gt-green/90 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
-                style={{ fontFamily: "var(--font-source-sans)" }}
+                className="flex-1 py-3 px-5 bg-byd-red text-[#252728] font-semibold hover:bg-byd-red/90 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+                style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 {t.confirm}
               </button>

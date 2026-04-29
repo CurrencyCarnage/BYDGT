@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import LogoutButton from "./LogoutButton";
 
 const NAV_ITEMS = [
@@ -52,18 +53,22 @@ export default function AdminSidebar({ adminName }: { adminName: string }) {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-60 bg-bg-secondary border-r border-glass-border flex flex-col z-50">
+    <aside className="fixed left-0 top-0 h-screen w-60 bg-[#1C1E1F] border-r border-glass-border flex flex-col z-50">
       {/* Brand */}
       <div className="px-5 py-5 border-b border-glass-border">
-        <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-text-primary tracking-tight">
-            GT<span className="text-gt-green">Group</span>
-          </span>
-          <span className="text-[10px] font-medium bg-gt-green/10 text-gt-green border border-gt-green/20 px-1.5 py-0.5 rounded">
-            ADMIN
+        <div className="flex items-center gap-2.5">
+          <Image
+            src="/byd-wordmark.svg"
+            alt="BYD"
+            width={104}
+            height={22}
+            className="h-4 w-auto flex-shrink-0"
+          />
+          <span className="text-[10px] font-bold bg-byd-red/10 text-byd-red border border-byd-red/20 px-1.5 py-0.5 tracking-wider uppercase">
+            Admin
           </span>
         </div>
-        <p className="text-xs text-text-muted mt-0.5">BYD Georgia Dashboard</p>
+        <p className="text-xs text-white/35 mt-1.5">GT Group · Tbilisi Dashboard</p>
       </div>
 
       {/* Navigation */}
@@ -75,10 +80,10 @@ export default function AdminSidebar({ adminName }: { adminName: string }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-button text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
                 isActive
-                  ? "bg-gt-green/10 text-gt-green border border-gt-green/20"
-                  : "text-text-secondary hover:text-text-primary hover:bg-bg-tertiary"
+                  ? "bg-byd-red/10 text-byd-red border border-byd-red/20"
+                  : "text-white/60 hover:text-white hover:bg-[#2C2F30]"
               }`}
             >
               {item.icon}
@@ -91,10 +96,10 @@ export default function AdminSidebar({ adminName }: { adminName: string }) {
       {/* Footer */}
       <div className="px-3 py-4 border-t border-glass-border">
         <div className="flex items-center gap-2 px-3 py-2 mb-2">
-          <div className="w-7 h-7 rounded-full bg-gt-green/20 border border-gt-green/30 flex items-center justify-center text-gt-green text-xs font-bold">
+          <div className="w-7 h-7 rounded-full bg-byd-red/20 border border-byd-red/30 flex items-center justify-center text-byd-red text-xs font-bold">
             {adminName.charAt(0).toUpperCase()}
           </div>
-          <span className="text-sm text-text-secondary truncate">
+          <span className="text-sm text-white/60 truncate">
             {adminName}
           </span>
         </div>

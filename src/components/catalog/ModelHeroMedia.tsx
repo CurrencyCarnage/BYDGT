@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 
@@ -18,7 +18,7 @@ export default function ModelHeroMedia({
   category,
 }: ModelHeroMediaProps) {
   return (
-    <div className="relative aspect-[16/10] bg-bg-secondary rounded-container overflow-hidden">
+    <div className="relative aspect-[16/10] bg-[#1C1E1F] overflow-hidden">
       {heroVideo ? (
         <video
           src={heroVideo}
@@ -39,7 +39,7 @@ export default function ModelHeroMedia({
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-text-muted text-sm">Image Coming Soon</p>
+          <p className="text-white/35 text-sm">Image Coming Soon</p>
         </div>
       )}
 
@@ -55,7 +55,7 @@ export default function ModelHeroMedia({
 
       {/* Category badge */}
       <div className="absolute top-4 right-4">
-        <span className="text-caption text-text-muted bg-bg-tertiary px-3 py-1 rounded-full">
+        <span className="text-caption text-white/35 bg-[#2C2F30] px-3 py-1">
           {category}
         </span>
       </div>

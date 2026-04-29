@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -181,16 +181,16 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
           {model.configurations.variants.map((variant, i) => (
             <div
               key={variant.id}
-              className="flex items-center gap-4 bg-bg-tertiary border border-glass-border rounded-button px-4 py-3"
+              className="flex items-center gap-4 bg-[#2C2F30] border border-glass-border px-4 py-3"
             >
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-primary">
+                <p className="text-sm font-medium text-white">
                   {variant.name.en}
                 </p>
-                <p className="text-xs text-text-muted">{variant.name.ka}</p>
+                <p className="text-xs text-white/35">{variant.name.ka}</p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-text-muted">+$</span>
+                <span className="text-xs text-white/35">+$</span>
                 <input
                   type="number"
                   min={0}
@@ -207,7 +207,7 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
                       variants: updated,
                     });
                   }}
-                  className="w-24 bg-bg-secondary border border-glass-border rounded-button px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:border-gt-green transition-colors"
+                  className="w-24 bg-[#1C1E1F] border border-glass-border px-3 py-1.5 text-sm text-white focus:outline-none focus:border-byd-red transition-colors"
                 />
               </div>
             </div>
@@ -221,7 +221,7 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
           {model.configurations.colors.map((color, i) => (
             <div
               key={color.id}
-              className="flex items-center gap-4 bg-bg-tertiary border border-glass-border rounded-button px-4 py-3"
+              className="flex items-center gap-4 bg-[#2C2F30] border border-glass-border px-4 py-3"
             >
               {/* Color picker */}
               <label className="cursor-pointer" title="Pick colour">
@@ -246,14 +246,14 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
               </label>
 
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-primary">
+                <p className="text-sm font-medium text-white">
                   {color.name.en}
                 </p>
-                <p className="text-xs text-text-muted font-mono">{color.hex}</p>
+                <p className="text-xs text-white/35 font-mono">{color.hex}</p>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs text-text-muted">+$</span>
+                <span className="text-xs text-white/35">+$</span>
                 <input
                   type="number"
                   min={0}
@@ -270,7 +270,7 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
                       colors: updated,
                     });
                   }}
-                  className="w-24 bg-bg-secondary border border-glass-border rounded-button px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:border-gt-green transition-colors"
+                  className="w-24 bg-[#1C1E1F] border border-glass-border px-3 py-1.5 text-sm text-white focus:outline-none focus:border-byd-red transition-colors"
                 />
               </div>
             </div>
@@ -281,7 +281,7 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
       {/* Feedback */}
       {feedback && (
         <div
-          className={`mb-4 text-sm px-4 py-3 rounded-button border ${
+          className={`mb-4 text-sm px-4 py-3 border ${
             feedback.type === "success"
               ? "text-success bg-success/10 border-success/20"
               : "text-error bg-error/10 border-error/20"
@@ -296,7 +296,7 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
         <button
           onClick={handleSave}
           disabled={saving}
-          className="bg-gt-green text-bg-primary font-semibold px-6 py-2.5 rounded-button hover:bg-gt-green/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-glow-green"
+          className="bg-byd-red text-white font-semibold px-6 py-2.5 hover:bg-byd-red/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
         >
           {saving ? "Saving…" : "Save Changes"}
         </button>
@@ -306,7 +306,7 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
             setFeedback(null);
           }}
           disabled={saving}
-          className="text-text-muted border border-glass-border px-5 py-2.5 rounded-button hover:text-text-primary hover:border-glass-border-hover transition-all duration-200"
+          className="text-white/35 border border-glass-border px-5 py-2.5 hover:text-white hover:border-glass-border-hover transition-all duration-200"
         >
           Reset
         </button>
@@ -318,7 +318,7 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
 /* ── Shared sub-components ── */
 
 const inputCls =
-  "w-full bg-bg-tertiary border border-glass-border rounded-button px-4 py-2.5 text-text-primary text-sm focus:outline-none focus:border-gt-green transition-colors duration-200";
+  "w-full bg-[#2C2F30] border border-glass-border px-4 py-2.5 text-white text-sm focus:outline-none focus:border-byd-red transition-colors duration-200";
 
 function Section({
   title,
@@ -329,7 +329,7 @@ function Section({
 }) {
   return (
     <div className="mb-8">
-      <h2 className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-4 pb-2 border-b border-glass-border">
+      <h2 className="text-xs font-semibold text-white/35 uppercase tracking-widest mb-4 pb-2 border-b border-glass-border">
         {title}
       </h2>
       <div className="flex flex-col gap-4">{children}</div>
@@ -346,7 +346,7 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-medium text-text-secondary">{label}</label>
+      <label className="text-xs font-medium text-white/60">{label}</label>
       {children}
     </div>
   );
@@ -363,14 +363,14 @@ function Toggle({
 }) {
   return (
     <div className="flex items-center justify-between gap-3">
-      <span className="text-sm text-text-secondary">{label}</span>
+      <span className="text-sm text-white/60">{label}</span>
       <button
         type="button"
         role="switch"
         aria-checked={checked}
         onClick={() => onChange(!checked)}
         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${
-          checked ? "bg-gt-green" : "bg-bg-tertiary border border-glass-border"
+          checked ? "bg-byd-red" : "bg-[#2C2F30] border border-glass-border"
         }`}
       >
         <span

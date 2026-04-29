@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+﻿import type { Metadata } from "next";
+import { Montserrat } from "next/font/google";
 
-const inter = Inter({
+const montserrat = Montserrat({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -18,8 +19,8 @@ export default function AdminRootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="font-sans antialiased bg-bg-primary text-text-primary min-h-screen">
+    <html lang="en" className={montserrat.variable}>
+      <body className="font-sans antialiased bg-byd-dark text-white min-h-screen">
         {children}
       </body>
     </html>

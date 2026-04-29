@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 52" role="img" aria-label="BYD">
+  <!-- Drop shadow layer -->
+  <ellipse cx="74" cy="28" rx="70" ry="23" fill="rgba(0,0,0,0.25)"/>
+  <!-- Main red ellipse -->
+  <ellipse cx="74" cy="26" rx="70" ry="23" fill="#D70C19"/>
+  <!-- Inner rim highlight -->
+  <ellipse cx="74" cy="26" rx="65" ry="18" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+  <!-- BYD wordmark -->
+  <text
+    x="74"
+    y="36"
+    text-anchor="middle"
+    fill="#FFFFFF"
+    font-family="'Arial Black','Arial',Helvetica,sans-serif"
+    font-weight="900"
+    font-size="24"
+    letter-spacing="6"
+  >BYD</text>
+</svg>

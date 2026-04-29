@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
@@ -31,10 +31,10 @@ export default function CatalogGrid({ models }: CatalogGridProps) {
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
-            className={`px-4 py-2 text-sm font-medium rounded-button transition-all duration-200 ${
+            className={`px-5 py-2.5 text-xs font-semibold tracking-[0.08em] uppercase transition-all duration-200 ${
               filter === f.key
-                ? "bg-accent text-bg-primary"
-                : "text-text-secondary hover:text-text-primary border border-glass-border hover:border-glass-border-hover"
+                ? "bg-byd-red text-white"
+                : "text-white/50 hover:text-white border border-white/[0.10] hover:border-white/[0.25]"
             }`}
           >
             {f.label}
@@ -50,7 +50,7 @@ export default function CatalogGrid({ models }: CatalogGridProps) {
       </div>
 
       {filteredModels.length === 0 && (
-        <div className="text-center py-20 text-text-muted">
+        <div className="text-center py-20 text-white/35">
           <p>No models found for this filter.</p>
         </div>
       )}

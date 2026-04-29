@@ -16,78 +16,368 @@
   }
 
   body {
-    background-color: #1A1E28;
+    background-color: #252728;
     color: #FFFFFF;
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+    font-weight: 400;
     min-height: 100vh;
   }
 
+  /* BYD spec text selection */
   ::selection {
-    background-color: rgba(184, 190, 200, 0.4);
+    background-color: rgba(215, 12, 25, 0.35);
     color: #FFFFFF;
+  }
+
+  /* Smooth scrollbar for webkit */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #252728;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #4E5356;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #7A8080;
   }
 }
 
 @layer components {
-  /* Glassmorphism card */
+
+  /* ── Glass card — media/hero sections only ───────────────────── */
   .glass-card {
-    @apply bg-[rgba(200,210,225,0.08)] backdrop-blur-[12px] border border-[rgba(200,210,225,0.16)] rounded-card;
+    background: rgba(200, 210, 225, 0.06);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(200, 210, 225, 0.12);
+    /* BYD spec: 0px border-radius */
+    border-radius: 0;
     transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .glass-card:hover {
-    @apply border-[rgba(200,210,225,0.35)] shadow-glow;
+    border-color: rgba(200, 210, 225, 0.28);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
     transform: translateY(-2px);
   }
 
-  /* Accent gradient button */
+  /* ── BYD Primary Button — Dark background (from spec page 14) ── */
+  /* White border, white text, fills white on hover */
   .btn-primary {
-    @apply bg-accent-gradient text-white font-medium px-6 py-3 rounded-button;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 1.75rem;
+    height: 48px;                     /* BYD spec: 48px button height */
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 1rem;                  /* 16px */
+    font-weight: 600;                 /* SemiBold */
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    border-radius: 0;                 /* BYD spec: 0px */
+    background: #FFFFFF;
+    color: #252728;
+    border: 1px solid #FFFFFF;
     transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    white-space: nowrap;
   }
 
   .btn-primary:hover {
-    @apply shadow-glow;
+    background: rgba(255, 255, 255, 0.90);
+    box-shadow: 0 0 28px rgba(255, 255, 255, 0.16);
     transform: translateY(-1px);
   }
 
-  /* Secondary button */
-  .btn-secondary {
-    @apply border border-accent text-accent font-medium px-6 py-3 rounded-button bg-transparent;
+  /* ── BYD Primary Button — Red variant ───────────────────────── */
+  .btn-primary-red {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 1.75rem;
+    height: 48px;
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: 0;
+    background: #D70C19;
+    color: #FFFFFF;
+    border: 1px solid #D70C19;
     transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .btn-primary-red:hover {
+    background: #A80912;
+    border-color: #A80912;
+    box-shadow: 0 0 28px rgba(215, 12, 25, 0.28);
+    transform: translateY(-1px);
+  }
+
+  /* ── BYD Secondary Button — Outlined (from spec page 14) ─────── */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 1.75rem;
+    height: 48px;
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    border-radius: 0;
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    white-space: nowrap;
   }
 
   .btn-secondary:hover {
-    @apply bg-[rgba(138,144,153,0.1)];
+    border-color: rgba(255, 255, 255, 0.7);
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.06);
   }
 
-  /* Ghost button */
+  /* ── BYD Ghost/Link Button (from spec page 15) ───────────────── */
+  /* "Button label ›" text link style */
   .btn-ghost {
-    @apply text-accent font-medium px-6 py-3 rounded-button bg-transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.60);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 0;
     transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
   }
 
   .btn-ghost:hover {
-    @apply bg-[rgba(138,144,153,0.05)];
+    color: #FFFFFF;
+    border-bottom-color: rgba(255, 255, 255, 0.4);
   }
 
-  /* Type badges */
+  /* ── BYD Vehicle type badges ─────────────────────────────────── */
   .badge-ev {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-caption uppercase tracking-wider bg-badge-ev-bg text-badge-ev;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 0;                 /* BYD spec: sharp */
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(120, 178, 84, 0.15);
+    color: #78B254;
+    border: 1px solid rgba(120, 178, 84, 0.30);
   }
 
   .badge-phev {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-caption uppercase tracking-wider bg-badge-phev-bg text-badge-phev;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 0;
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(206, 90, 62, 0.12);
+    color: #CE5A3E;
+    border: 1px solid rgba(206, 90, 62, 0.28);
   }
 
-  /* Section container */
+  /* ── Section container — BYD spec: 40px margin on large screens ── */
   .section-container {
-    @apply max-w-container mx-auto px-4 md:px-8;
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .section-container {
+      padding-left: 2.5rem;   /* 40px — BYD spec for Web Large */
+      padding-right: 2.5rem;
+    }
+  }
+
+  /* ── BYD spec: Line-Text Field ────────────────────────────────── */
+  /* border-bottom only, 0 border-radius, 48px height */
+  .input-line {
+    width: 100%;
+    height: 48px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #4E5356;
+    border-radius: 0;
+    padding: 8px 16px 8px 0;
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 1rem;
+    color: #FFFFFF;
+    outline: none;
+    transition: border-color 200ms ease;
+  }
+
+  .input-line::placeholder {
+    color: #7A8080;
+  }
+
+  .input-line:focus {
+    border-bottom-color: #FFFFFF;
+  }
+
+  .input-line:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* ── BYD spec: Box Text Field ─────────────────────────────────── */
+  .input-box {
+    width: 100%;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #4E5356;
+    border-radius: 0;
+    padding: 8px 16px;
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 1rem;
+    color: #FFFFFF;
+    outline: none;
+    transition: border-color 200ms ease, background 200ms ease;
+  }
+
+  .input-box::placeholder {
+    color: #7A8080;
+  }
+
+  .input-box:focus {
+    border-color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .input-box:disabled {
+    background: rgba(255, 255, 255, 0.02);
+    color: #4E5356;
+    cursor: not-allowed;
+  }
+
+  .input-box.error {
+    border-color: #BB0A0A;
+    background: rgba(187, 10, 10, 0.06);
+    color: #BB0A0A;
+  }
+
+  /* ── BYD select field ─────────────────────────────────────────── */
+  .input-select {
+    width: 100%;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #4E5356;
+    border-radius: 0;
+    padding: 8px 16px;
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 1rem;
+    color: #FFFFFF;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 200ms ease;
+  }
+
+  .input-select:focus {
+    border-color: #FFFFFF;
+  }
+
+  /* ── BYD section divider ──────────────────────────────────────── */
+  .byd-divider {
+    width: 40px;
+    height: 2px;
+    background: #D70C19;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── BYD overline label (above section headings) ──────────────── */
+  .overline {
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #D70C19;
+  }
+
+  /* ── BYD nav link with animated underline ─────────────────────── */
+  .nav-link {
+    position: relative;
+    font-family: var(--font-montserrat), "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.60);
+    text-decoration: none;
+    transition: color 200ms ease;
+    padding-bottom: 2px;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.80);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: #FFFFFF;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    transform: scaleX(1);
+  }
+
+  .nav-link.active {
+    font-weight: 600;
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* BYD sharp-corner override for any third-party rounded elements */
+  .byd-sharp {
+    border-radius: 0 !important;
   }
 }

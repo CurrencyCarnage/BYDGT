@@ -1,0 +1,31 @@
+{
+  "id": "td-1777378820773-e1man7",
+  "createdAt": "2026-04-28T12:20:20.773Z",
+  "fullName": "Test",
+  "phone": "123123123123",
+  "email": "TEST@GMAIL.COM",
+  "modelFamilyId": "sealion-06",
+  "modelFamilyName": "BYD Sealion 06",
+  "versionId": "sealion-06-dmi",
+  "versionLabel": "DM-i / PHEV",
+  "preferredDate": "2026-04-28",
+  "preferredTimeSlot": "13:00 - 14:00",
+  "language": "en",
+  "dealershipLocation": {
+    "name": "BYD Tbilisi",
+    "address": "Kakheti Hwy 45A, Tbilisi, Georgia",
+    "lat": 41.685144,
+    "lng": 44.89098
+  },
+  "agreement": {
+    "accepted": true,
+    "acceptedAt": "2026-04-28T12:20:19.659Z",
+    "agreementVersion": "test-drive-v1",
+    "minAgeConfirmed": true,
+    "driversLicenseConfirmed": true,
+    "contactConsentConfirmed": true,
+    "safetyAcknowledgementConfirmed": true,
+    "ip": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 OPR/130.0.0.0"
+  }
+}

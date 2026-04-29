@@ -23,20 +23,20 @@ export default async function ModelEditorPage({
   return (
     <div className="p-8">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-text-muted mb-6">
+      <nav className="flex items-center gap-2 text-sm text-white/35 mb-6">
         <Link
           href="/admin/models"
-          className="hover:text-text-primary transition-colors"
+          className="hover:text-white transition-colors"
         >
           Models
         </Link>
         <span>/</span>
-        <span className="text-text-primary">{model.name.en}</span>
+        <span className="text-white">{model.name.en}</span>
       </nav>
 
       <div className="flex items-center gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">
+          <h1 className="text-2xl font-bold text-white">
             {model.name.en}
           </h1>
           <div className="flex items-center gap-2 mt-1">
@@ -49,7 +49,7 @@ export default async function ModelEditorPage({
             >
               {model.type}
             </span>
-            <span className="text-text-muted text-xs">{model.category}</span>
+            <span className="text-white/35 text-xs">{model.category}</span>
             <span
               className={`text-xs px-2 py-0.5 rounded-full border ${
                 model.isAvailable

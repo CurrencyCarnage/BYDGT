@@ -3,7 +3,7 @@ import Image from "next/image";
 import BookingForm from "@/components/ui/BookingForm";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import dynamic from "next/dynamic";
-import { SHOWROOM } from "@/lib/test-drive";
+import { SHOWROOM, TEST_DRIVE_ROUTE } from "@/lib/test-drive";
 
 const ShowroomMap = dynamic(() => import("@/components/ui/ShowroomMap"), {
   ssr: false,
@@ -31,13 +31,13 @@ const copy = {
     locTitle: "Showroom",
     directions: "Get Directions",
     warranty: "Warranty PDF",
-    routeTag: "Test Drive Route",
-    routeTitle: "Explore Tbilisi Behind the Wheel",
-    routeSub: "≈ 5 km loop along Kakheti Highway departing from our showroom.",
+    routeTag: "Location",
+    routeTitle: "Visit Our Showroom",
+    routeSub: "BYD Tbilisi is located at Kakheti Highway 45A — our team is ready to welcome you.",
     routeChips: [
-      { val: "≈ 5 km",        sub: "Route length" },
-      { val: "≈ 20 min",      sub: "Duration" },
-      { val: "Kakheti Hwy",   sub: "Departure road" },
+      { val: "Mon–Sun",       sub: "Open daily" },
+      { val: "10:00–19:00",   sub: "Working hours" },
+      { val: "Free",          sub: "Parking" },
     ],
   },
   ka: {
@@ -58,13 +58,13 @@ const copy = {
     locTitle: "შოურუმი",
     directions: "მიმართულებები",
     warranty: "გარანტია PDF",
-    routeTag: "ტესტდრაივის მარშრუტი",
-    routeTitle: "გამოიკვლიეთ თბილისი BYD-ით",
-    routeSub: "≈ 5 კმ მარშრუტი კახეთის გზატკეცილის გასწვრივ შოურუმიდან.",
+    routeTag: "მდებარეობა",
+    routeTitle: "ეწვიეთ შოურუმს",
+    routeSub: "BYD Tbilisi მდებარეობს კახეთის გზატკეცილი 45A-ზე — ჩვენი გუნდი მზადაა თქვენ გამოგიწვდოს.",
     routeChips: [
-      { val: "≈ 5 კმ",         sub: "მარშრუტის სიგრძე" },
-      { val: "≈ 20 წთ",        sub: "ხანგრძლივობა" },
-      { val: "კახეთის გზა",    sub: "საწყისი გზა" },
+      { val: "ორშ–კვი",        sub: "ყოველდღე" },
+      { val: "10:00–19:00",    sub: "სამუშაო საათები" },
+      { val: "უფასო",          sub: "პარკინგი" },
     ],
   },
 };
@@ -101,7 +101,7 @@ export default async function BookingPage() {
   const t = copy[locale];
 
   return (
-    <div className="bg-bg-primary">
+    <div className="bg-byd-dark">
 
       {/* ══════════════════════════════════════════════════════════
           HERO — full viewport, img3 with cars, cinematic
@@ -115,8 +115,8 @@ export default async function BookingPage() {
           priority
           quality={92}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1A1E28] via-[#1A1E28]/55 to-[#1A1E28]/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1A1E28]/90 via-[#1A1E28]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#252728] via-[#252728]/55 to-[#252728]/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#252728]/90 via-[#252728]/40 to-transparent" />
         <div className="absolute inset-0 opacity-[0.025] pointer-events-none"
           style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)", backgroundSize: "52px 52px" }} />
 
@@ -125,18 +125,18 @@ export default async function BookingPage() {
           <div className="section-container w-full pb-12 pt-28">
             <ScrollReveal>
               <div className="flex items-center gap-3 mb-4">
-                <span className="w-8 h-px bg-gt-green" />
-                <p className="text-xs text-gt-green uppercase tracking-[0.3em] font-semibold"
-                  style={{ fontFamily: "var(--font-source-sans)" }}>
+                <span className="w-8 h-px bg-byd-red" />
+                <p className="text-xs text-byd-red uppercase tracking-[0.3em] font-semibold"
+                  style={{ fontFamily: "var(--font-montserrat)" }}>
                   {t.tag}
                 </p>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.06] mb-4 max-w-2xl"
-                style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.03em" }}>
+                style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.03em" }}>
                 {t.title}
               </h1>
               <p className="text-base text-white/45 font-light max-w-md leading-relaxed mb-8"
-                style={{ fontFamily: "var(--font-source-sans)" }}>
+                style={{ fontFamily: "var(--font-montserrat)" }}>
                 {t.subtitle}
               </p>
             </ScrollReveal>
@@ -151,11 +151,11 @@ export default async function BookingPage() {
                 ].map((s) => (
                   <div key={s.val}>
                     <p className="text-2xl font-bold text-white"
-                      style={{ fontFamily: "var(--font-source-sans)" }}>
+                      style={{ fontFamily: "var(--font-montserrat)" }}>
                       {s.val}
                     </p>
                     <p className="text-[10px] text-white/30 uppercase tracking-[0.14em] mt-0.5"
-                      style={{ fontFamily: "var(--font-source-sans)" }}>
+                      style={{ fontFamily: "var(--font-montserrat)" }}>
                       {s.sub}
                     </p>
                   </div>
@@ -174,7 +174,7 @@ export default async function BookingPage() {
 
         {/* Contained banner — rounded card, breathing room from hero */}
         <ScrollReveal>
-          <div className="relative h-44 md:h-52 rounded-card overflow-hidden mb-10 border border-white/[0.06]">
+          <div className="relative h-44 md:h-52 overflow-hidden mb-10 border border-white/[0.06]">
             <Image
               src="/images/testdrive/img1.jpg"
               alt="BYD Test Drive"
@@ -182,22 +182,22 @@ export default async function BookingPage() {
               className="object-cover object-center"
               quality={88}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#1A1E28]/90 via-[#1A1E28]/55 to-[#1A1E28]/10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#252728]/90 via-[#252728]/55 to-[#252728]/10" />
             <div className="absolute inset-0 flex items-center px-7 md:px-10">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="w-5 h-px bg-gt-green" />
-                  <p className="text-xs text-gt-green uppercase tracking-[0.25em] font-semibold"
-                    style={{ fontFamily: "var(--font-source-sans)" }}>
+                  <span className="w-5 h-px bg-byd-red" />
+                  <p className="text-xs text-byd-red uppercase tracking-[0.25em] font-semibold"
+                    style={{ fontFamily: "var(--font-montserrat)" }}>
                     {t.tag}
                   </p>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-white"
-                  style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.025em" }}>
+                  style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.025em" }}>
                   {t.formTitle}
                 </h2>
                 <p className="text-sm text-white/45 mt-1.5 font-light max-w-sm"
-                  style={{ fontFamily: "var(--font-source-sans)" }}>
+                  style={{ fontFamily: "var(--font-montserrat)" }}>
                   {t.subtitle}
                 </p>
               </div>
@@ -205,48 +205,65 @@ export default async function BookingPage() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-10 items-start">
+        {/* ── Requirements strip ────────────────────────────── */}
+        <ScrollReveal delay={0.04}>
+          <div className="border border-white/[0.08] bg-[#1C1E1F] overflow-hidden mb-8">
+            <div className="h-px bg-gradient-to-r from-byd-red via-byd-red/50 to-transparent" />
+
+            {/* Label row */}
+            <div className="flex items-center gap-3 px-6 pt-4 pb-3">
+              <span className="w-5 h-px bg-byd-red/60 shrink-0" />
+              <p
+                className="text-[10px] font-semibold text-white/35 uppercase tracking-[0.22em]"
+                style={{ fontFamily: "var(--font-montserrat)" }}
+              >
+                {t.reqTitle}
+              </p>
+            </div>
+
+            {/* 4-column grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 border-t border-white/[0.06]">
+              {t.reqs.map((req, idx) => (
+                <div
+                  key={req.icon}
+                  className={[
+                    "flex items-center gap-4 px-6 py-5",
+                    idx === 0 ? "border-r border-b border-white/[0.06] md:border-b-0" : "",
+                    idx === 1 ? "border-b border-white/[0.06] md:border-b-0 md:border-r md:border-white/[0.06]" : "",
+                    idx === 2 ? "border-r border-white/[0.06]" : "",
+                  ].join(" ")}
+                >
+                  <div className="w-9 h-9 bg-byd-red/[0.08] border border-byd-red/[0.18] flex items-center justify-center text-byd-red shrink-0">
+                    {reqIcons[req.icon]}
+                  </div>
+                  <span
+                    className="text-sm text-white/60 leading-snug"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
+                  >
+                    {req.text}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-10 items-stretch">
 
           {/* ── LEFT: clean form card, no image ───────────────── */}
           <ScrollReveal delay={0.05}>
-            <div className="rounded-card border border-white/[0.08] bg-bg-secondary p-6 md:p-8">
+            <div className=" border border-white/[0.08] bg-[#1C1E1F] p-6 md:p-8">
               <BookingForm />
             </div>
           </ScrollReveal>
 
           {/* ── RIGHT: sidebar ────────────────────────────────── */}
-          <div className="lg:sticky lg:top-24 flex flex-col gap-4">
-
-            {/* Requirements */}
-            <ScrollReveal delay={0.06}>
-              <div className="rounded-card border border-white/[0.08] bg-bg-secondary overflow-hidden">
-                <div className="h-0.5 bg-gradient-to-r from-gt-green via-gt-green/40 to-transparent" />
-                <div className="p-5">
-                  <p className="text-xs font-semibold text-white/40 uppercase tracking-[0.2em] mb-4"
-                    style={{ fontFamily: "var(--font-source-sans)" }}>
-                    {t.reqTitle}
-                  </p>
-                  <div className="space-y-3">
-                    {t.reqs.map((req) => (
-                      <div key={req.icon} className="flex items-center gap-3">
-                        <div className="w-7 h-7 rounded-md bg-gt-green/10 border border-gt-green/20 flex items-center justify-center text-gt-green shrink-0">
-                          {reqIcons[req.icon]}
-                        </div>
-                        <span className="text-sm text-white/60"
-                          style={{ fontFamily: "var(--font-source-sans)" }}>
-                          {req.text}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
+          <div className="flex flex-col gap-4 h-full">
 
             {/* Showroom image — tall, fills visual weight */}
-            <ScrollReveal delay={0.08}>
-              <div className="rounded-card border border-white/[0.08] overflow-hidden">
-                <div className="relative h-52">
+            <ScrollReveal delay={0.08} className="flex-1 flex flex-col min-h-0">
+              <div className="flex-1 flex flex-col border border-white/[0.08] overflow-hidden">
+                <div className="relative flex-1 min-h-[200px]">
                   <Image
                     src="/images/testdrive/img3.jpg"
                     alt="BYD Dealership"
@@ -254,28 +271,28 @@ export default async function BookingPage() {
                     className="object-cover object-center"
                     quality={85}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1A1E28] via-[#1A1E28]/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#252728] via-[#252728]/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 px-5 py-4">
                     <p className="text-[10px] text-white/35 uppercase tracking-widest mb-0.5"
-                      style={{ fontFamily: "var(--font-source-sans)" }}>
+                      style={{ fontFamily: "var(--font-montserrat)" }}>
                       {t.locTitle}
                     </p>
                     <p className="text-base font-bold text-white"
-                      style={{ fontFamily: "var(--font-source-sans)" }}>
+                      style={{ fontFamily: "var(--font-montserrat)" }}>
                       {SHOWROOM.name}
                     </p>
                     <p className="text-xs text-white/40 mt-0.5"
-                      style={{ fontFamily: "var(--font-source-sans)" }}>
+                      style={{ fontFamily: "var(--font-montserrat)" }}>
                       {SHOWROOM.address}
                     </p>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 bg-bg-secondary border-t border-white/[0.06]">
+                <div className="grid grid-cols-2 bg-[#1C1E1F] border-t border-white/[0.06]">
                   <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${SHOWROOM.lat},${SHOWROOM.lng}`}
                     target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-1.5 py-3 text-gt-green text-xs font-semibold hover:bg-gt-green/10 transition-all duration-200 border-r border-white/[0.06]"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
+                    className="flex items-center justify-center gap-1.5 py-3 text-byd-red text-xs font-semibold hover:bg-byd-red/10 transition-all duration-200 border-r border-white/[0.06]"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -287,7 +304,7 @@ export default async function BookingPage() {
                     href="/documents/byd-warranty-georgia.pdf"
                     target="_blank" rel="noopener noreferrer"
                     className="flex items-center justify-center gap-1.5 py-3 text-white/45 text-xs hover:text-white/70 hover:bg-white/[0.04] transition-all duration-200"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
+                    style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -299,8 +316,8 @@ export default async function BookingPage() {
             </ScrollReveal>
 
             {/* BYD building accent */}
-            <ScrollReveal delay={0.1}>
-              <div className="relative h-40 rounded-card overflow-hidden border border-white/[0.08]">
+            <ScrollReveal delay={0.1} className="flex-1 flex flex-col min-h-0">
+              <div className="relative flex-1 min-h-[120px] overflow-hidden border border-white/[0.08]">
                 <Image
                   src="/images/testdrive/img4.jpg"
                   alt="BYD Tbilisi Building"
@@ -308,10 +325,10 @@ export default async function BookingPage() {
                   className="object-cover object-top"
                   quality={85}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1A1E28]/70 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#252728]/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 px-4 py-3">
                   <p className="text-[10px] text-white/30 uppercase tracking-[0.2em]"
-                    style={{ fontFamily: "var(--font-source-sans)" }}>
+                    style={{ fontFamily: "var(--font-montserrat)" }}>
                     BYD Tbilisi · GT Group
                   </p>
                 </div>
@@ -323,7 +340,7 @@ export default async function BookingPage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════
-          MAP — full width with test-drive route
+          MAP — showroom location
       ══════════════════════════════════════════════════════════ */}
       <section className="border-t border-white/[0.06]">
         <div className="section-container py-10 md:py-12">
@@ -331,31 +348,31 @@ export default async function BookingPage() {
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="w-6 h-px bg-gt-green" />
-                  <p className="text-xs text-gt-green uppercase tracking-[0.25em] font-semibold"
-                    style={{ fontFamily: "var(--font-source-sans)" }}>
+                  <span className="w-6 h-px bg-byd-red" />
+                  <p className="text-xs text-byd-red uppercase tracking-[0.25em] font-semibold"
+                    style={{ fontFamily: "var(--font-montserrat)" }}>
                     {t.routeTag}
                   </p>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-white"
-                  style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.02em" }}>
+                  style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.02em" }}>
                   {t.routeTitle}
                 </h2>
                 <p className="text-sm text-white/35 mt-1.5 max-w-sm"
-                  style={{ fontFamily: "var(--font-source-sans)" }}>
+                  style={{ fontFamily: "var(--font-montserrat)" }}>
                   {t.routeSub}
                 </p>
               </div>
               <div className="flex gap-3 flex-wrap">
                 {t.routeChips.map((chip) => (
                   <div key={chip.val}
-                    className="px-4 py-2.5 rounded-card border border-white/[0.08] bg-bg-secondary text-center min-w-[90px]">
+                    className="px-4 py-2.5 border border-white/[0.08] bg-[#1C1E1F] text-center min-w-[90px]">
                     <p className="text-sm font-bold text-white"
-                      style={{ fontFamily: "var(--font-source-sans)" }}>
+                      style={{ fontFamily: "var(--font-montserrat)" }}>
                       {chip.val}
                     </p>
                     <p className="text-[10px] text-white/30 uppercase tracking-wider mt-0.5"
-                      style={{ fontFamily: "var(--font-source-sans)" }}>
+                      style={{ fontFamily: "var(--font-montserrat)" }}>
                       {chip.sub}
                     </p>
                   </div>
@@ -372,6 +389,7 @@ export default async function BookingPage() {
               lng={SHOWROOM.lng}
               label={SHOWROOM.name}
               address={SHOWROOM.address}
+              routePath={TEST_DRIVE_ROUTE}
             />
           </div>
         </ScrollReveal>

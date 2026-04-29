@@ -1,6 +1,13 @@
 import { useLocale } from "next-intl";
+import dynamic from "next/dynamic";
 import ContactForm from "@/components/ui/ContactForm";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { SHOWROOM } from "@/lib/test-drive";
+
+const ShowroomMap = dynamic(() => import("@/components/ui/ShowroomMap"), {
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-[#1C1E1F] animate-pulse" />,
+});
 
 export default function ContactPage() {
   const locale = useLocale();
@@ -8,44 +15,22 @@ export default function ContactPage() {
   const contactDetails = [
     {
       icon: (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-          />
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       ),
       label: locale === "ka" ? "მისამართი" : "Address",
-      value: locale === "ka" ? "თბილისი, საქართველო" : "Tbilisi, Georgia",
-      href: null,
+      value: SHOWROOM.address,
+      href: `https://www.google.com/maps/dir/?api=1&destination=${SHOWROOM.lat},${SHOWROOM.lng}`,
     },
     {
       icon: (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-          />
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
         </svg>
       ),
       label: locale === "ka" ? "ტელეფონი" : "Phone",
@@ -54,18 +39,9 @@ export default function ContactPage() {
     },
     {
       icon: (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-          />
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
       ),
       label: "Email",
@@ -79,120 +55,74 @@ export default function ContactPage() {
         </svg>
       ),
       label: "WhatsApp",
-      value:
-        locale === "ka" ? "პირდაპირ დაგვიკავშირდით" : "Chat with us directly",
+      value: locale === "ka" ? "პირდაპირ დაგვიკავშირდით" : "Chat with us directly",
       href: "https://wa.me/995XXXXXXXXX",
     },
   ];
 
   return (
-    <div className="pt-24 md:pt-32 pb-section-sm md:pb-section-lg">
-      <div className="section-container">
-        {/* Header */}
-        <ScrollReveal className="mb-14">
-          <p
-            className="text-xs text-white/30 uppercase tracking-[0.2em] mb-3"
-            style={{ fontFamily: "var(--font-source-sans)" }}
-          >
-            {locale === "ka" ? "კონტაქტი" : "Contact"}
-          </p>
-          <h1
-            className="text-3xl md:text-display font-bold text-white mb-4"
-            style={{
-              fontFamily: "var(--font-source-sans)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            {locale === "ka" ? "დაგვიკავშირდით" : "Get in Touch"}
-          </h1>
-          <p
-            className="text-white/50 font-light max-w-lg"
-            style={{ fontFamily: "var(--font-source-sans)" }}
-          >
-            {locale === "ka"
-              ? "მზად ვართ ყველა კითხვაზე გიპასუხოთ — ავტომობილებიდან ფინანსებამდე"
-              : "Ready to answer all your questions — from vehicle specs to financing options"}
-          </p>
-        </ScrollReveal>
+    <div className="bg-byd-dark">
 
+      {/* ── Header — dark strip ── */}
+      <div className="bg-[#1C1E1F] border-b border-white/[0.06]" style={{ paddingTop: "80px" }}>
+        <div className="section-container py-14 md:py-20">
+          <ScrollReveal>
+            <div className="flex items-center gap-3 mb-5">
+              <span className="w-8 h-[2px] bg-byd-red flex-shrink-0" />
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">
+                {locale === "ka" ? "კონტაქტი" : "Contact"}
+              </p>
+            </div>
+            <h1 className="text-h2 font-semibold text-white mb-4 leading-[1.15]" style={{ letterSpacing: "-0.02em" }}>
+              {locale === "ka" ? "დაგვიკავშირდით" : "Get in Touch"}
+            </h1>
+            <p className="text-body1 text-white/45 font-light max-w-lg">
+              {locale === "ka"
+                ? "მზად ვართ ყველა კითხვაზე გიპასუხოთ — ავტომობილებიდან ფინანსებამდე"
+                : "Ready to answer all your questions — from vehicle specs to financing options"}
+            </p>
+          </ScrollReveal>
+        </div>
+      </div>
+
+      {/* ── Form + Contact details ── */}
+      <section className="section-container py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+
           {/* Contact details */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 space-y-3">
             {contactDetails.map((item, i) => (
               <ScrollReveal key={item.label} delay={i * 0.08}>
-                {item.href ? (
-                  <a
-                    href={item.href}
-                    target={item.href.startsWith("http") ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    className="flex items-start gap-4 p-5 rounded-card bg-white/[0.03] border border-white/[0.07] hover:border-white/20 transition-all duration-200 group"
-                  >
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/[0.06] flex items-center justify-center text-white/60 group-hover:text-accent transition-colors duration-200">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <p
-                        className="text-xs text-white/30 uppercase tracking-wider mb-0.5"
-                        style={{ fontFamily: "var(--font-source-sans)" }}
-                      >
-                        {item.label}
-                      </p>
-                      <p
-                        className="text-sm text-white group-hover:text-accent transition-colors duration-200"
-                        style={{ fontFamily: "var(--font-source-sans)" }}
-                      >
-                        {item.value}
-                      </p>
-                    </div>
-                  </a>
-                ) : (
-                  <div className="flex items-start gap-4 p-5 rounded-card bg-white/[0.03] border border-white/[0.07]">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/[0.06] flex items-center justify-center text-white/60">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <p
-                        className="text-xs text-white/30 uppercase tracking-wider mb-0.5"
-                        style={{ fontFamily: "var(--font-source-sans)" }}
-                      >
-                        {item.label}
-                      </p>
-                      <p
-                        className="text-sm text-white"
-                        style={{ fontFamily: "var(--font-source-sans)" }}
-                      >
-                        {item.value}
-                      </p>
-                    </div>
+                <a
+                  href={item.href}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-4 p-5 bg-[#1C1E1F] border border-white/[0.08] hover:border-white/20 transition-all duration-200 group"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-white/45 group-hover:text-byd-red group-hover:border-byd-red/30 transition-colors duration-200">
+                    {item.icon}
                   </div>
-                )}
+                  <div>
+                    <p className="text-[11px] text-white/30 uppercase tracking-[0.18em] mb-0.5">
+                      {item.label}
+                    </p>
+                    <p className="text-sm text-white group-hover:text-byd-red transition-colors duration-200">
+                      {item.value}
+                    </p>
+                  </div>
+                </a>
               </ScrollReveal>
             ))}
 
-            {/* Map placeholder */}
-            <ScrollReveal delay={0.3}>
-              <div className="rounded-card overflow-hidden border border-white/[0.07] h-52 bg-bg-tertiary flex items-center justify-center">
-                <div className="text-center">
-                  <svg
-                    className="w-10 h-10 text-white/20 mx-auto mb-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1}
-                      d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                    />
-                  </svg>
-                  <p
-                    className="text-white/25 text-xs tracking-widest"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
-                  >
-                    {locale === "ka" ? "რუკა მალე" : "MAP COMING SOON"}
-                  </p>
-                </div>
+            {/* Map */}
+            <ScrollReveal delay={0.35}>
+              <div className="border border-white/[0.08] overflow-hidden h-52">
+                <ShowroomMap
+                  lat={SHOWROOM.lat}
+                  lng={SHOWROOM.lng}
+                  label={SHOWROOM.name}
+                  address={SHOWROOM.address}
+                />
               </div>
             </ScrollReveal>
           </div>
@@ -204,7 +134,8 @@ export default function ContactPage() {
             </ScrollReveal>
           </div>
         </div>
-      </div>
+      </section>
+
     </div>
   );
 }

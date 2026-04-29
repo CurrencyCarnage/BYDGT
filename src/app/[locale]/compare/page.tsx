@@ -1,31 +1,34 @@
 import { getLocale } from "next-intl/server";
 import CompareGrid from "@/components/compare/CompareGrid";
-import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export default async function ComparePage() {
   const locale = await getLocale();
 
   return (
-    <div className="pt-24 md:pt-32 pb-section-sm md:pb-section-lg">
-      <div className="section-container">
-        <ScrollReveal className="mb-12">
-          <p className="text-xs text-white/30 uppercase tracking-[0.2em] mb-3" style={{ fontFamily: "var(--font-source-sans)" }}>
-            {locale === "ka" ? "შედარება" : "Compare"}
-          </p>
-          <h1 className="text-3xl md:text-display font-bold text-white mb-3" style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.02em" }}>
-            {locale === "ka" ? "მოდელების შედარება" : "Compare Models"}
-          </h1>
-          <p className="text-text-secondary font-light" style={{ fontFamily: "var(--font-source-sans)" }}>
-            {locale === "ka"
-              ? "ვერსიები გადართეთ ჩანართებით, შემდეგ 3-მდე BYD მოდელი შეადარეთ"
-              : "Switch powertrain versions with the tabs, then compare up to 3 BYD models side by side"}
-          </p>
-        </ScrollReveal>
+    <div className="bg-byd-dark">
 
-        <ScrollReveal delay={0.15}>
-          <CompareGrid />
-        </ScrollReveal>
+      {/* ── Header — dark strip ── */}
+      <div className="bg-[#1C1E1F] border-b border-white/[0.06]" style={{ paddingTop: "80px" }}>
+        <div className="section-container py-14 md:py-20">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="w-8 h-[2px] bg-byd-red flex-shrink-0" />
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">
+                {locale === "ka" ? "შედარება" : "Compare"}
+              </p>
+            </div>
+            <h1 className="text-h2 font-semibold text-white mb-4 leading-[1.15]" style={{ letterSpacing: "-0.02em" }}>
+              {locale === "ka" ? "მოდელების შედარება" : "Compare Models"}
+            </h1>
+            <p className="text-body1 text-white/45 font-light max-w-xl">
+              {locale === "ka"
+                ? "ეს 3 BYD მოდელი შეადარეთ გვერდიგვერდ — ჩამოსაშლელი მენიუდან შეარჩიეთ"
+                : "Compare 3 BYD models side by side — use the dropdowns to swap any model"}
+            </p>
+        </div>
       </div>
+
+      <CompareGrid />
+
     </div>
   );
 }

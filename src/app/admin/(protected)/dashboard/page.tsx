@@ -1,4 +1,4 @@
-import { getServerSession } from "next-auth/next";
+﻿import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import Link from "next/link";
 import type { CarModel } from "@/lib/types";
@@ -22,11 +22,11 @@ function StatCard({
   accent?: string;
 }) {
   return (
-    <div className="bg-bg-secondary border border-glass-border rounded-card p-5">
-      <p className="text-xs font-medium text-text-muted uppercase tracking-widest mb-2">
+    <div className="bg-[#1C1E1F] border border-glass-border p-5">
+      <p className="text-xs font-medium text-white/35 uppercase tracking-widest mb-2">
         {label}
       </p>
-      <p className={`text-3xl font-bold ${accent ?? "text-text-primary"}`}>
+      <p className={`text-3xl font-bold ${accent ?? "text-white"}`}>
         {value}
       </p>
     </div>
@@ -53,10 +53,10 @@ export default async function DashboardPage() {
     <div className="p-8">
       {/* Page header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-text-primary">
+        <h1 className="text-2xl font-bold text-white">
           {greeting()}, {session?.user?.name ?? "Admin"}
         </h1>
-        <p className="text-text-muted mt-1">
+        <p className="text-white/35 mt-1">
           Here&apos;s a snapshot of the BYD Georgia catalogue.
         </p>
       </div>
@@ -69,27 +69,27 @@ export default async function DashboardPage() {
           value={available}
           accent="text-success"
         />
-        <StatCard label="Featured" value={featured} accent="text-gt-green" />
+        <StatCard label="Featured" value={featured} accent="text-byd-red" />
         <StatCard
           label="EV / PHEV"
           value={`${ev} / ${phev}`}
-          accent="text-accent"
+          accent="text-[#D4D8DB]"
         />
       </div>
 
       {/* Model quick-access cards */}
-      <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-widest mb-4">
+      <h2 className="text-sm font-semibold text-white/60 uppercase tracking-widest mb-4">
         Models
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         {models.map((model) => (
           <div
             key={model.id}
-            className="bg-bg-secondary border border-glass-border rounded-card p-5 flex flex-col gap-3"
+            className="bg-[#1C1E1F] border border-glass-border p-5 flex flex-col gap-3"
           >
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="font-semibold text-text-primary text-sm leading-tight">
+                <p className="font-semibold text-white text-sm leading-tight">
                   {model.name.en}
                 </p>
                 <span
@@ -113,13 +113,13 @@ export default async function DashboardPage() {
               </span>
             </div>
 
-            <p className="text-lg font-bold text-text-primary">
+            <p className="text-lg font-bold text-white">
               ${model.basePrice.toLocaleString()}
             </p>
 
             <Link
               href={`/admin/models/${model.id}`}
-              className="mt-auto text-center text-sm font-medium text-gt-green border border-gt-green/30 rounded-button py-2 hover:bg-gt-green/10 transition-colors duration-200"
+              className="mt-auto text-center text-sm font-medium text-byd-red border border-byd-red/30 py-2 hover:bg-byd-red/10 transition-colors duration-200"
             >
               Edit Model
             </Link>
@@ -131,7 +131,7 @@ export default async function DashboardPage() {
       <div className="mt-8 pt-8 border-t border-glass-border">
         <Link
           href="/admin/models"
-          className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-gt-green transition-colors duration-200"
+          className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-byd-red transition-colors duration-200"
         >
           View all models →
         </Link>

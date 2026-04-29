@@ -114,24 +114,24 @@ export default async function AboutPage() {
         }}
       >
         {/* Dark overlay that intensifies at bottom */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-[#1A1E28]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-[#252728]" />
         <div className="relative section-container">
           <ScrollReveal>
             <p
-              className="text-xs text-accent uppercase tracking-[0.25em] mb-4"
-              style={{ fontFamily: "var(--font-source-sans)" }}
+              className="text-xs text-byd-red uppercase tracking-[0.25em] mb-4"
+              style={{ fontFamily: "var(--font-montserrat)" }}
             >
               BYD Georgia — GT Group
             </p>
             <h1
-              className="text-4xl md:text-[4rem] font-bold text-text-primary mb-6 max-w-3xl leading-tight"
-              style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.02em" }}
+              className="text-4xl md:text-[4rem] font-bold text-white mb-6 max-w-3xl leading-tight"
+              style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.02em" }}
             >
               {c.heroTitle}
             </h1>
             <p
-              className="text-text-secondary text-lg md:text-xl max-w-2xl font-light leading-relaxed"
-              style={{ fontFamily: "var(--font-source-sans)" }}
+              className="text-white/60 text-lg md:text-xl max-w-2xl font-light leading-relaxed"
+              style={{ fontFamily: "var(--font-montserrat)" }}
             >
               {c.heroSubtitle}
             </p>
@@ -139,39 +139,43 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* ── INTRO ── */}
-      <section className="py-section-sm md:py-section-lg bg-bg-primary">
+      {/* ── INTRO — WHITE section ── */}
+      <section className="py-section-sm md:py-section-lg bg-white">
         <div className="section-container">
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
+              <div className="flex items-center gap-3 mb-5">
+                <span className="w-8 h-[2px] bg-byd-red flex-shrink-0" />
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">
+                  {c.introTitle}
+                </p>
+              </div>
               <p
-                className="text-xs text-accent uppercase tracking-[0.2em] mb-3"
-                style={{ fontFamily: "var(--font-source-sans)" }}
-              >
-                {c.introTitle}
-              </p>
-              <p
-                className="text-text-secondary text-lg leading-relaxed font-light"
-                style={{ fontFamily: "var(--font-source-sans)" }}
+                className="text-[#4E5356] text-lg leading-relaxed font-light"
+                style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 {c.introText}
               </p>
             </ScrollReveal>
 
-            {/* Global presence pill */}
+            {/* Global presence block */}
             <ScrollReveal delay={0.15} className="mt-10">
-              <div className="flex items-start gap-4 p-6 rounded-card bg-white/[0.04] border border-white/[0.08]">
-                <span className="text-2xl mt-0.5">🌍</span>
+              <div className="flex items-start gap-4 p-6 bg-[#F5F6F7] border border-[#E0E2E4]">
+                <span className="flex-shrink-0 mt-0.5 text-byd-red">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                    </svg>
+                  </span>
                 <div>
                   <p
-                    className="text-xs text-accent uppercase tracking-widest mb-2"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
+                    className="text-xs text-byd-red uppercase tracking-widest mb-2"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {c.globalLabel}
                   </p>
                   <p
-                    className="text-text-secondary leading-relaxed font-light"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
+                    className="text-[#4E5356] leading-relaxed font-light"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {c.globalText}
                   </p>
@@ -192,25 +196,25 @@ export default async function AboutPage() {
           backgroundAttachment: "fixed",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1A1E28]/95 via-[#1A1E28]/80 to-[#1A1E28]/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#252728]/95 via-[#252728]/80 to-[#252728]/60" />
         <div className="relative section-container">
           <div className="max-w-4xl">
             <ScrollReveal>
               <p
-                className="text-xs text-accent uppercase tracking-[0.2em] mb-3"
-                style={{ fontFamily: "var(--font-source-sans)" }}
+                className="text-xs text-byd-red uppercase tracking-[0.2em] mb-3"
+                style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 {c.innovationLabel}
               </p>
               <h2
-                className="text-3xl md:text-display font-bold text-text-primary mb-6"
-                style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.02em" }}
+                className="text-h3 md:text-h2 font-bold text-white mb-6"
+                style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.02em" }}
               >
                 {c.innovationTitle}
               </h2>
               <p
-                className="text-text-secondary text-lg leading-relaxed font-light mb-14"
-                style={{ fontFamily: "var(--font-source-sans)" }}
+                className="text-white/60 text-lg leading-relaxed font-light mb-14"
+                style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 {c.innovationText}
               </p>
@@ -220,16 +224,16 @@ export default async function AboutPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {c.features.map((feat, i) => (
                 <ScrollReveal key={feat.title} delay={i * 0.1}>
-                  <div className="p-6 rounded-card bg-[rgba(200,208,220,0.06)] border border-[rgba(200,208,220,0.13)] hover:border-[rgba(200,208,220,0.28)] transition-all duration-300 h-full">
+                  <div className="p-6 bg-[rgba(200,208,220,0.06)] border border-[rgba(200,208,220,0.13)] hover:border-[rgba(200,208,220,0.28)] transition-all duration-300 h-full">
                     <h3
-                      className="text-sm font-semibold text-text-primary mb-3"
-                      style={{ fontFamily: "var(--font-source-sans)" }}
+                      className="text-sm font-semibold text-white mb-3"
+                      style={{ fontFamily: "var(--font-montserrat)" }}
                     >
                       {feat.title}
                     </h3>
                     <p
-                      className="text-xs text-text-secondary font-light leading-relaxed"
-                      style={{ fontFamily: "var(--font-source-sans)" }}
+                      className="text-xs text-white/60 font-light leading-relaxed"
+                      style={{ fontFamily: "var(--font-montserrat)" }}
                     >
                       {feat.desc}
                     </p>
@@ -251,25 +255,25 @@ export default async function AboutPage() {
           backgroundAttachment: "fixed",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-l from-[#1A1E28]/95 via-[#1A1E28]/80 to-[#1A1E28]/60" />
+        <div className="absolute inset-0 bg-gradient-to-l from-[#252728]/95 via-[#252728]/80 to-[#252728]/60" />
         <div className="relative section-container flex justify-end">
           <div className="max-w-xl">
             <ScrollReveal direction="right">
               <p
-                className="text-xs text-accent uppercase tracking-[0.2em] mb-3"
-                style={{ fontFamily: "var(--font-source-sans)" }}
+                className="text-xs text-byd-red uppercase tracking-[0.2em] mb-3"
+                style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 {c.safetyLabel}
               </p>
               <h2
-                className="text-3xl md:text-heading font-bold text-text-primary mb-5"
-                style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.02em" }}
+                className="text-h3 md:text-h2 font-semibold text-white mb-5"
+                style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.02em" }}
               >
                 {c.safetyTitle}
               </h2>
               <p
-                className="text-text-secondary leading-relaxed font-light"
-                style={{ fontFamily: "var(--font-source-sans)" }}
+                className="text-white/60 leading-relaxed font-light"
+                style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 {c.safetyText}
               </p>
@@ -279,8 +283,8 @@ export default async function AboutPage() {
                 {["C-NCAP ★★★★★", "Euro NCAP ★★★★★", "ANCAP ★★★★★", "Green NCAP ★★★★★"].map((badge) => (
                   <span
                     key={badge}
-                    className="px-3 py-1.5 text-xs font-medium rounded-full bg-[rgba(200,208,220,0.08)] border border-[rgba(200,208,220,0.15)] text-text-secondary"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
+                    className="px-3 py-1.5 text-xs font-medium bg-[rgba(200,208,220,0.08)] border border-[rgba(200,208,220,0.15)] text-white/60"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {badge}
                   </span>
@@ -292,48 +296,48 @@ export default async function AboutPage() {
       </section>
 
       {/* ── MARKET + SUSTAINABILITY ── */}
-      <section className="py-section-sm md:py-section-lg bg-bg-primary">
+      <section className="py-section-sm md:py-section-lg bg-byd-dark">
         <div className="section-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Market performance */}
             <ScrollReveal direction="left">
               <div
-                className="relative rounded-card overflow-hidden h-full min-h-[320px] flex flex-col justify-end p-8"
+                className="relative overflow-hidden h-full min-h-[320px] flex flex-col justify-end p-8"
                 style={{
                   backgroundImage: "url('/images/aboutus/byd_about_bg_global_dark.jpg')",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1A1E28] via-[#1A1E28]/70 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#252728] via-[#252728]/70 to-transparent" />
                 <div className="relative">
                   <p
-                    className="text-xs text-accent uppercase tracking-[0.2em] mb-2"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
+                    className="text-xs text-byd-red uppercase tracking-[0.2em] mb-2"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {c.marketLabel}
                   </p>
                   <h2
-                    className="text-xl md:text-2xl font-bold text-text-primary mb-3"
-                    style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.01em" }}
+                    className="text-xl md:text-2xl font-bold text-white mb-3"
+                    style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.01em" }}
                   >
                     {c.marketTitle}
                   </h2>
                   <p
-                    className="text-text-secondary text-sm font-light leading-relaxed"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
+                    className="text-white/60 text-sm font-light leading-relaxed"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {c.marketText}
                   </p>
                   {/* Stats */}
                   <div className="flex gap-6 mt-6">
                     <div>
-                      <p className="text-2xl font-bold text-text-primary" style={{ fontFamily: "var(--font-source-sans)" }}>11.9M+</p>
-                      <p className="text-xs text-text-muted uppercase tracking-wider mt-0.5" style={{ fontFamily: "var(--font-source-sans)" }}>{locale === "ka" ? "გაყიდული NEV" : "NEV Sold"}</p>
+                      <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-montserrat)" }}>11.9M+</p>
+                      <p className="text-xs text-white/35 uppercase tracking-wider mt-0.5" style={{ fontFamily: "var(--font-montserrat)" }}>{locale === "ka" ? "გაყიდული NEV" : "NEV Sold"}</p>
                     </div>
                     <div>
-                      <p className="text-2xl font-bold text-text-primary" style={{ fontFamily: "var(--font-source-sans)" }}>100+</p>
-                      <p className="text-xs text-text-muted uppercase tracking-wider mt-0.5" style={{ fontFamily: "var(--font-source-sans)" }}>{locale === "ka" ? "ქვეყანა" : "Countries"}</p>
+                      <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-montserrat)" }}>100+</p>
+                      <p className="text-xs text-white/35 uppercase tracking-wider mt-0.5" style={{ fontFamily: "var(--font-montserrat)" }}>{locale === "ka" ? "ქვეყანა" : "Countries"}</p>
                     </div>
                   </div>
                 </div>
@@ -342,33 +346,33 @@ export default async function AboutPage() {
 
             {/* Sustainability */}
             <ScrollReveal direction="right">
-              <div className="rounded-card p-8 h-full min-h-[320px] flex flex-col justify-between bg-[rgba(200,208,220,0.04)] border border-[rgba(200,208,220,0.1)]">
+              <div className=" p-8 h-full min-h-[320px] flex flex-col justify-between bg-[rgba(200,208,220,0.04)] border border-[rgba(200,208,220,0.1)]">
                 <div>
                   <p
-                    className="text-xs text-accent uppercase tracking-[0.2em] mb-2"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
+                    className="text-xs text-byd-red uppercase tracking-[0.2em] mb-2"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {c.sustainLabel}
                   </p>
                   <h2
-                    className="text-xl md:text-2xl font-bold text-text-primary mb-4"
-                    style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.01em" }}
+                    className="text-xl md:text-2xl font-bold text-white mb-4"
+                    style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.01em" }}
                   >
                     {c.sustainTitle}
                   </h2>
                   <p
-                    className="text-text-secondary text-sm font-light leading-relaxed"
-                    style={{ fontFamily: "var(--font-source-sans)" }}
+                    className="text-white/60 text-sm font-light leading-relaxed"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {c.sustainText}
                   </p>
                 </div>
                 {/* CO2 stat */}
                 <div className="mt-8 pt-6 border-t border-[rgba(200,208,220,0.1)]">
-                  <p className="text-3xl font-bold text-text-primary" style={{ fontFamily: "var(--font-source-sans)" }}>
-                    86.8B <span className="text-lg font-light text-text-muted">kg CO₂</span>
+                  <p className="text-3xl font-bold text-white" style={{ fontFamily: "var(--font-montserrat)" }}>
+                    86.8B <span className="text-lg font-light text-white/35">kg CO₂</span>
                   </p>
-                  <p className="text-xs text-text-muted uppercase tracking-wider mt-1" style={{ fontFamily: "var(--font-source-sans)" }}>
+                  <p className="text-xs text-white/35 uppercase tracking-wider mt-1" style={{ fontFamily: "var(--font-montserrat)" }}>
                     {locale === "ka" ? "დაბალანსებული ემისია" : "CO₂ counterbalanced"}
                   </p>
                 </div>
@@ -379,12 +383,12 @@ export default async function AboutPage() {
       </section>
 
       {/* ── CLOSING ── */}
-      <section className="py-24 text-center bg-bg-secondary">
+      <section className="py-24 text-center bg-[#1C1E1F]">
         <div className="section-container">
           <ScrollReveal>
             <p
-              className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto font-light leading-relaxed italic"
-              style={{ fontFamily: "var(--font-source-sans)" }}
+              className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto font-light leading-relaxed italic"
+              style={{ fontFamily: "var(--font-montserrat)" }}
             >
               &ldquo;{c.closing}&rdquo;
             </p>

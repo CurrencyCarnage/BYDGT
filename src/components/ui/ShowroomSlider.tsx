@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
@@ -58,7 +58,7 @@ export default function ShowroomSlider({ slides, label, heading }: ShowroomSlide
   return (
     <div className="w-full">
       {/* Full-bleed slider */}
-      <div className="relative overflow-hidden aspect-[16/9] md:aspect-[21/9] bg-bg-tertiary">
+      <div className="relative overflow-hidden aspect-[16/9] md:aspect-[21/9] bg-[#2C2F30]">
         {/* Slides */}
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
@@ -91,12 +91,12 @@ export default function ShowroomSlider({ slides, label, heading }: ShowroomSlide
         {(label || heading) && (
           <div className="absolute bottom-7 left-8 z-10">
             {label && (
-              <p className="text-[10px] text-white/50 uppercase tracking-[0.25em] mb-1.5" style={{ fontFamily: "var(--font-source-sans)" }}>
+              <p className="text-[10px] text-white/50 uppercase tracking-[0.25em] mb-1.5" style={{ fontFamily: "var(--font-montserrat)" }}>
                 {label}
               </p>
             )}
             {heading && (
-              <h2 className="text-xl md:text-2xl font-semibold text-white" style={{ fontFamily: "var(--font-source-sans)", letterSpacing: "-0.01em" }}>
+              <h2 className="text-xl md:text-2xl font-semibold text-white" style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.01em" }}>
                 {heading}
               </h2>
             )}
@@ -105,7 +105,7 @@ export default function ShowroomSlider({ slides, label, heading }: ShowroomSlide
 
         {/* Slide counter — top right */}
         <div className="absolute top-5 right-6 z-10">
-          <span className="text-xs text-white/50 font-light tracking-widest" style={{ fontFamily: "var(--font-source-sans)" }}>
+          <span className="text-xs text-white/50 font-light tracking-widest" style={{ fontFamily: "var(--font-montserrat)" }}>
             {String(current + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
           </span>
         </div>
@@ -114,7 +114,7 @@ export default function ShowroomSlider({ slides, label, heading }: ShowroomSlide
         <button
           onClick={prev}
           aria-label="Previous slide"
-          className="absolute left-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full border border-white/20 bg-black/25 backdrop-blur-sm flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 hover:bg-black/45 transition-all duration-200"
+          className="absolute left-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 border border-white/20 bg-black/25 backdrop-blur-sm flex items-center justify-center text-white/70 hover:text-white hover:border-byd-red/70 hover:bg-black/45 transition-all duration-200"
         >
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -123,7 +123,7 @@ export default function ShowroomSlider({ slides, label, heading }: ShowroomSlide
         <button
           onClick={next}
           aria-label="Next slide"
-          className="absolute right-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full border border-white/20 bg-black/25 backdrop-blur-sm flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 hover:bg-black/45 transition-all duration-200"
+          className="absolute right-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 border border-white/20 bg-black/25 backdrop-blur-sm flex items-center justify-center text-white/70 hover:text-white hover:border-byd-red/70 hover:bg-black/45 transition-all duration-200"
         >
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -142,33 +142,6 @@ export default function ShowroomSlider({ slides, label, heading }: ShowroomSlide
         </div>
       </div>
 
-      {/* Thumbnail strip */}
-      <div className="section-container">
-      <div className="flex gap-2.5 mt-3">
-        {slides.map((slide, idx) => (
-          <button
-            key={idx}
-            onClick={() => goTo(idx)}
-            aria-label={`Slide ${idx + 1}`}
-            className={`relative flex-1 h-14 rounded-lg overflow-hidden transition-all duration-300 ${
-              idx === current
-                ? "ring-1 ring-white/50 opacity-100"
-                : "opacity-40 hover:opacity-70"
-            }`}
-          >
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              sizes="200px"
-              className="object-cover object-center"
-              style={{ filter: "contrast(1.06) saturate(1.08)" }}
-              quality={70}
-            />
-          </button>
-        ))}
-      </div>
-      </div>
     </div>
   );
 }
