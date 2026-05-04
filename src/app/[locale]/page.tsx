@@ -1,82 +1,21 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
-import { getFeaturedModels } from "@/lib/models";
-import ModelCard from "@/components/catalog/ModelCard";
-import HeroSlider from "@/components/ui/HeroSlider";
+import HomepageHero from "@/components/ui/HomepageHero";
+import ModelShowcase from "@/components/ui/ModelShowcase";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
-import ShowroomSlider from "@/components/ui/ShowroomSlider";
 import Image from "next/image";
 
 export default async function HomePage() {
-  const [t, tCommon, locale, featuredModels] = await Promise.all([
+  const [t, tCommon, locale] = await Promise.all([
     getTranslations("home"),
     getTranslations("common"),
     getLocale(),
-    getFeaturedModels(),
   ]);
-
-  const heroSlides = [
-    {
-      id: "sealion-06-dmi",
-      modelName: "Sealion 06 DM-i",
-      tagline:
-        locale === "ka"
-          ? "მართეთ გზა ინტელექტუალური ჰიბრიდული ძალით"
-          : "Command the road with intelligent hybrid power",
-      type: "PHEV" as const,
-      gradient: "bg-gradient-to-br from-[#1A1C1D] via-[#252728] to-[#1A1C1D]",
-      accentColor: "rgba(215,12,25,0.08)",
-      href: "/catalog/sealion-06-dmi",
-      image: "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",
-      video: "/images/models/sealion-06-dmi/sealion-6-promo.mp4",
-      specs: [
-        { label: locale === "ka" ? "სიმძლავრე" : "Power",  value: "197 HP" },
-        { label: locale === "ka" ? "მანძილი"  : "Range",   value: "1,200 km" },
-        { label: "0–100",                                   value: "7.5s" },
-      ],
-    },
-    {
-      id: "seal-06-dmi",
-      modelName: "Seal 06 DM-i",
-      tagline:
-        locale === "ka"
-          ? "ელეგანტურობა ხვდება ეფექტურობას"
-          : "Elegance meets efficiency — redefine driving",
-      type: "PHEV" as const,
-      gradient: "bg-gradient-to-br from-[#1A1C1D] via-[#252728] to-[#1A1C1D]",
-      accentColor: "rgba(104,109,113,0.15)",
-      href: "/catalog/seal-06-dmi",
-      image: "/images/models/seal-06-dmi/hero.jpg",
-      specs: [
-        { label: locale === "ka" ? "სიმძლავრე" : "Power",  value: "179 HP" },
-        { label: locale === "ka" ? "მანძილი"  : "Range",   value: "1,150 km" },
-        { label: "0–100",                                   value: "7.9s" },
-      ],
-    },
-    {
-      id: "yuan-up-ev",
-      modelName: "Yuan Up EV",
-      tagline:
-        locale === "ka"
-          ? "სუფთა ელექტრო თავისუფლება"
-          : "Pure electric freedom for the modern city",
-      type: "EV" as const,
-      gradient: "bg-gradient-to-br from-[#1A1C1D] via-[#252728] to-[#1A1C1D]",
-      accentColor: "rgba(120,178,84,0.08)",
-      href: "/catalog/yuan-up-ev",
-      image: "/images/models/yuan-up-ev/hero.jpg",
-      specs: [
-        { label: locale === "ka" ? "სიმძლავრე" : "Power",   value: "177 HP" },
-        { label: locale === "ka" ? "მანძილი"  : "Range",    value: "401 km" },
-        { label: locale === "ka" ? "ბატარეა"  : "Battery",  value: "45.1 kWh" },
-      ],
-    },
-  ];
 
   const stats = [
     { value: 4,    suffix: "+",    label: locale === "ka" ? "მოდელი"              : "Models Available" },
-    { value: 1200, suffix: " km",  label: locale === "ka" ? "მაქს. მანძილი"       : "Max Range" },
+    { value: 2110, suffix: " km",  label: locale === "ka" ? "მაქს. მანძილი"       : "Max Range" },
     { value: 100,  suffix: "%",    label: locale === "ka" ? "ოფიციალური სერვისი"  : "Official Service" },
     { value: 10,   suffix: "+",    label: locale === "ka" ? "წლის გამოცდილება"    : "Years Experience" },
   ];
@@ -122,14 +61,8 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── 1. HERO — full-bleed dark ───────────────────────────── */}
-      <HeroSlider
-        slides={heroSlides}
-        locale={locale}
-        heroTitle={t("heroTitle")}
-        heroCta={t("heroCta")}
-        contactLabel={tCommon("contactUs")}
-      />
+      {/* ── 1. HERO — full-bleed static ─────────────────────────── */}
+      <HomepageHero locale={locale} />
 
       {/* ── 2. STATS BAR — LIGHT section ────────────────────────── */}
       <div className="bg-[#EFEFEF] border-b border-[#D4D8DB]">
@@ -201,24 +134,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 4. SHOWROOM GALLERY — dark section ──────────────────── */}
-      <section>
-        <ScrollReveal>
-          <ShowroomSlider
-            label={locale === "ka" ? "ჩვენი სალონი" : "Our Showroom"}
-            heading={locale === "ka" ? "GT Group — თბილისი" : "GT Group — Tbilisi"}
-            slides={[
-              { src: "/images/showroom/homepage-slide-atto.jpg",    alt: "GT Group showroom — BYD Atto" },
-              { src: "/images/showroom/homepage-slide-atto2.jpg",   alt: "GT Group showroom — BYD Atto 2" },
-              { src: "/images/showroom/homepage-slide-dolphin.jpg", alt: "GT Group showroom — BYD Dolphin" },
-              { src: "/images/showroom/homepage-slide-seal.jpg",    alt: "GT Group showroom — BYD Seal" },
-              { src: "/images/showroom/homepage-slide-sealion.jpg", alt: "GT Group showroom — BYD Sealion" },
-            ]}
-          />
-        </ScrollReveal>
-      </section>
+      {/* ── 5b. MODEL SHOWCASE ──────────────────────────────────────────── */}
+      <ModelShowcase locale={locale} />
 
-      {/* ── 5. MODEL TICKER — dark band ─────────────────────────── */}
+      {/* ── 5c. MODEL TICKER — repeats as section divider before test drive ── */}
       <div className="border-y border-white/[0.05] overflow-hidden py-3.5 bg-[#252728]">
         <div className="flex animate-ticker whitespace-nowrap" style={{ width: "max-content" }}>
           {[0, 1].map((arrIdx) => (
@@ -237,98 +156,61 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {/* ── 6. FEATURED MODELS — LIGHT gray section ─────────────── */}
-      <section className="py-section-sm md:py-section-lg bg-[#F5F6F7]">
-        <div className="section-container">
-          <ScrollReveal className="mb-14">
-            <div className="flex items-center gap-3 mb-5">
-              <span className="w-8 h-[2px] bg-byd-red flex-shrink-0" />
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">
-                {locale === "ka" ? "ჩვენი ავტომობილები" : "Our Lineup"}
-              </p>
-            </div>
-            <h2 className="text-h2 font-semibold text-[#252728] mb-4 leading-[1.15]" style={{ letterSpacing: "-0.02em" }}>
-              {t("featuredTitle")}
-            </h2>
-            <p className="text-body1 text-[#686D71] max-w-xl font-light">
-              {t("featuredSubtitle")}
-            </p>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredModels.map((model, i) => (
-              <ScrollReveal key={model.id} delay={i * 0.12}>
-                <ModelCard model={model} locale={locale} />
-              </ScrollReveal>
-            ))}
-          </div>
-
-          <ScrollReveal delay={0.3} className="mt-10">
-            <Link
-              href="/catalog"
-              className="inline-flex items-center gap-2 px-8 py-3.5 border-2 border-[#252728] text-[#252728] text-sm font-semibold tracking-[0.06em] uppercase hover:bg-[#252728] hover:text-white transition-all duration-200"
-            >
-              {tCommon("viewAll")}
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* ── 7. CTA BAND — Full BYD Red with test drive imagery ─── */}
-      {/* Models are directly above this section as requested */}
-      <section className="relative py-28 bg-byd-red overflow-hidden">
-        {/* Test drive photo background — subtle, darkened */}
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-15 mix-blend-multiply"
-          style={{ backgroundImage: "url('/images/testdrive/img1.jpg')" }}
+      {/* ── 6. CTA BAND ──────────────────────────────────────────────────── */}
+      <section
+        className="relative overflow-hidden flex items-center"
+        style={{ minHeight: "clamp(580px, 68vh, 780px)", background: "#000" }}
+      >
+        <Image
+          src="/images/homepage/test-drive.jpg"
+          alt="BYD test drive"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: "68% 54%" }}
+          quality={92}
         />
-        {/* Red gradient overlay to keep text legible */}
-        <div className="absolute inset-0 bg-gradient-to-r from-byd-red via-byd-red/90 to-byd-red/70" />
+        {/* Left fade — keeps text legible */}
+        <div className="absolute inset-0 bg-[linear-gradient(92deg,rgba(14,12,10,0.97)_0%,rgba(14,12,10,0.88)_28%,rgba(14,12,10,0.52)_50%,rgba(14,12,10,0.10)_70%,rgba(14,12,10,0)_100%)]" />
 
-        <div className="relative section-container">
+        {/* Content */}
+        <div className="relative section-container py-14 md:py-20">
           <ScrollReveal>
-            {/* BYD wordmark — white, centred above heading */}
-            <div className="flex justify-center mb-6">
-              <Image
-                src="/byd-wordmark.svg"
-                alt="BYD"
-                width={104}
-                height={22}
-                className="h-[22px] w-auto"
-              />
-            </div>
-            {/* Location stamp */}
-            <p className="text-xs font-semibold tracking-[0.3em] text-white/50 uppercase text-center mb-6">
-              BYD Tbilisi · თბილისი
-            </p>
-            <h2 className="text-h2 font-semibold text-white mb-4 text-center leading-[1.15]" style={{ letterSpacing: "-0.02em" }}>
-              {locale === "ka"
-                ? "მზად ხართ ტესტ დრაივისთვის?"
-                : "Ready to experience the future?"}
-            </h2>
-            <p className="text-body1 text-white/70 mb-10 font-light text-center max-w-xl mx-auto">
-              {locale === "ka"
-                ? "დაჯავშნეთ ტესტ დრაივი — სრულიად უფასოდ"
-                : "Book a free test drive at BYD Tbilisi — no commitment required"}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/booking"
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-byd-red text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#EFEFEF] transition-all duration-200"
-                style={{ minWidth: "200px", justifyContent: "center" }}
+            <div className="max-w-lg">
+              {/* Overline */}
+              <div className="flex items-center gap-2.5 mb-4">
+                <span className="h-[2px] w-6 bg-byd-red flex-shrink-0" />
+                <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-byd-red">
+                  {locale === "ka" ? "ტესტ დრაივი" : "Test Drive"}
+                </p>
+              </div>
+              <h2
+                className="text-[1.85rem] md:text-[2.6rem] font-semibold text-white leading-[1.1] mb-3"
+                style={{ letterSpacing: "-0.025em" }}
               >
-                {tCommon("bookTestDrive")}
-              </Link>
-              <Link
-                href="/catalog"
-                className="inline-flex items-center gap-2 px-8 py-3.5 border-2 border-white text-white text-sm font-semibold tracking-[0.06em] uppercase hover:bg-white/10 transition-all duration-200"
-                style={{ minWidth: "160px", justifyContent: "center" }}
-              >
-                {tCommon("viewAll")}
-              </Link>
+                {locale === "ka"
+                  ? "მზად ხართ ტესტ დრაივისთვის?"
+                  : <>Ready to experience<br className="hidden sm:block" /> the future?</>}
+              </h2>
+              <p className="text-sm text-white/55 mb-7 font-light leading-relaxed">
+                {locale === "ka"
+                  ? "დაჯავშნეთ ტესტ დრაივი — სრულიად უფასოდ"
+                  : "Book a free test drive at BYD Tbilisi — no commitment required."}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/booking"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-white text-byd-red text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#EFEFEF] transition-all duration-200"
+                >
+                  {tCommon("bookTestDrive")}
+                </Link>
+                <Link
+                  href="/catalog"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3 border border-white/35 text-white text-sm font-semibold tracking-[0.06em] uppercase hover:bg-white/08 hover:border-white/60 transition-all duration-200"
+                >
+                  {tCommon("viewAll")}
+                </Link>
+              </div>
             </div>
           </ScrollReveal>
         </div>

@@ -2,6 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── NovemberGeL — Georgian script font ─────────────────────────── */
+@font-face {
+  font-family: "NovemberGeL";
+  src: url("/fonts/november/NovemberGeL-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NovemberGeL";
+  src: url("/fonts/november/NovemberGeL-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NovemberGeL";
+  src: url("/fonts/november/NovemberGeL-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NovemberGeL";
+  src: url("/fonts/november/NovemberGeL-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NovemberGeL";
+  src: url("/fonts/november/NovemberGeL-Black.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -21,6 +58,21 @@
     font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
     font-weight: 400;
     min-height: 100vh;
+  }
+
+  /* Georgian locale — use NovemberGeL for all text */
+  :lang(ka) body,
+  :lang(ka) button,
+  :lang(ka) input,
+  :lang(ka) textarea {
+    font-family: "NovemberGeL", system-ui, sans-serif;
+  }
+  :lang(ka) .font-sans,
+  :lang(ka) h1, :lang(ka) h2, :lang(ka) h3,
+  :lang(ka) h4, :lang(ka) h5, :lang(ka) h6,
+  :lang(ka) p, :lang(ka) span, :lang(ka) a,
+  :lang(ka) li, :lang(ka) td, :lang(ka) th {
+    font-family: "NovemberGeL", system-ui, sans-serif;
   }
 
   /* BYD spec text selection */
@@ -381,3 +433,48 @@
     border-radius: 0 !important;
   }
 }
+
+/* ── ModelShowcase entrance animations ─────────────────────────────────────
+   Using @keyframes (not CSS transitions) so the from: state is applied
+   by the browser regardless of when the class is toggled. This is the only
+   reliable way to guarantee the car starts off-screen before animating in.
+   ───────────────────────────────────────────────────────────────────────── */
+@keyframes showcase-car-roll-in {
+  from { transform: translateX(100vw); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes showcase-wheel-spin {
+  from { transform: rotate(0deg);     }
+  to   { transform: rotate(-1080deg); }
+}
+
+@keyframes showcase-title-rise {
+  from { transform: translateY(28px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Pre-animation state — element is invisible and off-screen */
+.sc-car-hidden   { transform: translateX(100vw); opacity: 0; }
+.sc-title-hidden { transform: translateY(28px);  opacity: 0; }
+
+/* Animation classes — applied once when section enters viewport */
+.sc-car-enter {
+  animation: showcase-car-roll-in 3.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.5s;
+}
+
+.sc-title-enter {
+  animation: showcase-title-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.2s;
+}
+
+/* .sc-wheel-spin — removed; wheels are now animated via WAAPI in ModelShowcase.tsx */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Title still animates in (CSS), just instantly */
+  .sc-title-enter { animation: none; transform: translateY(0); opacity: 1; }
+  /* Hidden states remain hidden until IO fires — do NOT override here */
+  /* Car + wheels use WAAPI — caller should check matchMedia before animating */
+}
+

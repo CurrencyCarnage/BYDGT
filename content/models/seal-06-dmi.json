@@ -10,9 +10,9 @@
   "basePrice": 30000,
   "currency": "USD",
   "specs": {
-    "range_km": 1150,
+    "range_km": 2110,
     "electric_range_km": 90,
-    "power_hp": 179,
+    "power_hp": 161,
     "acceleration_0_100": 7.9,
     "top_speed_kmh": 175,
     "battery_kwh": 13.8
