@@ -158,23 +158,39 @@ export default async function HomePage() {
 
       {/* ── 6. CTA BAND ──────────────────────────────────────────────────── */}
       <section
-        className="relative overflow-hidden flex items-center"
+        className="relative overflow-hidden flex items-start md:items-center"
         style={{ minHeight: "clamp(580px, 68vh, 780px)", background: "#000" }}
       >
+        {/* Mobile image — car in lower half, text sits at top */}
+        <Image
+          src="/images/homepage/test-drive-mobile.png"
+          alt="BYD test drive"
+          fill
+          sizes="100vw"
+          className="object-cover md:hidden"
+          style={{ objectPosition: "center center" }}
+          quality={92}
+        />
+        {/* Desktop image */}
         <Image
           src="/images/homepage/test-drive.jpg"
           alt="BYD test drive"
           fill
           sizes="100vw"
-          className="object-cover"
+          className="object-cover hidden md:block"
           style={{ objectPosition: "68% 54%" }}
           quality={92}
         />
-        {/* Left fade — keeps text legible */}
-        <div className="absolute inset-0 bg-[linear-gradient(92deg,rgba(14,12,10,0.97)_0%,rgba(14,12,10,0.88)_28%,rgba(14,12,10,0.52)_50%,rgba(14,12,10,0.10)_70%,rgba(14,12,10,0)_100%)]" />
+        {/* Mobile: top-down fade so text at top stays legible over the sky */}
+        <div
+          className="absolute inset-0 md:hidden"
+          style={{ background: "linear-gradient(to bottom, rgba(10,8,6,0.88) 0%, rgba(10,8,6,0.60) 28%, rgba(10,8,6,0.18) 52%, transparent 72%)" }}
+        />
+        {/* Desktop: left-side fade */}
+        <div className="absolute inset-0 hidden md:block bg-[linear-gradient(92deg,rgba(14,12,10,0.97)_0%,rgba(14,12,10,0.88)_28%,rgba(14,12,10,0.52)_50%,rgba(14,12,10,0.10)_70%,rgba(14,12,10,0)_100%)]" />
 
         {/* Content */}
-        <div className="relative section-container py-14 md:py-20">
+        <div className="relative section-container pt-12 pb-0 md:py-20">
           <ScrollReveal>
             <div className="max-w-lg">
               {/* Overline */}

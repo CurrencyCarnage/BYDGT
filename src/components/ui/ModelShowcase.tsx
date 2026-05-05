@@ -281,7 +281,7 @@ function ModelSection({
       id={model.id}
       className="relative isolate overflow-hidden"
       style={{
-        minHeight: "clamp(440px, 58svh, 600px)",
+        minHeight: "clamp(260px, 36svh, 500px)",
         borderBottom: lightSection
           ? "1px solid rgba(0,0,0,0.07)"
           : "1px solid rgba(255,255,255,0.04)",
@@ -355,7 +355,7 @@ function ModelSection({
       />
 
       {/* ── Content ──────────────────────────────────────────────── */}
-      <div className="relative z-10 section-container flex min-h-[inherit] flex-col px-4 pt-8 pb-5 md:pt-10">
+      <div className="relative z-10 section-container flex min-h-[inherit] flex-col px-4 pt-4 pb-0 md:pt-8">
         {/* Counter */}
         <div className="flex justify-end">
           <p
@@ -370,7 +370,7 @@ function ModelSection({
         {/* Title */}
         <h3
           className={[
-            "mx-auto mt-4 md:mt-5",
+            "mx-auto mt-2 md:mt-3",
             model.titleWidthClass,
             "text-center text-[clamp(2.1rem,6vw,4.5rem)] font-semibold leading-[0.9] select-none",
             lightSection ? "text-[#0f1214]" : "text-white",
@@ -382,7 +382,7 @@ function ModelSection({
         </h3>
 
         {/* Car + wheels — rolls in from the right */}
-        <div className="mt-auto pt-3 md:pt-4">
+        <div className="mt-auto">
           <Link
             href={model.href}
             aria-label={ka ? `${model.nameKa} დეტალები` : `Explore ${model.name}`}
@@ -426,6 +426,12 @@ function ModelSection({
                   isDark={!lightSection}
                 />
 
+                {/* Bottom-edge blend — dissolves the hard overflow-hidden clip into the section bg */}
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[8%]"
+                  style={{ background: `linear-gradient(to top, ${scene.base} 0%, transparent 100%)` }}
+                />
+
                 {/* Car body */}
                 <Image
                   src={model.foregroundImage}
@@ -464,7 +470,7 @@ function ShowcaseHeader({ locale }: { locale: string }) {
       {/* Matching studio rim light — begins the first scene's lighting */}
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 85% at 100% 65%, rgba(215,12,25,0.04) 0%, transparent 60%)" }} />
 
-      <div className="relative section-container flex items-center justify-between gap-6 h-full">
+      <div className="relative section-container flex items-center justify-between gap-6 h-full py-6 md:py-8">
         <div>
           <div className="mb-2 flex items-center gap-2.5">
             <span className="h-[2px] w-5 flex-shrink-0 bg-byd-red" />

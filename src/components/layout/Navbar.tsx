@@ -110,7 +110,7 @@ function MegaMenu({
                 }}
               >
                 {/* Thumbnail */}
-                <div className="relative w-full h-[164px] overflow-hidden bg-[#252728]">
+                <div className="relative w-full h-[188px] overflow-hidden bg-[#252728]">
                   <Image
                     src={model.thumbnail}
                     alt={ka ? model.nameKa : model.name}
