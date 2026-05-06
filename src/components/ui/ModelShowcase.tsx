@@ -279,7 +279,7 @@ function ModelSection({
     <section
       ref={sectionRef}
       id={model.id}
-      className="relative isolate overflow-hidden"
+      className="relative isolate overflow-hidden md:![min-height:88svh]"
       style={{
         minHeight: "clamp(260px, 36svh, 500px)",
         borderBottom: lightSection

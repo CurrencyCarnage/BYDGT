@@ -508,7 +508,7 @@ export default function CompareGrid() {
       <div className="section-container pt-8 pb-0">
         <div className="grid grid-cols-3 gap-4">
           {slots.map((slot, i) => (
-            <div key={i}>
+            <div key={i} className="flex flex-col">
               <div className="relative overflow-hidden bg-white/[0.03] mb-5" style={{ aspectRatio: "4/3" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -532,7 +532,7 @@ export default function CompareGrid() {
               <p className="text-body3 text-white/30 mb-4" style={{ fontFamily: "var(--font-montserrat)" }}>
                 {locale === "ka" ? "ფასისთვის დაგვიკავშირდით" : "Contact for pricing"}
               </p>
-              <div className="flex gap-2 flex-wrap pb-8">
+              <div className="mt-auto flex gap-2 flex-wrap pb-8">
                 <Link
                   href={`/${locale}/booking`}
                   className="px-4 py-2 bg-byd-red text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#A80912] transition-colors duration-150"
