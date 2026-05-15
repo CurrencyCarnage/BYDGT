@@ -24,20 +24,30 @@ export default function AnimatedCounter({
 
   useEffect(() => {
     if (!isInView) return;
+    let rafId: number;
+    let cancelled = false;
     const startTime = Date.now();
     const endTime = startTime + duration * 1000;
 
     const tick = () => {
+      if (cancelled) return;
       const now = Date.now();
       const progress = Math.min((now - startTime) / (endTime - startTime), 1);
       // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.floor(eased * value));
-      if (progress < 1) requestAnimationFrame(tick);
-      else setCount(value);
+      if (progress < 1) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        setCount(value);
+      }
     };
 
-    requestAnimationFrame(tick);
+    rafId = requestAnimationFrame(tick);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(rafId);
+    };
   }, [isInView, value, duration]);
 
   return (

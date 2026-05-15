@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
+import Image from "next/image";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -234,6 +235,7 @@ const SPEC_ROWS: { key: string; label: Bilingual; fn: (v: SlotVersion, locale: s
 // Design 3: 7-spoke turbine (angled flow blades)
 
 function WheelSwatch({ design, title }: { design: 0 | 1 | 2 | 3; title: string }) {
+  const uid = useRef(`ws-${Math.random().toString(36).slice(2, 8)}`).current;
   // spoke angles for each design
   const fiveSpokes  = [0, 72, 144, 216, 288];
   const tenSpokes   = [0, 36, 72, 108, 144, 180, 216, 252, 288, 324];
@@ -246,12 +248,12 @@ function WheelSwatch({ design, title }: { design: 0 | 1 | 2 | 3; title: string }
     >
       <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
         <defs>
-          <radialGradient id={`rim-${design}`} cx="40%" cy="35%" r="60%">
+          <radialGradient id={`rim-${uid}`} cx="40%" cy="35%" r="60%">
             <stop offset="0%"   stopColor="#5a5a5a" />
             <stop offset="60%"  stopColor="#2e2e2e" />
             <stop offset="100%" stopColor="#1a1a1a" />
           </radialGradient>
-          <radialGradient id={`hub-${design}`} cx="40%" cy="35%" r="70%">
+          <radialGradient id={`hub-${uid}`} cx="40%" cy="35%" r="70%">
             <stop offset="0%"   stopColor="#666" />
             <stop offset="100%" stopColor="#222" />
           </radialGradient>
@@ -263,7 +265,7 @@ function WheelSwatch({ design, title }: { design: 0 | 1 | 2 | 3; title: string }
         <circle cx="20" cy="20" r="19.5" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
 
         {/* Rim face */}
-        <circle cx="20" cy="20" r="16" fill={`url(#rim-${design})`} />
+        <circle cx="20" cy="20" r="16" fill={`url(#rim-${uid})`} />
         {/* Rim inner ring */}
         <circle cx="20" cy="20" r="15" fill="none" stroke="#444" strokeWidth="0.5" />
 
@@ -319,7 +321,7 @@ function WheelSwatch({ design, title }: { design: 0 | 1 | 2 | 3; title: string }
         <circle cx="20" cy="20" r="15" fill="none" stroke="#222" strokeWidth="1.5" />
 
         {/* Center hub */}
-        <circle cx="20" cy="20" r="4.5" fill={`url(#hub-${design})`} stroke="#555" strokeWidth="0.5" />
+        <circle cx="20" cy="20" r="4.5" fill={`url(#hub-${uid})`} stroke="#555" strokeWidth="0.5" />
         {/* Centre bolt-circle */}
         {[0, 72, 144, 216, 288].map((a) => {
           const rad = (a * Math.PI) / 180;
@@ -374,9 +376,8 @@ function ModelDropdown({ selected, onSelect, locale, otherIds }: ModelDropdownPr
       >
         <div className="flex items-center gap-3 min-w-0">
           {/* Thumbnail */}
-          <div className="w-14 h-9 shrink-0 overflow-hidden rounded bg-white/[0.04]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={selected.image} alt={selected.familyName} className="w-full h-full object-cover" />
+          <div className="relative w-14 h-9 shrink-0 overflow-hidden rounded bg-white/[0.04]">
+            <Image src={selected.image} alt={selected.familyName} fill sizes="56px" className="object-cover" quality={70} />
           </div>
           <div className="text-left min-w-0">
             <p className="text-[13px] font-semibold text-white leading-tight truncate" style={{ fontFamily: "var(--font-montserrat)" }}>
@@ -421,9 +422,8 @@ function ModelDropdown({ selected, onSelect, locale, otherIds }: ModelDropdownPr
                                      "hover:bg-white/[0.05]"
                     }`}
                   >
-                    <div className="w-12 h-8 shrink-0 overflow-hidden rounded-sm bg-white/[0.04]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={sv.image} alt={sv.familyName} className="w-full h-full object-cover" />
+                    <div className="relative w-12 h-8 shrink-0 overflow-hidden rounded-sm bg-white/[0.04]">
+                      <Image src={sv.image} alt={sv.familyName} fill sizes="48px" className="object-cover" quality={60} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs text-white truncate" style={{ fontFamily: "var(--font-montserrat)" }}>
@@ -510,11 +510,13 @@ export default function CompareGrid() {
           {slots.map((slot, i) => (
             <div key={i} className="flex flex-col">
               <div className="relative overflow-hidden bg-white/[0.03] mb-5" style={{ aspectRatio: "4/3" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={slot.image}
                   alt={`${slot.familyName} ${slot.label}`}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover"
+                  quality={85}
                 />
               </div>
               <span

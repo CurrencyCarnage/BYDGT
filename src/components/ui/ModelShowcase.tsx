@@ -165,10 +165,13 @@ function WheelSprite({
         height: `${(frame.height / stageHeight) * 100}%`,
       }}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element -- wheel sprites need native <img> for WAAPI ref */}
       <img
         ref={imgRef}
         src={src}
         alt=""
+        loading="eager"
+        decoding="async"
         draggable={false}
         className={`block h-full w-full ${
           isDark ? "" : "[mix-blend-mode:multiply]"
@@ -279,6 +282,7 @@ function ModelSection({
     <section
       ref={sectionRef}
       id={model.id}
+      data-model-section
       className="relative isolate overflow-hidden md:![min-height:88svh]"
       style={{
         minHeight: "clamp(260px, 36svh, 500px)",
@@ -504,7 +508,7 @@ function ShowcaseHeader({ locale }: { locale: string }) {
 
 export default function ModelShowcase({ locale }: { locale: string }) {
   return (
-    <div className="bg-[#0c0d0e]">
+    <div id="showroom" className="bg-[#0c0d0e]">
       <ShowcaseHeader locale={locale} />
       {MODELS.map((model, index) => (
         <ModelSection

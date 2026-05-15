@@ -126,6 +126,7 @@ function MegaMenu({
                     sizes="(max-width: 1279px) 50vw, 25vw"
                     className="object-cover object-center opacity-0 scale-105 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
                     quality={90}
+                    loading="lazy"
                   />
                 </div>
 
@@ -491,6 +492,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
     </nav>
   );
 }

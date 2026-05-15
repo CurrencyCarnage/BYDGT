@@ -5,6 +5,95 @@ import { Link } from "@/i18n/routing";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback, useRef } from "react";
 
+/**
+ * Two-phase cinematic scroll:
+ *  1. Quick programmatic scroll to the #showroom header
+ *  2. Slow auto-scroll through all [data-model-section] elements
+ *     so each car roll-in animation plays at a comfortable pace.
+ *  Any user input (wheel / touch / key) cancels phase 2 immediately.
+ */
+function startShowroomScroll() {
+  const showcase = document.getElementById("showroom");
+  if (!showcase) return;
+
+  // ── Phase 1: fast scroll to the top of the showcase ──────────────
+  const targetY = showcase.getBoundingClientRect().top + window.scrollY;
+
+  // Use a manual ease-out scroll so we can detect completion reliably.
+  const startY = window.scrollY;
+  const dist = targetY - startY;
+  if (Math.abs(dist) < 2) {
+    beginCinematicScroll();
+    return;
+  }
+
+  const phase1Duration = Math.min(1200, 400 + Math.abs(dist) * 0.25);
+  const phase1Start = performance.now();
+
+  function phase1Step(now: number) {
+    const elapsed = now - phase1Start;
+    const t = Math.min(elapsed / phase1Duration, 1);
+    // ease-out cubic
+    const ease = 1 - Math.pow(1 - t, 3);
+    window.scrollTo(0, startY + dist * ease);
+    if (t < 1) {
+      requestAnimationFrame(phase1Step);
+    } else {
+      // Near-instant transition into cinematic scroll
+      setTimeout(beginCinematicScroll, 60);
+    }
+  }
+  requestAnimationFrame(phase1Step);
+}
+
+function beginCinematicScroll() {
+  const sections = document.querySelectorAll<HTMLElement>(
+    "[data-model-section]"
+  );
+  if (sections.length === 0) return;
+
+  const lastSection = sections[sections.length - 1];
+  const scrollEnd =
+    lastSection.getBoundingClientRect().bottom +
+    window.scrollY -
+    window.innerHeight;
+  const scrollStart = window.scrollY;
+  const totalDist = scrollEnd - scrollStart;
+
+  if (totalDist <= 0) return;
+
+  // ~1.95 seconds per model section — brisk pace that still lets roll-ins play
+  const duration = sections.length * 1950;
+  const t0 = performance.now();
+  let rafId = 0;
+
+  function step(now: number) {
+    const elapsed = now - t0;
+    const t = Math.min(elapsed / duration, 1);
+    // ease-in-out sine — smooth, non-jerky, pleasant to watch
+    const ease = -(Math.cos(Math.PI * t) - 1) / 2;
+    window.scrollTo(0, scrollStart + totalDist * ease);
+    if (t < 1) {
+      rafId = requestAnimationFrame(step);
+    }
+  }
+  rafId = requestAnimationFrame(step);
+
+  // ── Cancel on ANY user interaction ─────────────────────────────
+  function cancel() {
+    cancelAnimationFrame(rafId);
+    cleanup();
+  }
+  function cleanup() {
+    window.removeEventListener("wheel", cancel);
+    window.removeEventListener("touchstart", cancel);
+    window.removeEventListener("keydown", cancel);
+  }
+  window.addEventListener("wheel", cancel, { once: true, passive: true });
+  window.addEventListener("touchstart", cancel, { once: true, passive: true });
+  window.addEventListener("keydown", cancel, { once: true });
+}
+
 interface HomepageHeroProps {
   locale: string;
 }
@@ -397,6 +486,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                 autoPlay
                 muted
                 playsInline
+                preload="auto"
                 onLoadedMetadata={(event) =>
                   setVideoDuration(event.currentTarget.duration)
                 }
@@ -409,6 +499,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                 autoPlay
                 muted
                 playsInline
+                preload="auto"
                 className="absolute inset-0 h-full w-full object-cover md:hidden"
                 style={{
                   objectPosition:
@@ -719,9 +810,23 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
       </div>
 
       <div className="absolute inset-x-0 bottom-[106px] z-10 flex items-center justify-end gap-4 px-6 pb-2 md:relative md:bottom-auto md:px-10 md:pb-5">
-        <p className="hidden text-[10px] font-medium uppercase tracking-[0.2em] text-white/25 sm:block">
-          {ka ? "ჩვენი სალონი" : "Our Showroom"}
-        </p>
+        <button
+          onClick={startShowroomScroll}
+          className="group hidden items-center gap-2 sm:flex transition-all duration-300 hover:gap-2.5"
+        >
+          <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/25 transition-colors duration-300 group-hover:text-white/60">
+            {ka ? "ჩვენი სალონი" : "Our Showroom"}
+          </span>
+          <svg
+            className="h-3 w-3 text-white/20 transition-all duration-300 group-hover:text-white/60 group-hover:translate-y-[2px]"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
         <div className="flex items-center gap-2">
           {SLIDES.map((_, index) => (
             <button

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { CarModel, formatPrice, getLocalizedValue } from "@/lib/types";
 
 interface ModelConfiguratorProps {
@@ -109,12 +110,12 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-3">
-          <a href="/booking" className="btn-primary text-center flex-1">
+          <Link href="/booking" className="btn-primary text-center flex-1">
             {tCommon("bookTestDrive")}
-          </a>
-          <a href="/contact" className="btn-secondary text-center flex-1">
+          </Link>
+          <Link href="/contact" className="btn-secondary text-center flex-1">
             {tCommon("contactUs")}
-          </a>
+          </Link>
           <a
             href={`https://wa.me/995XXXXXXXXX?text=${encodeURIComponent(
               `Hi, I'm interested in the ${getLocalizedValue(model.name, "en")} (${getLocalizedValue(selectedColor.name, "en")}, ${getLocalizedValue(selectedVariant.name, "en")})`
