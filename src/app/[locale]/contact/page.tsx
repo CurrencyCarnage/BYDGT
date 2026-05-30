@@ -87,26 +87,26 @@ export default function ContactPage() {
 
       {/* ── Form + Contact details ── */}
       <section className="section-container py-12 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
 
           {/* Contact details */}
-          <div className="lg:col-span-2 space-y-3">
+          <div className="flex flex-col gap-3">
             {contactDetails.map((item, i) => (
               <ScrollReveal key={item.label} delay={i * 0.08}>
                 <a
                   href={item.href}
                   target={item.href.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
-                  className="flex items-start gap-4 p-5 bg-[#1C1E1F] border border-white/[0.08] hover:border-white/20 transition-all duration-200 group"
+                  className="flex items-center gap-4 p-4 bg-[#1C1E1F] border border-white/[0.08] hover:border-white/20 transition-all duration-200 group"
                 >
                   <div className="flex-shrink-0 w-10 h-10 bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-white/45 group-hover:text-byd-red group-hover:border-byd-red/30 transition-colors duration-200">
                     {item.icon}
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[11px] text-white/30 uppercase tracking-[0.18em] mb-0.5">
                       {item.label}
                     </p>
-                    <p className="text-sm text-white group-hover:text-byd-red transition-colors duration-200">
+                    <p className="text-sm text-white group-hover:text-byd-red transition-colors duration-200 truncate">
                       {item.value}
                     </p>
                   </div>
@@ -114,9 +114,9 @@ export default function ContactPage() {
               </ScrollReveal>
             ))}
 
-            {/* Map */}
-            <ScrollReveal delay={0.35}>
-              <div className="border border-white/[0.08] overflow-hidden h-52">
+            {/* Map — fills remaining height */}
+            <ScrollReveal delay={0.35} className="flex-1">
+              <div className="border border-white/[0.08] overflow-hidden h-full min-h-[12rem]">
                 <ShowroomMap
                   lat={SHOWROOM.lat}
                   lng={SHOWROOM.lng}
@@ -128,8 +128,8 @@ export default function ContactPage() {
           </div>
 
           {/* Form */}
-          <div className="lg:col-span-3">
-            <ScrollReveal delay={0.15}>
+          <div className="flex flex-col">
+            <ScrollReveal delay={0.15} className="flex-1">
               <ContactForm />
             </ScrollReveal>
           </div>

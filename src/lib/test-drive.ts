@@ -32,9 +32,9 @@ export const testDriveModels: TestDriveModel[] = [
 
 export const SHOWROOM = {
   name: "BYD Tbilisi" as const,
-  address: "Kakheti Hwy 45A, Tbilisi, Georgia" as const,
-  lat: 41.685144,
-  lng: 44.89098,
+  address: "Aghmashenebeli Ave 216, Tbilisi, Georgia" as const,
+  lat: 41.7058,
+  lng: 44.7855,
 } as const;
 
 export const TEST_DRIVE_ROUTE: [number, number][] = [

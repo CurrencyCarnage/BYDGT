@@ -21,7 +21,7 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="border border-white/[0.08] bg-[#1C1E1F] p-10 text-center">
+      <div className="border border-white/[0.08] bg-[#1C1E1F] p-10 text-center h-full flex flex-col items-center justify-center">
         <div className="w-12 h-12 bg-byd-red/20 border border-byd-red/40 flex items-center justify-center mx-auto mb-5">
           <svg className="w-6 h-6 text-byd-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -38,7 +38,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="border border-white/[0.08] bg-[#1C1E1F] p-6 md:p-8 space-y-5">
+    <form onSubmit={handleSubmit} className="border border-white/[0.08] bg-[#1C1E1F] p-6 md:p-8 space-y-5 h-full flex flex-col">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <label className="block text-xs text-white/40 uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
@@ -72,16 +72,16 @@ export default function ContactForm() {
           placeholder={locale === "ka" ? "მოდელის შესახებ კითხვა" : "Question about a model"} className={inputClass} style={{ fontFamily: "var(--font-montserrat)" }} />
       </div>
 
-      <div>
+      <div className="flex-1 flex flex-col">
         <label className="block text-xs text-white/40 uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
           {locale === "ka" ? "შეტყობინება" : "Message"} <span className="text-[#D4D8DB]">*</span>
         </label>
         <textarea rows={5} required value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
-          placeholder={locale === "ka" ? "თქვენი შეკითხვა..." : "Your message..."} className={inputClass + " resize-none"} style={{ fontFamily: "var(--font-montserrat)" }} />
+          placeholder={locale === "ka" ? "თქვენი შეკითხვა..." : "Your message..."} className={inputClass + " resize-none flex-1 min-h-[120px]"} style={{ fontFamily: "var(--font-montserrat)" }} />
       </div>
 
       <button type="submit" disabled={loading}
-        className="w-full py-3.5 bg-white text-[#252728] font-semibold hover:bg-white/90 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full py-3.5 bg-white text-[#252728] font-semibold hover:bg-white/90 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-auto"
         style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "0.04em" }}>
         {loading ? (
           <>

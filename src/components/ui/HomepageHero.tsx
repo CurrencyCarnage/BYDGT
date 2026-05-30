@@ -177,6 +177,7 @@ type HeroSlide = {
   objectPosition: string;
   mobileSrc?: string;
   mobileObjectPosition?: string;
+  poster?: string;
 };
 
 const benefits: Array<{
@@ -370,6 +371,7 @@ const SLIDES: HeroSlide[] = [
     alt: "Sealion 06 DM-i",
     objectPosition: "76% center",
     mobileObjectPosition: "center 46%",
+    poster: "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",
   },
   {
     type: "image",
@@ -536,7 +538,8 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                 autoPlay
                 muted
                 playsInline
-                preload="metadata"
+                preload="auto"
+                poster={slide.poster}
                 onLoadedMetadata={(event) =>
                   setVideoDuration(event.currentTarget.duration)
                 }
@@ -549,7 +552,8 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                 autoPlay
                 muted
                 playsInline
-                preload="metadata"
+                preload="auto"
+                poster={slide.poster}
                 className="absolute inset-0 h-full w-full object-cover md:hidden"
                 style={{
                   objectPosition:

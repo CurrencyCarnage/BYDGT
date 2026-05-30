@@ -53,6 +53,8 @@ export default async function ModelDetailPage({
             muted
             loop
             playsInline
+            preload="auto"
+            poster={model.images.hero || undefined}
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
         ) : model.images.hero ? (

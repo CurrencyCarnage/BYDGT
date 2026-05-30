@@ -68,7 +68,7 @@ export function buildCustomerTestDriveEmail(
 შოურუმი
 ───────
 BYD Tbilisi
-Kakheti Hwy 45A, Tbilisi, Georgia
+Aghmashenebeli Ave 216, Tbilisi, Georgia
 
 ეს წერილი ადასტურებს თქვენი მოთხოვნის მიღებას. საბოლოო დადასტურებას ჩვენი გუნდი გამოგიგზავნით დამატებით.
 `.trim(),
@@ -91,7 +91,7 @@ Preferred time:  ${b.preferredTimeSlot}
 Showroom
 ────────
 BYD Tbilisi
-Kakheti Hwy 45A, Tbilisi, Georgia
+Aghmashenebeli Ave 216, Tbilisi, Georgia
 
 This email confirms receipt of your request. Final confirmation will be provided by our team.
 `.trim(),

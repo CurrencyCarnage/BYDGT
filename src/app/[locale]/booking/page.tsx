@@ -33,7 +33,7 @@ const copy = {
     warranty: "Warranty PDF",
     routeTag: "Location",
     routeTitle: "Visit Our Showroom",
-    routeSub: "BYD Tbilisi is located at Kakheti Highway 45A — our team is ready to welcome you.",
+    routeSub: "BYD Tbilisi is located at Aghmashenebeli Ave 216 — our team is ready to welcome you.",
     routeChips: [
       { val: "Mon–Sun",       sub: "Open daily" },
       { val: "10:00–19:00",   sub: "Working hours" },
@@ -60,7 +60,7 @@ const copy = {
     warranty: "გარანტია PDF",
     routeTag: "მდებარეობა",
     routeTitle: "ეწვიეთ შოურუმს",
-    routeSub: "BYD Tbilisi მდებარეობს კახეთის გზატკეცილი 45A-ზე — ჩვენი გუნდი მზადაა თქვენ გამოგიწვდოს.",
+    routeSub: "BYD Tbilisi მდებარეობს აღმაშენებლის ხეივანი 216-ზე — ჩვენი გუნდი მზადაა თქვენ გამოგიწვდოს.",
     routeChips: [
       { val: "ორშ–კვი",        sub: "ყოველდღე" },
       { val: "10:00–19:00",    sub: "სამუშაო საათები" },
