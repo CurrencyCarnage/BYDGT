@@ -1,119 +1,126 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { useLocale } from "next-intl";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { useLocale } from "next-intl";
 
-// ── Types ──────────────────────────────────────────────────────────────────
-
+type LocaleCode = "en" | "ka";
 type Bilingual = { en: string; ka: string };
-
-type PaintOption    = { id: string; label: Bilingual; hex: string };
-type WheelOption    = { id: string; label: Bilingual; design: 0 | 1 | 2 | 3 };
+type PaintOption = { id: string; label: Bilingual; hex: string };
+type WheelOption = { id: string; label: Bilingual; design: 0 | 1 | 2 | 3 };
 type InteriorOption = { id: string; label: Bilingual; hex: string };
-type AccentOption   = { id: string; label: Bilingual; hex: string };
+type AccentOption = { id: string; label: Bilingual; hex: string };
 
 type DesignData = {
-  paint:    PaintOption[];
-  wheels:   WheelOption[];
+  paint: PaintOption[];
+  wheels: WheelOption[];
   interior: InteriorOption[];
-  accents:  AccentOption[];
+  accents: AccentOption[];
 };
 
 type VersionSpecs = {
-  totalRange:   string;
-  evRange:      string;
-  power:        string;
-  torque:       string;
+  totalRange: string;
+  evRange: string;
+  power: string;
+  torque: string;
   acceleration: string;
-  topSpeed:     string;
-  battery:      string;
-  drive:        string;
-  charging:     string;
+  topSpeed: string;
+  battery: string;
+  drive: string;
+  charging: string;
 };
 
 type ModelVersion = {
-  id:      string;
-  label:   "DM-i" | "EV";
-  type:    "PHEV" | "EV";
-  tagline: Bilingual;
-  image:   string;
-  specs:   VersionSpecs;
-  design:  DesignData;
+  id: string;
+  label: "DM-i" | "EV";
+  type: "PHEV" | "EV";
+  summary: Bilingual;
+  image: string;
+  specs: VersionSpecs;
+  design: DesignData;
 };
 
 type ModelFamily = {
-  id:       string;
-  name:     string;
+  id: string;
+  name: string;
   category: Bilingual;
   versions: ModelVersion[];
 };
 
 type SlotVersion = ModelVersion & { familyName: string; category: Bilingual };
 
-// ── Shared design palettes ────────────────────────────────────────────────
+const t = <T extends Bilingual>(value: T, locale: string) =>
+  locale === "ka" ? value.ka : value.en;
 
 const SEAL_PAINT: PaintOption[] = [
-  { id: "midnight-black",  label: { en: "Midnight Black",  ka: "შუაღამის შავი"     }, hex: "#1A1A1A" },
-  { id: "arctic-white",    label: { en: "Arctic White",    ka: "არქტიკული თეთრი"  }, hex: "#F0F0F0" },
-  { id: "titanium-silver", label: { en: "Titanium Silver", ka: "ტიტანის ვერცხლი"  }, hex: "#8A8A9A" },
-  { id: "sapphire-blue",   label: { en: "Sapphire Blue",   ka: "საფირის ლურჯი"    }, hex: "#1B3A6B" },
-  { id: "burgundy-red",    label: { en: "Burgundy Red",    ka: "ბურგუნდიის წითელი"}, hex: "#6B1B2A" },
-];
-const SEAL_WHEELS: WheelOption[] = [
-  { id: "18-comfort", label: { en: "18″ Comfort", ka: "18″ კომფორტი" }, design: 0 },
-  { id: "19-sport",   label: { en: "19″ Sport",   ka: "19″ სპორტი"   }, design: 2 },
-];
-const SEAL_INTERIOR: InteriorOption[] = [
-  { id: "black", label: { en: "Black", ka: "შავი" }, hex: "#1C1C1C" },
-  { id: "beige", label: { en: "Beige", ka: "ბეჟი" }, hex: "#C4AA88" },
-];
-const SEAL_ACCENTS: AccentOption[] = [
-  { id: "dark", label: { en: "Dark Chrome", ka: "მუქი ქრომი" }, hex: "#2A2A2A" },
+  { id: "midnight-black", label: { en: "Midnight Black", ka: "Midnight Black" }, hex: "#1A1A1A" },
+  { id: "arctic-white", label: { en: "Arctic White", ka: "Arctic White" }, hex: "#F1F1F1" },
+  { id: "titanium-silver", label: { en: "Titanium Silver", ka: "Titanium Silver" }, hex: "#A7A7B8" },
+  { id: "sapphire-blue", label: { en: "Sapphire Blue", ka: "Sapphire Blue" }, hex: "#274C8A" },
+  { id: "burgundy-red", label: { en: "Burgundy Red", ka: "Burgundy Red" }, hex: "#7A1F33" },
 ];
 
 const SEALION_PAINT: PaintOption[] = [
-  { id: "midnight-black",  label: { en: "Midnight Black",  ka: "შუაღამის შავი"     }, hex: "#1A1A1A" },
-  { id: "arctic-white",    label: { en: "Arctic White",    ka: "არქტიკული თეთრი"  }, hex: "#F0F0F0" },
-  { id: "titanium-silver", label: { en: "Titanium Silver", ka: "ტიტანის ვერცხლი"  }, hex: "#8A8A9A" },
-  { id: "sapphire-blue",   label: { en: "Sapphire Blue",   ka: "საფირის ლურჯი"    }, hex: "#1B3A6B" },
-  { id: "forest-green",    label: { en: "Forest Green",    ka: "ტყის მწვანე"       }, hex: "#2D4A2D" },
-  { id: "burgundy-red",    label: { en: "Burgundy Red",    ka: "ბურგუნდიის წითელი"}, hex: "#6B1B2A" },
-];
-const SEALION_WHEELS: WheelOption[] = [
-  { id: "18-comfort", label: { en: "18″ Comfort", ka: "18″ კომფორტი" }, design: 0 },
-  { id: "19-sport",   label: { en: "19″ Sport",   ka: "19″ სპორტი"   }, design: 2 },
-  { id: "20-premium", label: { en: "20″ Premium", ka: "20″ პრემიუმ"   }, design: 3 },
-];
-const SEALION_INTERIOR: InteriorOption[] = [
-  { id: "black",     label: { en: "Black",     ka: "შავი"             }, hex: "#1C1C1C" },
-  { id: "dark-grey", label: { en: "Dark Grey", ka: "მუქი ნაცრისფერი" }, hex: "#3A3A3A" },
-  { id: "beige",     label: { en: "Beige",     ka: "ბეჟი"             }, hex: "#C4AA88" },
-];
-const SEALION_ACCENTS: AccentOption[] = [
-  { id: "dark",   label: { en: "Dark Chrome",   ka: "მუქი ქრომი"    }, hex: "#2A2A2A" },
-  { id: "silver", label: { en: "Silver Chrome", ka: "ვერცხლის ქრომი" }, hex: "#9A9A9A" },
+  { id: "midnight-black", label: { en: "Midnight Black", ka: "Midnight Black" }, hex: "#1A1A1A" },
+  { id: "arctic-white", label: { en: "Arctic White", ka: "Arctic White" }, hex: "#F1F1F1" },
+  { id: "titanium-silver", label: { en: "Titanium Silver", ka: "Titanium Silver" }, hex: "#A7A7B8" },
+  { id: "sapphire-blue", label: { en: "Sapphire Blue", ka: "Sapphire Blue" }, hex: "#274C8A" },
+  { id: "forest-green", label: { en: "Forest Green", ka: "Forest Green" }, hex: "#365E35" },
+  { id: "burgundy-red", label: { en: "Burgundy Red", ka: "Burgundy Red" }, hex: "#7A1F33" },
 ];
 
 const YUAN_PAINT: PaintOption[] = [
-  { id: "midnight-black",  label: { en: "Midnight Black",  ka: "შუაღამის შავი"    }, hex: "#1A1A1A" },
-  { id: "arctic-white",    label: { en: "Arctic White",    ka: "არქტიკული თეთრი" }, hex: "#F0F0F0" },
-  { id: "titanium-silver", label: { en: "Titanium Silver", ka: "ტიტანის ვერცხლი" }, hex: "#8A8A9A" },
-  { id: "sapphire-blue",   label: { en: "Sapphire Blue",   ka: "საფირის ლურჯი"   }, hex: "#1B3A6B" },
-];
-const YUAN_WHEELS: WheelOption[] = [
-  { id: "17-standard", label: { en: "17″ Standard", ka: "17″ სტანდარტი" }, design: 0 },
-  { id: "18-sport",    label: { en: "18″ Sport",    ka: "18″ სპორტი"    }, design: 1 },
-];
-const YUAN_INTERIOR: InteriorOption[] = [
-  { id: "black", label: { en: "Black", ka: "შავი" }, hex: "#1C1C1C" },
-];
-const YUAN_ACCENTS: AccentOption[] = [
-  { id: "dark", label: { en: "Dark Chrome", ka: "მუქი ქრომი" }, hex: "#2A2A2A" },
+  { id: "midnight-black", label: { en: "Midnight Black", ka: "Midnight Black" }, hex: "#1A1A1A" },
+  { id: "arctic-white", label: { en: "Arctic White", ka: "Arctic White" }, hex: "#F1F1F1" },
+  { id: "cosmos-grey", label: { en: "Cosmos Grey", ka: "Cosmos Grey" }, hex: "#8A8B98" },
+  { id: "aurora-blue", label: { en: "Aurora Blue", ka: "Aurora Blue" }, hex: "#214D90" },
+  { id: "crimson-red", label: { en: "Crimson Red", ka: "Crimson Red" }, hex: "#8F2232" },
 ];
 
-// ── Model data ────────────────────────────────────────────────────────────
+const SEAL_WHEELS: WheelOption[] = [
+  { id: "18-comfort", label: { en: '18" Comfort', ka: '18" Comfort' }, design: 0 },
+  { id: "19-sport", label: { en: '19" Sport', ka: '19" Sport' }, design: 2 },
+];
+
+const SEALION_WHEELS: WheelOption[] = [
+  { id: "18-comfort", label: { en: '18" Comfort', ka: '18" Comfort' }, design: 0 },
+  { id: "19-sport", label: { en: '19" Sport', ka: '19" Sport' }, design: 2 },
+  { id: "20-premium", label: { en: '20" Premium', ka: '20" Premium' }, design: 3 },
+];
+
+const YUAN_WHEELS: WheelOption[] = [
+  { id: "17-standard", label: { en: '17" Standard', ka: '17" Standard' }, design: 0 },
+  { id: "18-sport", label: { en: '18" Sport', ka: '18" Sport' }, design: 1 },
+];
+
+const SEAL_INTERIOR: InteriorOption[] = [
+  { id: "black", label: { en: "Black", ka: "Black" }, hex: "#1D1D1D" },
+  { id: "beige", label: { en: "Beige", ka: "Beige" }, hex: "#C9AE88" },
+];
+
+const SEALION_INTERIOR: InteriorOption[] = [
+  { id: "black", label: { en: "Black", ka: "Black" }, hex: "#1D1D1D" },
+  { id: "dark-grey", label: { en: "Dark Grey", ka: "Dark Grey" }, hex: "#434348" },
+  { id: "beige", label: { en: "Beige", ka: "Beige" }, hex: "#C9AE88" },
+];
+
+const YUAN_INTERIOR: InteriorOption[] = [
+  { id: "black", label: { en: "Black", ka: "Black" }, hex: "#1D1D1D" },
+];
+
+const SEAL_ACCENTS: AccentOption[] = [
+  { id: "dark-chrome", label: { en: "Dark Chrome", ka: "Dark Chrome" }, hex: "#2C2E32" },
+];
+
+const SEALION_ACCENTS: AccentOption[] = [
+  { id: "dark-chrome", label: { en: "Dark Chrome", ka: "Dark Chrome" }, hex: "#2C2E32" },
+  { id: "silver-chrome", label: { en: "Silver Chrome", ka: "Silver Chrome" }, hex: "#8F939B" },
+];
+
+const YUAN_ACCENTS: AccentOption[] = [
+  { id: "dark-chrome", label: { en: "Dark Chrome", ka: "Dark Chrome" }, hex: "#2C2E32" },
+];
 
 const FAMILIES: ModelFamily[] = [
   {
@@ -122,24 +129,58 @@ const FAMILIES: ModelFamily[] = [
     category: { en: "Sedan", ka: "სედანი" },
     versions: [
       {
-        id: "seal-06-dmi", label: "DM-i", type: "PHEV",
-        tagline: {
-          en: "Super hybrid sedan — long-distance range with low daily consumption.",
-          ka: "სუპერ ჰიბრიდული სედანი — გრძელი მარშრუტი, დაბალი ყოველდღიური მოხმარება.",
+        id: "seal-06-dmi",
+        label: "DM-i",
+        type: "PHEV",
+        summary: {
+          en: "Long-range plug-in hybrid sedan with low everyday running cost.",
+          ka: "გრძელი სავალის plug-in hybrid სედანი დაბალი ყოველდღიური ხარჯით.",
         },
         image: "/images/models/seal-06-dmi/hero.jpg",
-        specs: { totalRange: "up to 1,505 km", evRange: "up to 140 km", power: "156 kW / 210 HP", torque: "—", acceleration: "8.5 s", topSpeed: "180 km/h", battery: "10 – 19 kWh", drive: "FWD", charging: "—" },
-        design: { paint: SEAL_PAINT, wheels: SEAL_WHEELS, interior: SEAL_INTERIOR, accents: SEAL_ACCENTS },
+        specs: {
+          totalRange: "up to 1,505 km",
+          evRange: "up to 140 km",
+          power: "156 kW / 210 HP",
+          torque: "N/A",
+          acceleration: "8.5 s",
+          topSpeed: "180 km/h",
+          battery: "10 - 19 kWh",
+          drive: "FWD",
+          charging: "N/A",
+        },
+        design: {
+          paint: SEAL_PAINT,
+          wheels: SEAL_WHEELS,
+          interior: SEAL_INTERIOR,
+          accents: SEAL_ACCENTS,
+        },
       },
       {
-        id: "seal-06-ev", label: "EV", type: "EV",
-        tagline: {
-          en: "Pure electric Seal 06 — efficient, urban-ready, clean sedan styling.",
-          ka: "სუფთა ელექტრო Seal 06 — ეფექტური, ქალაქური, მინიმალისტური სედანი.",
+        id: "seal-06-ev",
+        label: "EV",
+        type: "EV",
+        summary: {
+          en: "Clean electric sedan with city-first efficiency and simple ownership.",
+          ka: "სუფთა ელექტრო სედანი ქალაქური ეფექტიანობით და მარტივი ფლობით.",
         },
         image: "/images/models/seal-06-dmi/hero.jpg",
-        specs: { totalRange: "425 km WLTC", evRange: "425 km", power: "95 kW / 127 HP", torque: "220 Nm", acceleration: "10.9 s", topSpeed: "—", battery: "56.64 kWh", drive: "FWD", charging: "DC 65 kW / AC 7 kW" },
-        design: { paint: SEAL_PAINT, wheels: SEAL_WHEELS, interior: SEAL_INTERIOR, accents: SEAL_ACCENTS },
+        specs: {
+          totalRange: "425 km WLTC",
+          evRange: "425 km",
+          power: "95 kW / 127 HP",
+          torque: "220 Nm",
+          acceleration: "10.9 s",
+          topSpeed: "N/A",
+          battery: "56.64 kWh",
+          drive: "FWD",
+          charging: "DC 65 kW / AC 7 kW",
+        },
+        design: {
+          paint: SEAL_PAINT,
+          wheels: SEAL_WHEELS,
+          interior: SEAL_INTERIOR,
+          accents: SEAL_ACCENTS,
+        },
       },
     ],
   },
@@ -149,295 +190,435 @@ const FAMILIES: ModelFamily[] = [
     category: { en: "SUV", ka: "SUV" },
     versions: [
       {
-        id: "sealion-06-dmi", label: "DM-i", type: "PHEV",
-        tagline: {
-          en: "Family SUV with DM-i hybrid efficiency and stronger real-world performance.",
-          ka: "ოჯახური SUV DM-i ჰიბრიდული ეფექტიანობით და ძლიერი წარმადობით.",
+        id: "sealion-06-dmi",
+        label: "DM-i",
+        type: "PHEV",
+        summary: {
+          en: "Family SUV with hybrid efficiency and available AWD performance.",
+          ka: "ოჯახური SUV ჰიბრიდული ეფექტიანობით და ხელმისაწვდომი AWD ვერსიით.",
         },
         image: "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",
-        specs: { totalRange: "up to 1,080 km", evRange: "92 km (FWD) / 81 km (AWD)", power: "160 kW / 214 HP (FWD)", torque: "300 Nm (FWD) / 550 Nm (AWD)", acceleration: "8.5 s (FWD) / 5.9 s (AWD)", topSpeed: "169 – 179 km/h", battery: "18.3 – 32 kWh", drive: "FWD / AWD", charging: "—" },
-        design: { paint: SEALION_PAINT, wheels: SEALION_WHEELS, interior: SEALION_INTERIOR, accents: SEALION_ACCENTS },
+        specs: {
+          totalRange: "up to 1,080 km",
+          evRange: "92 km (FWD) / 81 km (AWD)",
+          power: "160 kW / 214 HP (FWD)",
+          torque: "300 Nm (FWD) / 550 Nm (AWD)",
+          acceleration: "8.5 s (FWD) / 5.9 s (AWD)",
+          topSpeed: "169 - 179 km/h",
+          battery: "18.3 - 32 kWh",
+          drive: "FWD / AWD",
+          charging: "N/A",
+        },
+        design: {
+          paint: SEALION_PAINT,
+          wheels: SEALION_WHEELS,
+          interior: SEALION_INTERIOR,
+          accents: SEALION_ACCENTS,
+        },
       },
       {
-        id: "sealion-06-ev", label: "EV", type: "EV",
-        tagline: {
-          en: "Electric family SUV with longer-range options and premium cabin packaging.",
-          ka: "ელექტრო ოჯახური SUV გრძელი მარშრუტითა და პრემიუმ სალონით.",
+        id: "sealion-06-ev",
+        label: "EV",
+        type: "EV",
+        summary: {
+          en: "Electric SUV with longer-range options and a more premium cabin package.",
+          ka: "ელექტრო SUV დიდი სავალის არჩევანით და უფრო პრემიუმ ინტერიერით.",
         },
         image: "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",
-        specs: { totalRange: "420 – 500 km WLTP", evRange: "420 – 500 km", power: "160 kW / 214 HP", torque: "310 – 330 Nm", acceleration: "9.3 – 9.6 s", topSpeed: "175 km/h", battery: "71.8 – 87 kWh", drive: "FWD", charging: "DC 150 kW" },
-        design: { paint: SEALION_PAINT, wheels: SEALION_WHEELS, interior: SEALION_INTERIOR, accents: SEALION_ACCENTS },
+        specs: {
+          totalRange: "420 - 500 km WLTP",
+          evRange: "420 - 500 km",
+          power: "160 kW / 214 HP",
+          torque: "310 - 330 Nm",
+          acceleration: "9.3 - 9.6 s",
+          topSpeed: "175 km/h",
+          battery: "71.8 - 87 kWh",
+          drive: "FWD",
+          charging: "DC 150 kW",
+        },
+        design: {
+          paint: SEALION_PAINT,
+          wheels: SEALION_WHEELS,
+          interior: SEALION_INTERIOR,
+          accents: SEALION_ACCENTS,
+        },
       },
     ],
   },
   {
-    id: "yuan-up-dmi",
+    id: "yuan-up",
     name: "BYD Yuan Up",
-    category: { en: "Compact SUV · DM-i", ka: "კომპაქტ SUV · DM-i" },
+    category: { en: "Compact SUV / EV", ka: "კომპაქტური SUV / EV" },
     versions: [
       {
-        id: "yuan-up-dmi", label: "DM-i", type: "PHEV",
-        tagline: {
-          en: "Smart compact hybrid SUV — efficient city driving with extended total range.",
-          ka: "ჭკვიანი კომპაქტური ჰიბრიდი — ეკონომიური ქალაქური მართვა და გრძელი მარშრუტი.",
-        },
-        image: "/images/models/yuan-up-dmi/hero.jpg",
-        specs: { totalRange: "1,100 km", evRange: "80 km", power: "110 kW / 150 HP", torque: "—", acceleration: "8.9 s", topSpeed: "170 km/h", battery: "12.9 kWh", drive: "FWD", charging: "—" },
-        design: { paint: YUAN_PAINT, wheels: YUAN_WHEELS, interior: YUAN_INTERIOR, accents: YUAN_ACCENTS },
-      },
-    ],
-  },
-  {
-    id: "yuan-up-ev",
-    name: "BYD Yuan Up",
-    category: { en: "Compact SUV · EV", ka: "კომპაქტ SUV · EV" },
-    versions: [
-      {
-        id: "yuan-up-ev", label: "EV", type: "EV",
-        tagline: {
-          en: "Compact electric SUV built for city use, easy ownership, and youthful BYD styling.",
-          ka: "კომპაქტური ელექტრო SUV ქალაქური გამოყენებისა და ახალგაზრდული სტილისთვის.",
+        id: "yuan-up-ev",
+        label: "EV",
+        type: "EV",
+        summary: {
+          en: "Compact electric SUV built for city use, easy charging, and youthful design.",
+          ka: "კომპაქტური ელექტრო SUV ქალაქისთვის, მარტივი დამუხტვით და ახალგაზრდული დიზაინით.",
         },
         image: "/images/models/yuan-up-ev/hero.jpg",
-        specs: { totalRange: "380 km NEDC", evRange: "380 km", power: "130 kW / 174 HP", torque: "290 Nm", acceleration: "7.9 s", topSpeed: "—", battery: "45 kWh (Blade LFP)", drive: "FWD", charging: "DC 65 kW / AC 5.6 kW" },
-        design: { paint: YUAN_PAINT, wheels: YUAN_WHEELS, interior: YUAN_INTERIOR, accents: YUAN_ACCENTS },
+        specs: {
+          totalRange: "380 km NEDC",
+          evRange: "380 km",
+          power: "130 kW / 174 HP",
+          torque: "290 Nm",
+          acceleration: "7.9 s",
+          topSpeed: "N/A",
+          battery: "45 kWh (Blade LFP)",
+          drive: "FWD",
+          charging: "DC 65 kW / AC 5.6 kW",
+        },
+        design: {
+          paint: YUAN_PAINT,
+          wheels: YUAN_WHEELS,
+          interior: YUAN_INTERIOR,
+          accents: YUAN_ACCENTS,
+        },
+      },
+      {
+        id: "yuan-up-dmi",
+        label: "DM-i",
+        type: "PHEV",
+        summary: {
+          en: "Smart compact hybrid SUV focused on efficiency and everyday practicality.",
+          ka: "კომპაქტური ჰიბრიდული SUV ეფექტიანობაზე და ყოველდღიურ პრაქტიკულობაზე ორიენტაციით.",
+        },
+        image: "/images/models/yuan-up-dmi/hero.jpg",
+        specs: {
+          totalRange: "1,100 km",
+          evRange: "80 km",
+          power: "110 kW / 150 HP",
+          torque: "N/A",
+          acceleration: "8.9 s",
+          topSpeed: "170 km/h",
+          battery: "12.9 kWh",
+          drive: "FWD",
+          charging: "N/A",
+        },
+        design: {
+          paint: YUAN_PAINT,
+          wheels: YUAN_WHEELS,
+          interior: YUAN_INTERIOR,
+          accents: YUAN_ACCENTS,
+        },
       },
     ],
   },
 ];
 
-const ALL_VERSIONS: SlotVersion[] = FAMILIES.flatMap((f) =>
-  f.versions.map((v) => ({ ...v, familyName: f.name, category: f.category }))
+const ALL_VERSIONS: SlotVersion[] = FAMILIES.flatMap((family) =>
+  family.versions.map((version) => ({
+    ...version,
+    familyName: family.name,
+    category: family.category,
+  }))
 );
 
-const DEFAULTS: [string, string, string] = ["seal-06-dmi", "sealion-06-dmi", "yuan-up-ev"];
-
-// ── Full spec rows ─────────────────────────────────────────────────────────
-
-const SPEC_ROWS: { key: string; label: Bilingual; fn: (v: SlotVersion, locale: string) => string }[] = [
-  { key: "type",         label: { en: "Powertrain",   ka: "ძრავი"           }, fn: (v)      => v.type === "EV" ? "Electric" : "Plug-in Hybrid" },
-  { key: "category",     label: { en: "Body Type",    ka: "ძარის ტიპი"     }, fn: (v, loc) => loc === "ka" ? v.category.ka : v.category.en },
-  { key: "totalRange",   label: { en: "Total Range",  ka: "ჯამური მანძილი" }, fn: (v)      => v.specs.totalRange },
-  { key: "evRange",      label: { en: "EV Range",     ka: "ელ. მარშრუტი"   }, fn: (v)      => v.specs.evRange },
-  { key: "power",        label: { en: "Power",        ka: "სიმძლავრე"       }, fn: (v)      => v.specs.power },
-  { key: "torque",       label: { en: "Torque",       ka: "მომენტი"         }, fn: (v)      => v.specs.torque },
-  { key: "acceleration", label: { en: "0–100 km/h",   ka: "0–100 კმ/სთ"    }, fn: (v)      => v.specs.acceleration },
-  { key: "topSpeed",     label: { en: "Top Speed",    ka: "მაქს. სიჩქარე"  }, fn: (v)      => v.specs.topSpeed },
-  { key: "battery",      label: { en: "Battery",      ka: "ბატარეა"         }, fn: (v)      => v.specs.battery },
-  { key: "drive",        label: { en: "Drive",        ka: "წამყვანი"        }, fn: (v)      => v.specs.drive },
-  { key: "charging",     label: { en: "Charging",     ka: "დამუხტვა"        }, fn: (v)      => v.specs.charging },
+const SPEC_ROWS: {
+  key: string;
+  label: Bilingual;
+  getValue: (version: SlotVersion, locale: LocaleCode) => string;
+}[] = [
+  {
+    key: "powertrain",
+    label: { en: "Powertrain", ka: "ძრავის ტიპი" },
+    getValue: (version, locale) =>
+      version.type === "EV"
+        ? locale === "ka"
+          ? "ელექტრო"
+          : "Electric"
+        : "Plug-in Hybrid",
+  },
+  {
+    key: "bodyType",
+    label: { en: "Body Type", ka: "ძარის ტიპი" },
+    getValue: (version, locale) => t(version.category, locale),
+  },
+  {
+    key: "totalRange",
+    label: { en: "Total Range", ka: "ჯამური მანძილი" },
+    getValue: (version) => version.specs.totalRange,
+  },
+  {
+    key: "evRange",
+    label: { en: "EV Range", ka: "ელექტრო სავალი" },
+    getValue: (version) => version.specs.evRange,
+  },
+  {
+    key: "power",
+    label: { en: "Power", ka: "სიმძლავრე" },
+    getValue: (version) => version.specs.power,
+  },
+  {
+    key: "torque",
+    label: { en: "Torque", ka: "მომენტი" },
+    getValue: (version) => version.specs.torque,
+  },
+  {
+    key: "acceleration",
+    label: { en: "0-100 km/h", ka: "0-100 კმ/სთ" },
+    getValue: (version) => version.specs.acceleration,
+  },
+  {
+    key: "topSpeed",
+    label: { en: "Top Speed", ka: "მაქს. სიჩქარე" },
+    getValue: (version) => version.specs.topSpeed,
+  },
+  {
+    key: "battery",
+    label: { en: "Battery", ka: "ბატარეა" },
+    getValue: (version) => version.specs.battery,
+  },
+  {
+    key: "drive",
+    label: { en: "Drive", ka: "წამყვანი" },
+    getValue: (version) => version.specs.drive,
+  },
+  {
+    key: "charging",
+    label: { en: "Charging", ka: "დამუხტვა" },
+    getValue: (version) => version.specs.charging,
+  },
 ];
 
-// ── WheelSwatch — 4 SVG alloy wheel designs ────────────────────────────────
-// Design 0: Classic 5-spoke (straight spokes)
-// Design 1: Y/Split 5-spoke (spokes fork near rim)
-// Design 2: 10-spoke sport (thin double-spoke pairs)
-// Design 3: 7-spoke turbine (angled flow blades)
-
 function WheelSwatch({ design, title }: { design: 0 | 1 | 2 | 3; title: string }) {
-  const uid = useRef(`ws-${Math.random().toString(36).slice(2, 8)}`).current;
-  // spoke angles for each design
-  const fiveSpokes  = [0, 72, 144, 216, 288];
-  const tenSpokes   = [0, 36, 72, 108, 144, 180, 216, 252, 288, 324];
-  const sevenSpokes = [0, 51.4, 102.9, 154.3, 205.7, 257.1, 308.6];
+  const spokes =
+    design === 0
+      ? [0, 72, 144, 216, 288]
+      : design === 1
+        ? [0, 72, 144, 216, 288]
+        : design === 2
+          ? [0, 36, 72, 108, 144, 180, 216, 252, 288, 324]
+          : [0, 51.4, 102.9, 154.3, 205.7, 257.1, 308.6];
 
   return (
-    <div
-      title={title}
-      className="w-10 h-10 rounded-full overflow-hidden cursor-pointer hover:scale-110 transition-transform duration-150"
-    >
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <defs>
-          <radialGradient id={`rim-${uid}`} cx="40%" cy="35%" r="60%">
-            <stop offset="0%"   stopColor="#5a5a5a" />
-            <stop offset="60%"  stopColor="#2e2e2e" />
-            <stop offset="100%" stopColor="#1a1a1a" />
-          </radialGradient>
-          <radialGradient id={`hub-${uid}`} cx="40%" cy="35%" r="70%">
-            <stop offset="0%"   stopColor="#666" />
-            <stop offset="100%" stopColor="#222" />
-          </radialGradient>
-        </defs>
-
-        {/* Outer tyre */}
-        <circle cx="20" cy="20" r="19.5" fill="#111" />
-        {/* Tyre highlight */}
-        <circle cx="20" cy="20" r="19.5" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
-
-        {/* Rim face */}
-        <circle cx="20" cy="20" r="16" fill={`url(#rim-${uid})`} />
-        {/* Rim inner ring */}
-        <circle cx="20" cy="20" r="15" fill="none" stroke="#444" strokeWidth="0.5" />
-
-        {/* ── Design 0: Classic 5-spoke ── */}
-        {design === 0 && fiveSpokes.map((a) => (
-          <polygon
-            key={a}
-            points="18.2,15.5 21.8,15.5 22.5,5 17.5,5"
-            fill="#4a4a4a"
-            stroke="#5f5f5f"
-            strokeWidth="0.4"
-            transform={`rotate(${a} 20 20)`}
-          />
-        ))}
-
-        {/* ── Design 1: Y / split 5-spoke ── */}
-        {design === 1 && fiveSpokes.map((a) => (
-          <g key={a} transform={`rotate(${a} 20 20)`}>
-            {/* Main trunk */}
-            <polygon points="18.8,15.8 21.2,15.8 20.8,11 19.2,11" fill="#4a4a4a" stroke="#5f5f5f" strokeWidth="0.35" />
-            {/* Left arm */}
-            <polygon points="19.2,11 20.8,11 18,5.5 16,7"          fill="#4a4a4a" stroke="#5f5f5f" strokeWidth="0.35" />
-            {/* Right arm */}
-            <polygon points="19.2,11 20.8,11 22,5.5 24,7"          fill="#4a4a4a" stroke="#5f5f5f" strokeWidth="0.35" />
-          </g>
-        ))}
-
-        {/* ── Design 2: 10-spoke sport (paired thin) ── */}
-        {design === 2 && tenSpokes.map((a) => (
-          <polygon
-            key={a}
-            points="19.2,15.5 20.8,15.5 21.2,5 18.8,5"
-            fill="#454545"
-            stroke="#606060"
-            strokeWidth="0.3"
-            transform={`rotate(${a} 20 20)`}
-          />
-        ))}
-
-        {/* ── Design 3: 7-spoke turbine (angled blades) ── */}
-        {design === 3 && sevenSpokes.map((a, i) => (
-          <polygon
-            key={i}
-            points="19,15.5 21,15.5 23.5,5 17,5.5"
-            fill="#474747"
-            stroke="#5f5f5f"
-            strokeWidth="0.35"
-            transform={`rotate(${a} 20 20)`}
-          />
-        ))}
-
-        {/* Barrel shadow ring */}
-        <circle cx="20" cy="20" r="15" fill="none" stroke="#222" strokeWidth="1.5" />
-
-        {/* Center hub */}
-        <circle cx="20" cy="20" r="4.5" fill={`url(#hub-${uid})`} stroke="#555" strokeWidth="0.5" />
-        {/* Centre bolt-circle */}
-        {[0, 72, 144, 216, 288].map((a) => {
-          const rad = (a * Math.PI) / 180;
-          const x   = 20 + 2.6 * Math.sin(rad);
-          const y   = 20 - 2.6 * Math.cos(rad);
-          return <circle key={a} cx={x} cy={y} r="0.55" fill="#333" />;
-        })}
-        {/* Cap */}
-        <circle cx="20" cy="20" r="1.4" fill="#1a1a1a" stroke="#444" strokeWidth="0.4" />
-      </svg>
+    <div className="flex flex-col items-center gap-2">
+      <div
+        title={title}
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.12] bg-[radial-gradient(circle_at_30%_30%,#595959,#171717_70%)] shadow-[inset_0_1px_3px_rgba(255,255,255,0.12)]"
+      >
+        <svg viewBox="0 0 44 44" className="h-9 w-9">
+          <circle cx="22" cy="22" r="19" fill="none" stroke="#101010" strokeWidth="3" />
+          <circle cx="22" cy="22" r="15.5" fill="none" stroke="#525252" strokeWidth="1" />
+          {spokes.map((angle) => (
+            <line
+              key={angle}
+              x1="22"
+              y1="22"
+              x2="22"
+              y2={design === 2 ? "8" : "9.5"}
+              stroke="#737373"
+              strokeWidth={design === 2 ? 1.3 : 2}
+              strokeLinecap="round"
+              transform={`rotate(${angle} 22 22)`}
+            />
+          ))}
+          <circle cx="22" cy="22" r="4.5" fill="#262626" stroke="#6A6A6A" strokeWidth="1" />
+        </svg>
+      </div>
+      <span className="text-[10px] uppercase tracking-[0.12em] text-white/40">{title}</span>
     </div>
   );
 }
 
-// ── ModelDropdown ─────────────────────────────────────────────────────────
-
-interface ModelDropdownProps {
-  selected:  SlotVersion;
-  onSelect:  (v: SlotVersion) => void;
-  locale:    string;
-  otherIds:  string[];
+function SwatchDot({ hex, title }: { hex: string; title: string }) {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <div
+        title={title}
+        className="h-11 w-11 rounded-full border border-white/[0.14] shadow-[inset_0_1px_4px_rgba(255,255,255,0.08)]"
+        style={{ backgroundColor: hex }}
+      />
+      <span className="text-[10px] uppercase tracking-[0.12em] text-white/40">{title}</span>
+    </div>
+  );
 }
 
-function ModelDropdown({ selected, onSelect, locale, otherIds }: ModelDropdownProps) {
+interface ModelDropdownProps {
+  selected: SlotVersion | null;
+  onSelect: (version: SlotVersion) => void;
+  locale: LocaleCode;
+  blockedIds: string[];
+  placeholder: string;
+  compact?: boolean;
+}
+
+function ModelDropdown({
+  selected,
+  onSelect,
+  locale,
+  blockedIds,
+  placeholder,
+  compact,
+}: ModelDropdownProps) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const l = (b: Bilingual) => (locale === "ka" ? b.ka : b.en);
+  const rootRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const close = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
     };
-    document.addEventListener("mousedown", close);
-    return () => document.removeEventListener("mousedown", close);
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
   return (
-    <div ref={ref} className="relative">
-      {/* ── Trigger — Rivian-style rounded card ── */}
+    <div ref={rootRef} className="relative">
       <button
-        onClick={() => setOpen((o) => !o)}
-        className={`w-full flex items-center justify-between gap-3 px-5 py-3.5 rounded-xl border transition-all duration-200 ${
-          open
-            ? "border-white/20 bg-[#2e3133]"
-            : "border-white/[0.1] bg-[#272a2b] hover:border-white/[0.18] hover:bg-[#2e3133]"
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className={`flex w-full items-center justify-between text-left transition-all duration-200 ${
+          compact
+            ? `min-h-[48px] gap-1.5 rounded-xl border px-2 py-1.5 ${
+                open
+                  ? "border-white/[0.22] bg-[#2D3032]"
+                  : "border-white/[0.1] bg-[#272A2C]"
+              }`
+            : `min-h-[68px] gap-3 rounded-2xl border px-4 py-3 ${
+                open
+                  ? "border-white/[0.22] bg-[#2D3032] shadow-[0_14px_30px_rgba(0,0,0,0.28)]"
+                  : "border-white/[0.1] bg-[#272A2C] hover:border-white/[0.18] hover:bg-[#2C2F31]"
+              }`
         }`}
-        style={{
-          boxShadow: open
-            ? "0 12px 40px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.06) inset"
-            : "0 4px 20px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04) inset",
-        }}
       >
-        <div className="flex items-center gap-3 min-w-0">
-          {/* Thumbnail */}
-          <div className="relative w-14 h-9 shrink-0 overflow-hidden rounded bg-white/[0.04]">
-            <Image src={selected.image} alt={selected.familyName} fill sizes="56px" className="object-cover" quality={70} />
+        {selected ? (
+          <div className={`flex min-w-0 items-center ${compact ? "gap-1.5" : "gap-3"}`}>
+            <div
+              className={`relative shrink-0 overflow-hidden bg-white/[0.05] ${
+                compact
+                  ? "h-8 w-10 rounded-md"
+                  : "h-10 w-12 rounded-lg"
+              }`}
+            >
+              <Image
+                src={selected.image}
+                alt={selected.familyName}
+                fill
+                sizes={compact ? "40px" : "48px"}
+                className="object-cover"
+                quality={70}
+              />
+            </div>
+            <div className="min-w-0">
+              <p
+                className={`truncate font-semibold text-white ${
+                  compact ? "text-[11px]" : "text-[15px]"
+                }`}
+              >
+                {selected.familyName}
+              </p>
+              {!compact && (
+                <p className="truncate text-xs text-white/42">
+                  {selected.label} / {t(selected.category, locale)}
+                </p>
+              )}
+            </div>
           </div>
-          <div className="text-left min-w-0">
-            <p className="text-[13px] font-semibold text-white leading-tight truncate" style={{ fontFamily: "var(--font-montserrat)" }}>
-              {selected.familyName}
-            </p>
-            <p className="text-[11px] text-white/45 truncate mt-0.5" style={{ fontFamily: "var(--font-montserrat)" }}>
-              {selected.label} · {l(selected.category)}
-            </p>
+        ) : (
+          <div className={`flex min-w-0 items-center ${compact ? "gap-1.5" : "gap-3"}`}>
+            <div
+              className={`flex shrink-0 items-center justify-center border border-dashed border-white/[0.15] bg-white/[0.03] ${
+                compact
+                  ? "h-8 w-10 rounded-md"
+                  : "h-10 w-12 rounded-lg"
+              }`}
+            >
+              <svg
+                className={`text-white/20 ${compact ? "h-3.5 w-3.5" : "h-5 w-5"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            {!compact && (
+              <p className="text-[14px] text-white/30">{placeholder}</p>
+            )}
           </div>
-        </div>
+        )}
         <svg
-          className={`w-4 h-4 text-white/45 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-          fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          className={`shrink-0 text-white/40 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          } ${compact ? "h-3 w-3" : "h-4 w-4"}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.8}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
 
-      {/* ── Panel ── */}
       {open && (
-        <div className="absolute top-full left-0 right-0 z-50 mt-2 rounded-xl border border-white/[0.12] bg-[#232628] shadow-card overflow-hidden max-h-72 overflow-y-auto">
+        <div className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-2xl border border-white/[0.12] bg-[#232628] shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
           {FAMILIES.map((family) => (
-            <div key={family.id}>
-              <p
-                className="px-4 pt-3 pb-1 text-[10px] uppercase tracking-widest text-white/30"
-                style={{ fontFamily: "var(--font-montserrat)" }}
-              >
+            <div key={family.id} className="border-t border-white/[0.05] first:border-t-0">
+              <p className="px-4 pb-2 pt-3 text-[10px] uppercase tracking-[0.18em] text-white/28">
                 {family.name}
               </p>
-              {family.versions.map((ver) => {
-                const sv         = ALL_VERSIONS.find((av) => av.id === ver.id)!;
-                const isCurrent  = sv.id === selected.id;
-                const isElsewhere = otherIds.includes(sv.id);
+              {family.versions.map((version) => {
+                const option = ALL_VERSIONS.find((item) => item.id === version.id)!;
+                const isSelected = selected !== null && option.id === selected.id;
+                const isBlocked = blockedIds.includes(option.id) && !isSelected;
+
                 return (
                   <button
-                    key={sv.id}
-                    disabled={isElsewhere && !isCurrent}
-                    onClick={() => { onSelect(sv); setOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-4 py-2.5 transition-colors duration-100 text-left ${
-                      isCurrent    ? "bg-white/[0.08]" :
-                      isElsewhere  ? "opacity-40 cursor-not-allowed" :
-                                     "hover:bg-white/[0.05]"
+                    key={option.id}
+                    type="button"
+                    disabled={isBlocked}
+                    onClick={() => {
+                      onSelect(option);
+                      setOpen(false);
+                    }}
+                    className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${
+                      isSelected
+                        ? "bg-white/[0.07]"
+                        : isBlocked
+                          ? "cursor-not-allowed opacity-40"
+                          : "hover:bg-white/[0.04]"
                     }`}
                   >
-                    <div className="relative w-12 h-8 shrink-0 overflow-hidden rounded-sm bg-white/[0.04]">
-                      <Image src={sv.image} alt={sv.familyName} fill sizes="48px" className="object-cover" quality={60} />
+                    <div className="relative h-9 w-11 shrink-0 overflow-hidden rounded-md bg-white/[0.05]">
+                      <Image
+                        src={option.image}
+                        alt={option.familyName}
+                        fill
+                        sizes="44px"
+                        className="object-cover"
+                        quality={60}
+                      />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs text-white truncate" style={{ fontFamily: "var(--font-montserrat)" }}>
-                        {sv.familyName}
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium text-white">
+                        {option.familyName}
                       </p>
-                      <span className={`text-[10px] px-1.5 py-0.5 font-bold ${
-                        sv.type === "EV" ? "bg-badge-ev-bg text-badge-ev" : "bg-badge-phev-bg text-badge-phev"
-                      }`}>
-                        {sv.label}
-                      </span>
+                      <p className="truncate text-[11px] text-white/38">
+                        {option.label} / {t(option.category, locale)}
+                      </p>
                     </div>
-                    {isCurrent && (
-                      <svg className="w-4 h-4 text-byd-red shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                    {isSelected && (
+                      <svg
+                        className="h-4 w-4 shrink-0 text-byd-red"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2.4}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     )}
                   </button>
@@ -451,242 +632,406 @@ function ModelDropdown({ selected, onSelect, locale, otherIds }: ModelDropdownPr
   );
 }
 
-// ── Main component ────────────────────────────────────────────────────────
-
 export default function CompareGrid() {
-  const locale = useLocale();
-  const l = (b: Bilingual) => (locale === "ka" ? b.ka : b.en);
+  const locale = useLocale() as LocaleCode;
+  const [slots, setSlots] = useState<
+    [SlotVersion | null, SlotVersion | null, SlotVersion | null]
+  >([null, null, null]);
 
-  const [slots, setSlots] = useState<[SlotVersion, SlotVersion, SlotVersion]>([
-    ALL_VERSIONS.find((v) => v.id === DEFAULTS[0])!,
-    ALL_VERSIONS.find((v) => v.id === DEFAULTS[1])!,
-    ALL_VERSIONS.find((v) => v.id === DEFAULTS[2])!,
-  ]);
+  const labels = {
+    differs: locale === "ka" ? "განსხვავდება" : "Differs",
+    pricing: locale === "ka" ? "ფასი" : "Price",
+    pricingValue:
+      locale === "ka" ? "ფასისთვის დაგვიკავშირდით" : "Contact for pricing",
+    designTitle:
+      locale === "ka" ? "დიზაინის ვარიანტები" : "Design Options",
+    testDrive: locale === "ka" ? "ტესტ დრაივი" : "Test Drive",
+    viewCatalog: locale === "ka" ? "კატალოგი" : "View Catalog",
+    selectModel:
+      locale === "ka" ? "აირჩიეთ მოდელი" : "Select a model",
+    emptySlot:
+      locale === "ka"
+        ? "მოდელი არ არის არჩეული"
+        : "No model selected",
+  };
 
-  const updateSlot = (i: number, ver: SlotVersion) =>
+  const normalizeValue = (value: string) =>
+    value.replace(/\s+/g, " ").trim().toLowerCase();
+
+  /* Only compute spec rows when at least 2 models selected */
+  const filledSlots = slots.filter(
+    (s): s is SlotVersion => s !== null
+  );
+  const hasComparison = filledSlots.length >= 2;
+
+  const specRows = hasComparison
+    ? SPEC_ROWS.map((row) => {
+        const values = slots.map((slot) =>
+          slot ? row.getValue(slot, locale) : null
+        );
+        const filled = values.filter((v): v is string => v !== null);
+        const hasDifference =
+          filled.length >= 2 &&
+          new Set(filled.map(normalizeValue)).size > 1;
+        return { ...row, values, hasDifference };
+      })
+    : [];
+
+  const updateSlot = (index: number, version: SlotVersion) => {
     setSlots((prev) => {
-      const next = [...prev] as [SlotVersion, SlotVersion, SlotVersion];
-      next[i] = ver;
+      const next = [...prev] as [
+        SlotVersion | null,
+        SlotVersion | null,
+        SlotVersion | null,
+      ];
+      next[index] = version;
       return next;
     });
+  };
 
-  const GLANCE: { key: string; value: (v: SlotVersion) => string; sub: Bilingual }[] = [
-    { key: "drive",  value: (v) => v.specs.drive,        sub: { en: "Drive System", ka: "წამყვანი"      } },
-    { key: "range",  value: (v) => v.specs.totalRange,   sub: { en: "Total Range",  ka: "ჯამური მანძილი" } },
-    { key: "accel",  value: (v) => v.specs.acceleration, sub: { en: "0–100 km/h",   ka: "0–100 კმ/სთ"   } },
-    { key: "power",  value: (v) => v.specs.power,        sub: { en: "Power",         ka: "სიმძლავრე"     } },
-  ];
+  const blockedFor = (index: number) =>
+    slots
+      .filter((s, i): s is SlotVersion => s !== null && i !== index)
+      .map((s) => s.id);
 
-  type DesignKey = keyof SlotVersion["design"];
-  const DESIGN_CATS: { key: DesignKey; label: Bilingual }[] = [
-    { key: "paint",    label: { en: "Paint",             ka: "ფერი"                  } },
-    { key: "wheels",   label: { en: "Wheels & Tires",    ka: "დისკები / საბურავები"  } },
-    { key: "interior", label: { en: "Interior",          ka: "სალონი"                } },
-    { key: "accents",  label: { en: "Accents & Badging", ka: "აქცენტები"            } },
-  ];
+  const diffCount = specRows.filter((r) => r.hasDifference).length;
 
   return (
-    <div>
-      {/* ── Sticky dropdown bar ─────────────────────────────────── */}
-      <div className="sticky top-[80px] z-40">
-        <div className="section-container py-4">
-          <div className="grid grid-cols-3 gap-5">
+    <div className="pb-16">
+      {/* ── Mobile: 3 compact thumbnails in one row ── */}
+      <div className="sticky top-[80px] z-30 border-b border-white/[0.06] bg-[#1C1E1F]/95 backdrop-blur md:hidden">
+        <div className="section-container py-2">
+          <div className="grid grid-cols-3 gap-1.5">
             {slots.map((slot, i) => (
               <ModelDropdown
-                key={i}
+                key={`m-${i}`}
                 selected={slot}
                 onSelect={(v) => updateSlot(i, v)}
                 locale={locale}
-                otherIds={slots.filter((_, j) => j !== i).map((s) => s.id)}
+                blockedIds={blockedFor(i)}
+                placeholder={labels.selectModel}
+                compact
               />
             ))}
           </div>
         </div>
       </div>
 
-      {/* ── Hero images + model info ─────────────────────────────── */}
-      <div className="section-container pt-8 pb-0">
-        <div className="grid grid-cols-3 gap-4">
-          {slots.map((slot, i) => (
-            <div key={i} className="flex flex-col">
-              <div className="relative overflow-hidden bg-white/[0.03] mb-5" style={{ aspectRatio: "4/3" }}>
-                <Image
-                  src={slot.image}
-                  alt={`${slot.familyName} ${slot.label}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover"
-                  quality={85}
-                />
-              </div>
-              <span
-                className={`text-[10px] px-2 py-0.5 font-bold tracking-wide ${
-                  slot.type === "EV" ? "bg-badge-ev-bg text-badge-ev" : "bg-badge-phev-bg text-badge-phev"
-                }`}
-                style={{ fontFamily: "var(--font-montserrat)" }}
-              >
-                {slot.type}
-              </span>
-              <h2 className="text-h6 font-semibold text-white mt-2 mb-1 leading-tight" style={{ letterSpacing: "-0.01em" }}>
-                {slot.familyName}
-              </h2>
-              <p className="text-body3 text-white/50 mb-3 leading-relaxed">{l(slot.tagline)}</p>
-              <p className="text-body3 text-white/30 mb-4" style={{ fontFamily: "var(--font-montserrat)" }}>
-                {locale === "ka" ? "ფასისთვის დაგვიკავშირდით" : "Contact for pricing"}
-              </p>
-              <div className="mt-auto flex gap-2 flex-wrap pb-8">
-                <Link
-                  href={`/${locale}/booking`}
-                  className="px-4 py-2 bg-byd-red text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#A80912] transition-colors duration-150"
-                  style={{ fontFamily: "var(--font-montserrat)" }}
-                >
-                  {locale === "ka" ? "ტესტ-დრაივი" : "Test Drive"}
-                </Link>
-                <Link
-                  href={`/${locale}/catalog`}
-                  className="px-4 py-2 border border-white/[0.18] text-white text-[11px] font-bold uppercase tracking-widest hover:border-white/35 hover:bg-white/[0.04] transition-all duration-150"
-                  style={{ fontFamily: "var(--font-montserrat)" }}
-                >
-                  {locale === "ka" ? "კატალოგი" : "View Catalog"}
-                </Link>
-              </div>
-            </div>
-          ))}
+      {/* ── Desktop: 3 equal selectors ── */}
+      <div className="sticky top-[80px] z-30 hidden border-b border-white/[0.06] bg-[#1C1E1F]/95 backdrop-blur md:block">
+        <div className="section-container py-3">
+          <div className="grid grid-cols-3 gap-3">
+            {slots.map((slot, i) => (
+              <ModelDropdown
+                key={`d-${i}`}
+                selected={slot}
+                onSelect={(v) => updateSlot(i, v)}
+                locale={locale}
+                blockedIds={blockedFor(i)}
+                placeholder={labels.selectModel}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* ── At a glance ─────────────────────────────────────────── */}
-      <div className="section-container">
-        <div className="border-t border-white/[0.08] pt-8 pb-2">
-          <h2 className="text-h5 font-semibold text-white mb-6" style={{ letterSpacing: "-0.01em" }}>
-            {locale === "ka" ? "მიმოხილვა" : "At a glance"}
-          </h2>
-        </div>
-        <div className="border-t border-white/[0.1]">
-          {GLANCE.map((row) => (
-            <div key={row.key} className="border-b border-white/[0.06] py-6">
-              <div className="grid grid-cols-3 gap-4">
-                {slots.map((slot, i) => (
-                  <div key={i}>
-                    <p className="text-sm font-semibold text-white leading-snug" style={{ fontFamily: "var(--font-montserrat)" }}>
-                      {row.value(slot)}
+      {/* ── Comparison matrix ── */}
+      <div className="section-container pt-4 md:pt-8">
+        <div className="overflow-hidden rounded-[16px] border border-white/[0.08] bg-[#1C1E1F] shadow-[0_20px_50px_rgba(0,0,0,0.22)] md:rounded-[20px]">
+          {/* Model card headers — pure 3-column */}
+          <div className="grid grid-cols-3 border-b border-white/[0.08]">
+            {slots.map((slot, i) => (
+              <div
+                key={`card-${i}`}
+                className={`flex flex-col p-3 md:p-5 ${
+                  i < 2 ? "border-r border-white/[0.06]" : ""
+                }`}
+              >
+                {slot ? (
+                  <>
+                    <div className="relative mb-2 aspect-[16/9] overflow-hidden rounded-md bg-white/[0.04] md:mb-4 md:rounded-lg">
+                      <Image
+                        src={slot.image}
+                        alt={slot.familyName}
+                        fill
+                        sizes="(min-width:1024px) 30vw, 33vw"
+                        className="object-cover"
+                        quality={82}
+                      />
+                    </div>
+                    <span
+                      className={`mb-1 inline-flex self-start rounded px-1.5 py-px text-[8px] font-bold uppercase tracking-[0.14em] md:mb-2 md:px-2 md:py-0.5 md:text-[10px] ${
+                        slot.type === "EV"
+                          ? "bg-badge-ev-bg text-badge-ev"
+                          : "bg-badge-phev-bg text-badge-phev"
+                      }`}
+                    >
+                      {slot.type}
+                    </span>
+                    <h3 className="text-[0.85rem] font-semibold leading-tight text-white md:text-[1.25rem] lg:text-[1.4rem]">
+                      {slot.familyName}
+                    </h3>
+                    <p className="mt-0.5 hidden text-[13px] text-white/38 md:block">
+                      {slot.label} / {t(slot.category, locale)}
                     </p>
-                    <p className="text-[11px] text-white/40 mt-1 uppercase tracking-wide" style={{ fontFamily: "var(--font-montserrat)" }}>
-                      {l(row.sub)}
+                    <p className="mt-1 hidden text-[13.5px] leading-[1.6] text-white/48 md:mt-3 md:block">
+                      {t(slot.summary, locale)}
                     </p>
+                    <div className="mt-auto flex flex-wrap gap-1.5 pt-2 md:gap-2 md:pt-5">
+                      <Link
+                        href={`/${locale}/booking`}
+                        className="btn-primary min-h-[30px] px-2.5 text-[9px] md:min-h-[38px] md:px-4 md:text-[11px]"
+                      >
+                        {labels.testDrive}
+                      </Link>
+                      <Link
+                        href={`/${locale}/catalog/${slot.id}`}
+                        className="btn-secondary min-h-[30px] px-2.5 text-[9px] md:min-h-[38px] md:px-4 md:text-[11px]"
+                      >
+                        {labels.viewCatalog}
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex flex-1 flex-col items-center justify-center py-6 text-center md:py-12">
+                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl border border-dashed border-white/[0.12] bg-white/[0.02] md:mb-4 md:h-16 md:w-16 md:rounded-2xl">
+                      <svg
+                        className="h-5 w-5 text-white/15 md:h-7 md:w-7"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.2}
+                          d="M12 4v16m8-8H4"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-[11px] text-white/25 md:text-[13px]">
+                      {labels.emptySlot}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Differences indicator — mobile only, once above the table */}
+          {hasComparison && diffCount > 0 && (
+            <div className="flex items-center gap-2 border-b border-white/[0.06] px-3 py-2 md:hidden">
+              <span className="inline-flex rounded border border-byd-red/30 bg-byd-red/10 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.1em] text-byd-red">
+                {diffCount} {labels.differs}
+              </span>
+              <span className="text-[11px] text-white/30">
+                {locale === "ka"
+                  ? "— მწკრივები მონიშნულია"
+                  : "— rows highlighted below"}
+              </span>
+            </div>
+          )}
+
+          {/* Spec rows */}
+          {specRows.map((row, rowIndex) => (
+            <div
+              key={row.key}
+              className={`border-b border-white/[0.05] ${
+                row.hasDifference
+                  ? "bg-[rgba(215,12,25,0.05)]"
+                  : rowIndex % 2 === 0
+                    ? "bg-white/[0.015]"
+                    : ""
+              }`}
+            >
+              {/* Mobile: spec label row spanning full width */}
+              <div
+                className={`flex items-center gap-2 px-3 pb-0.5 pt-2 md:hidden ${
+                  row.hasDifference
+                    ? "border-l-2 border-byd-red/50"
+                    : "border-l-2 border-transparent"
+                }`}
+              >
+                <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-white/35">
+                  {t(row.label, locale)}
+                </span>
+              </div>
+
+              {/* Values: 3 columns */}
+              <div
+                className={`grid grid-cols-3 ${
+                  row.hasDifference
+                    ? "md:border-l-0 border-l-2 border-byd-red/50 md:border-l-transparent"
+                    : ""
+                }`}
+              >
+                {row.values.map((value, ci) => (
+                  <div
+                    key={`${row.key}-${ci}`}
+                    title={t(row.label, locale)}
+                    className={`px-3 pb-2.5 pt-0.5 text-[12px] leading-5 md:flex md:items-center md:px-5 md:py-3.5 md:text-[14px] md:leading-6 ${
+                      ci < 2 ? "border-r border-white/[0.04]" : ""
+                    } ${
+                      value === null
+                        ? "text-white/15"
+                        : row.hasDifference
+                          ? "font-semibold text-white"
+                          : "text-white/80"
+                    }`}
+                  >
+                    {value ?? "—"}
+                    {/* DIFFERS badge — desktop only */}
+                    {row.hasDifference && value !== null && (
+                      <span className="ml-2 hidden shrink-0 rounded border border-byd-red/30 bg-byd-red/10 px-1.5 py-px text-[8px] font-bold uppercase tracking-[0.1em] text-byd-red md:inline-flex">
+                        {labels.differs}
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>
             </div>
           ))}
-        </div>
-      </div>
 
-      {/* ── Design section ──────────────────────────────────────── */}
-      <div className="section-container pt-10 pb-4">
-        <h2 className="text-h5 font-semibold text-white mb-6" style={{ letterSpacing: "-0.01em" }}>
-          {locale === "ka" ? "დიზაინი" : "Design"}
-        </h2>
-        <div className="border-t border-white/[0.1]">
-          {DESIGN_CATS.map((cat) => (
-            <div key={cat.key} className="border-b border-white/[0.06] py-6">
-              <div className="grid grid-cols-3 gap-4">
-                {slots.map((slot, i) => {
-                  const options = slot.design[cat.key];
-                  return (
-                    <div key={i}>
-                      <p className="text-xs font-semibold text-white mb-3" style={{ fontFamily: "var(--font-montserrat)" }}>
-                        {l(cat.label)}
-                      </p>
-                      <div className="flex flex-wrap gap-2.5">
-                        {options.map((opt) => {
-                          if (cat.key === "wheels") {
-                            const w = opt as WheelOption;
-                            return (
-                              <WheelSwatch key={opt.id} design={w.design} title={l(opt.label)} />
-                            );
-                          }
-                          const c = opt as PaintOption | InteriorOption | AccentOption;
-                          return (
-                            <div
-                              key={opt.id}
-                              title={l(opt.label)}
-                              className="w-9 h-9 rounded-full border border-white/[0.15] cursor-pointer hover:scale-110 hover:border-white/35 transition-all duration-150"
-                              style={{ backgroundColor: c.hex }}
-                            />
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
+          {/* Price row */}
+          {hasComparison && (
+            <div>
+              <div className="px-3 pb-0.5 pt-2 md:hidden">
+                <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-white/35">
+                  {labels.pricing}
+                </span>
+              </div>
+              <div className="grid grid-cols-3">
+                {slots.map((slot, ci) => (
+                  <div
+                    key={`price-${ci}`}
+                    title={labels.pricing}
+                    className={`px-3 pb-2.5 pt-0.5 text-[11px] italic text-white/35 md:flex md:items-center md:px-5 md:py-3.5 md:text-[13px] ${
+                      ci < 2 ? "border-r border-white/[0.04]" : ""
+                    }`}
+                  >
+                    {slot ? labels.pricingValue : "—"}
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
+          )}
+
+          {/* Empty state */}
+          {!hasComparison && (
+            <div className="flex flex-col items-center justify-center py-12 text-center md:py-16">
+              <p className="text-[13px] text-white/30 md:text-[15px]">
+                {locale === "ka"
+                  ? "აირჩიეთ მინიმუმ 2 მოდელი შესადარებლად"
+                  : "Select at least 2 models to compare"}
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* ── Full spec table ──────────────────────────────────────── */}
-      <div className="section-container pt-8 pb-16">
-        <div className="border-t border-white/[0.08] pt-8 mb-6">
-          <h2 className="text-h5 font-semibold text-white" style={{ letterSpacing: "-0.01em" }}>
-            {locale === "ka" ? "სრული სპეციფიკაცია" : "Full Specifications"}
-          </h2>
-        </div>
-        <div className="border border-white/[0.08] overflow-x-auto">
-          <table className="w-full table-fixed">
-            <thead>
-              <tr className="border-b border-white/[0.08] bg-white/[0.02]">
-                <th
-                  className="text-left py-4 px-5 text-[10px] text-white/30 uppercase tracking-widest"
-                  style={{ fontFamily: "var(--font-montserrat)", width: "160px" }}
+      {/* ── Design options — only when models selected ── */}
+      {filledSlots.length > 0 && (
+        <div className="section-container pt-12">
+          <div className="mb-6 border-t border-white/[0.08] pt-8">
+            <h2 className="text-[2rem] font-semibold text-white">
+              {labels.designTitle}
+            </h2>
+          </div>
+
+          <div className="grid gap-6 xl:grid-cols-3">
+            {slots.map((slot) =>
+              slot ? (
+                <div
+                  key={`design-${slot.id}`}
+                  className="rounded-[20px] border border-white/[0.08] bg-[#1C1E1F] p-6"
                 >
-                  {locale === "ka" ? "სპეც." : "Spec"}
-                </th>
-                {slots.map((slot, i) => (
-                  <th key={i} className="text-left py-4 px-5 align-top" style={{ width: "calc((100% - 160px) / 3)" }}>
-                    <span className={`text-[10px] px-1.5 py-0.5 font-bold ${
-                      slot.type === "EV" ? "bg-badge-ev-bg text-badge-ev" : "bg-badge-phev-bg text-badge-phev"
-                    }`}>
+                  <div className="mb-6 border-b border-white/[0.06] pb-5">
+                    <p
+                      className={`inline-flex rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
+                        slot.type === "EV"
+                          ? "bg-badge-ev-bg text-badge-ev"
+                          : "bg-badge-phev-bg text-badge-phev"
+                      }`}
+                    >
                       {slot.type}
-                    </span>
-                    <p className="text-sm font-semibold text-white mt-1" style={{ fontFamily: "var(--font-montserrat)" }}>
+                    </p>
+                    <h3 className="mt-3 text-xl font-semibold text-white">
                       {slot.familyName}
+                    </h3>
+                    <p className="mt-1 text-sm text-white/40">
+                      {slot.label} / {t(slot.category, locale)}
                     </p>
-                    <p className="text-[11px] text-white/35 mt-0.5" style={{ fontFamily: "var(--font-montserrat)" }}>
-                      {slot.label} · {l(slot.category)}
-                    </p>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {SPEC_ROWS.map((row, idx) => (
-                <tr key={row.key} className={`border-b border-white/[0.04] ${idx % 2 === 0 ? "bg-white/[0.015]" : ""}`}>
-                  <td className="py-3.5 px-5 text-[11px] text-white/35 uppercase tracking-wider" style={{ fontFamily: "var(--font-montserrat)" }}>
-                    {l(row.label)}
-                  </td>
-                  {slots.map((slot, i) => (
-                    <td key={i} className="py-3.5 px-5 text-sm text-white font-medium" style={{ fontFamily: "var(--font-montserrat)" }}>
-                      {row.fn(slot, locale)}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-              <tr className="border-t border-white/[0.08] bg-white/[0.02]">
-                <td className="py-4 px-5 text-[11px] text-white/35 uppercase tracking-wider" style={{ fontFamily: "var(--font-montserrat)" }}>
-                  {locale === "ka" ? "ფასი" : "Price"}
-                </td>
-                {slots.map((_, i) => (
-                  <td key={i} className="py-4 px-5 text-[11px] text-white/30 italic" style={{ fontFamily: "var(--font-montserrat)" }}>
-                    {locale === "ka" ? "ფასისთვის დაგვიკავშირდით" : "Contact for pricing"}
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
+                  </div>
+
+                  <div className="space-y-7">
+                    <div>
+                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-white/35">
+                        {locale === "ka" ? "ფერი" : "Paint"}
+                      </p>
+                      <div className="flex flex-wrap gap-4">
+                        {slot.design.paint.map((paint) => (
+                          <SwatchDot
+                            key={paint.id}
+                            hex={paint.hex}
+                            title={t(paint.label, locale)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-white/35">
+                        {locale === "ka"
+                          ? "დისკები და საბურავები"
+                          : "Wheels & Tires"}
+                      </p>
+                      <div className="flex flex-wrap gap-4">
+                        {slot.design.wheels.map((wheel) => (
+                          <WheelSwatch
+                            key={wheel.id}
+                            design={wheel.design}
+                            title={t(wheel.label, locale)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-white/35">
+                        {locale === "ka" ? "ინტერიერი" : "Interior"}
+                      </p>
+                      <div className="flex flex-wrap gap-4">
+                        {slot.design.interior.map((interior) => (
+                          <SwatchDot
+                            key={interior.id}
+                            hex={interior.hex}
+                            title={t(interior.label, locale)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-white/35">
+                        {locale === "ka" ? "აქცენტები" : "Accents"}
+                      </p>
+                      <div className="flex flex-wrap gap-4">
+                        {slot.design.accents.map((accent) => (
+                          <SwatchDot
+                            key={accent.id}
+                            hex={accent.hex}
+                            title={t(accent.label, locale)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
