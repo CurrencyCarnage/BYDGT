@@ -1,40 +1,202 @@
-﻿"use client";
+"use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import type { CarModel } from "@/lib/types";
 
-export default function ModelEditForm({ initialModel }: { initialModel: CarModel }) {
+interface Props {
+  initialModel: CarModel;
+  mode?: "edit" | "create";
+}
+
+export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
   const router = useRouter();
   const [model, setModel] = useState<CarModel>(initialModel);
   const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; msg: string } | null>(null);
+  const [uploading, setUploading] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   function set<K extends keyof CarModel>(key: K, value: CarModel[K]) {
     setModel((prev) => ({ ...prev, [key]: value }));
   }
 
+  async function uploadFile(file: File, type: "hero" | "silhouette" | "heroVideo") {
+    setUploading(type);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      form.append("type", type);
+      form.append("modelId", model.id);
+      const res = await fetch("/api/upload", { method: "POST", body: form });
+      if (!res.ok) throw new Error("Upload failed");
+      const { path } = await res.json();
+
+      if (type === "hero") {
+        set("images", { ...model.images, hero: path });
+      } else if (type === "silhouette") {
+        set("images", { ...model.images, colorSilhouette: path });
+      } else if (type === "heroVideo") {
+        set("images", { ...model.images, heroVideo: path });
+      }
+      setFeedback({ type: "success", msg: `${type} uploaded successfully.` });
+    } catch {
+      setFeedback({ type: "error", msg: `Failed to upload ${type}.` });
+    } finally {
+      setUploading(null);
+    }
+  }
+
   async function handleSave() {
+    if (mode === "create" && !model.id) {
+      setFeedback({ type: "error", msg: "Model ID is required." });
+      return;
+    }
+    if (mode === "create" && !model.name.en) {
+      setFeedback({ type: "error", msg: "English name is required." });
+      return;
+    }
+
     setSaving(true);
     setFeedback(null);
     try {
-      const res = await fetch(`/api/models/${model.id}`, {
-        method: "PATCH",
+      const url = mode === "create" ? "/api/models" : `/api/models/${model.id}`;
+      const method = mode === "create" ? "POST" : "PATCH";
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(model),
       });
-      if (!res.ok) throw new Error("Save failed");
-      setFeedback({ type: "success", msg: "Model saved successfully." });
-      router.refresh();
-    } catch {
-      setFeedback({ type: "error", msg: "Failed to save. Please try again." });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Save failed");
+      }
+
+      if (mode === "create") {
+        setFeedback({ type: "success", msg: "Model created! Redirecting..." });
+        setTimeout(() => router.push(`/admin/models/${model.id}`), 1000);
+      } else {
+        setFeedback({ type: "success", msg: "Model saved successfully." });
+        router.refresh();
+      }
+    } catch (e) {
+      setFeedback({ type: "error", msg: e instanceof Error ? e.message : "Failed to save." });
     } finally {
       setSaving(false);
     }
   }
 
+  async function handleDelete() {
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/models/${model.id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Delete failed");
+      router.push("/admin/models");
+      router.refresh();
+    } catch {
+      setFeedback({ type: "error", msg: "Failed to delete model." });
+      setDeleting(false);
+      setConfirmDelete(false);
+    }
+  }
+
   return (
     <div className="max-w-3xl">
+
+      {/* Section: Identity (create mode only) */}
+      {mode === "create" && (
+        <Section title="Model Identity">
+          <div className="grid grid-cols-2 gap-4">
+            <Field label="Model ID (slug)">
+              <input
+                type="text"
+                value={model.id}
+                onChange={(e) => set("id", e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
+                placeholder="e.g. han-ev"
+                className={inputCls}
+              />
+              <p className="text-[10px] text-white/30 mt-1">Lowercase, hyphens only. Used in URLs and filenames.</p>
+            </Field>
+            <Field label="Type">
+              <select
+                value={model.type}
+                onChange={(e) => set("type", e.target.value as "EV" | "PHEV")}
+                className={inputCls}
+              >
+                <option value="EV">EV</option>
+                <option value="PHEV">PHEV</option>
+              </select>
+            </Field>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <Field label="Name (English)">
+              <input
+                type="text"
+                value={model.name.en}
+                onChange={(e) => set("name", { ...model.name, en: e.target.value })}
+                placeholder="BYD Han EV"
+                className={inputCls}
+              />
+            </Field>
+            <Field label="Name (Georgian)">
+              <input
+                type="text"
+                value={model.name.ka}
+                onChange={(e) => set("name", { ...model.name, ka: e.target.value })}
+                placeholder="BYD Han EV"
+                className={inputCls}
+              />
+            </Field>
+          </div>
+          <Field label="Category">
+            <input
+              type="text"
+              value={model.category}
+              onChange={(e) => set("category", e.target.value)}
+              placeholder="e.g. Sedan, SUV, Compact"
+              className={inputCls}
+            />
+          </Field>
+        </Section>
+      )}
+
+      {/* Section: Images */}
+      <Section title="Images">
+        {mode === "create" && !model.id && (
+          <p className="text-xs text-white/30 italic -mt-2 mb-2">Enter a Model ID above first, then upload images.</p>
+        )}
+        <div className="grid grid-cols-1 gap-5">
+          <ImageUpload
+            label="Hero Image"
+            hint="Full-width background image for the model page (JPG/PNG, ~1920px wide)"
+            accept="image/*"
+            currentPath={model.images.hero}
+            uploading={uploading === "hero"}
+            disabled={!model.id}
+            onUpload={(file) => uploadFile(file, "hero")}
+          />
+          <ImageUpload
+            label="Color Silhouette"
+            hint="Grayscale car outline PNG for the color configurator tinting engine"
+            accept="image/png"
+            currentPath={model.images.colorSilhouette}
+            uploading={uploading === "silhouette"}
+            disabled={!model.id}
+            onUpload={(file) => uploadFile(file, "silhouette")}
+          />
+          <ImageUpload
+            label="Hero Video (optional)"
+            hint="MP4 promo video shown instead of the hero image"
+            accept="video/mp4"
+            currentPath={model.images.heroVideo}
+            uploading={uploading === "heroVideo"}
+            disabled={!model.id}
+            onUpload={(file) => uploadFile(file, "heroVideo")}
+          />
+        </div>
+      </Section>
+
       {/* Section: Basic Info */}
       <Section title="Basic Information">
         <div className="grid grid-cols-2 gap-4">
@@ -101,22 +263,20 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
               className={inputCls}
             />
           </Field>
-          {model.specs.electric_range_km !== undefined && (
-            <Field label="Electric Range (km)">
-              <input
-                type="number"
-                min={0}
-                value={model.specs.electric_range_km}
-                onChange={(e) =>
-                  set("specs", {
-                    ...model.specs,
-                    electric_range_km: Number(e.target.value),
-                  })
-                }
-                className={inputCls}
-              />
-            </Field>
-          )}
+          <Field label="Electric Range (km)">
+            <input
+              type="number"
+              min={0}
+              value={model.specs.electric_range_km ?? 0}
+              onChange={(e) =>
+                set("specs", {
+                  ...model.specs,
+                  electric_range_km: Number(e.target.value) || undefined,
+                })
+              }
+              className={inputCls}
+            />
+          </Field>
           <Field label="Power (hp)">
             <input
               type="number"
@@ -181,37 +341,82 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
           {model.configurations.variants.map((variant, i) => (
             <div
               key={variant.id}
-              className="flex items-center gap-4 bg-[#2C2F30] border border-glass-border px-4 py-3"
+              className="bg-[#2C2F30] border border-glass-border px-4 py-3"
             >
-              <div className="flex-1">
-                <p className="text-sm font-medium text-white">
-                  {variant.name.en}
-                </p>
-                <p className="text-xs text-white/35">{variant.name.ka}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-white/35">+$</span>
-                <input
-                  type="number"
-                  min={0}
-                  step={100}
-                  value={variant.priceModifier}
-                  onChange={(e) => {
-                    const updated = model.configurations.variants.map((v, idx) =>
-                      idx === i
-                        ? { ...v, priceModifier: Number(e.target.value) }
-                        : v
-                    );
-                    set("configurations", {
-                      ...model.configurations,
-                      variants: updated,
-                    });
+              <div className="flex items-center gap-4">
+                <div className="flex-1 grid grid-cols-2 gap-3">
+                  <input
+                    type="text"
+                    value={variant.name.en}
+                    onChange={(e) => {
+                      const updated = model.configurations.variants.map((v, idx) =>
+                        idx === i ? { ...v, name: { ...v.name, en: e.target.value } } : v
+                      );
+                      set("configurations", { ...model.configurations, variants: updated });
+                    }}
+                    placeholder="Name (EN)"
+                    className={inputSmCls}
+                  />
+                  <input
+                    type="text"
+                    value={variant.name.ka}
+                    onChange={(e) => {
+                      const updated = model.configurations.variants.map((v, idx) =>
+                        idx === i ? { ...v, name: { ...v.name, ka: e.target.value } } : v
+                      );
+                      set("configurations", { ...model.configurations, variants: updated });
+                    }}
+                    placeholder="Name (KA)"
+                    className={inputSmCls}
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-white/35">+$</span>
+                  <input
+                    type="number"
+                    min={0}
+                    step={100}
+                    value={variant.priceModifier}
+                    onChange={(e) => {
+                      const updated = model.configurations.variants.map((v, idx) =>
+                        idx === i ? { ...v, priceModifier: Number(e.target.value) } : v
+                      );
+                      set("configurations", { ...model.configurations, variants: updated });
+                    }}
+                    className="w-24 bg-[#1C1E1F] border border-glass-border px-3 py-1.5 text-sm text-white focus:outline-none focus:border-byd-red transition-colors"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updated = model.configurations.variants.filter((_, idx) => idx !== i);
+                    set("configurations", { ...model.configurations, variants: updated });
                   }}
-                  className="w-24 bg-[#1C1E1F] border border-glass-border px-3 py-1.5 text-sm text-white focus:outline-none focus:border-byd-red transition-colors"
-                />
+                  className="text-white/25 hover:text-error transition-colors p-1"
+                  title="Remove variant"
+                >
+                  <TrashIcon />
+                </button>
               </div>
             </div>
           ))}
+          <button
+            type="button"
+            onClick={() => {
+              const newVariant = {
+                id: `variant-${Date.now()}`,
+                name: { en: "", ka: "" },
+                priceModifier: 0,
+              };
+              set("configurations", {
+                ...model.configurations,
+                variants: [...model.configurations.variants, newVariant],
+              });
+            }}
+            className="flex items-center gap-2 text-sm text-white/40 hover:text-byd-red border border-dashed border-glass-border hover:border-byd-red/40 px-4 py-2.5 transition-colors duration-200"
+          >
+            <PlusIcon /> Add Variant
+          </button>
         </div>
       </Section>
 
@@ -221,60 +426,104 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
           {model.configurations.colors.map((color, i) => (
             <div
               key={color.id}
-              className="flex items-center gap-4 bg-[#2C2F30] border border-glass-border px-4 py-3"
+              className="bg-[#2C2F30] border border-glass-border px-4 py-3"
             >
-              {/* Color picker */}
-              <label className="cursor-pointer" title="Pick colour">
-                <span
-                  className="block w-8 h-8 rounded-full border-2 border-glass-border-hover shadow overflow-hidden"
-                  style={{ backgroundColor: color.hex }}
-                />
-                <input
-                  type="color"
-                  value={color.hex}
-                  onChange={(e) => {
-                    const updated = model.configurations.colors.map((c, idx) =>
-                      idx === i ? { ...c, hex: e.target.value } : c
-                    );
-                    set("configurations", {
-                      ...model.configurations,
-                      colors: updated,
-                    });
-                  }}
-                  className="sr-only"
-                />
-              </label>
+              <div className="flex items-center gap-4">
+                {/* Color picker */}
+                <label className="cursor-pointer flex-shrink-0" title="Pick colour">
+                  <span
+                    className="block w-8 h-8 rounded-full border-2 border-glass-border-hover shadow overflow-hidden"
+                    style={{ backgroundColor: color.hex }}
+                  />
+                  <input
+                    type="color"
+                    value={color.hex}
+                    onChange={(e) => {
+                      const updated = model.configurations.colors.map((c, idx) =>
+                        idx === i ? { ...c, hex: e.target.value } : c
+                      );
+                      set("configurations", { ...model.configurations, colors: updated });
+                    }}
+                    className="sr-only"
+                  />
+                </label>
 
-              <div className="flex-1">
-                <p className="text-sm font-medium text-white">
-                  {color.name.en}
-                </p>
-                <p className="text-xs text-white/35 font-mono">{color.hex}</p>
-              </div>
+                <div className="flex-1 grid grid-cols-2 gap-3">
+                  <input
+                    type="text"
+                    value={color.name.en}
+                    onChange={(e) => {
+                      const updated = model.configurations.colors.map((c, idx) =>
+                        idx === i ? { ...c, name: { ...c.name, en: e.target.value } } : c
+                      );
+                      set("configurations", { ...model.configurations, colors: updated });
+                    }}
+                    placeholder="Name (EN)"
+                    className={inputSmCls}
+                  />
+                  <input
+                    type="text"
+                    value={color.name.ka}
+                    onChange={(e) => {
+                      const updated = model.configurations.colors.map((c, idx) =>
+                        idx === i ? { ...c, name: { ...c.name, ka: e.target.value } } : c
+                      );
+                      set("configurations", { ...model.configurations, colors: updated });
+                    }}
+                    placeholder="Name (KA)"
+                    className={inputSmCls}
+                  />
+                </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-white/35">+$</span>
-                <input
-                  type="number"
-                  min={0}
-                  step={100}
-                  value={color.priceModifier}
-                  onChange={(e) => {
-                    const updated = model.configurations.colors.map((c, idx) =>
-                      idx === i
-                        ? { ...c, priceModifier: Number(e.target.value) }
-                        : c
-                    );
-                    set("configurations", {
-                      ...model.configurations,
-                      colors: updated,
-                    });
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-white/35">+$</span>
+                  <input
+                    type="number"
+                    min={0}
+                    step={100}
+                    value={color.priceModifier}
+                    onChange={(e) => {
+                      const updated = model.configurations.colors.map((c, idx) =>
+                        idx === i ? { ...c, priceModifier: Number(e.target.value) } : c
+                      );
+                      set("configurations", { ...model.configurations, colors: updated });
+                    }}
+                    className="w-24 bg-[#1C1E1F] border border-glass-border px-3 py-1.5 text-sm text-white focus:outline-none focus:border-byd-red transition-colors"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updated = model.configurations.colors.filter((_, idx) => idx !== i);
+                    set("configurations", { ...model.configurations, colors: updated });
                   }}
-                  className="w-24 bg-[#1C1E1F] border border-glass-border px-3 py-1.5 text-sm text-white focus:outline-none focus:border-byd-red transition-colors"
-                />
+                  className="text-white/25 hover:text-error transition-colors p-1"
+                  title="Remove colour"
+                >
+                  <TrashIcon />
+                </button>
               </div>
             </div>
           ))}
+          <button
+            type="button"
+            onClick={() => {
+              const newColor = {
+                id: `color-${Date.now()}`,
+                name: { en: "", ka: "" },
+                hex: "#808080",
+                priceModifier: 0,
+              };
+              set("configurations", {
+                ...model.configurations,
+                colors: [...model.configurations.colors, newColor],
+              });
+            }}
+            className="flex items-center gap-2 text-sm text-white/40 hover:text-byd-red border border-dashed border-glass-border hover:border-byd-red/40 px-4 py-2.5 transition-colors duration-200"
+          >
+            <PlusIcon /> Add Colour
+          </button>
         </div>
       </Section>
 
@@ -298,7 +547,9 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
           disabled={saving}
           className="bg-byd-red text-white font-semibold px-6 py-2.5 hover:bg-byd-red/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
         >
-          {saving ? "Saving…" : "Save Changes"}
+          {saving
+            ? mode === "create" ? "Creating…" : "Saving…"
+            : mode === "create" ? "Create Model" : "Save Changes"}
         </button>
         <button
           onClick={() => {
@@ -310,7 +561,46 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
         >
           Reset
         </button>
+
       </div>
+
+      {/* Danger zone — delete (edit mode only) */}
+      {mode === "edit" && (
+        <div className="mt-6 border border-error/20 bg-error/[0.04] px-5 py-4 mb-12">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-error">Danger Zone</p>
+              <p className="text-xs text-white/35 mt-0.5">Permanently delete this model and all its data.</p>
+            </div>
+            {confirmDelete ? (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleDelete}
+                  disabled={deleting}
+                  className="text-xs font-semibold text-white bg-error px-4 py-2 hover:bg-error/80 disabled:opacity-50 transition-colors"
+                >
+                  {deleting ? "Deleting…" : "Yes, Delete"}
+                </button>
+                <button
+                  onClick={() => setConfirmDelete(false)}
+                  disabled={deleting}
+                  className="text-xs text-white/40 border border-glass-border px-4 py-2 hover:text-white transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setConfirmDelete(true)}
+                className="text-sm font-medium text-error border border-error/40 px-4 py-2 hover:bg-error/10 transition-colors duration-200"
+              >
+                Delete Model
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -319,6 +609,9 @@ export default function ModelEditForm({ initialModel }: { initialModel: CarModel
 
 const inputCls =
   "w-full bg-[#2C2F30] border border-glass-border px-4 py-2.5 text-white text-sm focus:outline-none focus:border-byd-red transition-colors duration-200";
+
+const inputSmCls =
+  "w-full bg-[#1C1E1F] border border-glass-border px-3 py-1.5 text-sm text-white focus:outline-none focus:border-byd-red transition-colors";
 
 function Section({
   title,
@@ -380,5 +673,77 @@ function Toggle({
         />
       </button>
     </div>
+  );
+}
+
+function ImageUpload({
+  label,
+  hint,
+  accept,
+  currentPath,
+  uploading,
+  disabled,
+  onUpload,
+}: {
+  label: string;
+  hint: string;
+  accept: string;
+  currentPath?: string;
+  uploading: boolean;
+  disabled?: boolean;
+  onUpload: (file: File) => void;
+}) {
+  const ref = useRef<HTMLInputElement>(null);
+
+  return (
+    <div className="bg-[#2C2F30] border border-glass-border px-4 py-4">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-white mb-0.5">{label}</p>
+          <p className="text-[11px] text-white/30 mb-2">{hint}</p>
+          {currentPath ? (
+            <p className="text-xs text-white/50 font-mono truncate">{currentPath}</p>
+          ) : (
+            <p className="text-xs text-white/25 italic">No file uploaded</p>
+          )}
+        </div>
+        <div>
+          <input
+            ref={ref}
+            type="file"
+            accept={accept}
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) onUpload(file);
+            }}
+            className="sr-only"
+          />
+          <button
+            type="button"
+            onClick={() => ref.current?.click()}
+            disabled={uploading || disabled}
+            className="text-xs font-medium text-byd-red border border-byd-red/30 px-3 py-1.5 hover:bg-byd-red/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          >
+            {uploading ? "Uploading…" : currentPath ? "Replace" : "Upload"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TrashIcon() {
+  return (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+    </svg>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+    </svg>
   );
 }

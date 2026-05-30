@@ -79,6 +79,7 @@
   },
   "images": {
     "hero": "/images/models/yuan-up-ev/hero.jpg",
+    "colorSilhouette": "/images/ModelColors/yuan-up.png",
     "gallery": [],
     "colorViews": {}
   },

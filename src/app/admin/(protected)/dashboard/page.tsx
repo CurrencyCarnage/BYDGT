@@ -125,6 +125,17 @@ export default async function DashboardPage() {
             </Link>
           </div>
         ))}
+
+        {/* Add new model card */}
+        <Link
+          href="/admin/models/new"
+          className="bg-[#1C1E1F] border border-dashed border-glass-border p-5 flex flex-col items-center justify-center gap-3 hover:border-byd-red/40 hover:bg-byd-red/5 transition-colors duration-200 min-h-[160px]"
+        >
+          <svg className="w-8 h-8 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          <span className="text-sm font-medium text-white/40">New Model</span>
+        </Link>
       </div>
 
       {/* Quick nav */}

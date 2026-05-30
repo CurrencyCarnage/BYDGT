@@ -98,6 +98,7 @@
   "images": {
     "hero": "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",
     "heroVideo": "/images/models/sealion-06-dmi/sealion-6-promo.mp4",
+    "colorSilhouette": "/images/ModelColors/sealion-06.png",
     "gallery": [],
     "colorViews": {}
   },

@@ -4,7 +4,7 @@ import TintedCarImage from "./TintedCarImage";
 import { ColorOption, getLocalizedValue } from "@/lib/types";
 
 interface CarColorPreviewProps {
-  modelId: string;
+  colorSilhouette?: string;
   colors: ColorOption[];
   selectedColorId: string;
   onSelectColor: (color: ColorOption) => void;
@@ -14,15 +14,8 @@ interface CarColorPreviewProps {
   formatPrice: (price: number) => string;
 }
 
-const imageMap: Record<string, string> = {
-  "sealion-06-dmi": "/images/ModelColors/sealion-06.png",
-  "seal-06-dmi": "/images/ModelColors/seal-06.png?v=seal06-sedan-20260528",
-  "yuan-up-dmi": "/images/ModelColors/yuan-up.png",
-  "yuan-up-ev": "/images/ModelColors/yuan-up.png",
-};
-
 export default function CarColorPreview({
-  modelId,
+  colorSilhouette,
   colors,
   selectedColorId,
   onSelectColor,
@@ -31,7 +24,7 @@ export default function CarColorPreview({
   includedLabel,
   formatPrice,
 }: CarColorPreviewProps) {
-  const imageSrc = imageMap[modelId];
+  const imageSrc = colorSilhouette;
   const selectedColor = colors.find((color) => color.id === selectedColorId);
 
   return (

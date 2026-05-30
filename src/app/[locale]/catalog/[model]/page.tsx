@@ -65,7 +65,7 @@ export default async function ModelDetailPage({
             sizes="100vw"
             className="object-cover object-center"
             priority
-            quality={92}
+            unoptimized
           />
         ) : (
           <div className="absolute inset-0 bg-[#1A1C1D]" />

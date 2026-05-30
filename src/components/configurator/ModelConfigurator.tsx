@@ -12,10 +12,10 @@ interface ModelConfiguratorProps {
 
 export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
   const [selectedColor, setSelectedColor] = useState(
-    model.configurations.colors[0]
+    model.configurations.colors[0] ?? null
   );
   const [selectedVariant, setSelectedVariant] = useState(
-    model.configurations.variants[0]
+    model.configurations.variants[0] ?? null
   );
   const t = useTranslations("model");
   const tCommon = useTranslations("common");
@@ -23,10 +23,10 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
 
   const totalPrice =
     model.basePrice +
-    selectedColor.priceModifier +
-    selectedVariant.priceModifier;
-  const selectedColorName = getLocalizedValue(selectedColor.name, locale);
-  const selectedVariantName = getLocalizedValue(selectedVariant.name, locale);
+    (selectedColor?.priceModifier ?? 0) +
+    (selectedVariant?.priceModifier ?? 0);
+  const selectedColorName = selectedColor ? getLocalizedValue(selectedColor.name, locale) : "";
+  const selectedVariantName = selectedVariant ? getLocalizedValue(selectedVariant.name, locale) : "";
 
   return (
     <div className="relative overflow-hidden border border-white/[0.08] bg-[#252728] p-6 md:p-8">
@@ -38,38 +38,46 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
             <p className="text-[10px] uppercase tracking-[0.18em] text-white/35">
               {t("selectColor")}
             </p>
-            <div className="mt-3 flex items-center gap-3">
-              <span
-                className="h-4 w-4 rounded-full border border-white/20"
-                style={{ backgroundColor: selectedColor.hex }}
-              />
-              <div>
-                <p className="text-sm font-semibold text-white">
-                  {selectedColorName}
-                </p>
-                <p className="text-[11px] text-white/35">
-                  {selectedColor.priceModifier === 0
-                    ? t("included")
-                    : `+${formatPrice(selectedColor.priceModifier)}`}
-                </p>
+            {selectedColor ? (
+              <div className="mt-3 flex items-center gap-3">
+                <span
+                  className="h-4 w-4 rounded-full border border-white/20"
+                  style={{ backgroundColor: selectedColor.hex }}
+                />
+                <div>
+                  <p className="text-sm font-semibold text-white">
+                    {selectedColorName}
+                  </p>
+                  <p className="text-[11px] text-white/35">
+                    {selectedColor.priceModifier === 0
+                      ? t("included")
+                      : `+${formatPrice(selectedColor.priceModifier)}`}
+                  </p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <p className="mt-3 text-xs text-white/25 italic">No colours configured</p>
+            )}
           </div>
 
           <div className="border border-white/[0.08] bg-black/[0.14] px-4 py-4">
             <p className="text-[10px] uppercase tracking-[0.18em] text-white/35">
               {t("selectVariant")}
             </p>
-            <div className="mt-3">
-              <p className="text-sm font-semibold text-white">
-                {selectedVariantName}
-              </p>
-              <p className="text-[11px] text-white/35">
-                {selectedVariant.priceModifier === 0
-                  ? t("included")
-                  : `+${formatPrice(selectedVariant.priceModifier)}`}
-              </p>
-            </div>
+            {selectedVariant ? (
+              <div className="mt-3">
+                <p className="text-sm font-semibold text-white">
+                  {selectedVariantName}
+                </p>
+                <p className="text-[11px] text-white/35">
+                  {selectedVariant.priceModifier === 0
+                    ? t("included")
+                    : `+${formatPrice(selectedVariant.priceModifier)}`}
+                </p>
+              </div>
+            ) : (
+              <p className="mt-3 text-xs text-white/25 italic">No variants configured</p>
+            )}
           </div>
 
           <div className="border border-white/[0.08] bg-black/[0.14] px-4 py-4 lg:text-right">
@@ -82,24 +90,27 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
           </div>
         </div>
 
-        <CarColorPreview
-          modelId={model.id}
-          colors={model.configurations.colors}
-          selectedColorId={selectedColor.id}
-          onSelectColor={setSelectedColor}
-          locale={locale}
-          selectLabel={t("selectColor")}
-          includedLabel={t("included")}
-          formatPrice={formatPrice}
-        />
+        {model.configurations.colors.length > 0 && selectedColor && (
+          <CarColorPreview
+            colorSilhouette={model.images.colorSilhouette}
+            colors={model.configurations.colors}
+            selectedColorId={selectedColor.id}
+            onSelectColor={setSelectedColor}
+            locale={locale}
+            selectLabel={t("selectColor")}
+            includedLabel={t("included")}
+            formatPrice={formatPrice}
+          />
+        )}
 
+        {model.configurations.variants.length > 0 && (
         <div className="mb-8 border border-white/[0.08] bg-white/[0.02] px-4 py-5 sm:px-5 lg:px-6">
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/35">
             {t("selectVariant")}
           </p>
           <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
             {model.configurations.variants.map((variant) => {
-              const isSelected = selectedVariant.id === variant.id;
+              const isSelected = selectedVariant?.id === variant.id;
 
               return (
                 <button
@@ -143,6 +154,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
             })}
           </div>
         </div>
+        )}
 
         <div className="border-t border-[rgba(255,255,255,0.06)] pt-6">
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
@@ -184,7 +196,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
             </Link>
             <a
               href={`https://wa.me/995XXXXXXXXX?text=${encodeURIComponent(
-                `Hi, I'm interested in the ${getLocalizedValue(model.name, "en")} (${getLocalizedValue(selectedColor.name, "en")}, ${getLocalizedValue(selectedVariant.name, "en")})`
+                `Hi, I'm interested in the ${getLocalizedValue(model.name, "en")}${selectedColor ? ` (${getLocalizedValue(selectedColor.name, "en")}` : ""}${selectedVariant ? `, ${getLocalizedValue(selectedVariant.name, "en")})` : selectedColor ? ")" : ""}`
               )}`}
               target="_blank"
               rel="noopener noreferrer"

@@ -41,6 +41,7 @@ export interface CarModel {
   images: {
     hero: string;
     heroVideo?: string;
+    colorSilhouette?: string;
     gallery: string[];
     colorViews: Record<string, string>;
   };

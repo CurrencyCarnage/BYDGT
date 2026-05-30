@@ -33,6 +33,7 @@
   },
   "images": {
     "hero": "/images/models/seal-06-dmi/hero.jpg",
+    "colorSilhouette": "/images/ModelColors/seal-06.png",
     "gallery": [],
     "colorViews": {}
   },

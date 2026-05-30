@@ -31,6 +31,7 @@
   },
   "images": {
     "hero": "/images/models/yuan-up-dmi/hero.jpg",
+    "colorSilhouette": "/images/ModelColors/yuan-up.png",
     "gallery": [],
     "colorViews": {}
   },

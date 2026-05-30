@@ -52,3 +52,25 @@ export async function PATCH(
     );
   }
 }
+
+export async function DELETE(
+  _req: Request,
+  { params }: { params: { id: string } }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const filePath = path.join(MODELS_DIR, `${params.id}.json`);
+    await fs.access(filePath);
+    await fs.unlink(filePath);
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json(
+      { error: "Failed to delete model" },
+      { status: 500 }
+    );
+  }
+}

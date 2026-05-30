@@ -1,4 +1,5 @@
-﻿import type { CarModel } from "@/lib/types";
+﻿import Link from "next/link";
+import type { CarModel } from "@/lib/types";
 import ModelsTable from "@/components/admin/ModelsTable";
 
 async function fetchModels(): Promise<CarModel[]> {
@@ -15,12 +16,20 @@ export default async function ModelsPage() {
 
   return (
     <div className="p-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">Models</h1>
-        <p className="text-white/35 mt-1">
-          Toggle availability and featured status, or click Edit to update
-          pricing and specs.
-        </p>
+      <div className="flex items-start justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Models</h1>
+          <p className="text-white/35 mt-1">
+            Toggle availability and featured status, or click Edit to update
+            pricing and specs.
+          </p>
+        </div>
+        <Link
+          href="/admin/models/new"
+          className="flex-shrink-0 bg-byd-red text-white text-sm font-semibold px-4 py-2.5 hover:bg-byd-red/90 transition-colors duration-200"
+        >
+          + New Model
+        </Link>
       </div>
 
       <ModelsTable initialModels={models} />
