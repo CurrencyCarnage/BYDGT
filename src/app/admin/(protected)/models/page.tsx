@@ -1,18 +1,11 @@
 ﻿import Link from "next/link";
-import type { CarModel } from "@/lib/types";
 import ModelsTable from "@/components/admin/ModelsTable";
+import { getAllModels } from "@/lib/models";
 
-async function fetchModels(): Promise<CarModel[]> {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}/api/models`,
-    { cache: "no-store" }
-  );
-  if (!res.ok) return [];
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 export default async function ModelsPage() {
-  const models = await fetchModels();
+  const models = await getAllModels();
 
   return (
     <div className="p-8">
@@ -20,8 +13,7 @@ export default async function ModelsPage() {
         <div>
           <h1 className="text-2xl font-bold text-white">Models</h1>
           <p className="text-white/35 mt-1">
-            Toggle availability and featured status, or click Edit to update
-            pricing and specs.
+            Toggle availability, or click Edit to update pricing and specs.
           </p>
         </div>
         <Link
@@ -35,8 +27,8 @@ export default async function ModelsPage() {
       <ModelsTable initialModels={models} />
 
       <p className="mt-6 text-xs text-white/35">
-        Changes to availability and featured status take effect immediately.
-        Price and spec changes are applied on the next page load.
+        Changes to availability take effect immediately. Price and spec changes
+        are applied on the next page load.
       </p>
     </div>
   );

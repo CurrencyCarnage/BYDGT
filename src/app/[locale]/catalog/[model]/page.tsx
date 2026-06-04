@@ -6,6 +6,8 @@ import { getModelById, getLocalizedValue, formatPrice } from "@/lib/models";
 import ModelConfigurator from "@/components/configurator/ModelConfigurator";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
+export const dynamic = "force-dynamic";
+
 export default async function ModelDetailPage({
   params,
 }: {

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { promises as fs } from "fs";
 import path from "path";
+import { getCloudflareEnv } from "@/lib/cloudflare-env";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -28,22 +29,41 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid model ID" }, { status: 400 });
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const ext = path.extname(file.name) || ".jpg";
   let destPath: string;
   let publicPath: string;
+  let storageKey: string;
 
   if (type === "hero") {
-    const ext = path.extname(file.name) || ".jpg";
+    storageKey = `images/models/${safeId}/hero${ext}`;
     destPath = path.join(process.cwd(), "public", "images", "models", safeId, `hero${ext}`);
     publicPath = `/images/models/${safeId}/hero${ext}`;
   } else if (type === "silhouette") {
+    storageKey = `images/ModelColors/${safeId}.png`;
     destPath = path.join(process.cwd(), "public", "images", "ModelColors", `${safeId}.png`);
     publicPath = `/images/ModelColors/${safeId}.png`;
   } else if (type === "heroVideo") {
+    storageKey = `images/models/${safeId}/hero.mp4`;
     destPath = path.join(process.cwd(), "public", "images", "models", safeId, "hero.mp4");
     publicPath = `/images/models/${safeId}/hero.mp4`;
   } else {
     return NextResponse.json({ error: "Invalid type. Use: hero, silhouette, heroVideo" }, { status: 400 });
+  }
+
+  const { MEDIA_BUCKET, MEDIA_PUBLIC_URL } = getCloudflareEnv();
+  if (MEDIA_BUCKET) {
+    await MEDIA_BUCKET.put(storageKey, arrayBuffer, {
+      httpMetadata: {
+        contentType: file.type || "application/octet-stream",
+      },
+    });
+
+    const baseUrl = MEDIA_PUBLIC_URL?.replace(/\/$/, "");
+    return NextResponse.json({
+      path: baseUrl ? `${baseUrl}/${storageKey}` : `/api/assets/${storageKey}`,
+    });
   }
 
   await fs.mkdir(path.dirname(destPath), { recursive: true });

@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
 import { Resend } from "resend";
 import { TestDriveBooking, SHOWROOM, testDriveModels } from "@/lib/test-drive";
 import { buildAdminTestDriveEmail, buildCustomerTestDriveEmail } from "@/lib/email";
-
-const BOOKINGS_DIR = path.join(process.cwd(), "content", "bookings");
+import { saveBooking } from "@/lib/bookings";
 
 function generateId() {
   return `td-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -141,12 +138,7 @@ export async function POST(req: NextRequest) {
     };
 
     // ── Persist ─────────────────────────────────────────────────
-    await fs.mkdir(BOOKINGS_DIR, { recursive: true });
-    await fs.writeFile(
-      path.join(BOOKINGS_DIR, `${booking.id}.json`),
-      JSON.stringify(booking, null, 2),
-      "utf-8"
-    );
+    await saveBooking(booking);
 
     // ── Send emails ─────────────────────────────────────────────
     const emailStatus = await sendEmails(booking);

@@ -2,15 +2,9 @@
 import { authOptions } from "@/lib/auth";
 import Link from "next/link";
 import type { CarModel } from "@/lib/types";
+import { getAllModels } from "@/lib/models";
 
-async function fetchModels(): Promise<CarModel[]> {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}/api/models`,
-    { cache: "no-store" }
-  );
-  if (!res.ok) return [];
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 function StatCard({
   label,
@@ -35,10 +29,9 @@ function StatCard({
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
-  const models = await fetchModels();
+  const models: CarModel[] = await getAllModels();
 
   const available = models.filter((m) => m.isAvailable).length;
-  const featured = models.filter((m) => m.isFeatured).length;
   const phev = models.filter((m) => m.type === "PHEV").length;
   const ev = models.filter((m) => m.type === "EV").length;
 
@@ -62,14 +55,13 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         <StatCard label="Total Models" value={models.length} />
         <StatCard
           label="Available"
           value={available}
           accent="text-success"
         />
-        <StatCard label="Featured" value={featured} accent="text-byd-red" />
         <StatCard
           label="EV / PHEV"
           value={`${ev} / ${phev}`}

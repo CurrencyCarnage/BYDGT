@@ -1,4 +1,5 @@
 import createNextIntlPlugin from "next-intl/plugin";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -34,5 +35,7 @@ const nextConfig = {
     optimizePackageImports: ["framer-motion"],
   },
 };
+
+initOpenNextCloudflareForDev();
 
 export default withNextIntl(nextConfig);

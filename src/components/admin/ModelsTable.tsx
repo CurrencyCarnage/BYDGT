@@ -54,7 +54,7 @@ export default function ModelsTable({
 
   async function handleToggle(
     model: CarModel,
-    field: "isAvailable" | "isFeatured"
+    field: "isAvailable"
   ) {
     setSaving(model.id + field);
     setError(null);
@@ -94,9 +94,6 @@ export default function ModelsTable({
               <th className="text-center px-5 py-3 text-xs font-medium text-white/35 uppercase tracking-widest">
                 Available
               </th>
-              <th className="text-center px-5 py-3 text-xs font-medium text-white/35 uppercase tracking-widest">
-                Featured
-              </th>
               <th className="px-5 py-3" />
             </tr>
           </thead>
@@ -133,13 +130,6 @@ export default function ModelsTable({
                     checked={model.isAvailable}
                     onChange={() => handleToggle(model, "isAvailable")}
                     disabled={saving === model.id + "isAvailable"}
-                  />
-                </td>
-                <td className="px-5 py-4 text-center">
-                  <Toggle
-                    checked={model.isFeatured}
-                    onChange={() => handleToggle(model, "isFeatured")}
-                    disabled={saving === model.id + "isFeatured"}
                   />
                 </td>
                 <td className="px-5 py-4 text-right">

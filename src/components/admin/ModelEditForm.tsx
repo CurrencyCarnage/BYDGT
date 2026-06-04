@@ -216,11 +216,6 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
               checked={model.isAvailable}
               onChange={(v) => set("isAvailable", v)}
             />
-            <Toggle
-              label="Featured on homepage"
-              checked={model.isFeatured}
-              onChange={(v) => set("isFeatured", v)}
-            />
           </div>
         </div>
       </Section>

@@ -1,23 +1,17 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-
-const MODELS_DIR = path.join(process.cwd(), "content", "models");
-
-async function readModel(id: string) {
-  const filePath = path.join(MODELS_DIR, `${id}.json`);
-  const content = await fs.readFile(filePath, "utf-8");
-  return JSON.parse(content);
-}
+import { deleteModel, getModelById, updateModel } from "@/lib/models";
 
 export async function GET(
   _req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const model = await readModel(params.id);
+    const model = await getModelById(params.id);
+    if (!model) {
+      return NextResponse.json({ error: "Model not found" }, { status: 404 });
+    }
     return NextResponse.json(model);
   } catch {
     return NextResponse.json({ error: "Model not found" }, { status: 404 });
@@ -34,17 +28,10 @@ export async function PATCH(
   }
 
   try {
-    // Verify the model exists before overwriting
-    await readModel(params.id);
-
     const updatedModel = await req.json();
-    // Guarantee id cannot be changed via patch
-    updatedModel.id = params.id;
+    const savedModel = await updateModel(params.id, updatedModel);
 
-    const filePath = path.join(MODELS_DIR, `${params.id}.json`);
-    await fs.writeFile(filePath, JSON.stringify(updatedModel, null, 2), "utf-8");
-
-    return NextResponse.json(updatedModel);
+    return NextResponse.json(savedModel);
   } catch {
     return NextResponse.json(
       { error: "Failed to update model" },
@@ -63,9 +50,7 @@ export async function DELETE(
   }
 
   try {
-    const filePath = path.join(MODELS_DIR, `${params.id}.json`);
-    await fs.access(filePath);
-    await fs.unlink(filePath);
+    await deleteModel(params.id);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(

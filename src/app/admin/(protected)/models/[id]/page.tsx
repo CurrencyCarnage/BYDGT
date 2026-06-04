@@ -1,23 +1,16 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import type { CarModel } from "@/lib/types";
 import ModelEditForm from "@/components/admin/ModelEditForm";
+import { getModelById } from "@/lib/models";
 
-async function fetchModel(id: string): Promise<CarModel | null> {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}/api/models/${id}`,
-    { cache: "no-store" }
-  );
-  if (!res.ok) return null;
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 export default async function ModelEditorPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const model = await fetchModel(params.id);
+  const model = await getModelById(params.id);
   if (!model) notFound();
 
   return (

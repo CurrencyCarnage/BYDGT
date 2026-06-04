@@ -1,8 +1,16 @@
 import { getTranslations, getLocale } from "next-intl/server";
+import { headers } from "next/headers";
+import { unstable_noStore as noStore } from "next/cache";
 import { getAvailableModels } from "@/lib/models";
 import CatalogGrid from "@/components/catalog/CatalogGrid";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function CatalogPage() {
+  noStore();
+  headers();
+
   const [t, locale, models] = await Promise.all([
     getTranslations("catalog"),
     getLocale(),
