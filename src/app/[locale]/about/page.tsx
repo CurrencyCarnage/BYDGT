@@ -302,7 +302,7 @@ export default async function AboutPage() {
             {/* Market performance */}
             <ScrollReveal direction="left">
               <div
-                className="relative overflow-hidden h-full min-h-[320px] flex flex-col justify-end p-8"
+                className="relative overflow-hidden h-full min-h-[20rem] flex flex-col justify-end p-8"
                 style={{
                   backgroundImage: "url('/images/aboutus/byd_about_bg_global_dark.jpg')",
                   backgroundSize: "cover",
@@ -346,7 +346,7 @@ export default async function AboutPage() {
 
             {/* Sustainability */}
             <ScrollReveal direction="right">
-              <div className=" p-8 h-full min-h-[320px] flex flex-col justify-between bg-[rgba(200,208,220,0.04)] border border-[rgba(200,208,220,0.1)]">
+              <div className=" p-8 h-full min-h-[20rem] flex flex-col justify-between bg-[rgba(200,208,220,0.04)] border border-[rgba(200,208,220,0.1)]">
                 <div>
                   <p
                     className="text-xs text-byd-red uppercase tracking-[0.2em] mb-2"

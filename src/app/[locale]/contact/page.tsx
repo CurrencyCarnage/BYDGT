@@ -64,7 +64,7 @@ export default function ContactPage() {
     <div className="bg-byd-dark">
 
       {/* ── Header — dark strip ── */}
-      <div className="bg-[#1C1E1F] border-b border-white/[0.06]" style={{ paddingTop: "80px" }}>
+      <div className="bg-[#1C1E1F] border-b border-white/[0.06]" style={{ paddingTop: "5rem" }}>
         <div className="section-container py-14 md:py-20">
           <ScrollReveal>
             <div className="flex items-center gap-3 mb-5">

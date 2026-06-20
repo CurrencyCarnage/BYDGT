@@ -699,7 +699,7 @@ export default function CompareGrid() {
   return (
     <div className="pb-16">
       {/* ── Mobile: 3 compact thumbnails in one row ── */}
-      <div className="sticky top-[80px] z-30 border-b border-white/[0.06] bg-[#1C1E1F]/95 backdrop-blur md:hidden">
+      <div className="sticky top-[5rem] z-30 border-b border-white/[0.06] bg-[#1C1E1F]/95 backdrop-blur md:hidden">
         <div className="section-container py-2">
           <div className="grid grid-cols-3 gap-1.5">
             {slots.map((slot, i) => (
@@ -718,7 +718,7 @@ export default function CompareGrid() {
       </div>
 
       {/* ── Desktop: 3 equal selectors ── */}
-      <div className="sticky top-[80px] z-30 hidden border-b border-white/[0.06] bg-[#1C1E1F]/95 backdrop-blur md:block">
+      <div className="sticky top-[5rem] z-30 hidden border-b border-white/[0.06] bg-[#1C1E1F]/95 backdrop-blur md:block">
         <div className="section-container py-3">
           <div className="grid grid-cols-3 gap-3">
             {slots.map((slot, i) => (
@@ -737,7 +737,7 @@ export default function CompareGrid() {
 
       {/* ── Comparison matrix ── */}
       <div className="section-container pt-4 md:pt-8">
-        <div className="overflow-hidden rounded-[16px] border border-white/[0.08] bg-[#1C1E1F] shadow-[0_20px_50px_rgba(0,0,0,0.22)] md:rounded-[20px]">
+        <div className="overflow-hidden rounded-[1rem] border border-white/[0.08] bg-[#1C1E1F] shadow-[0_20px_50px_rgba(0,0,0,0.22)] md:rounded-[1.25rem]">
           {/* Model card headers — pure 3-column */}
           <div className="grid grid-cols-3 border-b border-white/[0.08]">
             {slots.map((slot, i) => (
@@ -943,7 +943,7 @@ export default function CompareGrid() {
               slot ? (
                 <div
                   key={`design-${slot.id}`}
-                  className="rounded-[20px] border border-white/[0.08] bg-[#1C1E1F] p-6"
+                  className="rounded-[1.25rem] border border-white/[0.08] bg-[#1C1E1F] p-6"
                 >
                   <div className="mb-6 border-b border-white/[0.06] pb-5">
                     <p

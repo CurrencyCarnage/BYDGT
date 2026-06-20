@@ -600,7 +600,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
 
       <div
         className="relative z-10 flex flex-1 items-start md:items-center"
-        style={{ paddingTop: "80px" }}
+        style={{ paddingTop: "5rem" }}
       >
         <button
           onClick={() => goTo((current - 1 + SLIDES.length) % SLIDES.length)}
@@ -684,7 +684,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                     <Link
                       href="/catalog"
                       className="btn-primary-red min-h-[46px] justify-center px-5 text-[0.95rem] sm:justify-start"
-                      style={{ minWidth: "152px" }}
+                      style={{ minWidth: "9.5rem" }}
                     >
                       {ka ? "მოდელების ნახვა" : "Explore Models"}
                       <svg
@@ -704,7 +704,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                     <Link
                       href="/booking"
                       className="btn-secondary min-h-[46px] justify-center px-5 text-[0.95rem] sm:justify-start"
-                      style={{ minWidth: "152px" }}
+                      style={{ minWidth: "9.5rem" }}
                     >
                       {ka ? "ტესტ დრაივი" : "Book Test Drive"}
                     </Link>
@@ -776,7 +776,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                   </div>
                 </div>
 
-                <div className="hidden md:block md:w-[min(35vw,470px)] md:py-8 xl:py-10">
+                <div className="hidden md:block md:py-8 xl:py-10" style={{ width: 'min(35vw, 29.375rem)' }}>
                   <div className="mb-4 flex items-center gap-3 md:mb-8 xl:mb-10">
                     <span className="h-[2px] w-10 flex-shrink-0 bg-byd-red" />
                     <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-byd-red">
@@ -827,7 +827,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                     <Link
                       href={modelSpec.href}
                       className="btn-primary-red justify-center sm:justify-start"
-                      style={{ minWidth: "190px" }}
+                      style={{ minWidth: "11.875rem" }}
                     >
                       {ka ? "დეტალები" : "View Model"}
                       <svg
@@ -848,7 +848,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                       href="/booking"
                       className="btn-secondary justify-center sm:justify-start"
                       style={{
-                        minWidth: "190px",
+                        minWidth: "11.875rem",
                         background: "rgba(255,255,255,0.02)",
                         borderColor: "rgba(255,255,255,0.24)",
                       }}

@@ -106,7 +106,7 @@ export default async function BookingPage() {
       {/* ══════════════════════════════════════════════════════════
           HERO — full viewport, img3 with cars, cinematic
       ══════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden" style={{ height: "88vh", minHeight: 520, maxHeight: 780 }}>
+      <section className="relative overflow-hidden" style={{ height: "88vh", minHeight: "32.5rem", maxHeight: "48.75rem" }}>
         <Image
           src="/images/testdrive/img3.jpg"
           alt="BYD Tbilisi"
@@ -118,7 +118,7 @@ export default async function BookingPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#252728] via-[#252728]/55 to-[#252728]/10" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#252728]/90 via-[#252728]/40 to-transparent" />
         <div className="absolute inset-0 opacity-[0.025] pointer-events-none"
-          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)", backgroundSize: "52px 52px" }} />
+          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)", backgroundSize: "3.25rem 3.25rem" }} />
 
         {/* Content — pinned to bottom-left, tight and readable */}
         <div className="absolute inset-0 flex items-end">
@@ -248,7 +248,7 @@ export default async function BookingPage() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-10 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_22.5rem] gap-8 lg:gap-10 items-stretch">
 
           {/* ── LEFT: clean form card, no image ───────────────── */}
           <ScrollReveal delay={0.05}>
@@ -263,7 +263,7 @@ export default async function BookingPage() {
             {/* Showroom image — tall, fills visual weight */}
             <ScrollReveal delay={0.08} className="flex-1 flex flex-col min-h-0">
               <div className="flex-1 flex flex-col border border-white/[0.08] overflow-hidden">
-                <div className="relative flex-1 min-h-[200px]">
+                <div className="relative flex-1 min-h-[12.5rem]">
                   <Image
                     src="/images/testdrive/img3.jpg"
                     alt="BYD Dealership"
@@ -366,7 +366,7 @@ export default async function BookingPage() {
               <div className="flex gap-3 flex-wrap">
                 {t.routeChips.map((chip) => (
                   <div key={chip.val}
-                    className="px-4 py-2.5 border border-white/[0.08] bg-[#1C1E1F] text-center min-w-[90px]">
+                    className="px-4 py-2.5 border border-white/[0.08] bg-[#1C1E1F] text-center min-w-[5.625rem]">
                     <p className="text-sm font-bold text-white"
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {chip.val}
@@ -383,7 +383,7 @@ export default async function BookingPage() {
         </div>
 
         <ScrollReveal>
-          <div className="w-full h-[480px] md:h-[540px] border-t border-white/[0.06]">
+          <div className="w-full h-[30rem] md:h-[33.75rem] border-t border-white/[0.06]">
             <ShowroomMap
               lat={SHOWROOM.lat}
               lng={SHOWROOM.lng}

@@ -75,13 +75,13 @@ function MegaMenu({
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
       className="fixed left-0 right-0 z-50 px-3 md:px-5"
-      style={{ top: "80px" }}
+      style={{ top: "5rem" }}
     >
       {/* Invisible bridge covers the gap between nav bottom and panel top */}
       <div className="h-2 w-full" />
 
       <div
-        className="mx-auto max-w-[1480px] overflow-hidden"
+        className="mx-auto max-w-[92.5rem] overflow-hidden"
         style={{
           background: "#111213",
           border:     "1px solid rgba(255,255,255,0.08)",
@@ -110,7 +110,7 @@ function MegaMenu({
                 }}
               >
                 {/* Thumbnail */}
-                <div className="relative h-[188px] w-full overflow-hidden bg-[#252728]">
+                <div className="relative w-full overflow-hidden bg-[#252728]" style={{ height: '11.75rem' }}>
                   <Image
                     src={model.thumbnail}
                     alt={ka ? model.nameKa : model.name}
@@ -244,7 +244,7 @@ export default function Navbar() {
           ? "bg-[#1a1c1d]/95 backdrop-blur-md shadow-[0_2px_24px_rgba(0,0,0,0.55)]"
           : "bg-gradient-to-b from-black/55 to-transparent"
       }`}
-      style={{ height: "80px" }}
+      style={{ height: "5rem" }}
     >
       <div className="section-container h-full flex items-center justify-between gap-8">
 

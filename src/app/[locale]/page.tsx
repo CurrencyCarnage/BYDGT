@@ -72,7 +72,7 @@ export default async function HomePage() {
       {/* ── 6. CTA BAND ──────────────────────────────────────────────────── */}
       <section
         className="relative overflow-hidden flex items-start md:items-center"
-        style={{ minHeight: "clamp(580px, 68vh, 780px)", background: "#000" }}
+        style={{ minHeight: "clamp(36.25rem, 68vh, 48.75rem)", background: "#000" }}
       >
         {/* Mobile image — car in lower half, text sits at top */}
         <Image

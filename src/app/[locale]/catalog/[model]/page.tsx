@@ -45,7 +45,7 @@ export default async function ModelDetailPage({
     <div className="bg-byd-dark">
 
       {/* ── HERO — full-bleed cinematic, model name pinned bottom-left ── */}
-      <section className="relative overflow-hidden" style={{ height: "90vh", minHeight: 560, maxHeight: 900 }}>
+      <section className="relative overflow-hidden" style={{ height: "90vh", minHeight: "35rem", maxHeight: "56.25rem" }}>
 
         {/* Background: video or image */}
         {model.images.heroVideo ? (
@@ -127,10 +127,10 @@ export default async function ModelDetailPage({
                 </p>
               </div>
               <div className="flex gap-3">
-                <Link href="/booking" className="btn-primary-red" style={{ height: "48px" }}>
+                <Link href="/booking" className="btn-primary-red" style={{ height: "3rem" }}>
                   {tCommon("bookTestDrive")}
                 </Link>
-                <Link href="/contact" className="btn-secondary" style={{ height: "48px" }}>
+                <Link href="/contact" className="btn-secondary" style={{ height: "3rem" }}>
                   {tCommon("contactUs")}
                 </Link>
               </div>
@@ -263,14 +263,14 @@ export default async function ModelDetailPage({
               <Link
                 href="/booking"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-byd-red text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#EFEFEF] transition-all duration-200"
-                style={{ minWidth: "200px" }}
+                style={{ minWidth: "12.5rem" }}
               >
                 {tCommon("bookTestDrive")}
               </Link>
               <Link
                 href="/catalog"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border-2 border-white text-white text-sm font-semibold tracking-[0.06em] uppercase hover:bg-white/10 transition-all duration-200"
-                style={{ minWidth: "160px" }}
+                style={{ minWidth: "10rem" }}
               >
                 {locale === "ka" ? "სხვა მოდელები" : "View All Models"}
               </Link>
