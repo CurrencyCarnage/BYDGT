@@ -96,7 +96,7 @@ export default async function ModelDetailPage({
         {/* Model info — pinned to bottom-left */}
         <div className="absolute inset-0 flex items-end">
           <div className="section-container w-full pb-12">
-            <div className="glass-text p-5 md:p-7 inline-block">
+            <div className="p-5 md:p-7 inline-block">
             {/* Type badge */}
             <div className="mb-5">
               <span className={model.type === "EV" ? "badge-ev" : "badge-phev"}>

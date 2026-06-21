@@ -52,6 +52,8 @@ const MEGA_MODELS = [
   },
 ];
 
+const MEGA_MODELS_PER_PAGE = 4;
+
 /* ─────────────────────────────────────────────────────────────────
    Desktop mega-menu panel
 ───────────────────────────────────────────────────────────────── */
@@ -63,6 +65,18 @@ function MegaMenu({
   onClose: () => void;
 }) {
   const ka = locale === "ka";
+  const [modelPage, setModelPage] = useState(0);
+  const pageCount = Math.ceil(MEGA_MODELS.length / MEGA_MODELS_PER_PAGE);
+  const visibleModels = MEGA_MODELS.slice(
+    modelPage * MEGA_MODELS_PER_PAGE,
+    (modelPage + 1) * MEGA_MODELS_PER_PAGE
+  );
+  const canShowNextModels = modelPage < pageCount - 1;
+
+  const showNextModels = () => {
+    if (!canShowNextModels) return;
+    setModelPage((page) => Math.min(page + 1, pageCount - 1));
+  };
 
   return (
     <motion.div
@@ -85,68 +99,93 @@ function MegaMenu({
         }}
       >
         {/* 2 × 2 model grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/[0.04] p-px">
-          {MEGA_MODELS.map((model, i) => (
-            <motion.div
-              key={model.id}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.22, ease: "easeOut" }}
-            >
-              <Link
-                href={model.href}
-                onClick={onClose}
-                className="group flex flex-col bg-[#1A1C1D] hover:bg-[#222425] transition-colors duration-180 overflow-hidden"
-                style={{ borderLeft: "2px solid transparent" }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderLeftColor = "#D70C19";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderLeftColor = "transparent";
-                }}
+        <div className="relative">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/[0.04] p-px">
+            {visibleModels.map((model, i) => (
+              <motion.div
+                key={model.id}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.22, ease: "easeOut" }}
               >
-                {/* Thumbnail */}
-                <div className="relative w-full overflow-hidden bg-[#252728]" style={{ height: '11.75rem' }}>
-                  <Image
-                    src={model.thumbnail}
-                    alt={model.name}
-                    fill
-                    sizes="(max-width: 1279px) 50vw, 25vw"
-                    className="object-cover object-center transition-all duration-500 group-hover:opacity-0 group-hover:scale-105"
-                    quality={84}
+                <Link
+                  href={model.href}
+                  onClick={onClose}
+                  className="group flex flex-col bg-[#1A1C1D] hover:bg-[#222425] transition-colors duration-180 overflow-hidden"
+                  style={{ borderLeft: "2px solid transparent" }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderLeftColor = "#D70C19";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderLeftColor = "transparent";
+                  }}
+                >
+                  {/* Thumbnail */}
+                  <div className="relative w-full overflow-hidden bg-[#252728]" style={{ height: '11.75rem' }}>
+                    <Image
+                      src={model.thumbnail}
+                      alt={model.name}
+                      fill
+                      sizes="(max-width: 1279px) 50vw, 25vw"
+                      className="object-cover object-center transition-all duration-500 group-hover:opacity-0 group-hover:scale-105"
+                      quality={84}
 
-                  />
-                  <Image
-                    src={model.hoverImage}
-                    alt={`${model.name} preview`}
-                    fill
-                    sizes="(max-width: 1279px) 50vw, 25vw"
-                    className="object-cover object-center opacity-0 scale-105 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
-                    quality={90}
+                    />
+                    <Image
+                      src={model.hoverImage}
+                      alt={`${model.name} preview`}
+                      fill
+                      sizes="(max-width: 1279px) 50vw, 25vw"
+                      className="object-cover object-center opacity-0 scale-105 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
+                      quality={90}
 
-                    loading="lazy"
-                  />
-                </div>
+                      loading="lazy"
+                    />
+                  </div>
 
-                {/* Info */}
-                <div className="flex-1 px-5 py-4 w-full">
-                  <span
-                    className={`text-[9px] font-semibold uppercase tracking-[0.14em] ${
-                      model.type === "EV" ? "text-[#78B254]" : "text-byd-red"
-                    }`}
-                  >
-                    {model.type}
-                  </span>
-                  <p className="text-[15px] font-semibold text-white mt-1 leading-tight group-hover:text-white transition-colors">
-                    {model.name}
-                  </p>
-                  <p className="text-[11px] text-white/40 mt-1 leading-snug font-light">
-                    {ka ? model.taglineKa : model.tagline}
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                  {/* Info */}
+                  <div className="flex-1 px-5 py-4 w-full">
+                    <span
+                      className={`text-[9px] font-semibold uppercase tracking-[0.14em] ${
+                        model.type === "EV" ? "text-[#78B254]" : "text-byd-red"
+                      }`}
+                    >
+                      {model.type}
+                    </span>
+                    <p className="text-[15px] font-semibold text-white mt-1 leading-tight group-hover:text-white transition-colors">
+                      {model.name}
+                    </p>
+                    <p className="text-[11px] text-white/40 mt-1 leading-snug font-light">
+                      {ka ? model.taglineKa : model.tagline}
+                    </p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={showNextModels}
+            disabled={!canShowNextModels}
+            aria-label={ka ? "შემდეგი 4 მოდელი" : "Show next 4 models"}
+            className={`absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center border transition-all duration-200 md:flex ${
+              canShowNextModels
+                ? "cursor-pointer border-white/20 bg-[#111213]/85 text-white/80 hover:border-byd-red/60 hover:bg-byd-red hover:text-white focus:outline-none focus:ring-2 focus:ring-byd-red/60"
+                : "cursor-not-allowed border-white/[0.07] bg-black/20 text-white/20 opacity-70"
+            }`}
+          >
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.4}
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
 
         {/* Footer: view all */}
@@ -237,8 +276,8 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-[#1a1c1d]/95 backdrop-blur-md shadow-[0_2px_24px_rgba(0,0,0,0.55)]"
-          : "bg-gradient-to-b from-black/55 to-transparent"
+          ? "border-b border-white/[0.03] bg-[#111213]/12 backdrop-blur-[4px] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
+          : "border-b border-white/[0.015] bg-[#111213]/5 backdrop-blur-[1.5px]"
       }`}
       style={{ height: "5rem" }}
     >
