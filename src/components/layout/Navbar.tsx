@@ -90,16 +90,16 @@ function MegaMenu({
       {/* Invisible bridge covers the gap between nav bottom and panel top */}
       <div className="h-2 w-full" />
 
-      <div
-        className="mx-auto max-w-[92.5rem] overflow-hidden"
-        style={{
-          background: "#111213",
-          border:     "1px solid rgba(255,255,255,0.08)",
-          boxShadow:  "0 26px 58px rgba(0,0,0,0.62), 0 6px 16px rgba(0,0,0,0.4)",
-        }}
-      >
-        {/* 2 × 2 model grid */}
-        <div className="relative">
+      <div className="mx-auto flex max-w-[96.5rem] items-stretch gap-2">
+        <div
+          className="min-w-0 flex-1 overflow-hidden"
+          style={{
+            background: "#111213",
+            border:     "1px solid rgba(255,255,255,0.08)",
+            boxShadow:  "0 26px 58px rgba(0,0,0,0.62), 0 6px 16px rgba(0,0,0,0.4)",
+          }}
+        >
+          {/* 2 × 2 model grid */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/[0.04] p-px">
             {visibleModels.map((model, i) => (
               <motion.div
@@ -164,15 +164,43 @@ function MegaMenu({
             ))}
           </div>
 
+          {/* Footer: view all */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.18, duration: 0.2 }}
+            className="border-t border-white/[0.06]"
+          >
+            <Link
+              href="/catalog"
+              onClick={onClose}
+              className="group flex items-center justify-center gap-2 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40 hover:text-white/80 transition-colors duration-200"
+            >
+              {ka ? "ყველა მოდელის ნახვა" : "View all models"}
+              <svg
+                className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </motion.div>
+        </div>
+
+        <div className="hidden w-12 shrink-0 items-center justify-center md:flex">
           <button
             type="button"
             onClick={showNextModels}
             disabled={!canShowNextModels}
+            title={ka ? "შემდეგი 4 მოდელი" : "Show next 4 models"}
             aria-label={ka ? "შემდეგი 4 მოდელი" : "Show next 4 models"}
-            className={`absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center border transition-all duration-200 md:flex ${
+            className={`flex h-11 w-11 items-center justify-center border transition-all duration-200 ${
               canShowNextModels
-                ? "cursor-pointer border-white/20 bg-[#111213]/85 text-white/80 hover:border-byd-red/60 hover:bg-byd-red hover:text-white focus:outline-none focus:ring-2 focus:ring-byd-red/60"
-                : "cursor-not-allowed border-white/[0.07] bg-black/20 text-white/20 opacity-70"
+                ? "cursor-pointer border-white/24 bg-[#111213]/80 text-white/85 hover:border-byd-red/70 hover:bg-byd-red hover:text-white focus:outline-none focus:ring-2 focus:ring-byd-red/60"
+                : "cursor-not-allowed border-white/20 bg-[#111213]/46 text-white/52"
             }`}
           >
             <svg
@@ -187,31 +215,6 @@ function MegaMenu({
             </svg>
           </button>
         </div>
-
-        {/* Footer: view all */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.18, duration: 0.2 }}
-          className="border-t border-white/[0.06]"
-        >
-          <Link
-            href="/catalog"
-            onClick={onClose}
-            className="group flex items-center justify-center gap-2 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40 hover:text-white/80 transition-colors duration-200"
-          >
-            {ka ? "ყველა მოდელის ნახვა" : "View all models"}
-            <svg
-              className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </motion.div>
       </div>
     </motion.div>
   );
