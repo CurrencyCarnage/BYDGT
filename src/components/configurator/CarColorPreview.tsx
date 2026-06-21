@@ -25,30 +25,13 @@ export default function CarColorPreview({
   formatPrice,
 }: CarColorPreviewProps) {
   const imageSrc = colorSilhouette;
-  const selectedColor = colors.find((color) => color.id === selectedColorId);
 
   return (
     <div className="mb-8 border border-white/[0.08] bg-white/[0.02] px-4 py-5 sm:px-5 lg:px-6">
-      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div className="mb-5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/35">
           {selectLabel}
         </p>
-        {selectedColor && (
-          <div className="inline-flex w-fit items-center gap-2 border border-white/[0.1] bg-black/10 px-3 py-2">
-            <span
-              className="h-3.5 w-3.5 rounded-full border border-white/20"
-              style={{ backgroundColor: selectedColor.hex }}
-            />
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.18em] text-white/35">
-                {selectLabel}
-              </p>
-              <p className="text-sm font-medium text-white">
-                {getLocalizedValue(selectedColor.name, locale)}
-              </p>
-            </div>
-          </div>
-        )}
       </div>
 
       <div

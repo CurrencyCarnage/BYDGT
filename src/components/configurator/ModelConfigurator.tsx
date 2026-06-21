@@ -33,63 +33,6 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,12,25,0.14),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.05),transparent_32%)]" />
 
       <div className="relative z-10">
-        <div className="mb-8 grid gap-3 lg:grid-cols-3">
-          <div className="border border-white/[0.08] bg-black/[0.14] px-4 py-4">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-white/35">
-              {t("selectColor")}
-            </p>
-            {selectedColor ? (
-              <div className="mt-3 flex items-center gap-3">
-                <span
-                  className="h-4 w-4 rounded-full border border-white/20"
-                  style={{ backgroundColor: selectedColor.hex }}
-                />
-                <div>
-                  <p className="text-sm font-semibold text-white">
-                    {selectedColorName}
-                  </p>
-                  <p className="text-[11px] text-white/35">
-                    {selectedColor.priceModifier === 0
-                      ? t("included")
-                      : `+${formatPrice(selectedColor.priceModifier)}`}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <p className="mt-3 text-xs text-white/25 italic">No colours configured</p>
-            )}
-          </div>
-
-          <div className="border border-white/[0.08] bg-black/[0.14] px-4 py-4">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-white/35">
-              {t("selectVariant")}
-            </p>
-            {selectedVariant ? (
-              <div className="mt-3">
-                <p className="text-sm font-semibold text-white">
-                  {selectedVariantName}
-                </p>
-                <p className="text-[11px] text-white/35">
-                  {selectedVariant.priceModifier === 0
-                    ? t("included")
-                    : `+${formatPrice(selectedVariant.priceModifier)}`}
-                </p>
-              </div>
-            ) : (
-              <p className="mt-3 text-xs text-white/25 italic">No variants configured</p>
-            )}
-          </div>
-
-          <div className="border border-white/[0.08] bg-black/[0.14] px-4 py-4 lg:text-right">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-white/35">
-              {t("totalPrice")}
-            </p>
-            <p className="mt-3 text-3xl font-semibold text-white">
-              {formatPrice(totalPrice)}
-            </p>
-          </div>
-        </div>
-
         {model.configurations.colors.length > 0 && selectedColor && (
           <CarColorPreview
             colorSilhouette={model.images.colorSilhouette}
