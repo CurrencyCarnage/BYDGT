@@ -87,6 +87,12 @@
     font-family: "NovemberGeL", system-ui, sans-serif;
   }
 
+  /* English captions should read naturally, without stretched-out AI-looking letter spacing. */
+  :lang(en) .uppercase[class*="tracking-"],
+  :lang(en) [class*="uppercase"][class*="tracking-"] {
+    letter-spacing: 0 !important;
+  }
+
   /* BYD spec text selection */
   ::selection {
     background-color: rgba(215, 12, 25, 0.35);
@@ -510,4 +516,3 @@
   /* Hidden states remain hidden until IO fires — do NOT override here */
   /* Car + wheels use WAAPI — caller should check matchMedia before animating */
 }
-
