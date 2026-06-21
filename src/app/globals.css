@@ -70,6 +70,52 @@
     font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
     font-weight: 400;
     min-height: 100vh;
+    cursor: default;
+  }
+
+  p, span, h1, h2, h3, h4, h5, h6,
+  li, dt, dd, blockquote, figcaption,
+  label, th, td, small, strong, em {
+    cursor: default;
+  }
+
+  a, button,
+  [role="button"],
+  summary,
+  select,
+  option,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="color"],
+  input[type="file"],
+  input[type="range"],
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"] {
+    cursor: pointer;
+  }
+
+  input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="file"]):not([type="range"]):not([type="date"]):not([type="time"]):not([type="datetime-local"]),
+  textarea,
+  [contenteditable="true"] {
+    cursor: text;
+  }
+
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  a *, button *, [role="button"] *,
+  summary *, .cursor-pointer *,
+  .cursor-not-allowed * {
+    cursor: inherit;
   }
 
   /* Georgian locale — use NovemberGeL for all text */
