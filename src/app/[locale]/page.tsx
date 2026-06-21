@@ -105,7 +105,7 @@ export default async function HomePage() {
         {/* Content */}
         <div className="relative section-container pt-12 pb-0 md:py-20">
           <ScrollReveal>
-            <div className="max-w-lg">
+            <div className="max-w-lg glass-text p-5 md:p-7">
               {/* Overline */}
               <div className="flex items-center gap-2.5 mb-4">
                 <span className="h-[2px] w-6 bg-byd-red flex-shrink-0" />

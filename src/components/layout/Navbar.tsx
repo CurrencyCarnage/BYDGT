@@ -14,7 +14,6 @@ const MEGA_MODELS = [
     id:        "sealion-06-dmi",
     href:      "/catalog/sealion-06-dmi",
     name:      "Sealion 06 DM-i",
-    nameKa:    "სეალიონ 06 DM-i",
     type:      "PHEV" as const,
     tagline:   "Smart PHEV SUV",
     taglineKa: "ჭკვიანი ჰიბრიდული SUV",
@@ -25,7 +24,6 @@ const MEGA_MODELS = [
     id:        "seal-06-dmi",
     href:      "/catalog/seal-06-dmi",
     name:      "Seal 06 DM-i",
-    nameKa:    "სეალ 06 DM-i",
     type:      "PHEV" as const,
     tagline:   "Sport PHEV Sedan",
     taglineKa: "სპორტული PHEV სედანი",
@@ -36,7 +34,6 @@ const MEGA_MODELS = [
     id:        "yuan-up-ev",
     href:      "/catalog/yuan-up-ev",
     name:      "Yuan Up EV",
-    nameKa:    "იუან აფ EV",
     type:      "EV" as const,
     tagline:   "Compact Electric SUV",
     taglineKa: "კომპაქტური ელექტრო SUV",
@@ -47,7 +44,6 @@ const MEGA_MODELS = [
     id:        "yuan-up-dmi",
     href:      "/catalog/yuan-up-dmi",
     name:      "Yuan Up DM-i",
-    nameKa:    "იუან აფ DM-i",
     type:      "PHEV" as const,
     tagline:   "Efficient PHEV SUV",
     taglineKa: "ეფექტური PHEV SUV",
@@ -113,7 +109,7 @@ function MegaMenu({
                 <div className="relative w-full overflow-hidden bg-[#252728]" style={{ height: '11.75rem' }}>
                   <Image
                     src={model.thumbnail}
-                    alt={ka ? model.nameKa : model.name}
+                    alt={model.name}
                     fill
                     sizes="(max-width: 1279px) 50vw, 25vw"
                     className="object-cover object-center transition-all duration-500 group-hover:opacity-0 group-hover:scale-105"
@@ -122,7 +118,7 @@ function MegaMenu({
                   />
                   <Image
                     src={model.hoverImage}
-                    alt={ka ? `${model.nameKa} preview` : `${model.name} preview`}
+                    alt={`${model.name} preview`}
                     fill
                     sizes="(max-width: 1279px) 50vw, 25vw"
                     className="object-cover object-center opacity-0 scale-105 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
@@ -142,7 +138,7 @@ function MegaMenu({
                     {model.type}
                   </span>
                   <p className="text-[15px] font-semibold text-white mt-1 leading-tight group-hover:text-white transition-colors">
-                    {ka ? model.nameKa : model.name}
+                    {model.name}
                   </p>
                   <p className="text-[11px] text-white/40 mt-1 leading-snug font-light">
                     {ka ? model.taglineKa : model.tagline}
@@ -426,7 +422,7 @@ export default function Navbar() {
                       <div className="relative w-14 h-10 flex-shrink-0 bg-[#252728] overflow-hidden">
                         <Image
                           src={model.thumbnail}
-                          alt={ka ? model.nameKa : model.name}
+                          alt={model.name}
                           fill
                           sizes="56px"
                           className="object-cover"
@@ -435,7 +431,7 @@ export default function Navbar() {
                       </div>
                       <div>
                         <p className="text-[13px] font-semibold text-white/75 group-hover:text-white transition-colors">
-                          {ka ? model.nameKa : model.name}
+                          {model.name}
                         </p>
                         <span className={`text-[9px] font-semibold uppercase tracking-[0.12em] ${
                           model.type === "EV" ? "text-[#78B254]" : "text-byd-red"

@@ -127,6 +127,27 @@
     transform: translateY(-2px);
   }
 
+  /* ── Glass text backdrop — subtle frosted panel behind text over images ── */
+  .glass-text {
+    background: rgba(10, 12, 15, 0.38);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 0;
+  }
+
+  /* ── Showroom button bubble animation ── */
+  @keyframes bubble-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+
+  .showroom-bubble {
+    animation: bubble-pulse 0.7s ease-in-out 3;
+    animation-delay: 1.8s;
+    animation-fill-mode: backwards;
+  }
+
   /* ── BYD Primary Button — Dark background (from spec page 14) ── */
   /* White border, white text, fills white on hover */
   .btn-primary {

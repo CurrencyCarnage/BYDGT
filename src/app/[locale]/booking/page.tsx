@@ -123,6 +123,7 @@ export default async function BookingPage() {
         {/* Content — pinned to bottom-left, tight and readable */}
         <div className="absolute inset-0 flex items-end">
           <div className="section-container w-full pb-12 pt-28">
+            <div className="glass-text p-5 md:p-7 inline-block">
             <ScrollReveal>
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-8 h-px bg-byd-red" />
@@ -162,6 +163,7 @@ export default async function BookingPage() {
                 ))}
               </div>
             </ScrollReveal>
+            </div>
           </div>
         </div>
       </section>
@@ -184,7 +186,7 @@ export default async function BookingPage() {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[#252728]/90 via-[#252728]/55 to-[#252728]/10" />
             <div className="absolute inset-0 flex items-center px-7 md:px-10">
-              <div>
+              <div className="glass-text p-4 md:p-5">
                 <div className="flex items-center gap-3 mb-2">
                   <span className="w-5 h-px bg-byd-red" />
                   <p className="text-xs text-byd-red uppercase tracking-[0.25em] font-semibold"
@@ -273,6 +275,7 @@ export default async function BookingPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#252728] via-[#252728]/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 px-5 py-4">
+                    <div className="glass-text p-3">
                     <p className="text-[10px] text-white/35 uppercase tracking-widest mb-0.5"
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {t.locTitle}
@@ -285,6 +288,7 @@ export default async function BookingPage() {
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {SHOWROOM.address}
                     </p>
+                    </div>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 bg-[#1C1E1F] border-t border-white/[0.06]">
@@ -327,10 +331,12 @@ export default async function BookingPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#252728]/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 px-4 py-3">
+                  <div className="glass-text p-2.5 inline-block">
                   <p className="text-[10px] text-white/30 uppercase tracking-[0.2em]"
                     style={{ fontFamily: "var(--font-montserrat)" }}>
                     BYD Tbilisi · GT Group
                   </p>
+                  </div>
                 </div>
               </div>
             </ScrollReveal>

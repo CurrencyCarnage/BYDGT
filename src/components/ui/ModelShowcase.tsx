@@ -14,7 +14,6 @@ type WheelFrame = {
 type ModelItem = {
   id: string;
   name: string;
-  nameKa: string;
   href:
     | "/catalog/sealion-06-dmi"
     | "/catalog/seal-06-dmi"
@@ -64,7 +63,6 @@ const MODELS: ModelItem[] = [
   {
     id: "sealion-06-dmi",
     name: "Sealion 06 DM-i",
-    nameKa: "\u10e1\u10d8\u10da\u10d0\u10d8\u10dd\u10dc 06 DM-i",
     href: "/catalog/sealion-06-dmi",
     foregroundImage: `/images/homepage/cropped/sealion-sidecropped.png?v=${ASSET_VERSION}`,
     // Car bbox in 1254px image: x=82-1192 (w=1110), y=446-856 (h=410)
@@ -83,7 +81,6 @@ const MODELS: ModelItem[] = [
   {
     id: "seal-06-dmi",
     name: "Seal 06 DM-i",
-    nameKa: "\u10e1\u10d8\u10da 06 DM-i",
     href: "/catalog/seal-06-dmi",
     foregroundImage: `/images/homepage/cropped/seal-sidecropped.png?v=${ASSET_VERSION}`,
     // Car bbox: x=56-1228 (w=1172), y=470-832 (h=362)
@@ -102,7 +99,6 @@ const MODELS: ModelItem[] = [
   {
     id: "yuan-up-ev",
     name: "Yuan Up EV",
-    nameKa: "\u10d8\u10e3\u10d0\u10dc \u10d0\u10de EV",
     href: "/catalog/yuan-up-ev",
     foregroundImage: `/images/homepage/cropped/yuanup1-sidecropped.png?v=${ASSET_VERSION}`,
     // Car bbox: x=108-1136 (w=1028), y=446-854 (h=408)
@@ -121,7 +117,6 @@ const MODELS: ModelItem[] = [
   {
     id: "yuan-up-dmi",
     name: "Yuan Up DM-i",
-    nameKa: "\u10d8\u10e3\u10d0\u10dc \u10d0\u10de DM-i",
     href: "/catalog/yuan-up-dmi",
     foregroundImage: `/images/homepage/cropped/yuanup2-sidecropped.png?v=${ASSET_VERSION}`,
     // Car bbox: x=70-1182 (w=1112), y=454-886 (h=432); height extended to 452 to prevent wheel clip
@@ -382,14 +377,14 @@ function ModelSection({
           ].join(" ")}
           style={{ letterSpacing: "-0.045em" }}
         >
-          {ka ? model.nameKa : model.name}
+          {model.name}
         </h3>
 
         {/* Car + wheels — rolls in from the right */}
         <div className="mt-auto">
           <Link
             href={model.href}
-            aria-label={ka ? `${model.nameKa} დეტალები` : `Explore ${model.name}`}
+            aria-label={ka ? `${model.name} დეტალები` : `Explore ${model.name}`}
             className="group block"
           >
             <div
@@ -439,7 +434,7 @@ function ModelSection({
                 {/* Car body */}
                 <Image
                   src={model.foregroundImage}
-                  alt={ka ? model.nameKa : model.name}
+                  alt={model.name}
                   width={1254}
                   height={1254}
                   priority={index === 0}

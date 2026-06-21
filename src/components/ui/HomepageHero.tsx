@@ -678,7 +678,6 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                       ? "GT Group არის BYD-ის ოფიციალური დილერი საქართველოში. ინოვაციური ტექნოლოგია. პრემიუმ ხარისხი. ლოკალური მხარდაჭერა."
                       : "GT Group is the official BYD dealer in Georgia. Innovative technology. Premium quality. Local support you can trust."}
                   </p>
-                </div>
                 <div className="mt-auto pb-2 md:mt-0 md:pb-0">
                   <div className="flex flex-wrap gap-3 sm:flex-row sm:gap-4">
                     <Link
@@ -709,6 +708,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                       {ka ? "ტესტ დრაივი" : "Book Test Drive"}
                     </Link>
                   </div>
+                </div>
                 </div>
               </motion.div>
             ) : modelSpec && modelCopy ? (
@@ -866,13 +866,13 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
       <div className="absolute inset-x-0 bottom-[106px] z-10 flex items-center justify-end gap-4 px-6 pb-2 md:relative md:bottom-auto md:px-10 md:pb-5">
         <button
           onClick={startShowroomScroll}
-          className="group hidden items-center gap-2 sm:flex transition-all duration-300 hover:gap-2.5"
+          className="showroom-bubble group hidden items-center gap-2.5 sm:flex glass-text px-5 py-2.5 transition-all duration-300 hover:gap-3 hover:bg-[rgba(10,12,15,0.55)] hover:border-white/15"
         >
-          <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/25 transition-colors duration-300 group-hover:text-white/60">
+          <span className="text-[13px] font-semibold uppercase tracking-[0.2em] text-white/50 transition-colors duration-300 group-hover:text-white/80">
             {ka ? "ჩვენი სალონი" : "Our Showroom"}
           </span>
           <svg
-            className="h-3 w-3 text-white/20 transition-all duration-300 group-hover:text-white/60 group-hover:translate-y-[2px]"
+            className="h-4 w-4 text-white/35 transition-all duration-300 group-hover:text-white/80 group-hover:translate-y-[2px]"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
