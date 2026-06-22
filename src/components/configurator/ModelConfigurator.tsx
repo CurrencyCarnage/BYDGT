@@ -34,7 +34,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 top-[26rem] bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.72),transparent_34%)]" />
 
       <div className="relative z-10">
-        <div className="bg-[#1C1E1F] p-4 sm:p-5 md:p-6 lg:p-8">
+        <div className="bg-[#1C1E1F] p-0">
           <ModelVisualPreview model={model} locale={locale} />
         </div>
 
