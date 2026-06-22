@@ -27,9 +27,9 @@ export default function CarColorPreview({
   const imageSrc = colorSilhouette;
 
   return (
-    <div className="mb-8 border border-white/[0.08] bg-white/[0.02] px-4 py-5 sm:px-5 lg:px-6">
+    <div className="mb-8 content-surface-soft px-4 py-5 sm:px-5 lg:px-6">
       <div className="mb-5">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/35">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#686D71]">
           {selectLabel}
         </p>
       </div>
@@ -46,10 +46,10 @@ export default function CarColorPreview({
               key={color.id}
               onClick={() => onSelectColor(color)}
               aria-pressed={isSelected}
-              className={`group relative overflow-hidden border text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#252728] ${
+              className={`group relative overflow-hidden border text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
                 isSelected
-                  ? "border-byd-red bg-byd-red/[0.08] shadow-[0_18px_40px_rgba(0,0,0,0.26)]"
-                  : "border-white/[0.08] bg-black/[0.08] hover:-translate-y-0.5 hover:border-white/[0.22] hover:bg-white/[0.03]"
+                  ? "border-byd-red bg-byd-red/[0.08] shadow-[0_14px_32px_rgba(215,12,25,0.10)]"
+                  : "border-[#DDE1E3] bg-white hover:-translate-y-0.5 hover:border-[#BFC5C8]"
               }`}
             >
               {isSelected && (
@@ -71,7 +71,7 @@ export default function CarColorPreview({
               )}
 
               {imageSrc && (
-                <div className="border-b border-white/[0.08] bg-[linear-gradient(180deg,#3A3F44_0%,#2A2E31_100%)] px-3 pt-5 pb-2">
+                <div className="border-b border-[#E6E9EA] bg-[linear-gradient(180deg,#F4F6F7_0%,#E5E9EB_100%)] px-3 pt-5 pb-2">
                   <TintedCarImage
                     src={imageSrc}
                     color={color.hex}
@@ -85,15 +85,15 @@ export default function CarColorPreview({
                   className={`mt-0.5 h-4 w-4 flex-shrink-0 rounded-full border-2 transition-all duration-200 ${
                     isSelected
                       ? "border-white shadow-[0_0_0_3px_rgba(215,12,25,0.24)]"
-                      : "border-white/20"
+                      : "border-[#C7CDD0]"
                   }`}
                   style={{ backgroundColor: color.hex }}
                 />
                 <div className="min-w-0 text-left">
-                  <p className="truncate text-sm font-semibold text-white">
+                  <p className="truncate text-sm font-semibold text-[#252728]">
                     {getLocalizedValue(color.name, locale)}
                   </p>
-                  <p className="mt-1 text-[11px] text-white/35">
+                  <p className="mt-1 text-[11px] text-[#686D71]">
                     {color.priceModifier === 0
                       ? includedLabel
                       : `+${formatPrice(color.priceModifier)}`}

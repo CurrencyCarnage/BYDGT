@@ -36,6 +36,8 @@ const nextConfig = {
   },
 };
 
-initOpenNextCloudflareForDev();
+if (process.env.ENABLE_CLOUDFLARE_DEV === "true" || process.env.NEXT_DEV_WRANGLER_ENV) {
+  initOpenNextCloudflareForDev();
+}
 
 export default withNextIntl(nextConfig);

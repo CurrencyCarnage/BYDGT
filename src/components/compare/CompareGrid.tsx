@@ -418,7 +418,7 @@ function WheelSwatch({ design, title }: { design: 0 | 1 | 2 | 3; title: string }
           <circle cx="22" cy="22" r="4.5" fill="#262626" stroke="#6A6A6A" strokeWidth="1" />
         </svg>
       </div>
-      <span className="text-[10px] uppercase tracking-[0.12em] text-white/40">{title}</span>
+      <span className="text-[10px] uppercase tracking-[0.12em] text-[#686D71]">{title}</span>
     </div>
   );
 }
@@ -428,10 +428,10 @@ function SwatchDot({ hex, title }: { hex: string; title: string }) {
     <div className="flex flex-col items-center gap-2">
       <div
         title={title}
-        className="h-11 w-11 rounded-full border border-white/[0.14] shadow-[inset_0_1px_4px_rgba(255,255,255,0.08)]"
+        className="h-11 w-11 rounded-full border border-[#C7CDD0] shadow-[inset_0_1px_4px_rgba(0,0,0,0.08)]"
         style={{ backgroundColor: hex }}
       />
-      <span className="text-[10px] uppercase tracking-[0.12em] text-white/40">{title}</span>
+      <span className="text-[10px] uppercase tracking-[0.12em] text-[#686D71]">{title}</span>
     </div>
   );
 }
@@ -476,20 +476,20 @@ function ModelDropdown({
           compact
             ? `min-h-[48px] gap-1.5 rounded-xl border px-2 py-1.5 ${
                 open
-                  ? "border-white/[0.22] bg-[#2D3032]"
-                  : "border-white/[0.1] bg-[#272A2C]"
+                  ? "border-byd-red/40 bg-white shadow-[0_10px_24px_rgba(24,28,32,0.10)]"
+                  : "border-[#DDE1E3] bg-[#FBFBFA]"
               }`
             : `min-h-[68px] gap-3 rounded-2xl border px-4 py-3 ${
                 open
-                  ? "border-white/[0.22] bg-[#2D3032] shadow-[0_14px_30px_rgba(0,0,0,0.28)]"
-                  : "border-white/[0.1] bg-[#272A2C] hover:border-white/[0.18] hover:bg-[#2C2F31]"
+                  ? "border-byd-red/40 bg-white shadow-[0_14px_30px_rgba(24,28,32,0.12)]"
+                  : "border-[#DDE1E3] bg-[#FBFBFA] hover:border-[#BFC5C8] hover:bg-white"
               }`
         }`}
       >
         {selected ? (
           <div className={`flex min-w-0 items-center ${compact ? "gap-1.5" : "gap-3"}`}>
             <div
-              className={`relative shrink-0 overflow-hidden bg-white/[0.05] ${
+              className={`relative shrink-0 overflow-hidden bg-[#ECEFF1] ${
                 compact
                   ? "h-8 w-10 rounded-md"
                   : "h-10 w-12 rounded-lg"
@@ -506,14 +506,14 @@ function ModelDropdown({
             </div>
             <div className="min-w-0">
               <p
-                className={`truncate font-semibold text-white ${
+                className={`truncate font-semibold text-[#252728] ${
                   compact ? "text-[11px]" : "text-[15px]"
                 }`}
               >
                 {selected.familyName}
               </p>
               {!compact && (
-                <p className="truncate text-xs text-white/42">
+                <p className="truncate text-xs text-[#686D71]">
                   {selected.label} / {t(selected.category, locale)}
                 </p>
               )}
@@ -522,14 +522,14 @@ function ModelDropdown({
         ) : (
           <div className={`flex min-w-0 items-center ${compact ? "gap-1.5" : "gap-3"}`}>
             <div
-              className={`flex shrink-0 items-center justify-center border border-dashed border-white/[0.15] bg-white/[0.03] ${
+              className={`flex shrink-0 items-center justify-center border border-dashed border-[#C7CDD0] bg-[#F0F2F3] ${
                 compact
                   ? "h-8 w-10 rounded-md"
                   : "h-10 w-12 rounded-lg"
               }`}
             >
               <svg
-                className={`text-white/20 ${compact ? "h-3.5 w-3.5" : "h-5 w-5"}`}
+                className={`text-[#8A9094] ${compact ? "h-3.5 w-3.5" : "h-5 w-5"}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -538,12 +538,12 @@ function ModelDropdown({
               </svg>
             </div>
             {!compact && (
-              <p className="text-[14px] text-white/30">{placeholder}</p>
+              <p className="text-[14px] text-[#686D71]">{placeholder}</p>
             )}
           </div>
         )}
         <svg
-          className={`shrink-0 text-white/40 transition-transform duration-200 ${
+          className={`shrink-0 text-[#686D71] transition-transform duration-200 ${
             open ? "rotate-180" : ""
           } ${compact ? "h-3 w-3" : "h-4 w-4"}`}
           fill="none"
@@ -560,10 +560,10 @@ function ModelDropdown({
       </button>
 
       {open && (
-        <div className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-2xl border border-white/[0.12] bg-[#232628] shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
+        <div className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-2xl border border-[#DDE1E3] bg-white shadow-[0_24px_60px_rgba(24,28,32,0.18)]">
           {FAMILIES.map((family) => (
-            <div key={family.id} className="border-t border-white/[0.05] first:border-t-0">
-              <p className="px-4 pb-2 pt-3 text-[10px] uppercase tracking-[0.18em] text-white/28">
+            <div key={family.id} className="border-t border-[#EEF0F1] first:border-t-0">
+              <p className="px-4 pb-2 pt-3 text-[10px] uppercase tracking-[0.18em] text-[#7A8080]">
                 {family.name}
               </p>
               {family.versions.map((version) => {
@@ -582,13 +582,13 @@ function ModelDropdown({
                     }}
                     className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${
                       isSelected
-                        ? "bg-white/[0.07]"
+                        ? "bg-byd-red/[0.08]"
                         : isBlocked
                           ? "cursor-not-allowed opacity-40"
-                          : "hover:bg-white/[0.04]"
+                          : "hover:bg-[#F7F8F8]"
                     }`}
                   >
-                    <div className="relative h-9 w-11 shrink-0 overflow-hidden rounded-md bg-white/[0.05]">
+                    <div className="relative h-9 w-11 shrink-0 overflow-hidden rounded-md bg-[#ECEFF1]">
                       <Image
                         src={option.image}
                         alt={option.familyName}
@@ -599,10 +599,10 @@ function ModelDropdown({
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-white">
+                      <p className="truncate text-sm font-medium text-[#252728]">
                         {option.familyName}
                       </p>
-                      <p className="truncate text-[11px] text-white/38">
+                      <p className="truncate text-[11px] text-[#686D71]">
                         {option.label} / {t(option.category, locale)}
                       </p>
                     </div>
@@ -699,7 +699,7 @@ export default function CompareGrid() {
   return (
     <div className="pb-16">
       {/* ── Mobile: 3 compact thumbnails in one row ── */}
-      <div className="sticky top-[5rem] z-30 border-b border-white/[0.06] bg-[#1C1E1F]/95 backdrop-blur md:hidden">
+      <div className="sticky top-[5rem] z-30 border-b border-[#DDE1E3] bg-[#F7F8F8]/95 backdrop-blur md:hidden">
         <div className="section-container py-2">
           <div className="grid grid-cols-3 gap-1.5">
             {slots.map((slot, i) => (
@@ -718,7 +718,7 @@ export default function CompareGrid() {
       </div>
 
       {/* ── Desktop: 3 equal selectors ── */}
-      <div className="sticky top-[5rem] z-30 hidden border-b border-white/[0.06] bg-[#1C1E1F]/95 backdrop-blur md:block">
+      <div className="sticky top-[5rem] z-30 hidden border-b border-[#DDE1E3] bg-[#F7F8F8]/95 backdrop-blur md:block">
         <div className="section-container py-3">
           <div className="grid grid-cols-3 gap-3">
             {slots.map((slot, i) => (
@@ -737,19 +737,19 @@ export default function CompareGrid() {
 
       {/* ── Comparison matrix ── */}
       <div className="section-container pt-4 md:pt-8">
-        <div className="overflow-hidden rounded-[1rem] border border-white/[0.08] bg-[#1C1E1F] shadow-[0_20px_50px_rgba(0,0,0,0.22)] md:rounded-[1.25rem]">
+        <div className="overflow-hidden rounded-[1rem] content-surface md:rounded-[1.25rem]">
           {/* Model card headers — pure 3-column */}
-          <div className="grid grid-cols-3 border-b border-white/[0.08]">
+          <div className="grid grid-cols-3 border-b border-[#DDE1E3]">
             {slots.map((slot, i) => (
               <div
                 key={`card-${i}`}
                 className={`flex flex-col p-3 md:p-5 ${
-                  i < 2 ? "border-r border-white/[0.06]" : ""
+                  i < 2 ? "border-r border-[#DDE1E3]" : ""
                 }`}
               >
                 {slot ? (
                   <>
-                    <div className="relative mb-2 aspect-[16/9] overflow-hidden rounded-md bg-white/[0.04] md:mb-4 md:rounded-lg">
+                    <div className="relative mb-2 aspect-[16/9] overflow-hidden rounded-md bg-[#ECEFF1] md:mb-4 md:rounded-lg">
                       <Image
                         src={slot.image}
                         alt={slot.familyName}
@@ -768,13 +768,13 @@ export default function CompareGrid() {
                     >
                       {slot.type}
                     </span>
-                    <h3 className="text-[0.85rem] font-semibold leading-tight text-white md:text-[1.25rem] lg:text-[1.4rem]">
+                    <h3 className="text-[0.85rem] font-semibold leading-tight text-[#252728] md:text-[1.25rem] lg:text-[1.4rem]">
                       {slot.familyName}
                     </h3>
-                    <p className="mt-0.5 hidden text-[13px] text-white/38 md:block">
+                    <p className="mt-0.5 hidden text-[13px] text-[#686D71] md:block">
                       {slot.label} / {t(slot.category, locale)}
                     </p>
-                    <p className="mt-1 hidden text-[13.5px] leading-[1.6] text-white/48 md:mt-3 md:block">
+                    <p className="mt-1 hidden text-[13.5px] leading-[1.6] text-[#4E5356] md:mt-3 md:block">
                       {t(slot.summary, locale)}
                     </p>
                     <div className="mt-auto flex flex-wrap gap-1.5 pt-2 md:gap-2 md:pt-5">
@@ -794,9 +794,9 @@ export default function CompareGrid() {
                   </>
                 ) : (
                   <div className="flex flex-1 flex-col items-center justify-center py-6 text-center md:py-12">
-                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl border border-dashed border-white/[0.12] bg-white/[0.02] md:mb-4 md:h-16 md:w-16 md:rounded-2xl">
+                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl border border-dashed border-[#C7CDD0] bg-[#F0F2F3] md:mb-4 md:h-16 md:w-16 md:rounded-2xl">
                       <svg
-                        className="h-5 w-5 text-white/15 md:h-7 md:w-7"
+                        className="h-5 w-5 text-[#8A9094] md:h-7 md:w-7"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -809,7 +809,7 @@ export default function CompareGrid() {
                         />
                       </svg>
                     </div>
-                    <p className="text-[11px] text-white/25 md:text-[13px]">
+                    <p className="text-[11px] text-[#686D71] md:text-[13px]">
                       {labels.emptySlot}
                     </p>
                   </div>
@@ -820,11 +820,11 @@ export default function CompareGrid() {
 
           {/* Differences indicator — mobile only, once above the table */}
           {hasComparison && diffCount > 0 && (
-            <div className="flex items-center gap-2 border-b border-white/[0.06] px-3 py-2 md:hidden">
+            <div className="flex items-center gap-2 border-b border-[#DDE1E3] px-3 py-2 md:hidden">
               <span className="inline-flex rounded border border-byd-red/30 bg-byd-red/10 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.1em] text-byd-red">
                 {diffCount} {labels.differs}
               </span>
-              <span className="text-[11px] text-white/30">
+              <span className="text-[11px] text-[#686D71]">
                 {locale === "ka"
                   ? "— მწკრივები მონიშნულია"
                   : "— rows highlighted below"}
@@ -836,11 +836,11 @@ export default function CompareGrid() {
           {specRows.map((row, rowIndex) => (
             <div
               key={row.key}
-              className={`border-b border-white/[0.05] ${
+              className={`border-b border-[#E6E9EA] ${
                 row.hasDifference
-                  ? "bg-[rgba(215,12,25,0.05)]"
+                  ? "bg-[rgba(215,12,25,0.055)]"
                   : rowIndex % 2 === 0
-                    ? "bg-white/[0.015]"
+                    ? "bg-white"
                     : ""
               }`}
             >
@@ -852,7 +852,7 @@ export default function CompareGrid() {
                     : "border-l-2 border-transparent"
                 }`}
               >
-                <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-white/35">
+                <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-[#686D71]">
                   {t(row.label, locale)}
                 </span>
               </div>
@@ -870,13 +870,13 @@ export default function CompareGrid() {
                     key={`${row.key}-${ci}`}
                     title={t(row.label, locale)}
                     className={`px-3 pb-2.5 pt-0.5 text-[12px] leading-5 md:flex md:items-center md:px-5 md:py-3.5 md:text-[14px] md:leading-6 ${
-                      ci < 2 ? "border-r border-white/[0.04]" : ""
+                      ci < 2 ? "border-r border-[#E6E9EA]" : ""
                     } ${
                       value === null
-                        ? "text-white/15"
+                        ? "text-[#B6BDC1]"
                         : row.hasDifference
-                          ? "font-semibold text-white"
-                          : "text-white/80"
+                          ? "font-semibold text-[#252728]"
+                          : "text-[#4E5356]"
                     }`}
                   >
                     {value ?? "—"}
@@ -896,7 +896,7 @@ export default function CompareGrid() {
           {hasComparison && (
             <div>
               <div className="px-3 pb-0.5 pt-2 md:hidden">
-                <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-white/35">
+                <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-[#686D71]">
                   {labels.pricing}
                 </span>
               </div>
@@ -905,8 +905,8 @@ export default function CompareGrid() {
                   <div
                     key={`price-${ci}`}
                     title={labels.pricing}
-                    className={`px-3 pb-2.5 pt-0.5 text-[11px] italic text-white/35 md:flex md:items-center md:px-5 md:py-3.5 md:text-[13px] ${
-                      ci < 2 ? "border-r border-white/[0.04]" : ""
+                    className={`px-3 pb-2.5 pt-0.5 text-[11px] italic text-[#686D71] md:flex md:items-center md:px-5 md:py-3.5 md:text-[13px] ${
+                      ci < 2 ? "border-r border-[#E6E9EA]" : ""
                     }`}
                   >
                     {slot ? labels.pricingValue : "—"}
@@ -919,7 +919,7 @@ export default function CompareGrid() {
           {/* Empty state */}
           {!hasComparison && (
             <div className="flex flex-col items-center justify-center py-12 text-center md:py-16">
-              <p className="text-[13px] text-white/30 md:text-[15px]">
+              <p className="text-[13px] text-[#686D71] md:text-[15px]">
                 {locale === "ka"
                   ? "აირჩიეთ მინიმუმ 2 მოდელი შესადარებლად"
                   : "Select at least 2 models to compare"}
@@ -932,8 +932,8 @@ export default function CompareGrid() {
       {/* ── Design options — only when models selected ── */}
       {filledSlots.length > 0 && (
         <div className="section-container pt-12">
-          <div className="mb-6 border-t border-white/[0.08] pt-8">
-            <h2 className="text-[2rem] font-semibold text-white">
+          <div className="mb-6 border-t border-[#DDE1E3] pt-8">
+            <h2 className="text-[2rem] font-semibold text-[#252728]">
               {labels.designTitle}
             </h2>
           </div>
@@ -943,9 +943,9 @@ export default function CompareGrid() {
               slot ? (
                 <div
                   key={`design-${slot.id}`}
-                  className="rounded-[1.25rem] border border-white/[0.08] bg-[#1C1E1F] p-6"
+                  className="rounded-[1.25rem] content-surface-soft p-6"
                 >
-                  <div className="mb-6 border-b border-white/[0.06] pb-5">
+                  <div className="mb-6 border-b border-[#DDE1E3] pb-5">
                     <p
                       className={`inline-flex rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
                         slot.type === "EV"
@@ -955,17 +955,17 @@ export default function CompareGrid() {
                     >
                       {slot.type}
                     </p>
-                    <h3 className="mt-3 text-xl font-semibold text-white">
+                    <h3 className="mt-3 text-xl font-semibold text-[#252728]">
                       {slot.familyName}
                     </h3>
-                    <p className="mt-1 text-sm text-white/40">
+                    <p className="mt-1 text-sm text-[#686D71]">
                       {slot.label} / {t(slot.category, locale)}
                     </p>
                   </div>
 
                   <div className="space-y-7">
                     <div>
-                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-white/35">
+                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-[#686D71]">
                         {locale === "ka" ? "ფერი" : "Paint"}
                       </p>
                       <div className="flex flex-wrap gap-4">
@@ -980,7 +980,7 @@ export default function CompareGrid() {
                     </div>
 
                     <div>
-                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-white/35">
+                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-[#686D71]">
                         {locale === "ka"
                           ? "დისკები და საბურავები"
                           : "Wheels & Tires"}
@@ -997,7 +997,7 @@ export default function CompareGrid() {
                     </div>
 
                     <div>
-                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-white/35">
+                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-[#686D71]">
                         {locale === "ka" ? "ინტერიერი" : "Interior"}
                       </p>
                       <div className="flex flex-wrap gap-4">
@@ -1012,7 +1012,7 @@ export default function CompareGrid() {
                     </div>
 
                     <div>
-                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-white/35">
+                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-[#686D71]">
                         {locale === "ka" ? "აქცენტები" : "Accents"}
                       </p>
                       <div className="flex flex-wrap gap-4">

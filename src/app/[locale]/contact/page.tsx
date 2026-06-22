@@ -6,7 +6,7 @@ import { SHOWROOM } from "@/lib/test-drive";
 
 const ShowroomMap = dynamic(() => import("@/components/ui/ShowroomMap"), {
   ssr: false,
-  loading: () => <div className="w-full h-full bg-[#1C1E1F] animate-pulse" />,
+  loading: () => <div className="w-full h-full bg-[#F0F2F3] animate-pulse" />,
 });
 
 export default function ContactPage() {
@@ -97,16 +97,16 @@ export default function ContactPage() {
                   href={item.href}
                   target={item.href.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 bg-[#1C1E1F] border border-white/[0.08] hover:border-white/20 transition-all duration-200 group"
-                >
-                  <div className="flex-shrink-0 w-10 h-10 bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-white/45 group-hover:text-byd-red group-hover:border-byd-red/30 transition-colors duration-200">
+                className="flex items-center gap-4 p-4 content-surface-soft hover:border-[#BFC5C8] transition-all duration-200 group"
+              >
+                  <div className="flex-shrink-0 w-10 h-10 bg-white border border-[#DDE1E3] flex items-center justify-center text-[#686D71] group-hover:text-byd-red group-hover:border-byd-red/30 transition-colors duration-200">
                     {item.icon}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[11px] text-white/30 uppercase tracking-[0.18em] mb-0.5">
+                    <p className="text-[11px] text-[#7A8080] uppercase tracking-[0.18em] mb-0.5">
                       {item.label}
                     </p>
-                    <p className="text-sm text-white group-hover:text-byd-red transition-colors duration-200 truncate">
+                    <p className="text-sm text-[#252728] group-hover:text-byd-red transition-colors duration-200 truncate">
                       {item.value}
                     </p>
                   </div>
@@ -116,7 +116,7 @@ export default function ContactPage() {
 
             {/* Map — fills remaining height */}
             <ScrollReveal delay={0.35} className="flex-1">
-              <div className="border border-white/[0.08] overflow-hidden h-full min-h-[12rem]">
+              <div className="border border-[#DDE1E3] bg-white overflow-hidden h-full min-h-[12rem] shadow-[0_10px_28px_rgba(24,28,32,0.06)]">
                 <ShowroomMap
                   lat={SHOWROOM.lat}
                   lng={SHOWROOM.lng}

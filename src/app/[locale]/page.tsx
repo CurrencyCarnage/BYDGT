@@ -121,7 +121,7 @@ export default async function HomePage() {
                   ? "მზად ხართ ტესტ დრაივისთვის?"
                   : <>Ready to experience<br className="hidden sm:block" /> the future?</>}
               </h2>
-              <p className="text-sm text-white/55 mb-7 font-light leading-relaxed">
+              <p className="text-sm text-white/68 mb-7 font-light leading-relaxed">
                 {locale === "ka"
                   ? "დაჯავშნეთ ტესტ დრაივი — სრულიად უფასოდ"
                   : "Book a free test drive at BYD Tbilisi — no commitment required."}
@@ -129,13 +129,13 @@ export default async function HomePage() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href="/booking"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-white text-byd-red text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#EFEFEF] transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-byd-red text-white text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#b80a15] transition-all duration-200"
                 >
                   {tCommon("bookTestDrive")}
                 </Link>
                 <Link
                   href="/catalog"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3 border border-white/35 text-white text-sm font-semibold tracking-[0.06em] uppercase hover:bg-white/08 hover:border-white/60 transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3 border border-white/22 text-white text-sm font-semibold tracking-[0.06em] uppercase hover:bg-white/10 hover:border-white/40 transition-all duration-200"
                 >
                   {tCommon("viewAll")}
                 </Link>

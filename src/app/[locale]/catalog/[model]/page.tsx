@@ -5,6 +5,7 @@ import Image from "next/image";
 import { getModelById, getLocalizedValue, formatPrice } from "@/lib/models";
 import ModelConfigurator from "@/components/configurator/ModelConfigurator";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +40,15 @@ export default async function ModelDetailPage({
   ];
 
   // Top 4 specs for the highlight strip
-  const heroSpecs = specRows.slice(0, 4);
+  const heroSpecs = [
+    { label: t("range"), value: model.specs.range_km, suffix: " km" },
+    ...(model.specs.electric_range_km
+      ? [{ label: t("electricRange"), value: model.specs.electric_range_km, suffix: " km" }]
+      : []),
+    { label: t("power"), value: model.specs.power_hp, suffix: " HP" },
+    { label: t("acceleration"), value: model.specs.acceleration_0_100, suffix: "s", decimals: 1 },
+    { label: t("topSpeed"), value: model.specs.top_speed_kmh, suffix: " km/h" },
+  ].slice(0, 4);
 
   return (
     <div className="bg-byd-dark">
@@ -148,7 +157,11 @@ export default async function ModelDetailPage({
             {heroSpecs.map((spec, i) => (
               <ScrollReveal key={spec.label} delay={i * 0.08} className="py-8 px-6 text-center">
                 <p className="text-3xl md:text-4xl font-semibold text-[#252728] mb-1">
-                  {spec.value}
+                  <AnimatedCounter
+                    value={spec.value}
+                    suffix={spec.suffix}
+                    decimals={"decimals" in spec ? spec.decimals : 0}
+                  />
                 </p>
                 <p className="text-[11px] text-[#686D71] uppercase tracking-[0.18em] font-medium">
                   {spec.label}
@@ -213,7 +226,7 @@ export default async function ModelDetailPage({
 
       {/* ── FEATURES — dark section ── */}
       {model.features.length > 0 && (
-        <section className="py-section-sm md:py-section-lg bg-[#252728]">
+        <section className="py-section-sm md:py-section-lg bg-[#F7F8F8]">
           <div className="section-container">
             <ScrollReveal className="mb-10">
               <div className="flex items-center gap-3 mb-4">
@@ -222,20 +235,20 @@ export default async function ModelDetailPage({
                   {t("featuresTitle")}
                 </p>
               </div>
-              <h2 className="text-h3 font-semibold text-white" style={{ letterSpacing: "-0.02em" }}>
+              <h2 className="text-h3 font-semibold text-[#252728]" style={{ letterSpacing: "-0.02em" }}>
                 {locale === "ka" ? "მახასიათებლები" : "Key Features"}
               </h2>
             </ScrollReveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/[0.06]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {model.features.map((feature, i) => (
                 <ScrollReveal key={i} delay={(i % 4) * 0.07}>
-                  <div className="flex items-start gap-4 p-6 bg-[#252728] hover:bg-[#1C1E1F] transition-colors duration-200">
+                  <div className="flex items-start gap-4 p-6 content-surface-soft hover:border-[#BFC5C8] transition-colors duration-200">
                     <div className="flex-shrink-0 w-5 h-5 bg-byd-red flex items-center justify-center mt-0.5">
                       <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-sm text-white/65 leading-relaxed">
+                    <span className="text-sm text-[#4E5356] leading-relaxed">
                       {getLocalizedValue(feature, locale)}
                     </span>
                   </div>

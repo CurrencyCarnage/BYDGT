@@ -30,28 +30,31 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
   const selectedVariantName = selectedVariant ? getLocalizedValue(selectedVariant.name, locale) : "";
 
   return (
-    <div className="relative overflow-hidden border border-white/[0.08] bg-[#252728] p-6 md:p-8">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,12,25,0.14),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.05),transparent_32%)]" />
+    <div className="relative overflow-hidden bg-white p-0">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 top-[26rem] bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.72),transparent_34%)]" />
 
       <div className="relative z-10">
-        <ModelVisualPreview model={model} locale={locale} />
+        <div className="bg-[#1C1E1F] p-4 sm:p-5 md:p-6 lg:p-8">
+          <ModelVisualPreview model={model} locale={locale} />
+        </div>
 
-        {model.configurations.colors.length > 0 && selectedColor && (
-          <CarColorPreview
-            colorSilhouette={model.images.colorSilhouette}
-            colors={model.configurations.colors}
-            selectedColorId={selectedColor.id}
-            onSelectColor={setSelectedColor}
-            locale={locale}
-            selectLabel={t("selectColor")}
-            includedLabel={t("included")}
-            formatPrice={formatPrice}
-          />
-        )}
+        <div className="p-6 md:p-8">
+          {model.configurations.colors.length > 0 && selectedColor && (
+            <CarColorPreview
+              colorSilhouette={model.images.colorSilhouette}
+              colors={model.configurations.colors}
+              selectedColorId={selectedColor.id}
+              onSelectColor={setSelectedColor}
+              locale={locale}
+              selectLabel={t("selectColor")}
+              includedLabel={t("included")}
+              formatPrice={formatPrice}
+            />
+          )}
 
-        {model.configurations.variants.length > 0 && (
-        <div className="mb-8 border border-white/[0.08] bg-white/[0.02] px-4 py-5 sm:px-5 lg:px-6">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/35">
+          {model.configurations.variants.length > 0 && (
+          <div className="mb-8 content-surface-soft px-4 py-5 sm:px-5 lg:px-6">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#686D71]">
             {t("selectVariant")}
           </p>
           <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
@@ -64,10 +67,10 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
                   key={variant.id}
                   onClick={() => setSelectedVariant(variant)}
                   aria-pressed={isSelected}
-                  className={`group relative border px-5 py-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#252728] ${
+                  className={`group relative border px-5 py-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
                     isSelected
-                      ? "border-byd-red bg-byd-red/[0.08] shadow-[0_18px_40px_rgba(0,0,0,0.24)]"
-                      : "border-white/[0.08] bg-black/[0.08] hover:-translate-y-0.5 hover:border-white/[0.22] hover:bg-white/[0.03]"
+                      ? "border-byd-red bg-byd-red/[0.08] shadow-[0_14px_32px_rgba(215,12,25,0.10)]"
+                      : "border-[#DDE1E3] bg-white hover:-translate-y-0.5 hover:border-[#BFC5C8]"
                   }`}
                 >
                   {isSelected && (
@@ -87,10 +90,10 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
                       </svg>
                     </span>
                   )}
-                  <p className="pr-12 text-sm font-semibold text-white">
+                  <p className="pr-12 text-sm font-semibold text-[#252728]">
                     {getLocalizedValue(variant.name, locale)}
                   </p>
-                  <p className="mt-2 text-[11px] text-white/35">
+                  <p className="mt-2 text-[11px] text-[#686D71]">
                     {variant.priceModifier === 0
                       ? t("included")
                       : `+${formatPrice(variant.priceModifier)}`}
@@ -99,35 +102,35 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
               );
             })}
           </div>
-        </div>
-        )}
+          </div>
+          )}
 
-        <div className="border-t border-[rgba(255,255,255,0.06)] pt-6">
+          <div className="border-t border-[#DDE1E3] pt-6">
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="border-l border-byd-red/50 pl-4">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-white/35">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-[#686D71]">
                   {t("selectColor")}
                 </p>
-                <p className="mt-2 text-base font-semibold text-white">
+                <p className="mt-2 text-base font-semibold text-[#252728]">
                   {selectedColorName}
                 </p>
               </div>
-              <div className="border-l border-white/[0.12] pl-4">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-white/35">
+              <div className="border-l border-[#C7CDD0] pl-4">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-[#686D71]">
                   {t("selectVariant")}
                 </p>
-                <p className="mt-2 text-base font-semibold text-white">
+                <p className="mt-2 text-base font-semibold text-[#252728]">
                   {selectedVariantName}
                 </p>
               </div>
             </div>
 
             <div className="xl:text-right">
-              <span className="text-white/60 font-medium">
+              <span className="text-[#686D71] font-medium">
                 {t("totalPrice")}
               </span>
-              <p className="mt-2 text-4xl font-semibold text-white">
+              <p className="mt-2 text-4xl font-semibold text-[#252728]">
                 {formatPrice(totalPrice)}
               </p>
             </div>
@@ -137,7 +140,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
             <Link href="/booking" className="btn-primary min-h-[48px] flex-1 text-center">
               {tCommon("bookTestDrive")}
             </Link>
-            <Link href="/contact" className="btn-secondary min-h-[48px] flex-1 text-center">
+            <Link href="/contact" className="inline-flex min-h-[48px] flex-1 items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]">
               {tCommon("contactUs")}
             </Link>
             <a
@@ -150,6 +153,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
             >
               {tCommon("whatsapp")}
             </a>
+          </div>
           </div>
         </div>
       </div>

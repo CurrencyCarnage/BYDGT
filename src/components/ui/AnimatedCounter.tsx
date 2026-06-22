@@ -8,6 +8,7 @@ interface AnimatedCounterProps {
   suffix?: string;
   prefix?: string;
   duration?: number;
+  decimals?: number;
   className?: string;
 }
 
@@ -16,6 +17,7 @@ export default function AnimatedCounter({
   suffix = "",
   prefix = "",
   duration = 2,
+  decimals = 0,
   className = "",
 }: AnimatedCounterProps) {
   const ref = useRef(null);
@@ -35,7 +37,13 @@ export default function AnimatedCounter({
       const progress = Math.min((now - startTime) / (endTime - startTime), 1);
       // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * value));
+      const nextValue = eased * value;
+      const precision = Math.pow(10, decimals);
+      setCount(
+        decimals > 0
+          ? Math.floor(nextValue * precision) / precision
+          : Math.floor(nextValue)
+      );
       if (progress < 1) {
         rafId = requestAnimationFrame(tick);
       } else {
@@ -48,11 +56,14 @@ export default function AnimatedCounter({
       cancelled = true;
       cancelAnimationFrame(rafId);
     };
-  }, [isInView, value, duration]);
+  }, [isInView, value, duration, decimals]);
 
   return (
     <span ref={ref} className={className}>
-      {prefix}{count.toLocaleString()}{suffix}
+      {prefix}{count.toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      })}{suffix}
     </span>
   );
 }

@@ -69,8 +69,8 @@ export default function ModelVisualPreview({
   };
 
   return (
-    <section className="mb-10">
-      <div className="relative overflow-hidden rounded-lg border border-white/[0.08] bg-[#17191a] shadow-[0_2rem_5rem_rgba(0,0,0,0.28)]">
+    <section>
+      <div className="relative overflow-hidden bg-[#17191a] shadow-[0_2rem_5rem_rgba(0,0,0,0.28)]">
         <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.10),transparent_28%),linear-gradient(180deg,rgba(0,0,0,0.52)_0%,transparent_24%,transparent_58%,rgba(0,0,0,0.72)_100%)]" />
 
         <div className="absolute inset-x-0 top-4 z-20 flex justify-center px-4">

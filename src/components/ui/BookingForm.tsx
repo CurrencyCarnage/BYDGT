@@ -131,20 +131,20 @@ export default function BookingForm() {
   };
 
   const inputClass =
-    "w-full bg-[#2C2F30] border border-white/[0.08] px-4 py-3 text-white text-sm placeholder-white/25 focus:outline-none focus:border-byd-red/50 focus:ring-1 focus:ring-byd-red/25 transition-all duration-200";
+    "form-field-light px-4 py-3 text-sm";
 
   if (submitted) {
     return (
-      <div className="border border-white/[0.08] bg-[#1C1E1F] p-10 text-center">
+      <div className="content-surface p-10 text-center">
         <div className="w-14 h-14 bg-byd-red/20 border border-byd-red/40 flex items-center justify-center mx-auto mb-6">
           <svg className="w-7 h-7 text-byd-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <p className="text-white font-semibold text-lg mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+        <p className="text-[#252728] font-semibold text-lg mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
           {t.successTitle}
         </p>
-        <p className="text-white/55 font-light mb-6" style={{ fontFamily: "var(--font-montserrat)" }}>
+        <p className="text-[#686D71] font-light mb-6" style={{ fontFamily: "var(--font-montserrat)" }}>
           {t.successText}
         </p>
         <button
@@ -163,11 +163,11 @@ export default function BookingForm() {
 
   return (
     <>
-      <form onSubmit={validateAndOpenModal} className="border border-white/[0.08] bg-[#1C1E1F] p-6 md:p-8 space-y-5">
+      <form onSubmit={validateAndOpenModal} className="content-surface p-6 md:p-8 space-y-5">
         {/* Name + Phone */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="block text-xs text-white/40 uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
               {t.fullName} <span className="text-byd-red">*</span>
             </label>
             <input
@@ -181,7 +181,7 @@ export default function BookingForm() {
             />
           </div>
           <div>
-            <label className="block text-xs text-white/40 uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
               {t.phone} <span className="text-byd-red">*</span>
             </label>
             <input
@@ -198,7 +198,7 @@ export default function BookingForm() {
 
         {/* Email */}
         <div>
-          <label className="block text-xs text-white/40 uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+          <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
             {t.email} <span className="text-byd-red">*</span>
           </label>
           <input
@@ -215,7 +215,7 @@ export default function BookingForm() {
         {/* Model + Version */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="block text-xs text-white/40 uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
               {t.model} <span className="text-byd-red">*</span>
             </label>
             <select
@@ -232,10 +232,10 @@ export default function BookingForm() {
                 </option>
               ))}
             </select>
-            <p className="text-[11px] text-white/25 mt-1.5" style={{ fontFamily: "var(--font-montserrat)" }}>{t.modelHelper}</p>
+            <p className="text-[11px] text-[#7A8080] mt-1.5" style={{ fontFamily: "var(--font-montserrat)" }}>{t.modelHelper}</p>
           </div>
           <div>
-            <label className="block text-xs text-white/40 uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
               {t.version} <span className="text-byd-red">*</span>
             </label>
             <select
@@ -253,14 +253,14 @@ export default function BookingForm() {
                 </option>
               ))}
             </select>
-            <p className="text-[11px] text-white/25 mt-1.5" style={{ fontFamily: "var(--font-montserrat)" }}>{t.versionHelper}</p>
+            <p className="text-[11px] text-[#7A8080] mt-1.5" style={{ fontFamily: "var(--font-montserrat)" }}>{t.versionHelper}</p>
           </div>
         </div>
 
         {/* Date + Time */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="block text-xs text-white/40 uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
               {t.date} <span className="text-byd-red">*</span>
             </label>
             <input
@@ -274,7 +274,7 @@ export default function BookingForm() {
             />
           </div>
           <div>
-            <label className="block text-xs text-white/40 uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
               {t.time} <span className="text-byd-red">*</span>
             </label>
             <select
@@ -296,7 +296,7 @@ export default function BookingForm() {
 
         {/* Message */}
         <div>
-          <label className="block text-xs text-white/40 uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+          <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
             {t.message}
           </label>
           <textarea
@@ -320,7 +320,7 @@ export default function BookingForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-4 bg-byd-red text-[#252728] font-semibold hover:bg-byd-red/90 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full py-4 bg-byd-red text-white font-semibold hover:bg-[#A80912] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "0.04em" }}
         >
           {loading ? (

@@ -14,10 +14,10 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
   return (
     <Link href={`/catalog/${model.id}`}>
       {/* BYD spec card: 0px border-radius, dark bg, border — no glass */}
-      <article className="group overflow-hidden cursor-pointer h-full flex flex-col bg-[#1C1E1F] border border-[#2C2F30] hover:border-white/[0.20] transition-all duration-300 hover:-translate-y-1">
+      <article className="group overflow-hidden cursor-pointer h-full flex flex-col content-surface-soft hover:border-[#BFC5C8] transition-all duration-300 hover:-translate-y-1">
 
         {/* ── Image ─────────────────────────────────────────────── */}
-        <div className="relative aspect-[16/10] bg-[#1C1E1F] overflow-hidden">
+        <div className="relative aspect-[16/10] bg-[#ECEFF1] overflow-hidden">
           {model.images.hero ? (
             <Image
               src={model.images.hero}
@@ -29,7 +29,7 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
               quality={90}
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-white/20">
+            <div className="absolute inset-0 flex items-center justify-center text-[#686D71]/40">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
                   d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -56,31 +56,31 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
         {/* ── Content ───────────────────────────────────────────── */}
         <div className="p-5 flex-1 flex flex-col">
           {/* Model name — BYD H7: 16px SemiBold */}
-          <h3 className="text-h7 font-semibold text-white mb-1 group-hover:text-[#D4D8DB] transition-colors duration-200">
+          <h3 className="text-h7 font-semibold text-[#252728] mb-1 group-hover:text-byd-red transition-colors duration-200">
             {name}
           </h3>
           {/* Tagline — Text 2: 14px Regular */}
-          <p className="text-body2 text-white/40 mb-4 line-clamp-2 font-light">
+          <p className="text-body2 text-[#686D71] mb-4 line-clamp-2 font-light">
             {tagline}
           </p>
 
           {/* Specs strip — Text 3: 12px */}
-          <div className="flex items-center gap-4 text-body3 text-white/35 mb-4 mt-auto">
+          <div className="flex items-center gap-4 text-body3 text-[#686D71] mb-4 mt-auto">
             <div className="flex items-center gap-1.5">
               {/* Lightning bolt icon — BYD icon spec 16px */}
-              <svg className="w-3.5 h-3.5 text-white/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-3.5 h-3.5 text-[#8A9094]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
               </svg>
               <span>{model.specs.power_hp} HP</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5 text-white/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-3.5 h-3.5 text-[#8A9094]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
               </svg>
               <span>{model.specs.range_km} km</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5 text-white/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-3.5 h-3.5 text-[#8A9094]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span>{model.specs.acceleration_0_100}s</span>
@@ -88,8 +88,8 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
           </div>
 
           {/* Price — BYD H6: 20px SemiBold, brand gray */}
-          <div className="pt-3 border-t border-white/[0.07]">
-            <p className="text-h6 font-semibold text-[#D4D8DB]">
+          <div className="pt-3 border-t border-[#DDE1E3]">
+            <p className="text-h6 font-semibold text-[#252728]">
               {formatPrice(model.basePrice)}
             </p>
           </div>
