@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { CarModel, formatPrice, getLocalizedValue } from "@/lib/types";
 import CarColorPreview from "./CarColorPreview";
+import ModelVisualPreview from "./ModelVisualPreview";
 
 interface ModelConfiguratorProps {
   model: CarModel;
@@ -33,6 +34,8 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,12,25,0.14),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.05),transparent_32%)]" />
 
       <div className="relative z-10">
+        <ModelVisualPreview model={model} locale={locale} />
+
         {model.configurations.colors.length > 0 && selectedColor && (
           <CarColorPreview
             colorSilhouette={model.images.colorSilhouette}
