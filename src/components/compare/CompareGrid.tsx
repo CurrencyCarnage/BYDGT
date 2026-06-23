@@ -743,10 +743,10 @@ export default function CompareGrid() {
   return (
     <div className="pb-16 pt-4 md:pt-8">
       {/* ── Mobile: 3 compact thumbnails in one row ── */}
-      <div className="sticky top-[5rem] z-30 bg-byd-dark/95 backdrop-blur md:hidden">
+      <div className="compare-sticky-shell sticky top-[5rem] z-30 bg-byd-dark/95 backdrop-blur md:hidden">
         <div className="section-container">
           <div
-            className={`border border-b-0 border-[#DDE1E3] bg-[#F7F8F8] px-3 py-2 transition-[border-radius] duration-200 ${
+            className={`compare-selector-surface border border-b-0 border-[#DDE1E3] bg-[#F7F8F8] px-3 py-2 transition-[border-radius] duration-200 ${
               hasScrolled ? "rounded-t-none" : "rounded-t-[1rem]"
             }`}
           >
@@ -770,10 +770,10 @@ export default function CompareGrid() {
       </div>
 
       {/* ── Desktop: 3 equal selectors ── */}
-      <div className="sticky top-[5rem] z-30 hidden bg-byd-dark/95 backdrop-blur md:block">
+      <div className="compare-sticky-shell sticky top-[5rem] z-30 hidden bg-byd-dark/95 backdrop-blur md:block">
         <div className="section-container">
           <div
-            className={`border border-b-0 border-[#DDE1E3] bg-[#F7F8F8] px-4 py-3 transition-[border-radius] duration-200 ${
+            className={`compare-selector-surface border border-b-0 border-[#DDE1E3] bg-[#F7F8F8] px-4 py-3 transition-[border-radius] duration-200 ${
               hasScrolled ? "rounded-t-none" : "rounded-t-[1.25rem]"
             }`}
           >
@@ -797,7 +797,7 @@ export default function CompareGrid() {
 
       {/* ── Comparison matrix ── */}
       <div className="section-container">
-        <div className="overflow-hidden rounded-b-[1rem] border-t-0 content-surface md:rounded-b-[1.25rem]">
+        <div className="compare-matrix-surface overflow-hidden rounded-b-[1rem] border-t-0 content-surface md:rounded-b-[1.25rem]">
           {/* Model card headers — pure 3-column */}
           <div className="grid grid-cols-3 border-b border-[#DDE1E3]">
             {slots.map((slot, i) => (

@@ -955,6 +955,27 @@
     color: #252728;
   }
 
+  html.light .compare-sticky-shell {
+    background: #F4F5F5;
+  }
+
+  html.light .compare-selector-surface {
+    background: #F4F5F5;
+  }
+
+  html.light .compare-selector-surface,
+  html.light .compare-matrix-surface {
+    border-color: rgba(37, 39, 40, 0.42);
+  }
+
+  html.light .compare-selector-surface {
+    box-shadow: 0 -1px 0 rgba(37, 39, 40, 0.12);
+  }
+
+  html.light .compare-matrix-surface {
+    box-shadow: 0 18px 46px rgba(24, 28, 32, 0.12);
+  }
+
   html.light .btn-primary {
     background: #252728;
     border-color: #252728;
