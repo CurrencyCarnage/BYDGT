@@ -92,11 +92,11 @@ function MegaMenu({
 
       <div className="mx-auto flex max-w-[96.5rem] items-stretch gap-2">
         <div
-          className="min-w-0 flex-1 overflow-hidden"
+          className="mega-menu-panel min-w-0 flex-1 overflow-hidden"
           style={{
-            background: "#111213",
-            border:     "1px solid rgba(255,255,255,0.08)",
-            boxShadow:  "0 26px 58px rgba(0,0,0,0.62), 0 6px 16px rgba(0,0,0,0.4)",
+            background: "var(--theme-menu-bg)",
+            border:     "1px solid var(--theme-border-subtle)",
+            boxShadow:  "var(--theme-menu-shadow)",
           }}
         >
           {/* 2 × 2 model grid */}
@@ -228,6 +228,7 @@ export default function Navbar() {
   const [megaOpen, setMegaOpen]           = useState(false);
   const [mobileModels, setMobileModels]   = useState(false);
   const [scrolled, setScrolled]           = useState(false);
+  const [theme, setTheme]                 = useState<"dark" | "light">("dark");
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const t       = useTranslations("nav");
@@ -240,6 +241,13 @@ export default function Navbar() {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("byd-theme");
+    const nextTheme = savedTheme === "light" ? "light" : "dark";
+    setTheme(nextTheme);
+    document.documentElement.classList.toggle("light", nextTheme === "light");
   }, []);
 
   /* Close mobile menu on route change */
@@ -265,6 +273,13 @@ export default function Navbar() {
     router.replace(pathname, { locale: locale === "en" ? "ka" : "en" });
   };
 
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    document.documentElement.classList.toggle("light", nextTheme === "light");
+    window.localStorage.setItem("byd-theme", nextTheme);
+  };
+
   const ka = locale === "ka";
 
   /* Non-models nav links */
@@ -277,6 +292,8 @@ export default function Navbar() {
 
   return (
     <nav
+      data-scrolled={scrolled ? "true" : "false"}
+      data-light-page={pathname === "/compare" || pathname === "/contact" ? "true" : "false"}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? "border-b border-white/[0.03] bg-[#111213]/12 backdrop-blur-[4px] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
@@ -370,9 +387,45 @@ export default function Navbar() {
         {/* ── Right actions ─────────────────────────────────────── */}
         <div className="flex items-center gap-4 flex-shrink-0">
           <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            title={theme === "dark" ? "Light mode" : "Dark mode"}
+            className="theme-toggle hidden sm:inline-flex h-9 w-9 items-center justify-center border border-white/15 bg-[#111213]/25 text-white/60 transition-colors duration-200 hover:border-white/35 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-byd-red/70"
+          >
+            {theme === "dark" ? (
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.8}
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="4" />
+                <path strokeLinecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+              </svg>
+            ) : (
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.8}
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 12.79A8.5 8.5 0 1 1 11.21 3 6.5 6.5 0 0 0 21 12.79Z"
+                />
+              </svg>
+            )}
+          </button>
+          <button
             onClick={switchLocale}
             aria-label="Switch language"
-            className="hidden sm:flex items-center gap-1.5 text-xs font-semibold tracking-[0.12em] uppercase text-white/45 hover:text-white transition-colors duration-200"
+            className="hidden sm:flex items-center gap-1.5 text-[13px] font-semibold tracking-[0.12em] uppercase text-white/45 hover:text-white transition-colors duration-200"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <circle cx="12" cy="12" r="10" />
@@ -385,7 +438,7 @@ export default function Navbar() {
 
           <Link
             href="/booking"
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-byd-red text-white text-xs font-bold tracking-[0.1em] uppercase hover:bg-[#A80912] transition-colors duration-200"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-byd-red text-white text-[13px] font-bold tracking-[0.1em] uppercase hover:bg-[#A80912] transition-colors duration-200"
           >
             {tCommon("bookTestDrive")}
           </Link>
@@ -511,6 +564,23 @@ export default function Navbar() {
 
             {/* Bottom row */}
             <div className="py-4 flex items-center justify-between border-t border-white/[0.05] mt-1">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                className="theme-toggle flex h-9 w-9 items-center justify-center border border-white/12 bg-white/[0.04] text-white/45 transition-colors duration-200 hover:border-white/30 hover:text-white"
+              >
+                {theme === "dark" ? (
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+                    <circle cx="12" cy="12" r="4" />
+                    <path strokeLinecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                  </svg>
+                ) : (
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A8.5 8.5 0 1 1 11.21 3 6.5 6.5 0 0 0 21 12.79Z" />
+                  </svg>
+                )}
+              </button>
               <button
                 onClick={() => { switchLocale(); setMobileOpen(false); }}
                 className="text-xs font-semibold tracking-[0.15em] uppercase text-white/35 hover:text-white transition-colors duration-200 flex items-center gap-2"

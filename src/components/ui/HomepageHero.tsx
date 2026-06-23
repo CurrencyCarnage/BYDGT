@@ -482,7 +482,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
 
   return (
     <section
-      className="relative flex h-[100svh] min-h-[100svh] flex-col overflow-hidden md:h-auto md:min-h-screen"
+      className="theme-media-section relative flex h-[100svh] min-h-[100svh] flex-col overflow-hidden md:h-auto md:min-h-screen"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -897,7 +897,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
         </div>
       </div>
 
-      <div className="relative z-10 border-t-0 bg-[#1A1C1D]/80 backdrop-blur-sm md:border-t md:border-white/[0.06]">
+      <div className="hero-benefits-strip relative z-10 border-t-0 bg-[#1A1C1D]/80 backdrop-blur-sm md:border-t md:border-white/[0.06]">
         <div className="section-container">
           <div className="grid grid-cols-2 divide-x divide-white/[0.06] md:grid-cols-4">
             {benefits.map((item, index) => (

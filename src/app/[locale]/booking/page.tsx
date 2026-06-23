@@ -123,7 +123,7 @@ export default async function BookingPage() {
         {/* Content — pinned to bottom-left, tight and readable */}
         <div className="absolute inset-0 flex items-end">
           <div className="section-container w-full pb-12 pt-28">
-            <div className="light-glass-text p-5 md:p-7 inline-block">
+            <div className="media-copy-overlay p-5 md:p-7 inline-block">
             <ScrollReveal>
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-8 h-px bg-byd-red" />
@@ -132,11 +132,11 @@ export default async function BookingPage() {
                   {t.tag}
                 </p>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#252728] leading-[1.06] mb-4 max-w-2xl"
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.06] mb-4 max-w-2xl"
                 style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.03em" }}>
                 {t.title}
               </h1>
-              <p className="text-base text-[#686D71] font-light max-w-md leading-relaxed mb-8"
+              <p className="text-base text-white/65 font-light max-w-md leading-relaxed mb-8"
                 style={{ fontFamily: "var(--font-montserrat)" }}>
                 {t.subtitle}
               </p>
@@ -144,18 +144,18 @@ export default async function BookingPage() {
 
             {/* Stats — directly under subtitle, no big gap */}
             <ScrollReveal delay={0.1}>
-              <div className="flex gap-8 pt-6 border-t border-[#DDE1E3]">
+              <div className="flex gap-8 pt-6 border-t border-white/12">
                 {[
                   { val: t.stat1, sub: t.stat1sub },
                   { val: t.stat2, sub: t.stat2sub },
                   { val: t.stat3, sub: t.stat3sub },
                 ].map((s) => (
                   <div key={s.val}>
-                    <p className="text-2xl font-bold text-[#252728]"
+                    <p className="text-2xl font-bold text-white"
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {s.val}
                     </p>
-                    <p className="text-[10px] text-[#7A8080] uppercase tracking-[0.14em] mt-0.5"
+                    <p className="text-[10px] text-white/45 uppercase tracking-[0.14em] mt-0.5"
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {s.sub}
                     </p>
@@ -186,7 +186,7 @@ export default async function BookingPage() {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[#252728]/90 via-[#252728]/55 to-[#252728]/10" />
             <div className="absolute inset-0 flex items-center px-7 md:px-10">
-              <div className="light-glass-text p-4 md:p-5">
+              <div className="media-copy-overlay p-4 md:p-5">
                 <div className="flex items-center gap-3 mb-2">
                   <span className="w-5 h-px bg-byd-red" />
                   <p className="text-xs text-byd-red uppercase tracking-[0.25em] font-semibold"
@@ -194,11 +194,11 @@ export default async function BookingPage() {
                     {t.tag}
                   </p>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-[#252728]"
+                <h2 className="text-2xl md:text-3xl font-bold text-white"
                   style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.025em" }}>
                   {t.formTitle}
                 </h2>
-                <p className="text-sm text-[#686D71] mt-1.5 font-light max-w-sm"
+                <p className="text-sm text-white/65 mt-1.5 font-light max-w-sm"
                   style={{ fontFamily: "var(--font-montserrat)" }}>
                   {t.subtitle}
                 </p>
@@ -275,16 +275,16 @@ export default async function BookingPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#252728] via-[#252728]/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 px-5 py-4">
-                    <div className="light-glass-text p-3">
-                    <p className="text-[10px] text-[#7A8080] uppercase tracking-widest mb-0.5"
+                    <div className="media-copy-overlay p-3">
+                    <p className="text-[10px] text-white/45 uppercase tracking-widest mb-0.5"
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {t.locTitle}
                     </p>
-                    <p className="text-base font-bold text-[#252728]"
+                    <p className="text-base font-bold text-white"
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {SHOWROOM.name}
                     </p>
-                    <p className="text-xs text-[#686D71] mt-0.5"
+                    <p className="text-xs text-white/62 mt-0.5"
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {SHOWROOM.address}
                     </p>
@@ -331,8 +331,8 @@ export default async function BookingPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#252728]/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 px-4 py-3">
-                  <div className="light-glass-text p-2.5 inline-block">
-                  <p className="text-[10px] text-[#686D71] uppercase tracking-[0.2em]"
+                  <div className="media-copy-overlay p-2.5 inline-block">
+                  <p className="text-[10px] text-white/62 uppercase tracking-[0.2em]"
                     style={{ fontFamily: "var(--font-montserrat)" }}>
                     BYD Tbilisi · GT Group
                   </p>

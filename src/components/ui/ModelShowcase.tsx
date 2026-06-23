@@ -278,6 +278,7 @@ function ModelSection({
       ref={sectionRef}
       id={model.id}
       data-model-section
+      data-model-scene={lightSection ? "light" : "dark"}
       className="relative isolate overflow-hidden md:![min-height:88svh]"
       style={{
         minHeight: "clamp(260px, 36svh, 500px)",
@@ -461,7 +462,7 @@ function ShowcaseHeader({ locale }: { locale: string }) {
     // Seamless transition: sits between ticker and first model.
     // Gradient pulls from dark ticker above, softly fades to match first model's studio lighting.
     <div
-      className="relative overflow-hidden"
+      className="theme-media-section relative overflow-hidden"
       style={{
         background: "linear-gradient(to bottom, #1a1c1d 0%, #0c0d0e 100%)",
         minHeight: "clamp(5rem, 12vh, 8.75rem)",

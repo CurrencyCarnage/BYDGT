@@ -106,7 +106,7 @@ export default async function AboutPage() {
     <div className="overflow-hidden">
       {/* ── HERO ── */}
       <section
-        className="relative min-h-[75vh] flex items-end pb-20 pt-40"
+        className="theme-media-section relative min-h-[75vh] flex items-end pb-20 pt-40"
         style={{
           backgroundImage: "url('/images/aboutus/byd_about_bg_hq_hero.jpg')",
           backgroundSize: "cover",
@@ -188,7 +188,7 @@ export default async function AboutPage() {
 
       {/* ── INNOVATION ── */}
       <section
-        className="relative py-section-sm md:py-section-lg"
+        className="theme-media-section relative py-section-sm md:py-section-lg"
         style={{
           backgroundImage: "url('/images/aboutus/byd_about_bg_tech_dark.jpg')",
           backgroundSize: "cover",
@@ -247,7 +247,7 @@ export default async function AboutPage() {
 
       {/* ── SAFETY ── */}
       <section
-        className="relative py-section-sm md:py-section-lg"
+        className="theme-media-section relative py-section-sm md:py-section-lg"
         style={{
           backgroundImage: "url('/images/aboutus/byd_about_bg_auto_dark.jpg')",
           backgroundSize: "cover",
@@ -302,7 +302,7 @@ export default async function AboutPage() {
             {/* Market performance */}
             <ScrollReveal direction="left">
               <div
-                className="relative overflow-hidden h-full min-h-[20rem] flex flex-col justify-end p-8"
+                className="theme-media-section relative overflow-hidden h-full min-h-[20rem] flex flex-col justify-end p-8"
                 style={{
                   backgroundImage: "url('/images/aboutus/byd_about_bg_global_dark.jpg')",
                   backgroundSize: "cover",

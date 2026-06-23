@@ -37,6 +37,18 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={montserrat.variable} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var theme = localStorage.getItem("byd-theme");
+                document.documentElement.classList.toggle("light", theme === "light");
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
       <body className="font-sans antialiased bg-byd-dark text-white min-h-screen" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <Navbar />

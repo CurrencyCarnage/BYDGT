@@ -54,7 +54,7 @@ export default async function ModelDetailPage({
     <div className="bg-byd-dark">
 
       {/* ── HERO — full-bleed cinematic, model name pinned bottom-left ── */}
-      <section className="relative overflow-hidden" style={{ height: "90vh", minHeight: "35rem", maxHeight: "56.25rem" }}>
+      <section className="model-detail-hero relative overflow-hidden" style={{ height: "90vh", minHeight: "35rem", maxHeight: "56.25rem" }}>
 
         {/* Background: video or image */}
         {model.images.heroVideo ? (
@@ -260,7 +260,7 @@ export default async function ModelDetailPage({
       )}
 
       {/* ── CTA — BYD Red ── */}
-      <section className="py-20 bg-byd-red">
+      <section className="model-detail-cta py-20 bg-byd-red">
         <div className="section-container text-center">
           <ScrollReveal>
             <p className="text-xs font-semibold tracking-[0.3em] text-white/50 uppercase mb-5">
