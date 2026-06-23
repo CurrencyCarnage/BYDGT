@@ -439,18 +439,22 @@ function SwatchDot({ hex, title }: { hex: string; title: string }) {
 interface ModelDropdownProps {
   selected: SlotVersion | null;
   onSelect: (version: SlotVersion) => void;
+  onClear: () => void;
   locale: LocaleCode;
   blockedIds: string[];
   placeholder: string;
+  clearLabel: string;
   compact?: boolean;
 }
 
 function ModelDropdown({
   selected,
   onSelect,
+  onClear,
   locale,
   blockedIds,
   placeholder,
+  clearLabel,
   compact,
 }: ModelDropdownProps) {
   const [open, setOpen] = useState(false);
@@ -561,6 +565,33 @@ function ModelDropdown({
 
       {open && (
         <div className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-2xl border border-[#DDE1E3] bg-white shadow-[0_24px_60px_rgba(24,28,32,0.18)]">
+          {selected && (
+            <button
+              type="button"
+              onClick={() => {
+                onClear();
+                setOpen(false);
+              }}
+              className="flex w-full items-center gap-3 border-b border-[#EEF0F1] px-4 py-3 text-left text-sm font-medium text-byd-red transition-colors hover:bg-byd-red/[0.06]"
+            >
+              <span className="flex h-9 w-11 shrink-0 items-center justify-center rounded-md border border-byd-red/20 bg-byd-red/[0.06]">
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.8}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </span>
+              <span className="min-w-0 flex-1 truncate">{clearLabel}</span>
+            </button>
+          )}
           {FAMILIES.map((family) => (
             <div key={family.id} className="border-t border-[#EEF0F1] first:border-t-0">
               <p className="px-4 pb-2 pt-3 text-[10px] uppercase tracking-[0.18em] text-[#7A8080]">
@@ -637,6 +668,17 @@ export default function CompareGrid() {
   const [slots, setSlots] = useState<
     [SlotVersion | null, SlotVersion | null, SlotVersion | null]
   >([null, null, null]);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 8);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const labels = {
     differs: locale === "ka" ? "განსხვავდება" : "Differs",
@@ -649,6 +691,8 @@ export default function CompareGrid() {
     viewCatalog: locale === "ka" ? "კატალოგი" : "View Catalog",
     selectModel:
       locale === "ka" ? "აირჩიეთ მოდელი" : "Select a model",
+    clearModel:
+      locale === "ka" ? "მოდელის წაშლა" : "Remove model",
     emptySlot:
       locale === "ka"
         ? "მოდელი არ არის არჩეული"
@@ -677,7 +721,7 @@ export default function CompareGrid() {
       })
     : [];
 
-  const updateSlot = (index: number, version: SlotVersion) => {
+  const updateSlot = (index: number, version: SlotVersion | null) => {
     setSlots((prev) => {
       const next = [...prev] as [
         SlotVersion | null,
@@ -697,47 +741,63 @@ export default function CompareGrid() {
   const diffCount = specRows.filter((r) => r.hasDifference).length;
 
   return (
-    <div className="pb-16">
+    <div className="pb-16 pt-4 md:pt-8">
       {/* ── Mobile: 3 compact thumbnails in one row ── */}
-      <div className="sticky top-[5rem] z-30 border-b border-[#DDE1E3] bg-[#F7F8F8]/95 backdrop-blur md:hidden">
-        <div className="section-container py-2">
-          <div className="grid grid-cols-3 gap-1.5">
+      <div className="sticky top-[5rem] z-30 bg-byd-dark/95 backdrop-blur md:hidden">
+        <div className="section-container">
+          <div
+            className={`border border-b-0 border-[#DDE1E3] bg-[#F7F8F8] px-3 py-2 transition-[border-radius] duration-200 ${
+              hasScrolled ? "rounded-t-none" : "rounded-t-[1rem]"
+            }`}
+          >
+            <div className="grid grid-cols-3 gap-1.5">
             {slots.map((slot, i) => (
               <ModelDropdown
                 key={`m-${i}`}
                 selected={slot}
                 onSelect={(v) => updateSlot(i, v)}
+                onClear={() => updateSlot(i, null)}
                 locale={locale}
                 blockedIds={blockedFor(i)}
                 placeholder={labels.selectModel}
+                clearLabel={labels.clearModel}
                 compact
               />
             ))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* ── Desktop: 3 equal selectors ── */}
-      <div className="sticky top-[5rem] z-30 hidden border-b border-[#DDE1E3] bg-[#F7F8F8]/95 backdrop-blur md:block">
-        <div className="section-container py-3">
-          <div className="grid grid-cols-3 gap-3">
+      <div className="sticky top-[5rem] z-30 hidden bg-byd-dark/95 backdrop-blur md:block">
+        <div className="section-container">
+          <div
+            className={`border border-b-0 border-[#DDE1E3] bg-[#F7F8F8] px-4 py-3 transition-[border-radius] duration-200 ${
+              hasScrolled ? "rounded-t-none" : "rounded-t-[1.25rem]"
+            }`}
+          >
+            <div className="grid grid-cols-3 gap-3">
             {slots.map((slot, i) => (
               <ModelDropdown
                 key={`d-${i}`}
                 selected={slot}
                 onSelect={(v) => updateSlot(i, v)}
+                onClear={() => updateSlot(i, null)}
                 locale={locale}
                 blockedIds={blockedFor(i)}
                 placeholder={labels.selectModel}
+                clearLabel={labels.clearModel}
               />
             ))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* ── Comparison matrix ── */}
-      <div className="section-container pt-4 md:pt-8">
-        <div className="overflow-hidden rounded-[1rem] content-surface md:rounded-[1.25rem]">
+      <div className="section-container">
+        <div className="overflow-hidden rounded-b-[1rem] border-t-0 content-surface md:rounded-b-[1.25rem]">
           {/* Model card headers — pure 3-column */}
           <div className="grid grid-cols-3 border-b border-[#DDE1E3]">
             {slots.map((slot, i) => (
