@@ -490,7 +490,7 @@ export default function Navbar() {
           mobileOpen ? "max-h-[560px]" : "max-h-0"
         }`}
       >
-        <div className="bg-[#111213] border-t border-white/[0.06]">
+        <div className="mobile-menu-panel">
           <div className="section-container py-2">
 
             {/* Regular links */}

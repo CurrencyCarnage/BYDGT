@@ -986,7 +986,8 @@
   nav .text-white,
   nav [class*="text-white/"],
   nav .theme-toggle,
-  nav .bg-white {
+  nav .bg-white,
+  nav .mobile-menu-panel {
     transition:
       color 320ms cubic-bezier(0.4, 0, 0.2, 1),
       background-color 320ms cubic-bezier(0.4, 0, 0.2, 1),
@@ -994,6 +995,38 @@
       filter 320ms cubic-bezier(0.4, 0, 0.2, 1),
       text-shadow 320ms cubic-bezier(0.4, 0, 0.2, 1),
       box-shadow 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  nav .mobile-menu-panel {
+    background: rgba(17, 18, 19, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
+    backdrop-filter: blur(18px) saturate(1.16);
+    -webkit-backdrop-filter: blur(18px) saturate(1.16);
+  }
+
+  nav .mobile-menu-panel .text-white,
+  nav .mobile-menu-panel [class*="text-white/"] {
+    color: rgba(255, 255, 255, 0.88) !important;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+  }
+
+  html.light nav .mobile-menu-panel {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border-color: rgba(37, 39, 40, 0.14) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.80) inset,
+      0 18px 44px rgba(24, 28, 32, 0.14) !important;
+  }
+
+  html.light nav .mobile-menu-panel .text-white,
+  html.light nav .mobile-menu-panel [class*="text-white/"] {
+    color: rgba(15, 18, 20, 0.90) !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+  }
+
+  html.light nav .mobile-menu-panel [class*="border-white/"] {
+    border-color: rgba(37, 39, 40, 0.10) !important;
   }
 
   nav.header-on-light-surface {
@@ -1038,6 +1071,24 @@
 
   nav.header-on-light-surface .bg-white {
     background-color: rgba(17, 18, 19, 0.28) !important;
+  }
+
+  nav.header-on-light-surface .mobile-menu-panel {
+    background: rgba(245, 248, 252, 0.95) !important;
+    border-color: rgba(37, 39, 40, 0.18) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.72) inset,
+      0 18px 44px rgba(24, 28, 32, 0.14) !important;
+  }
+
+  nav.header-on-light-surface .mobile-menu-panel .text-white,
+  nav.header-on-light-surface .mobile-menu-panel [class*="text-white/"] {
+    color: rgba(15, 18, 20, 0.88) !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.70);
+  }
+
+  nav.header-on-light-surface .mobile-menu-panel [class*="border-white/"] {
+    border-color: rgba(37, 39, 40, 0.10) !important;
   }
 
   nav.header-on-light-surface a.bg-byd-red,
