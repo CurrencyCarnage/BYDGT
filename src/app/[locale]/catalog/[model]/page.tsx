@@ -6,7 +6,7 @@ import { getModelById, getLocalizedValue, formatPrice } from "@/lib/models";
 import ModelConfigurator from "@/components/configurator/ModelConfigurator";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
-import CompareButton from "@/components/compare/CompareButton";
+
 
 export const dynamic = "force-dynamic";
 
@@ -138,13 +138,10 @@ export default async function ModelDetailPage({
                   {formatPrice(model.basePrice)}
                 </p>
               </div>
-              <div className="grid grid-cols-3 gap-1.5 w-full sm:flex sm:flex-wrap sm:gap-3 sm:w-auto">
+              <div className="grid grid-cols-2 gap-1.5 w-full sm:flex sm:flex-wrap sm:gap-3 sm:w-auto">
                 <Link href={bookingHref} className="btn-primary-red justify-center text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ height: "2.75rem" }}>
                   {tCommon("bookTestDrive")}
                 </Link>
-                <CompareButton modelId={model.id} modelName={name} className="btn-secondary justify-center text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ height: "2.75rem" }}>
-                  {tCommon("compare")}
-                </CompareButton>
                 <Link href="/contact" className="btn-secondary justify-center text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ height: "2.75rem" }}>
                   {tCommon("contactUs")}
                 </Link>

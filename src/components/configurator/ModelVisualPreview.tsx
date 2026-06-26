@@ -79,8 +79,8 @@ export default function ModelVisualPreview({
     <section>
       <div className="relative overflow-hidden bg-[#1C1E1F]">
 
-        <div className="absolute inset-x-0 top-4 z-20 flex justify-center px-4">
-          <div className="inline-flex rounded-full border border-white/[0.14] bg-black/28 p-1 shadow-[0_0.75rem_2rem_rgba(0,0,0,0.25)] backdrop-blur-md">
+        <div className="absolute inset-x-0 top-2.5 sm:top-4 z-20 flex justify-center px-4">
+          <div className="inline-flex rounded-full border border-white/[0.14] bg-black/28 p-[3px] sm:p-1 shadow-[0_0.75rem_2rem_rgba(0,0,0,0.25)] backdrop-blur-md">
           {(["exterior", "interior"] as const).map((item) => {
             const isActive = mode === item;
             return (
@@ -89,7 +89,7 @@ export default function ModelVisualPreview({
                 type="button"
                 onClick={() => setMode(item)}
                 aria-pressed={isActive}
-                  className={`min-h-[2.75rem] min-w-[7rem] rounded-full px-5 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 ${
+                  className={`min-h-[1.625rem] sm:min-h-[2.75rem] min-w-[4rem] sm:min-w-[7rem] rounded-full px-2 sm:px-5 text-[10px] sm:text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 ${
                   isActive
                       ? "bg-white text-[#17191a] shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.22)]"
                       : "text-white/68 hover:bg-white/[0.08] hover:text-white"
@@ -113,7 +113,7 @@ export default function ModelVisualPreview({
           </p>
         </div>
 
-        <div className="relative aspect-[16/9] sm:aspect-[16/7.4] lg:min-h-[29rem]">
+        <div className="relative aspect-[16/10.5] sm:aspect-[16/7.4] lg:min-h-[29rem]">
           <Image
             key={previewSrc}
             src={previewSrc}
@@ -174,8 +174,8 @@ export default function ModelVisualPreview({
               </svg>
             </button>
 
-            <div className="absolute inset-x-0 bottom-5 z-20 flex justify-center px-4">
-              <div className="flex max-w-full items-center gap-1 rounded-full border border-white/[0.12] bg-black/28 p-1 shadow-[0_0.75rem_2rem_rgba(0,0,0,0.22)] backdrop-blur-md">
+            <div className="absolute inset-x-0 bottom-1.5 sm:bottom-5 z-20 flex justify-center px-4">
+              <div className="flex max-w-full items-center gap-0.5 sm:gap-1 rounded-full border border-white/[0.12] bg-black/28 p-0.5 sm:p-1 shadow-[0_0.75rem_2rem_rgba(0,0,0,0.22)] backdrop-blur-md">
               {exteriorAssets.map((asset, index) => {
                 const isActive = exteriorIndex === index;
                 return (
@@ -184,15 +184,15 @@ export default function ModelVisualPreview({
                     type="button"
                     onClick={() => setExteriorIndex(index)}
                     aria-pressed={isActive}
-                      className={`flex min-h-[2.5rem] items-center gap-2 rounded-full px-3 text-[11px] font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 sm:px-4 ${
+                      className={`flex min-h-[1.75rem] sm:min-h-[2.5rem] items-center gap-1.5 sm:gap-2 rounded-full px-2.5 sm:px-4 text-[10px] sm:text-[11px] font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 ${
                       isActive
                           ? "bg-white text-[#17191a]"
                           : "text-white/62 hover:bg-white/[0.08] hover:text-white"
                     }`}
                   >
                       <span
-                        className={`h-1.5 rounded-full transition-all duration-200 ${
-                          isActive ? "w-7 bg-byd-red" : "w-1.5 bg-white/45"
+                        className={`h-1 sm:h-1.5 rounded-full transition-all duration-200 ${
+                          isActive ? "w-5 sm:w-7 bg-byd-red" : "w-1 sm:w-1.5 bg-white/45"
                         }`}
                       />
                       <span className="hidden sm:inline">{asset.label}</span>
@@ -205,8 +205,8 @@ export default function ModelVisualPreview({
         )}
 
         {mode === "interior" && (
-          <div className="absolute inset-x-0 bottom-5 z-20 flex justify-center px-4">
-            <div className="rounded-full border border-white/[0.12] bg-black/28 px-4 py-2 text-[11px] font-semibold text-white/72 shadow-[0_0.75rem_2rem_rgba(0,0,0,0.22)] backdrop-blur-md">
+          <div className="absolute inset-x-0 bottom-3 sm:bottom-5 z-20 flex justify-center px-4">
+            <div className="rounded-full border border-white/[0.12] bg-black/28 px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-[11px] font-semibold text-white/72 shadow-[0_0.75rem_2rem_rgba(0,0,0,0.22)] backdrop-blur-md">
               {locale === "ka" ? "სალონის ხედი" : "Cockpit View"}
             </div>
           </div>

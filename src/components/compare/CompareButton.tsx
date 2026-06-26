@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import CompareConfirmModal from "./CompareConfirmModal";
@@ -41,7 +41,19 @@ interface CompareButtonProps {
   modelName: string;
   className?: string;
   style?: React.CSSProperties;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+}
+
+function readCachedModelCount(): number {
+  try {
+    const raw = window.localStorage.getItem(COMPARE_SELECTION_STORAGE_KEY);
+    if (!raw) return 0;
+    const ids: unknown[] = JSON.parse(raw);
+    if (!Array.isArray(ids)) return 0;
+    return ids.filter((id) => typeof id === "string" && id).length;
+  } catch {
+    return 0;
+  }
 }
 
 function readCachedModels(): SelectedModel[] {
@@ -78,6 +90,11 @@ function removeCachedModel(removeId: string) {
   }
 }
 
+const labels = {
+  en: { goTo: "Go to Compare", addTo: "Add to Compare" },
+  ka: { goTo: "შედარებაზე გადასვლა", addTo: "შედარებაში დამატება" },
+};
+
 export default function CompareButton({
   modelId,
   modelName,
@@ -91,6 +108,14 @@ export default function CompareButton({
     null
   );
   const [selectedModels, setSelectedModels] = useState<SelectedModel[]>([]);
+  const [hasModelsInCompare, setHasModelsInCompare] = useState(false);
+
+  useEffect(() => {
+    setHasModelsInCompare(readCachedModelCount() > 0);
+  }, []);
+
+  const t = locale === "ka" ? labels.ka : labels.en;
+  const dynamicLabel = hasModelsInCompare ? t.addTo : t.goTo;
 
   const handleClick = useCallback(() => {
     const models = readCachedModels();
@@ -98,6 +123,11 @@ export default function CompareButton({
 
     if (alreadySelected) {
       router.push(`/${locale}/compare`);
+      return;
+    }
+
+    if (models.length === 0) {
+      router.push(`/${locale}/compare?models=${encodeURIComponent(modelId)}`);
       return;
     }
 
@@ -110,7 +140,6 @@ export default function CompareButton({
       removeCachedModel(removeId);
       const updated = selectedModels.filter((m) => m.id !== removeId);
       setSelectedModels(updated);
-      // If we just freed a slot from the full state, switch to navigate
       if (modalState === "full" && updated.length < 3) {
         setModalState("navigate");
       }
@@ -139,7 +168,7 @@ export default function CompareButton({
         className={className}
         style={style}
       >
-        {children}
+        {children ?? dynamicLabel}
       </button>
       <CompareConfirmModal
         state={modalState}

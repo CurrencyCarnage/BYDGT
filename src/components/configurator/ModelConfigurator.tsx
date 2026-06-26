@@ -6,6 +6,7 @@ import { Link } from "@/i18n/routing";
 import { CarModel, formatPrice, getLocalizedValue } from "@/lib/types";
 import CarColorPreview from "./CarColorPreview";
 import ModelVisualPreview from "./ModelVisualPreview";
+import CompareButton from "@/components/compare/CompareButton";
 
 interface ModelConfiguratorProps {
   model: CarModel;
@@ -137,11 +138,16 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col gap-3 lg:flex-row">
-            <Link href={bookingHref} className="btn-primary-red min-h-[48px] flex-1 text-center">
+          <div className="mt-6 grid grid-cols-1 gap-3 lg:grid-cols-2">
+            <Link href={bookingHref} className="btn-primary-red min-h-[48px] text-center">
               {tCommon("bookTestDrive")}
             </Link>
-            <Link href="/contact" className="inline-flex min-h-[48px] flex-1 items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]">
+            <CompareButton
+              modelId={model.id}
+              modelName={getLocalizedValue(model.name, locale)}
+              className="inline-flex min-h-[48px] items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]"
+            />
+            <Link href="/contact" className="inline-flex min-h-[48px] items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]">
               {tCommon("contactUs")}
             </Link>
             <a
