@@ -27,7 +27,7 @@ export default async function HomePage() {
       <HomepageHero locale={locale} />
 
       {/* ── 2. STATS BAR — LIGHT section ────────────────────────── */}
-      <div className="bg-[#EFEFEF] border-b border-[#D4D8DB]">
+      <div data-header-theme="light" className="bg-[#EFEFEF] border-b border-[#D4D8DB]">
         <div className="section-container">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#D4D8DB]">
             {stats.map((stat, i) => (

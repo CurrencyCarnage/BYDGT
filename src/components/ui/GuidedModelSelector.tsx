@@ -200,7 +200,7 @@ export default function GuidedModelSelector({ locale }: { locale: string }) {
   const rec = RECOMMENDATIONS[active];
 
   return (
-    <section className="bg-white py-12 md:py-16 border-b border-[#E8EAEB]">
+    <section data-header-theme="light" className="bg-white py-12 md:py-16 border-b border-[#E8EAEB]">
       <div className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-8 lg:gap-12 items-center">
           {/* ── Left: selector ──────────────────────────────── */}

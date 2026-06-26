@@ -246,6 +246,54 @@
     -webkit-backdrop-filter: blur(10px) saturate(1.18) !important;
   }
 
+  html:not(.light) nav[data-light-page="true"][data-scrolled="false"] {
+    background: rgba(245, 248, 252, 0.88) !important;
+    border-color: rgba(37, 39, 40, 0.20) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.88) inset,
+      0 8px 26px rgba(24, 28, 32, 0.12) !important;
+    backdrop-filter: blur(12px) saturate(1.16) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(1.16) !important;
+  }
+
+  html:not(.light) nav[data-light-page="true"][data-scrolled="false"] img[alt="BYD"] {
+    filter: invert(1) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.55));
+  }
+
+  html:not(.light) nav[data-light-page="true"][data-scrolled="false"] .text-white,
+  html:not(.light) nav[data-light-page="true"][data-scrolled="false"] [class*="text-white/"],
+  html:not(.light) nav[data-light-page="true"][data-scrolled="false"] .nav-link {
+    color: rgba(20, 23, 25, 0.86) !important;
+    font-weight: 600;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+  }
+
+  html:not(.light) nav[data-light-page="true"][data-scrolled="false"] .nav-link:hover,
+  html:not(.light) nav[data-light-page="true"][data-scrolled="false"] .nav-link.active {
+    color: #111213 !important;
+  }
+
+  html:not(.light) nav[data-light-page="true"][data-scrolled="false"] .nav-link::after {
+    background: rgba(37, 39, 40, 0.86) !important;
+  }
+
+  html:not(.light) nav[data-light-page="true"][data-scrolled="false"] .theme-toggle {
+    background: rgba(255, 255, 255, 0.62) !important;
+    border-color: rgba(215, 12, 25, 0.72) !important;
+    color: rgba(20, 23, 25, 0.82) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.68) inset,
+      0 8px 18px rgba(24, 28, 32, 0.10) !important;
+  }
+
+  html:not(.light) nav[data-light-page="true"][data-scrolled="false"] a.bg-byd-red {
+    background-color: #D70C19 !important;
+    border-color: #D70C19 !important;
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
   html.light .text-white,
   html.light [class*="text-white/"] {
     color: #252728 !important;
@@ -931,6 +979,75 @@
 
   .nav-link.active {
     font-weight: 600;
+  }
+
+  nav img[alt="BYD"],
+  nav .nav-link,
+  nav .text-white,
+  nav [class*="text-white/"],
+  nav .theme-toggle,
+  nav .bg-white {
+    transition:
+      color 320ms cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 320ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 320ms cubic-bezier(0.4, 0, 0.2, 1),
+      filter 320ms cubic-bezier(0.4, 0, 0.2, 1),
+      text-shadow 320ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  nav.header-on-light-surface {
+    background: rgba(245, 248, 252, 0.94) !important;
+    border-color: rgba(37, 39, 40, 0.22) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 8px 26px rgba(24, 28, 32, 0.12) !important;
+    backdrop-filter: blur(12px) saturate(1.16) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(1.16) !important;
+  }
+
+  nav.header-on-light-surface img[alt="BYD"] {
+    filter: invert(1) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.62)) !important;
+  }
+
+  nav.header-on-light-surface .nav-link,
+  nav.header-on-light-surface .text-white,
+  nav.header-on-light-surface [class*="text-white/"] {
+    color: rgba(15, 18, 20, 0.88) !important;
+    font-weight: 600;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.72);
+  }
+
+  nav.header-on-light-surface .nav-link:hover,
+  nav.header-on-light-surface .nav-link.active {
+    color: #111213 !important;
+  }
+
+  nav.header-on-light-surface .nav-link::after {
+    background: rgba(17, 18, 19, 0.9) !important;
+  }
+
+  nav.header-on-light-surface .theme-toggle {
+    background: rgba(255, 255, 255, 0.68) !important;
+    border-color: rgba(215, 12, 25, 0.78) !important;
+    color: rgba(15, 18, 20, 0.84) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.72) inset,
+      0 8px 18px rgba(24, 28, 32, 0.10) !important;
+  }
+
+  nav.header-on-light-surface .bg-white {
+    background-color: rgba(17, 18, 19, 0.28) !important;
+  }
+
+  nav.header-on-light-surface a.bg-byd-red,
+  nav.header-on-light-surface a.bg-byd-red *,
+  nav.header-on-light-surface .bg-byd-red,
+  nav.header-on-light-surface .bg-byd-red * {
+    background-color: #D70C19 !important;
+    border-color: #D70C19 !important;
+    color: #FFFFFF !important;
+    text-shadow: none !important;
   }
 
   html.light .glass-card {

@@ -228,6 +228,7 @@ export default function Navbar() {
   const [megaOpen, setMegaOpen]           = useState(false);
   const [mobileModels, setMobileModels]   = useState(false);
   const [scrolled, setScrolled]           = useState(false);
+  const [overLightSurface, setOverLightSurface] = useState(false);
   const [theme, setTheme]                 = useState<"dark" | "light">("dark");
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -238,10 +239,29 @@ export default function Navbar() {
   const router   = useRouter();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const updateHeaderSurface = () => {
+      setScrolled(window.scrollY > 20);
+
+      const probeY = Math.min(96, Math.max(72, window.innerHeight * 0.12));
+      const elements = document.elementsFromPoint(window.innerWidth / 2, probeY);
+      const surfaceElement = elements.find(
+        (element) => !element.closest("nav")
+      );
+
+      setOverLightSurface(
+        Boolean(surfaceElement?.closest('[data-header-theme="light"]'))
+      );
+    };
+
+    updateHeaderSurface();
+    window.addEventListener("scroll", updateHeaderSurface, { passive: true });
+    window.addEventListener("resize", updateHeaderSurface);
+
+    return () => {
+      window.removeEventListener("scroll", updateHeaderSurface);
+      window.removeEventListener("resize", updateHeaderSurface);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("byd-theme");
@@ -281,6 +301,12 @@ export default function Navbar() {
   };
 
   const ka = locale === "ka";
+  const isLightSurfacePage =
+    pathname === "/compare" ||
+    pathname === "/contact" ||
+    pathname.endsWith("/compare") ||
+    pathname.endsWith("/contact");
+  const useLightSurfaceHeader = isLightSurfacePage || overLightSurface;
 
   /* Non-models nav links */
   const baseLinks = [
@@ -293,8 +319,10 @@ export default function Navbar() {
   return (
     <nav
       data-scrolled={scrolled ? "true" : "false"}
-      data-light-page={pathname === "/compare" || pathname === "/contact" ? "true" : "false"}
+      data-light-page={useLightSurfaceHeader ? "true" : "false"}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        useLightSurfaceHeader ? "header-on-light-surface" : ""
+      } ${
         scrolled
           ? "border-b border-white/[0.03] bg-[#111213]/12 backdrop-blur-[4px] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
           : "border-b border-white/[0.015] bg-[#111213]/5 backdrop-blur-[1.5px]"

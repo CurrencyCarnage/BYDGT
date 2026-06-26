@@ -29,6 +29,10 @@ type VersionSpecs = {
   battery: string;
   drive: string;
   charging: string;
+  length: string;
+  width: string;
+  height: string;
+  wheelbase: string;
 };
 
 type ModelVersion = {
@@ -139,14 +143,18 @@ const FAMILIES: ModelFamily[] = [
         image: "/images/models/seal-06-dmi/hero.jpg",
         specs: {
           totalRange: "up to 1,505 km",
-          evRange: "up to 140 km",
+          evRange: "up to 105 km WLTP",
           power: "156 kW / 210 HP",
-          torque: "N/A",
+          torque: "300 Nm",
           acceleration: "8.5 s",
           topSpeed: "180 km/h",
-          battery: "10 - 19 kWh",
+          battery: "10.1 - 19.0 kWh",
           drive: "FWD",
-          charging: "N/A",
+          charging: "AC 6.6 kW / DC 26 kW",
+          length: "4,830 mm",
+          width: "1,875 mm",
+          height: "1,495 mm",
+          wheelbase: "2,790 mm",
         },
         design: {
           paint: SEAL_PAINT,
@@ -174,6 +182,10 @@ const FAMILIES: ModelFamily[] = [
           battery: "56.64 kWh",
           drive: "FWD",
           charging: "DC 65 kW / AC 7 kW",
+          length: "4,720 mm",
+          width: "1,880 mm",
+          height: "1,495 mm",
+          wheelbase: "2,820 mm",
         },
         design: {
           paint: SEAL_PAINT,
@@ -208,6 +220,10 @@ const FAMILIES: ModelFamily[] = [
           battery: "18.3 - 32 kWh",
           drive: "FWD / AWD",
           charging: "N/A",
+          length: "4,810 mm",
+          width: "1,920 mm",
+          height: "1,675 mm",
+          wheelbase: "2,820 mm",
         },
         design: {
           paint: SEALION_PAINT,
@@ -235,6 +251,10 @@ const FAMILIES: ModelFamily[] = [
           battery: "71.8 - 87 kWh",
           drive: "FWD",
           charging: "DC 150 kW",
+          length: "4,810 mm",
+          width: "1,920 mm",
+          height: "1,675 mm",
+          wheelbase: "2,820 mm",
         },
         design: {
           paint: SEALION_PAINT,
@@ -265,10 +285,14 @@ const FAMILIES: ModelFamily[] = [
           power: "130 kW / 174 HP",
           torque: "290 Nm",
           acceleration: "7.9 s",
-          topSpeed: "N/A",
-          battery: "45 kWh (Blade LFP)",
+          topSpeed: "160 km/h",
+          battery: "45.1 kWh (Blade LFP)",
           drive: "FWD",
           charging: "DC 65 kW / AC 5.6 kW",
+          length: "4,310 mm",
+          width: "1,830 mm",
+          height: "1,675 mm",
+          wheelbase: "2,620 mm",
         },
         design: {
           paint: YUAN_PAINT,
@@ -296,6 +320,10 @@ const FAMILIES: ModelFamily[] = [
           battery: "12.9 kWh",
           drive: "FWD",
           charging: "N/A",
+          length: "4,310 mm",
+          width: "1,830 mm",
+          height: "1,675 mm",
+          wheelbase: "2,620 mm",
         },
         design: {
           paint: YUAN_PAINT,
@@ -381,60 +409,27 @@ const SPEC_ROWS: {
     label: { en: "Charging", ka: "დამუხტვა" },
     getValue: (version) => version.specs.charging,
   },
+  {
+    key: "length",
+    label: { en: "Length", ka: "სიგრძე" },
+    getValue: (version) => version.specs.length,
+  },
+  {
+    key: "width",
+    label: { en: "Width", ka: "სიგანე" },
+    getValue: (version) => version.specs.width,
+  },
+  {
+    key: "height",
+    label: { en: "Height", ka: "სიმაღლე" },
+    getValue: (version) => version.specs.height,
+  },
+  {
+    key: "wheelbase",
+    label: { en: "Wheelbase", ka: "თვლების ბაზა" },
+    getValue: (version) => version.specs.wheelbase,
+  },
 ];
-
-function WheelSwatch({ design, title }: { design: 0 | 1 | 2 | 3; title: string }) {
-  const spokes =
-    design === 0
-      ? [0, 72, 144, 216, 288]
-      : design === 1
-        ? [0, 72, 144, 216, 288]
-        : design === 2
-          ? [0, 36, 72, 108, 144, 180, 216, 252, 288, 324]
-          : [0, 51.4, 102.9, 154.3, 205.7, 257.1, 308.6];
-
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <div
-        title={title}
-        className="flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.12] bg-[radial-gradient(circle_at_30%_30%,#595959,#171717_70%)] shadow-[inset_0_1px_3px_rgba(255,255,255,0.12)]"
-      >
-        <svg viewBox="0 0 44 44" className="h-9 w-9">
-          <circle cx="22" cy="22" r="19" fill="none" stroke="#101010" strokeWidth="3" />
-          <circle cx="22" cy="22" r="15.5" fill="none" stroke="#525252" strokeWidth="1" />
-          {spokes.map((angle) => (
-            <line
-              key={angle}
-              x1="22"
-              y1="22"
-              x2="22"
-              y2={design === 2 ? "8" : "9.5"}
-              stroke="#737373"
-              strokeWidth={design === 2 ? 1.3 : 2}
-              strokeLinecap="round"
-              transform={`rotate(${angle} 22 22)`}
-            />
-          ))}
-          <circle cx="22" cy="22" r="4.5" fill="#262626" stroke="#6A6A6A" strokeWidth="1" />
-        </svg>
-      </div>
-      <span className="text-[10px] uppercase tracking-[0.12em] text-[#686D71]">{title}</span>
-    </div>
-  );
-}
-
-function SwatchDot({ hex, title }: { hex: string; title: string }) {
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <div
-        title={title}
-        className="h-11 w-11 rounded-full border border-[#C7CDD0] shadow-[inset_0_1px_4px_rgba(0,0,0,0.08)]"
-        style={{ backgroundColor: hex }}
-      />
-      <span className="text-[10px] uppercase tracking-[0.12em] text-[#686D71]">{title}</span>
-    </div>
-  );
-}
 
 interface ModelDropdownProps {
   selected: SlotVersion | null;
@@ -669,6 +664,9 @@ export default function CompareGrid() {
     [SlotVersion | null, SlotVersion | null, SlotVersion | null]
   >([null, null, null]);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [comparisonMode, setComparisonMode] = useState<"all" | "differences">(
+    "all"
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -685,8 +683,6 @@ export default function CompareGrid() {
     pricing: locale === "ka" ? "ფასი" : "Price",
     pricingValue:
       locale === "ka" ? "ფასისთვის დაგვიკავშირდით" : "Contact for pricing",
-    designTitle:
-      locale === "ka" ? "დიზაინის ვარიანტები" : "Design Options",
     testDrive: locale === "ka" ? "ტესტ დრაივი" : "Test Drive",
     viewCatalog: locale === "ka" ? "კატალოგი" : "View Catalog",
     selectModel:
@@ -697,6 +693,15 @@ export default function CompareGrid() {
       locale === "ka"
         ? "მოდელი არ არის არჩეული"
         : "No model selected",
+    showAll: locale === "ka" ? "ყველა მონაცემი" : "All specs",
+    showDifferences:
+      locale === "ka" ? "მხოლოდ განსხვავებები" : "Differences only",
+    specModeLabel:
+      locale === "ka" ? "სპეციფიკაციების ჩვენება" : "Spec display",
+    noDifferences:
+      locale === "ka"
+        ? "არჩეულ მოდელებს შორის განსხვავებები არ არის"
+        : "No differences between selected models",
   };
 
   const normalizeValue = (value: string) =>
@@ -720,6 +725,11 @@ export default function CompareGrid() {
         return { ...row, values, hasDifference };
       })
     : [];
+
+  const visibleSpecRows =
+    comparisonMode === "differences"
+      ? specRows.filter((row) => row.hasDifference)
+      : specRows;
 
   const updateSlot = (index: number, version: SlotVersion | null) => {
     setSlots((prev) => {
@@ -878,79 +888,111 @@ export default function CompareGrid() {
             ))}
           </div>
 
-          {/* Differences indicator — mobile only, once above the table */}
-          {hasComparison && diffCount > 0 && (
-            <div className="flex items-center gap-2 border-b border-[#DDE1E3] px-3 py-2 md:hidden">
-              <span className="inline-flex rounded border border-byd-red/30 bg-byd-red/10 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.1em] text-byd-red">
-                {diffCount} {labels.differs}
-              </span>
-              <span className="text-[11px] text-[#686D71]">
-                {locale === "ka"
-                  ? "— მწკრივები მონიშნულია"
-                  : "— rows highlighted below"}
-              </span>
+          {/* Spec display controls */}
+          {hasComparison && (
+            <div className="flex flex-col gap-3 border-b border-[#DDE1E3] bg-[#FAFBFB] px-3 py-3 md:flex-row md:items-center md:justify-between md:px-5 md:py-4">
+              <div
+                className="inline-grid w-full grid-cols-2 rounded-full border border-[#DDE1E3] bg-white p-1 shadow-[0_8px_22px_rgba(24,28,32,0.06)] md:w-auto"
+                role="group"
+                aria-label={labels.specModeLabel}
+              >
+                <button
+                  type="button"
+                  onClick={() => setComparisonMode("all")}
+                  className={`min-h-[2.4rem] rounded-full px-4 text-[11px] font-semibold transition-colors duration-200 md:min-w-[8rem] md:text-[12px] ${
+                    comparisonMode === "all"
+                      ? "bg-[#252728] text-white shadow-[0_8px_18px_rgba(24,28,32,0.18)]"
+                      : "text-[#686D71] hover:bg-[#F0F2F3] hover:text-[#252728]"
+                  }`}
+                  aria-pressed={comparisonMode === "all"}
+                >
+                  {labels.showAll}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setComparisonMode("differences")}
+                  className={`min-h-[2.4rem] rounded-full px-4 text-[11px] font-semibold transition-colors duration-200 md:min-w-[9.5rem] md:text-[12px] ${
+                    comparisonMode === "differences"
+                      ? "bg-[#252728] text-white shadow-[0_8px_18px_rgba(24,28,32,0.18)]"
+                      : "text-[#686D71] hover:bg-[#F0F2F3] hover:text-[#252728]"
+                  }`}
+                  aria-pressed={comparisonMode === "differences"}
+                >
+                  {labels.showDifferences}
+                </button>
+              </div>
+
+              <div className="text-left md:text-right">
+                <p className="text-[10px] font-semibold uppercase text-[#686D71] md:text-[11px]">
+                  {labels.specModeLabel}
+                </p>
+                <p className="mt-1 text-[12px] text-[#4E5356] md:text-[13px]">
+                  {diffCount} {labels.differs}
+                </p>
+              </div>
             </div>
           )}
 
           {/* Spec rows */}
-          {specRows.map((row, rowIndex) => (
+          {visibleSpecRows.map((row, rowIndex) => (
             <div
               key={row.key}
               className={`border-b border-[#E6E9EA] ${
-                row.hasDifference
-                  ? "bg-[rgba(215,12,25,0.055)]"
+                comparisonMode === "differences" && row.hasDifference
+                  ? "bg-[rgba(215,12,25,0.045)]"
                   : rowIndex % 2 === 0
                     ? "bg-white"
                     : ""
               }`}
             >
-              {/* Mobile: spec label row spanning full width */}
+              {/* Spec label row spanning full width */}
               <div
-                className={`flex items-center gap-2 px-3 pb-0.5 pt-2 md:hidden ${
-                  row.hasDifference
-                    ? "border-l-2 border-byd-red/50"
-                    : "border-l-2 border-transparent"
+                className={`flex items-center justify-center gap-2 border-b border-[#E6E9EA] px-3 py-2.5 text-center ${
+                  comparisonMode === "differences" && row.hasDifference
+                    ? "bg-byd-red/[0.035]"
+                    : "bg-[#F7F8F8]"
                 }`}
               >
-                <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-[#686D71]">
+                <span className="text-[10px] font-semibold uppercase text-[#686D71] md:text-[11px]">
                   {t(row.label, locale)}
                 </span>
+                {comparisonMode === "differences" && row.hasDifference && (
+                  <span className="inline-flex rounded border border-byd-red/30 bg-byd-red/10 px-1.5 py-px text-[8px] font-bold uppercase text-byd-red">
+                    {labels.differs}
+                  </span>
+                )}
               </div>
 
               {/* Values: 3 columns */}
-              <div
-                className={`grid grid-cols-3 ${
-                  row.hasDifference
-                    ? "md:border-l-0 border-l-2 border-byd-red/50 md:border-l-transparent"
-                    : ""
-                }`}
-              >
+              <div className="grid grid-cols-3">
                 {row.values.map((value, ci) => (
                   <div
                     key={`${row.key}-${ci}`}
                     title={t(row.label, locale)}
-                    className={`px-3 pb-2.5 pt-0.5 text-[12px] leading-5 md:flex md:items-center md:px-5 md:py-3.5 md:text-[14px] md:leading-6 ${
+                    className={`flex min-h-[3.75rem] items-center px-3 py-3 text-center text-[12px] leading-5 md:min-h-[4rem] md:justify-center md:px-5 md:py-4 md:text-[14px] md:leading-6 ${
                       ci < 2 ? "border-r border-[#E6E9EA]" : ""
                     } ${
                       value === null
                         ? "text-[#B6BDC1]"
-                        : row.hasDifference
+                        : comparisonMode === "differences" && row.hasDifference
                           ? "font-semibold text-[#252728]"
                           : "text-[#4E5356]"
                     }`}
                   >
-                    {value ?? "—"}
-                    {/* DIFFERS badge — desktop only */}
-                    {row.hasDifference && value !== null && (
-                      <span className="ml-2 hidden shrink-0 rounded border border-byd-red/30 bg-byd-red/10 px-1.5 py-px text-[8px] font-bold uppercase tracking-[0.1em] text-byd-red md:inline-flex">
-                        {labels.differs}
-                      </span>
-                    )}
+                    <span className="w-full break-words">{value ?? "—"}</span>
                   </div>
                 ))}
               </div>
             </div>
           ))}
+
+          {hasComparison && visibleSpecRows.length === 0 && (
+            <div className="border-b border-[#E6E9EA] px-4 py-8 text-center">
+              <p className="text-[13px] text-[#686D71] md:text-[15px]">
+                {labels.noDifferences}
+              </p>
+            </div>
+          )}
 
           {/* Price row */}
           {hasComparison && (
@@ -989,109 +1031,6 @@ export default function CompareGrid() {
         </div>
       </div>
 
-      {/* ── Design options — only when models selected ── */}
-      {filledSlots.length > 0 && (
-        <div className="section-container pt-12">
-          <div className="mb-6 border-t border-[#DDE1E3] pt-8">
-            <h2 className="text-[2rem] font-semibold text-[#252728]">
-              {labels.designTitle}
-            </h2>
-          </div>
-
-          <div className="grid gap-6 xl:grid-cols-3">
-            {slots.map((slot) =>
-              slot ? (
-                <div
-                  key={`design-${slot.id}`}
-                  className="rounded-[1.25rem] content-surface-soft p-6"
-                >
-                  <div className="mb-6 border-b border-[#DDE1E3] pb-5">
-                    <p
-                      className={`inline-flex rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
-                        slot.type === "EV"
-                          ? "bg-badge-ev-bg text-badge-ev"
-                          : "bg-badge-phev-bg text-badge-phev"
-                      }`}
-                    >
-                      {slot.type}
-                    </p>
-                    <h3 className="mt-3 text-xl font-semibold text-[#252728]">
-                      {slot.familyName}
-                    </h3>
-                    <p className="mt-1 text-sm text-[#686D71]">
-                      {slot.label} / {t(slot.category, locale)}
-                    </p>
-                  </div>
-
-                  <div className="space-y-7">
-                    <div>
-                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-[#686D71]">
-                        {locale === "ka" ? "ფერი" : "Paint"}
-                      </p>
-                      <div className="flex flex-wrap gap-4">
-                        {slot.design.paint.map((paint) => (
-                          <SwatchDot
-                            key={paint.id}
-                            hex={paint.hex}
-                            title={t(paint.label, locale)}
-                          />
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-[#686D71]">
-                        {locale === "ka"
-                          ? "დისკები და საბურავები"
-                          : "Wheels & Tires"}
-                      </p>
-                      <div className="flex flex-wrap gap-4">
-                        {slot.design.wheels.map((wheel) => (
-                          <WheelSwatch
-                            key={wheel.id}
-                            design={wheel.design}
-                            title={t(wheel.label, locale)}
-                          />
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-[#686D71]">
-                        {locale === "ka" ? "ინტერიერი" : "Interior"}
-                      </p>
-                      <div className="flex flex-wrap gap-4">
-                        {slot.design.interior.map((interior) => (
-                          <SwatchDot
-                            key={interior.id}
-                            hex={interior.hex}
-                            title={t(interior.label, locale)}
-                          />
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="mb-4 text-[11px] uppercase tracking-[0.16em] text-[#686D71]">
-                        {locale === "ka" ? "აქცენტები" : "Accents"}
-                      </p>
-                      <div className="flex flex-wrap gap-4">
-                        {slot.design.accents.map((accent) => (
-                          <SwatchDot
-                            key={accent.id}
-                            hex={accent.hex}
-                            title={t(accent.label, locale)}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : null
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -279,6 +279,7 @@ function ModelSection({
       id={model.id}
       data-model-section
       data-model-scene={lightSection ? "light" : "dark"}
+      data-header-theme={lightSection ? "light" : undefined}
       className="relative isolate overflow-hidden md:![min-height:88svh]"
       style={{
         minHeight: "clamp(260px, 36svh, 500px)",
