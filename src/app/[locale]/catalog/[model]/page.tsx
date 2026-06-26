@@ -6,6 +6,7 @@ import { getModelById, getLocalizedValue, formatPrice } from "@/lib/models";
 import ModelConfigurator from "@/components/configurator/ModelConfigurator";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
+import CompareButton from "@/components/compare/CompareButton";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +28,7 @@ export default async function ModelDetailPage({
 
   const name = getLocalizedValue(model.name, locale);
   const tagline = getLocalizedValue(model.tagline, locale);
+  const bookingHref = `/booking?version=${encodeURIComponent(model.id)}`;
 
   const specRows = [
     { label: t("range"),        value: `${model.specs.range_km} km` },
@@ -104,43 +106,46 @@ export default async function ModelDetailPage({
 
         {/* Model info — pinned to bottom-left */}
         <div className="absolute inset-0 flex items-end">
-          <div className="section-container w-full pb-12">
-            <div className="p-5 md:p-7 inline-block">
+          <div className="section-container w-full pb-6 md:pb-12">
+            <div className="p-4 md:p-7 inline-block">
             {/* Type badge */}
-            <div className="mb-5">
+            <div className="mb-3 md:mb-5">
               <span className={model.type === "EV" ? "badge-ev" : "badge-phev"}>
                 {model.type}
               </span>
             </div>
 
-            {/* Model name — BYD spec H1 */}
+            {/* Model name */}
             <h1
-              className="text-h1 font-semibold text-white leading-[1.1] mb-4"
+              className="text-[clamp(1.75rem,7.5vw,2.5rem)] md:text-h1 font-semibold text-white leading-[1.08] mb-2 md:mb-4"
               style={{ letterSpacing: "-0.02em" }}
             >
               {name}
             </h1>
 
             {/* Tagline */}
-            <p className="text-h5 text-white/50 font-light mb-6 max-w-lg leading-[1.5]">
+            <p className="text-[clamp(0.85rem,3.8vw,1.1rem)] md:text-h5 text-white/50 font-light mb-4 md:mb-6 max-w-lg leading-[1.4]">
               {tagline}
             </p>
 
-            {/* Price + CTAs inline */}
-            <div className="flex flex-wrap items-center gap-5">
+            {/* Price + CTAs */}
+            <div className="flex flex-col gap-4 md:flex-row md:flex-wrap md:items-center md:gap-5">
               <div>
                 <p className="text-[11px] text-white/35 uppercase tracking-[0.18em] mb-1">
                   {tCommon("startingFrom")}
                 </p>
-                <p className="text-3xl font-bold text-white">
+                <p className="text-2xl md:text-3xl font-bold text-white">
                   {formatPrice(model.basePrice)}
                 </p>
               </div>
-              <div className="flex gap-3">
-                <Link href="/booking" className="btn-primary-red" style={{ height: "3rem" }}>
+              <div className="grid grid-cols-3 gap-1.5 w-full sm:flex sm:flex-wrap sm:gap-3 sm:w-auto">
+                <Link href={bookingHref} className="btn-primary-red justify-center text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ height: "2.75rem" }}>
                   {tCommon("bookTestDrive")}
                 </Link>
-                <Link href="/contact" className="btn-secondary" style={{ height: "3rem" }}>
+                <CompareButton modelId={model.id} modelName={name} className="btn-secondary justify-center text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ height: "2.75rem" }}>
+                  {tCommon("compare")}
+                </CompareButton>
+                <Link href="/contact" className="btn-secondary justify-center text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ height: "2.75rem" }}>
                   {tCommon("contactUs")}
                 </Link>
               </div>
@@ -182,7 +187,7 @@ export default async function ModelDetailPage({
                 {t("configurator")}
               </p>
             </div>
-            <h2 className="text-h3 font-semibold text-white" style={{ letterSpacing: "-0.02em" }}>
+            <h2 className="text-h5 md:text-h3 font-semibold text-white" style={{ letterSpacing: "-0.02em" }}>
               {locale === "ka" ? "კონფიგურაცია" : "Build Your " + name}
             </h2>
           </ScrollReveal>
@@ -202,8 +207,8 @@ export default async function ModelDetailPage({
                 {t("specsTitle")}
               </p>
             </div>
-            <h2 className="text-h3 font-semibold text-[#252728]" style={{ letterSpacing: "-0.02em" }}>
-              {locale === "ka" ? "სრული სპეციფიკაციები" : "Full Specifications"}
+            <h2 className="text-h5 md:text-h3 font-semibold text-[#252728]" style={{ letterSpacing: "-0.02em" }}>
+              {locale === "ka" ? "სპეციფიკაციები" : "Full Specifications"}
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
@@ -235,7 +240,7 @@ export default async function ModelDetailPage({
                   {t("featuresTitle")}
                 </p>
               </div>
-              <h2 className="text-h3 font-semibold text-[#252728]" style={{ letterSpacing: "-0.02em" }}>
+              <h2 className="text-h5 md:text-h3 font-semibold text-[#252728]" style={{ letterSpacing: "-0.02em" }}>
                 {locale === "ka" ? "მახასიათებლები" : "Key Features"}
               </h2>
             </ScrollReveal>
@@ -266,26 +271,24 @@ export default async function ModelDetailPage({
             <p className="text-xs font-semibold tracking-[0.3em] text-white/50 uppercase mb-5">
               BYD Tbilisi · GT Group
             </p>
-            <h2 className="text-h3 font-semibold text-white mb-4" style={{ letterSpacing: "-0.02em" }}>
-              {locale === "ka" ? "მზად ხართ " + name + "-ით მართვისთვის?" : "Ready to drive the " + name + "?"}
+            <h2 className="text-h5 md:text-h3 font-semibold text-white mb-4" style={{ letterSpacing: "-0.02em" }}>
+              {locale === "ka" ? "მზად ხართ " + name + "-ისთვის?" : "Ready to drive the " + name + "?"}
             </h2>
             <p className="text-white/65 mb-8 font-light max-w-md mx-auto">
               {locale === "ka"
-                ? "დაჯავშნეთ ტესტ დრაივი — სრულიად უფასოდ"
+                ? "დაჯავშნეთ ტესტ დრაივი — უფასოდ"
                 : "Book a free test drive at BYD Tbilisi — no commitment required"}
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-row sm:items-center sm:justify-center sm:gap-4 max-w-sm mx-auto sm:max-w-none">
               <Link
-                href="/booking"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-byd-red text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#EFEFEF] transition-all duration-200"
-                style={{ minWidth: "12.5rem" }}
+                href={bookingHref}
+                className="inline-flex items-center justify-center gap-2 border border-white/35 bg-[#A80912] px-5 py-3.5 text-sm font-bold uppercase tracking-[0.06em] text-white shadow-[0_16px_38px_rgba(37,39,40,0.18)] transition-all duration-200 hover:bg-[#7F0710]"
               >
                 {tCommon("bookTestDrive")}
               </Link>
               <Link
                 href="/catalog"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border-2 border-white text-white text-sm font-semibold tracking-[0.06em] uppercase hover:bg-white/10 transition-all duration-200"
-                style={{ minWidth: "10rem" }}
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 border-2 border-white text-white text-sm font-semibold tracking-[0.06em] uppercase hover:bg-white/10 transition-all duration-200"
               >
                 {locale === "ka" ? "სხვა მოდელები" : "View All Models"}
               </Link>

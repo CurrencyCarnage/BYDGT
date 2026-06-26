@@ -485,7 +485,7 @@ function ShowcaseHeader({ locale }: { locale: string }) {
             style={{ letterSpacing: "-0.03em" }}
           >
             {ka ? "BYD ინოვაცია." : "BYD innovation."}
-            <span className="ml-2.5 font-light text-white/25 text-[1.4rem] md:text-[1.95rem]">
+            <span className="ml-2 font-light text-white/25 text-[1.15rem] md:text-[1.95rem]">
               {ka ? "აირჩიე." : "Choose."}
             </span>
           </h2>

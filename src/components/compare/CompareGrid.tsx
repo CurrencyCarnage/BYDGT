@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 
 type LocaleCode = "en" | "ka";
@@ -344,6 +344,45 @@ const ALL_VERSIONS: SlotVersion[] = FAMILIES.flatMap((family) =>
   }))
 );
 
+const COMPARE_SELECTION_STORAGE_KEY = "byd-compare-selected-models";
+
+const getCachedSlots = (ids: unknown) => {
+  if (!Array.isArray(ids)) return [null, null, null] as [
+    SlotVersion | null,
+    SlotVersion | null,
+    SlotVersion | null,
+  ];
+
+  const usedIds = new Set<string>();
+  return [0, 1, 2].map((index) => {
+    const id = ids[index];
+    if (typeof id !== "string" || usedIds.has(id)) return null;
+
+    const version = ALL_VERSIONS.find((item) => item.id === id) ?? null;
+    if (version) usedIds.add(id);
+    return version;
+  }) as [SlotVersion | null, SlotVersion | null, SlotVersion | null];
+};
+
+function SwapColumnsIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.8}
+        d="M7 7h11m0 0-3-3m3 3-3 3M17 17H6m0 0 3 3m-3-3 3-3"
+      />
+    </svg>
+  );
+}
+
 const SPEC_ROWS: {
   key: string;
   label: Bilingual;
@@ -440,6 +479,7 @@ interface ModelDropdownProps {
   placeholder: string;
   clearLabel: string;
   compact?: boolean;
+  openRequestKey?: number;
 }
 
 function ModelDropdown({
@@ -451,6 +491,7 @@ function ModelDropdown({
   placeholder,
   clearLabel,
   compact,
+  openRequestKey,
 }: ModelDropdownProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -466,6 +507,11 @@ function ModelDropdown({
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
+  useEffect(() => {
+    if (!openRequestKey) return;
+    setOpen(true);
+  }, [openRequestKey]);
+
   return (
     <div ref={rootRef} className="relative">
       <button
@@ -473,7 +519,7 @@ function ModelDropdown({
         onClick={() => setOpen((prev) => !prev)}
         className={`flex w-full items-center justify-between text-left transition-all duration-200 ${
           compact
-            ? `min-h-[48px] gap-1.5 rounded-xl border px-2 py-1.5 ${
+            ? `min-h-[44px] gap-1 rounded-xl border px-1.5 py-1.5 ${
                 open
                   ? "border-byd-red/40 bg-white shadow-[0_10px_24px_rgba(24,28,32,0.10)]"
                   : "border-[#DDE1E3] bg-[#FBFBFA]"
@@ -490,7 +536,7 @@ function ModelDropdown({
             <div
               className={`relative shrink-0 overflow-hidden bg-[#ECEFF1] ${
                 compact
-                  ? "h-8 w-10 rounded-md"
+                  ? "h-8 w-9 rounded-md"
                   : "h-10 w-12 rounded-lg"
               }`}
             >
@@ -498,7 +544,7 @@ function ModelDropdown({
                 src={selected.image}
                 alt={selected.familyName}
                 fill
-                sizes={compact ? "40px" : "48px"}
+              sizes={compact ? "40px" : "48px"}
                 className="object-cover"
                 quality={70}
               />
@@ -523,7 +569,7 @@ function ModelDropdown({
             <div
               className={`flex shrink-0 items-center justify-center border border-dashed border-[#C7CDD0] bg-[#F0F2F3] ${
                 compact
-                  ? "h-8 w-10 rounded-md"
+                  ? "h-8 w-9 rounded-md"
                   : "h-10 w-12 rounded-lg"
               }`}
             >
@@ -541,52 +587,65 @@ function ModelDropdown({
             )}
           </div>
         )}
-        <svg
-          className={`shrink-0 text-[#686D71] transition-transform duration-200 ${
-            open ? "rotate-180" : ""
-          } ${compact ? "h-3 w-3" : "h-4 w-4"}`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.8}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
+        <span className={`flex shrink-0 items-center ${compact ? "gap-0.5" : "gap-2"}`}>
+          {selected && (
+            <span
+              role="button"
+              tabIndex={0}
+              aria-label={clearLabel}
+              title={clearLabel}
+              onClick={(event) => {
+                event.stopPropagation();
+                onClear();
+                setOpen(false);
+              }}
+              onKeyDown={(event) => {
+                if (event.key !== "Enter" && event.key !== " ") return;
+                event.preventDefault();
+                event.stopPropagation();
+                onClear();
+                setOpen(false);
+              }}
+              className={`inline-flex items-center justify-center rounded-full border border-byd-red/20 bg-byd-red/[0.06] text-byd-red transition-colors duration-200 hover:border-byd-red/40 hover:bg-byd-red/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/50 ${
+                compact ? "h-6 w-6" : "h-8 w-8"
+              }`}
+            >
+              <svg
+                className={compact ? "h-3 w-3" : "h-4 w-4"}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.9}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </span>
+          )}
+          <svg
+            className={`text-[#686D71] transition-transform duration-200 ${
+              open ? "rotate-180" : ""
+            } ${compact ? "h-3 w-3" : "h-4 w-4"}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.8}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </span>
       </button>
 
       {open && (
         <div className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-2xl border border-[#DDE1E3] bg-white shadow-[0_24px_60px_rgba(24,28,32,0.18)]">
-          {selected && (
-            <button
-              type="button"
-              onClick={() => {
-                onClear();
-                setOpen(false);
-              }}
-              className="flex w-full items-center gap-3 border-b border-[#EEF0F1] px-4 py-3 text-left text-sm font-medium text-byd-red transition-colors hover:bg-byd-red/[0.06]"
-            >
-              <span className="flex h-9 w-11 shrink-0 items-center justify-center rounded-md border border-byd-red/20 bg-byd-red/[0.06]">
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.8}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </span>
-              <span className="min-w-0 flex-1 truncate">{clearLabel}</span>
-            </button>
-          )}
           {FAMILIES.map((family) => (
             <div key={family.id} className="border-t border-[#EEF0F1] first:border-t-0">
               <p className="px-4 pb-2 pt-3 text-[10px] uppercase tracking-[0.18em] text-[#7A8080]">
@@ -658,15 +717,39 @@ function ModelDropdown({
   );
 }
 
-export default function CompareGrid() {
+type SlotTuple = [SlotVersion | null, SlotVersion | null, SlotVersion | null];
+
+const persistSlots = (newSlots: SlotTuple) => {
+  try {
+    const slotIds = newSlots.map((s) => s?.id ?? null);
+    window.localStorage.setItem(
+      COMPARE_SELECTION_STORAGE_KEY,
+      JSON.stringify(slotIds)
+    );
+  } catch { /* quota exceeded or SSR — ignore */ }
+};
+
+export default function CompareGrid({
+  initialModelIds = [],
+}: {
+  initialModelIds?: string[];
+}) {
   const locale = useLocale() as LocaleCode;
-  const [slots, setSlots] = useState<
-    [SlotVersion | null, SlotVersion | null, SlotVersion | null]
-  >([null, null, null]);
+  const [slots, setSlots] = useState<SlotTuple>([null, null, null]);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [comparisonMode, setComparisonMode] = useState<"all" | "differences">(
     "all"
   );
+  const [openRequests, setOpenRequests] = useState<[number, number, number]>([
+    0,
+    0,
+    0,
+  ]);
+  const [swapAnimation, setSwapAnimation] = useState<{
+    left: number;
+    right: number;
+    nonce: number;
+  } | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -677,6 +760,43 @@ export default function CompareGrid() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    // Restore cached slots first
+    let cached: SlotTuple = [null, null, null];
+    try {
+      const raw = window.localStorage.getItem(COMPARE_SELECTION_STORAGE_KEY);
+      if (raw) {
+        cached = getCachedSlots(JSON.parse(raw));
+      }
+    } catch {
+      window.localStorage.removeItem(COMPARE_SELECTION_STORAGE_KEY);
+    }
+
+    // Merge query-param models into cached slots (additive)
+    if (initialModelIds.length > 0) {
+      const usedIds = new Set(cached.filter(Boolean).map((s) => s!.id));
+      for (const id of initialModelIds) {
+        if (typeof id !== "string" || usedIds.has(id)) continue;
+        const version = ALL_VERSIONS.find((v) => v.id === id) ?? null;
+        if (!version) continue;
+        const emptyIndex = cached.findIndex((s) => s === null);
+        if (emptyIndex === -1) break; // all 3 slots full
+        cached[emptyIndex] = version;
+        usedIds.add(id);
+      }
+      persistSlots(cached);
+    }
+
+    setSlots(cached);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!swapAnimation) return;
+    const timer = window.setTimeout(() => setSwapAnimation(null), 360);
+    return () => window.clearTimeout(timer);
+  }, [swapAnimation]);
 
   const labels = {
     differs: locale === "ka" ? "განსხვავდება" : "Differs",
@@ -695,13 +815,10 @@ export default function CompareGrid() {
         : "No model selected",
     showAll: locale === "ka" ? "ყველა მონაცემი" : "All specs",
     showDifferences:
-      locale === "ka" ? "მხოლოდ განსხვავებები" : "Differences only",
+      locale === "ka" ? "განსხვავებები" : "Differences",
     specModeLabel:
       locale === "ka" ? "სპეციფიკაციების ჩვენება" : "Spec display",
-    noDifferences:
-      locale === "ka"
-        ? "არჩეულ მოდელებს შორის განსხვავებები არ არის"
-        : "No differences between selected models",
+    swapModels: locale === "ka" ? "სვეტების გაცვლა" : "Swap columns",
   };
 
   const normalizeValue = (value: string) =>
@@ -727,28 +844,43 @@ export default function CompareGrid() {
     : [];
 
   const visibleSpecRows =
-    comparisonMode === "differences"
-      ? specRows.filter((row) => row.hasDifference)
-      : specRows;
+    specRows;
 
   const updateSlot = (index: number, version: SlotVersion | null) => {
-    setSlots((prev) => {
-      const next = [...prev] as [
-        SlotVersion | null,
-        SlotVersion | null,
-        SlotVersion | null,
-      ];
-      next[index] = version;
+    const next = [...slots] as SlotTuple;
+    next[index] = version;
+    setSlots(next);
+    persistSlots(next);
+  };
+
+  const requestSlotSelect = (index: number) => {
+    setOpenRequests((prev) => {
+      const next = [...prev] as [number, number, number];
+      next[index] += 1;
       return next;
     });
+  };
+
+  const swapSlots = (left: number, right: number) => {
+    if (!slots[left] && !slots[right]) return;
+    const next = [...slots] as SlotTuple;
+    [next[left], next[right]] = [next[right], next[left]];
+    setSlots(next);
+    persistSlots(next);
+    setSwapAnimation({ left, right, nonce: Date.now() });
+  };
+
+  const getSwapClass = (index: number) => {
+    if (!swapAnimation) return "";
+    if (index === swapAnimation.left) return "compare-swap-from-right";
+    if (index === swapAnimation.right) return "compare-swap-from-left";
+    return "";
   };
 
   const blockedFor = (index: number) =>
     slots
       .filter((s, i): s is SlotVersion => s !== null && i !== index)
       .map((s) => s.id);
-
-  const diffCount = specRows.filter((r) => r.hasDifference).length;
 
   return (
     <div className="pb-16 pt-4 md:pt-8">
@@ -760,19 +892,38 @@ export default function CompareGrid() {
               hasScrolled ? "rounded-t-none" : "rounded-t-[1rem]"
             }`}
           >
-            <div className="grid grid-cols-3 gap-1.5">
+            <div
+              className="grid items-center gap-0.5"
+              style={{ gridTemplateColumns: "minmax(0,1fr) 1.375rem minmax(0,1fr) 1.375rem minmax(0,1fr)" }}
+            >
             {slots.map((slot, i) => (
-              <ModelDropdown
-                key={`m-${i}`}
-                selected={slot}
-                onSelect={(v) => updateSlot(i, v)}
-                onClear={() => updateSlot(i, null)}
-                locale={locale}
-                blockedIds={blockedFor(i)}
-                placeholder={labels.selectModel}
-                clearLabel={labels.clearModel}
-                compact
-              />
+              <Fragment key={`m-${i}`}>
+                {i > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => swapSlots(i - 1, i)}
+                    disabled={!slots[i - 1] && !slot}
+                    className="compare-swap-button h-[1.375rem] w-[1.375rem]"
+                    aria-label={`${labels.swapModels}: ${i} / ${i + 1}`}
+                    title={labels.swapModels}
+                  >
+                    <SwapColumnsIcon className="h-2.5 w-2.5" />
+                  </button>
+                )}
+                <div className={getSwapClass(i)}>
+                  <ModelDropdown
+                    selected={slot}
+                    onSelect={(v) => updateSlot(i, v)}
+                    onClear={() => updateSlot(i, null)}
+                    locale={locale}
+                    blockedIds={blockedFor(i)}
+                    placeholder={labels.selectModel}
+                    clearLabel={labels.clearModel}
+                    compact
+                    openRequestKey={openRequests[i]}
+                  />
+                </div>
+              </Fragment>
             ))}
             </div>
           </div>
@@ -787,18 +938,37 @@ export default function CompareGrid() {
               hasScrolled ? "rounded-t-none" : "rounded-t-[1.25rem]"
             }`}
           >
-            <div className="grid grid-cols-3 gap-3">
+            <div
+              className="grid items-center gap-3"
+              style={{ gridTemplateColumns: "minmax(0,1fr) 2.75rem minmax(0,1fr) 2.75rem minmax(0,1fr)" }}
+            >
             {slots.map((slot, i) => (
-              <ModelDropdown
-                key={`d-${i}`}
-                selected={slot}
-                onSelect={(v) => updateSlot(i, v)}
-                onClear={() => updateSlot(i, null)}
-                locale={locale}
-                blockedIds={blockedFor(i)}
-                placeholder={labels.selectModel}
-                clearLabel={labels.clearModel}
-              />
+              <Fragment key={`d-${i}`}>
+                {i > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => swapSlots(i - 1, i)}
+                    disabled={!slots[i - 1] && !slot}
+                    className="compare-swap-button h-11 w-11"
+                    aria-label={`${labels.swapModels}: ${i} / ${i + 1}`}
+                    title={labels.swapModels}
+                  >
+                    <SwapColumnsIcon className="h-4 w-4" />
+                  </button>
+                )}
+                <div className={getSwapClass(i)}>
+                  <ModelDropdown
+                    selected={slot}
+                    onSelect={(v) => updateSlot(i, v)}
+                    onClear={() => updateSlot(i, null)}
+                    locale={locale}
+                    blockedIds={blockedFor(i)}
+                    placeholder={labels.selectModel}
+                    clearLabel={labels.clearModel}
+                    openRequestKey={openRequests[i]}
+                  />
+                </div>
+              </Fragment>
             ))}
             </div>
           </div>
@@ -813,7 +983,7 @@ export default function CompareGrid() {
             {slots.map((slot, i) => (
               <div
                 key={`card-${i}`}
-                className={`flex flex-col p-3 md:p-5 ${
+                className={`flex flex-col p-3 md:p-5 ${getSwapClass(i)} ${
                   i < 2 ? "border-r border-[#DDE1E3]" : ""
                 }`}
               >
@@ -847,26 +1017,31 @@ export default function CompareGrid() {
                     <p className="mt-1 hidden text-[13.5px] leading-[1.6] text-[#4E5356] md:mt-3 md:block">
                       {t(slot.summary, locale)}
                     </p>
-                    <div className="mt-auto flex flex-wrap gap-1.5 pt-2 md:gap-2 md:pt-5">
+                    <div className="mt-auto grid grid-cols-1 gap-1.5 pt-2 md:grid-cols-2 md:gap-2 md:pt-5">
                       <Link
-                        href={`/${locale}/booking`}
-                        className="btn-primary min-h-[30px] px-2.5 text-[9px] md:min-h-[38px] md:px-4 md:text-[11px]"
+                        href={`/${locale}/booking?version=${encodeURIComponent(slot.id)}`}
+                        className="compare-card-action compare-card-action-primary"
                       >
                         {labels.testDrive}
                       </Link>
                       <Link
                         href={`/${locale}/catalog/${slot.id}`}
-                        className="btn-secondary min-h-[30px] px-2.5 text-[9px] md:min-h-[38px] md:px-4 md:text-[11px]"
+                        className="compare-card-action compare-card-action-secondary"
                       >
                         {labels.viewCatalog}
                       </Link>
                     </div>
                   </>
                 ) : (
-                  <div className="flex flex-1 flex-col items-center justify-center py-6 text-center md:py-12">
-                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl border border-dashed border-[#C7CDD0] bg-[#F0F2F3] md:mb-4 md:h-16 md:w-16 md:rounded-2xl">
+                  <button
+                    type="button"
+                    onClick={() => requestSlotSelect(i)}
+                    className="group flex flex-1 flex-col items-center justify-center py-6 text-center transition-colors duration-200 hover:bg-[#F7F8F8] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-byd-red/55 md:py-12"
+                    aria-label={labels.selectModel}
+                  >
+                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl border border-dashed border-[#C7CDD0] bg-[#F0F2F3] transition-colors duration-200 group-hover:border-byd-red/45 group-hover:bg-byd-red/[0.04] md:mb-4 md:h-16 md:w-16 md:rounded-2xl">
                       <svg
-                        className="h-5 w-5 text-[#8A9094] md:h-7 md:w-7"
+                        className="h-5 w-5 text-[#8A9094] transition-colors duration-200 group-hover:text-byd-red md:h-7 md:w-7"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -882,7 +1057,7 @@ export default function CompareGrid() {
                     <p className="text-[11px] text-[#686D71] md:text-[13px]">
                       {labels.emptySlot}
                     </p>
-                  </div>
+                  </button>
                 )}
               </div>
             ))}
@@ -890,7 +1065,7 @@ export default function CompareGrid() {
 
           {/* Spec display controls */}
           {hasComparison && (
-            <div className="flex flex-col gap-3 border-b border-[#DDE1E3] bg-[#FAFBFB] px-3 py-3 md:flex-row md:items-center md:justify-between md:px-5 md:py-4">
+            <div className="flex justify-center border-b border-[#DDE1E3] bg-[#FAFBFB] px-3 py-3 md:px-5 md:py-4">
               <div
                 className="inline-grid w-full grid-cols-2 rounded-full border border-[#DDE1E3] bg-white p-1 shadow-[0_8px_22px_rgba(24,28,32,0.06)] md:w-auto"
                 role="group"
@@ -921,15 +1096,6 @@ export default function CompareGrid() {
                   {labels.showDifferences}
                 </button>
               </div>
-
-              <div className="text-left md:text-right">
-                <p className="text-[10px] font-semibold uppercase text-[#686D71] md:text-[11px]">
-                  {labels.specModeLabel}
-                </p>
-                <p className="mt-1 text-[12px] text-[#4E5356] md:text-[13px]">
-                  {diffCount} {labels.differs}
-                </p>
-              </div>
             </div>
           )}
 
@@ -956,11 +1122,6 @@ export default function CompareGrid() {
                 <span className="text-[10px] font-semibold uppercase text-[#686D71] md:text-[11px]">
                   {t(row.label, locale)}
                 </span>
-                {comparisonMode === "differences" && row.hasDifference && (
-                  <span className="inline-flex rounded border border-byd-red/30 bg-byd-red/10 px-1.5 py-px text-[8px] font-bold uppercase text-byd-red">
-                    {labels.differs}
-                  </span>
-                )}
               </div>
 
               {/* Values: 3 columns */}
@@ -969,7 +1130,7 @@ export default function CompareGrid() {
                   <div
                     key={`${row.key}-${ci}`}
                     title={t(row.label, locale)}
-                    className={`flex min-h-[3.75rem] items-center px-3 py-3 text-center text-[12px] leading-5 md:min-h-[4rem] md:justify-center md:px-5 md:py-4 md:text-[14px] md:leading-6 ${
+                    className={`flex min-h-[3.75rem] items-center px-3 py-3 text-center text-[12px] leading-5 md:min-h-[4rem] md:justify-center md:px-5 md:py-4 md:text-[14px] md:leading-6 ${getSwapClass(ci)} ${
                       ci < 2 ? "border-r border-[#E6E9EA]" : ""
                     } ${
                       value === null
@@ -986,14 +1147,6 @@ export default function CompareGrid() {
             </div>
           ))}
 
-          {hasComparison && visibleSpecRows.length === 0 && (
-            <div className="border-b border-[#E6E9EA] px-4 py-8 text-center">
-              <p className="text-[13px] text-[#686D71] md:text-[15px]">
-                {labels.noDifferences}
-              </p>
-            </div>
-          )}
-
           {/* Price row */}
           {hasComparison && (
             <div>
@@ -1007,7 +1160,7 @@ export default function CompareGrid() {
                   <div
                     key={`price-${ci}`}
                     title={labels.pricing}
-                    className={`px-3 pb-2.5 pt-0.5 text-[11px] italic text-[#686D71] md:flex md:items-center md:px-5 md:py-3.5 md:text-[13px] ${
+                    className={`px-3 pb-2.5 pt-0.5 text-[11px] italic text-[#686D71] md:flex md:items-center md:px-5 md:py-3.5 md:text-[13px] ${getSwapClass(ci)} ${
                       ci < 2 ? "border-r border-[#E6E9EA]" : ""
                     }`}
                   >

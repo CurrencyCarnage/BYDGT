@@ -622,7 +622,7 @@ export default function Navbar() {
               <Link
                 href="/booking"
                 onClick={() => setMobileOpen(false)}
-                className="text-xs font-bold tracking-[0.1em] uppercase text-byd-red"
+                className="inline-flex min-h-11 items-center justify-center bg-byd-red px-4 text-xs font-bold uppercase tracking-[0.1em] text-white transition-colors duration-200 hover:bg-[#A80912]"
               >
                 {tCommon("bookTestDrive")}
               </Link>

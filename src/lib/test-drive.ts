@@ -26,7 +26,10 @@ export const testDriveModels: TestDriveModel[] = [
   {
     id: "yuan-up",
     name: "BYD Yuan Up",
-    versions: [{ id: "yuan-up-ev", label: "EV" }],
+    versions: [
+      { id: "yuan-up-ev", label: "EV" },
+      { id: "yuan-up-dmi", label: "DM-i / PHEV" },
+    ],
   },
 ];
 

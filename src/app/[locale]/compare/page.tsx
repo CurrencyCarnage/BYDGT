@@ -1,8 +1,20 @@
 import { getLocale } from "next-intl/server";
 import CompareGrid from "@/components/compare/CompareGrid";
 
-export default async function ComparePage() {
+type CompareSearchParams = {
+  models?: string | string[];
+};
+
+const toArray = (value: string | string[] | undefined): string[] =>
+  Array.isArray(value) ? value.slice(0, 3) : value ? [value] : [];
+
+export default async function ComparePage({
+  searchParams,
+}: {
+  searchParams?: CompareSearchParams;
+}) {
   const locale = await getLocale();
+  const initialModelIds = toArray(searchParams?.models);
 
   return (
     <div className="bg-byd-dark">
@@ -27,7 +39,7 @@ export default async function ComparePage() {
         </div>
       </div>
 
-      <CompareGrid />
+      <CompareGrid initialModelIds={initialModelIds} />
 
     </div>
   );

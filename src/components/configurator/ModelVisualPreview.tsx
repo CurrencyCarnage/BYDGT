@@ -17,10 +17,16 @@ interface ModelVisualPreviewProps {
   locale: string;
 }
 
-const EXTERIOR_ANGLES = [
+const EXTERIOR_ANGLES_EN = [
   { id: "front-three-quarter", label: "Front 3/4" },
   { id: "side-profile", label: "Side" },
   { id: "rear-three-quarter", label: "Rear 3/4" },
+] as const;
+
+const EXTERIOR_ANGLES_KA = [
+  { id: "front-three-quarter", label: "წინა 3/4" },
+  { id: "side-profile", label: "გვერდი" },
+  { id: "rear-three-quarter", label: "უკანა 3/4" },
 ] as const;
 
 export default function ModelVisualPreview({
@@ -33,14 +39,15 @@ export default function ModelVisualPreview({
 
   const modelName = getLocalizedValue(model.name, locale);
 
+  const angles = locale === "ka" ? EXTERIOR_ANGLES_KA : EXTERIOR_ANGLES_EN;
   const exteriorAssets = useMemo<PreviewAsset[]>(
     () =>
-      EXTERIOR_ANGLES.map((angle) => ({
+      angles.map((angle) => ({
         id: angle.id,
         label: angle.label,
         src: `/images/models/${model.id}/exterior-${angle.id}.png`,
       })),
-    [model.id]
+    [model.id, angles]
   );
 
   const interiorAsset = useMemo<PreviewAsset>(
@@ -88,7 +95,9 @@ export default function ModelVisualPreview({
                       : "text-white/68 hover:bg-white/[0.08] hover:text-white"
                 }`}
               >
-                {item === "exterior" ? "Exterior" : "Interior"}
+                {item === "exterior"
+                  ? (locale === "ka" ? "ექსტერიერი" : "Exterior")
+                  : (locale === "ka" ? "ინტერიერი" : "Interior")}
               </button>
             );
           })}
@@ -104,7 +113,7 @@ export default function ModelVisualPreview({
           </p>
         </div>
 
-        <div className="relative aspect-[16/8.2] min-h-[18rem] sm:aspect-[16/7.4] lg:min-h-[29rem]">
+        <div className="relative aspect-[16/9] sm:aspect-[16/7.4] lg:min-h-[29rem]">
           <Image
             key={previewSrc}
             src={previewSrc}
@@ -198,7 +207,7 @@ export default function ModelVisualPreview({
         {mode === "interior" && (
           <div className="absolute inset-x-0 bottom-5 z-20 flex justify-center px-4">
             <div className="rounded-full border border-white/[0.12] bg-black/28 px-4 py-2 text-[11px] font-semibold text-white/72 shadow-[0_0.75rem_2rem_rgba(0,0,0,0.22)] backdrop-blur-md">
-              Cockpit View
+              {locale === "ka" ? "სალონის ხედი" : "Cockpit View"}
             </div>
           </div>
         )}

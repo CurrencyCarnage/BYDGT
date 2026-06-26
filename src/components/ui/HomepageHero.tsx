@@ -180,6 +180,11 @@ type HeroSlide = {
   poster?: string;
 };
 
+function getBookingHrefFromCatalogHref(href: string) {
+  const versionId = href.split("/").filter(Boolean).pop();
+  return versionId ? `/booking?version=${encodeURIComponent(versionId)}` : "/booking";
+}
+
 const benefits: Array<{
   icon: JSX.Element;
   en: LocalizedContent;
@@ -240,7 +245,7 @@ const benefits: Array<{
       </svg>
     ),
     en: { title: "Charging Solutions", subtitle: "Home & Public" },
-    ka: { title: "დამუხტვის გადაწყვეტები", subtitle: "სახლი & საჯარო" },
+    ka: { title: "დამუხტვა", subtitle: "სახლი & საჯარო" },
   },
   {
     icon: (
@@ -264,7 +269,7 @@ const benefits: Array<{
       </svg>
     ),
     en: { title: "Local Support", subtitle: "Here for you" },
-    ka: { title: "ლოკალური მხარდაჭერა", subtitle: "ყოველთვის თქვენთვის" },
+    ka: { title: "მხარდაჭერა", subtitle: "ყოველთვის" },
   },
 ];
 
@@ -285,7 +290,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
       name: "Sealion 06 DM-i",
       type: "PHEV SUV",
       description:
-        "ფართო PHEV SUV ყოველდღიური კომფორტით, ძლიერი დინამიკით და ხანგრძლივი DM-i ეფექტიანობით.",
+        "ფართო PHEV SUV — კომფორტი, დინამიკა და DM-i ეფექტიანობა.",
       range: "1,670 კმ",
       power: "218 ც.ძ.",
       price: "$36,000-დან",
@@ -306,7 +311,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
       name: "Seal 06 DM-i",
       type: "PHEV Sedan",
       description:
-        "ელეგანტური plug-in hybrid სედანი DM-i ეფექტიანობით, დიდი სავალით და დახვეწილი პრემიუმ იერით.",
+        "ელეგანტური PHEV სედანი — დიდი სავალი და პრემიუმ დიზაინი.",
       range: "2,110 კმ",
       power: "161 ც.ძ.",
       price: "$30,000-დან",
@@ -327,7 +332,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
       name: "Yuan Up EV",
       type: "Pure Electric",
       description:
-        "კომპაქტური ელექტრო ქროსოვერი ქალაქისთვის, სწრაფი ყოველდღიური მანევრულობით და სუფთა EV პრაქტიკულობით.",
+        "კომპაქტური ელექტრო ქროსოვერი — ქალაქური მანევრულობა და EV პრაქტიკულობა.",
       range: "401 კმ",
       power: "177 ც.ძ.",
       price: "$25,000-დან",
@@ -348,7 +353,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
       name: "Yuan Up DM-i",
       type: "PHEV Compact",
       description:
-        "მოქნილი კომპაქტური ქროსოვერი ყოველდღიური ეფექტიანობით, პრაქტიკული სავალით და ქალაქისთვის მორგებული ფორმით.",
+        "მოქნილი კომპაქტური ქროსოვერი — ეფექტიანობა და პრაქტიკული სავალი.",
       range: "1,000 კმ",
       power: "212 ც.ძ.",
       price: "$22,000-დან",
@@ -653,19 +658,19 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
               >
-                <div>
-                  <div className="mb-4 flex items-center gap-3 md:mb-5">
+                <div className="flex flex-col h-full md:h-auto md:block">
+                  <div className="mb-5 flex items-center gap-3 md:mb-5">
                     <span className="h-[2px] w-8 flex-shrink-0 bg-byd-red" />
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-byd-red">
+                    <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-byd-red">
                       {ka ? "ელექტრო მობილობა" : "Electric Mobility"}
                     </p>
                   </div>
                   <h1
-                    className="mb-4 max-w-[15ch] text-[2.28rem] font-semibold leading-[0.98] text-white md:mb-6 md:max-w-none md:text-h1 md:leading-[1.1]"
+                    className="mb-5 max-w-[15ch] text-[clamp(2rem,9.5vw,2.5rem)] font-semibold leading-[1.05] text-white md:mb-6 md:max-w-none md:text-h1 md:leading-[1.1]"
                     style={{ letterSpacing: "-0.025em" }}
                   >
                     {ka ? (
-                      "ელექტრო მობილობა, დახვეწილი საქართველოსთვის"
+                      "ელექტრო მობილობა საქართველოში"
                     ) : (
                       <>
                         Electric mobility,
@@ -673,19 +678,20 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                       </>
                     )}
                   </h1>
-                  <p className="max-w-[22.5rem] text-[0.98rem] font-light leading-[1.52] text-white/70 md:mb-10 md:max-w-lg md:text-body1 md:text-white/55">
+                  <p className="max-w-[22.5rem] text-[clamp(0.9rem,4.2vw,1.05rem)] font-light leading-[1.5] text-white/70 md:mb-10 md:max-w-lg md:text-body1 md:text-white/55">
                     {ka
-                      ? "GT Group არის BYD-ის ოფიციალური დილერი საქართველოში. ინოვაციური ტექნოლოგია. პრემიუმ ხარისხი. ლოკალური მხარდაჭერა."
+                      ? "GT Group — BYD-ის ოფიციალური დილერი. ინოვაცია. პრემიუმ ხარისხი. ლოკალური მხარდაჭერა."
                       : "GT Group is the official BYD dealer in Georgia. Innovative technology. Premium quality. Local support you can trust."}
                   </p>
+                {/* Buttons — pushed to bottom on mobile, inline on desktop */}
                 <div className="mt-auto pb-2 md:mt-0 md:pb-0">
-                  <div className="flex flex-wrap gap-3 sm:flex-row sm:gap-4">
+                  <div className="grid grid-cols-2 gap-3 md:flex md:flex-wrap md:gap-4">
                     <Link
                       href="/catalog"
-                      className="btn-primary-red min-h-[46px] justify-center px-5 text-[0.95rem] sm:justify-start"
-                      style={{ minWidth: "9.5rem" }}
+                      className="btn-primary-red min-h-[46px] justify-center px-4 text-[clamp(0.78rem,3.6vw,0.95rem)] md:px-5 md:text-[0.95rem] sm:justify-start"
+                      style={{ minWidth: "0" }}
                     >
-                      {ka ? "მოდელების ნახვა" : "Explore Models"}
+                      {ka ? "მოდელები" : "Explore Models"}
                       <svg
                         className="h-4 w-4"
                         fill="none"
@@ -702,8 +708,12 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                     </Link>
                     <Link
                       href="/booking"
-                      className="btn-secondary min-h-[46px] justify-center px-5 text-[0.95rem] sm:justify-start"
-                      style={{ minWidth: "9.5rem" }}
+                      className="btn-primary-red min-h-[46px] justify-center px-4 text-[clamp(0.78rem,3.6vw,0.95rem)] md:px-5 md:text-[0.95rem] sm:justify-start"
+                      style={{
+                        minWidth: "0",
+                        background: "rgba(255,255,255,0.04)",
+                        borderColor: "rgba(255,255,255,0.28)",
+                      }}
                     >
                       {ka ? "ტესტ დრაივი" : "Book Test Drive"}
                     </Link>
@@ -724,7 +734,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                   <div className="flex h-full flex-col justify-end">
                     <div className="w-full max-w-none pb-1">
                       <h2
-                        className="w-full text-[2.06rem] font-semibold leading-[0.96] text-white"
+                        className="w-full text-[clamp(1.6rem,7.5vw,2.06rem)] font-semibold leading-[0.96] text-white"
                         style={{ letterSpacing: "-0.025em" }}
                       >
                         {modelCopy.name}
@@ -743,7 +753,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                               {stat.label}
                             </p>
                             <p
-                              className={`text-[1.16rem] font-semibold leading-[1.02] ${
+                              className={`text-[clamp(0.95rem,4.2vw,1.16rem)] font-semibold leading-[1.02] ${
                                 stat.accent ? "text-byd-red" : "text-white"
                               }`}
                             >
@@ -761,8 +771,8 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                           {ka ? "დეტალები" : "View Model"}
                         </Link>
                         <Link
-                          href="/booking"
-                          className="btn-secondary min-h-[42px] w-full justify-center px-4 text-[0.9rem]"
+                          href={getBookingHrefFromCatalogHref(modelSpec.href)}
+                          className="btn-primary-red min-h-[42px] w-full justify-center px-4 text-[0.9rem]"
                           style={{
                             minWidth: "0",
                             background: "rgba(255,255,255,0.02)",
@@ -845,8 +855,8 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                       </svg>
                     </Link>
                     <Link
-                      href="/booking"
-                      className="btn-secondary justify-center sm:justify-start"
+                      href={getBookingHrefFromCatalogHref(modelSpec.href)}
+                      className="btn-primary-red justify-center sm:justify-start"
                       style={{
                         minWidth: "11.875rem",
                         background: "rgba(255,255,255,0.02)",
@@ -909,11 +919,11 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                 className="flex items-center gap-3 px-4 py-4 md:px-6"
               >
                 <span className="text-byd-red">{item.icon}</span>
-                <div>
-                  <p className="text-[11px] font-semibold leading-tight text-white/80">
+                <div className="min-w-0">
+                  <p className="text-[clamp(9px,2.8vw,11px)] font-semibold leading-tight text-white/80 truncate">
                     {ka ? item.ka.title : item.en.title}
                   </p>
-                  <p className="mt-0.5 text-[10px] text-white/35">
+                  <p className="mt-0.5 text-[clamp(8px,2.5vw,10px)] text-white/35 truncate">
                     {ka ? item.ka.subtitle : item.en.subtitle}
                   </p>
                 </div>

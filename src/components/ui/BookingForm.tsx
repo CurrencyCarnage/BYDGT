@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { testDriveModels, TIME_SLOTS } from "@/lib/test-drive";
 import TestDriveModal, { AgreementFlags } from "./TestDriveModal";
@@ -52,8 +52,17 @@ const labels = {
   },
 };
 
-export default function BookingForm() {
+interface BookingFormProps {
+  initialModelId?: string;
+  initialVersionId?: string;
+}
+
+export default function BookingForm({
+  initialModelId,
+  initialVersionId,
+}: BookingFormProps) {
   const locale = useLocale() as "en" | "ka";
+  const appliedInitialSelection = useRef(false);
   const t = labels[locale];
 
   const [form, setForm] = useState({
@@ -74,6 +83,38 @@ export default function BookingForm() {
 
   const selectedFamily = testDriveModels.find((m) => m.id === form.modelFamilyId);
   const versions = selectedFamily?.versions ?? [];
+
+  useEffect(() => {
+    if (appliedInitialSelection.current) return;
+    appliedInitialSelection.current = true;
+
+    const requestedId = initialVersionId || initialModelId;
+    if (!requestedId) return;
+
+    const versionMatch = testDriveModels
+      .flatMap((model) =>
+        model.versions.map((version) => ({
+          modelFamilyId: model.id,
+          versionId: version.id,
+        }))
+      )
+      .find((item) => item.versionId === requestedId);
+
+    if (versionMatch) {
+      setForm((prev) => ({ ...prev, ...versionMatch }));
+      return;
+    }
+
+    const familyMatch = testDriveModels.find((model) => model.id === requestedId);
+    if (!familyMatch) return;
+
+    setForm((prev) => ({
+      ...prev,
+      modelFamilyId: familyMatch.id,
+      versionId:
+        familyMatch.versions.length === 1 ? familyMatch.versions[0].id : "",
+    }));
+  }, [initialModelId, initialVersionId]);
 
   const set = (field: string, value: string) => {
     setError("");

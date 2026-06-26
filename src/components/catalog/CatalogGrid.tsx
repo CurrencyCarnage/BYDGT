@@ -26,12 +26,12 @@ export default function CatalogGrid({ models }: CatalogGridProps) {
   return (
     <>
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2 mb-10">
+      <div className="grid grid-cols-3 gap-2 mb-10 md:flex md:items-center">
         {filters.map((f) => (
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
-            className={`px-5 py-2.5 text-xs font-semibold tracking-[0.08em] uppercase transition-all duration-200 ${
+            className={`px-3 md:px-5 py-2.5 text-xs font-semibold tracking-[0.08em] uppercase transition-all duration-200 text-center ${
               filter === f.key
                 ? "bg-byd-red text-white"
                 : "text-white/50 hover:text-white border border-white/[0.10] hover:border-white/[0.25]"

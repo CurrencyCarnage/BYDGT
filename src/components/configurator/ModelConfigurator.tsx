@@ -28,13 +28,14 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
     (selectedVariant?.priceModifier ?? 0);
   const selectedColorName = selectedColor ? getLocalizedValue(selectedColor.name, locale) : "";
   const selectedVariantName = selectedVariant ? getLocalizedValue(selectedVariant.name, locale) : "";
+  const bookingHref = `/booking?version=${encodeURIComponent(model.id)}`;
 
   return (
     <div className="relative overflow-hidden bg-white p-0">
       <div className="pointer-events-none absolute inset-x-0 bottom-0 top-[26rem] bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.72),transparent_34%)]" />
 
       <div className="relative z-10">
-        <div className="bg-[#1C1E1F] p-0">
+        <div className="theme-media-section bg-[#1C1E1F] p-0">
           <ModelVisualPreview model={model} locale={locale} />
         </div>
 
@@ -137,7 +138,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
           </div>
 
           <div className="mt-6 flex flex-col gap-3 lg:flex-row">
-            <Link href="/booking" className="btn-primary min-h-[48px] flex-1 text-center">
+            <Link href={bookingHref} className="btn-primary-red min-h-[48px] flex-1 text-center">
               {tCommon("bookTestDrive")}
             </Link>
             <Link href="/contact" className="inline-flex min-h-[48px] flex-1 items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]">

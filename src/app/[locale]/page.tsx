@@ -16,8 +16,8 @@ export default async function HomePage() {
   const stats = [
     { value: 4,    suffix: "+",    label: locale === "ka" ? "მოდელი"              : "Models Available" },
     { value: 2110, suffix: " km",  label: locale === "ka" ? "მაქს. მანძილი"       : "Max Range" },
-    { value: 100,  suffix: "%",    label: locale === "ka" ? "ოფიციალური სერვისი"  : "Official Service" },
-    { value: 10,   suffix: "+",    label: locale === "ka" ? "წლის გამოცდილება"    : "Years Experience" },
+    { value: 100,  suffix: "%",    label: locale === "ka" ? "ოფიც. სერვისი"       : "Official Service" },
+    { value: 10,   suffix: "+",    label: locale === "ka" ? "წლის გამოცდილ."      : "Years Experience" },
   ];
 
 
@@ -118,24 +118,24 @@ export default async function HomePage() {
                 style={{ letterSpacing: "-0.025em" }}
               >
                 {locale === "ka"
-                  ? "მზად ხართ ტესტ დრაივისთვის?"
+                  ? "მზად ხართ?"
                   : <>Ready to experience<br className="hidden sm:block" /> the future?</>}
               </h2>
               <p className="text-sm text-white/68 mb-7 font-light leading-relaxed">
                 {locale === "ka"
-                  ? "დაჯავშნეთ ტესტ დრაივი — სრულიად უფასოდ"
+                  ? "დაჯავშნეთ ტესტ დრაივი — უფასოდ"
                   : "Book a free test drive at BYD Tbilisi — no commitment required."}
               </p>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-row">
                 <Link
                   href="/booking"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-byd-red text-white text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#b80a15] transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-byd-red text-white text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#b80a15] transition-all duration-200"
                 >
                   {tCommon("bookTestDrive")}
                 </Link>
                 <Link
                   href="/catalog"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3 border border-white/22 text-white text-sm font-semibold tracking-[0.06em] uppercase hover:bg-white/10 hover:border-white/40 transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 border border-white/22 text-white text-sm font-semibold tracking-[0.06em] uppercase hover:bg-white/10 hover:border-white/40 transition-all duration-200"
                 >
                   {tCommon("viewAll")}
                 </Link>

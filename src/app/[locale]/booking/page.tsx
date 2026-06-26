@@ -96,9 +96,23 @@ const reqIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-export default async function BookingPage() {
+type BookingSearchParams = {
+  model?: string | string[];
+  version?: string | string[];
+};
+
+const getFirstParam = (value: string | string[] | undefined) =>
+  Array.isArray(value) ? value[0] : value;
+
+export default async function BookingPage({
+  searchParams,
+}: {
+  searchParams?: BookingSearchParams;
+}) {
   const locale = (await getLocale()) as "en" | "ka";
   const t = copy[locale];
+  const initialModelId = getFirstParam(searchParams?.model);
+  const initialVersionId = getFirstParam(searchParams?.version);
 
   return (
     <div className="bg-byd-dark">
@@ -255,7 +269,10 @@ export default async function BookingPage() {
           {/* ── LEFT: clean form card, no image ───────────────── */}
           <ScrollReveal delay={0.05}>
             <div>
-              <BookingForm />
+              <BookingForm
+                initialModelId={initialModelId}
+                initialVersionId={initialVersionId}
+              />
             </div>
           </ScrollReveal>
 

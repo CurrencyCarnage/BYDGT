@@ -60,7 +60,7 @@ export default function AnimatedCounter({
 
   return (
     <span ref={ref} className={className}>
-      {prefix}{count.toLocaleString(undefined, {
+      {prefix}{count.toLocaleString("en-US", {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
       })}{suffix}

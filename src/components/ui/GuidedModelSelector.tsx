@@ -23,6 +23,11 @@ type Recommendation = {
   priceKa: string;
 };
 
+function getBookingHrefFromCatalogHref(href: string) {
+  const versionId = href.split("/").filter(Boolean).pop();
+  return versionId ? `/booking?version=${encodeURIComponent(versionId)}` : "/booking";
+}
+
 const RECOMMENDATIONS: Record<Intent, Recommendation> = {
   city: {
     name: "BYD Yuan Up EV",
@@ -30,16 +35,16 @@ const RECOMMENDATIONS: Record<Intent, Recommendation> = {
     image: "/images/models/yuan-up-ev/hero.jpg",
     objectPosition: "center 50%",
     taglineEn: "The smart choice for city life.",
-    taglineKa: "ქალაქური ცხოვრების საუკეთესო არჩევანი.",
+    taglineKa: "საუკეთესო არჩევანი ქალაქში.",
     bulletsEn: [
       "Zero emissions, pure electric range",
       "Compact & effortless to park",
       "Advanced safety & connected tech",
     ],
     bulletsKa: [
-      "ნულოვანი გამონაბოლქვი, სუფთა ელ. სვლა",
-      "კომპაქტური, მოსახერხებელი პარკირება",
-      "უახლესი უსაფრთხოება და ტექნოლოგია",
+      "ნულოვანი გამონაბოლქვი",
+      "კომპაქტური და მოსახერხებელი",
+      "თანამედროვე უსაფრთხოება",
     ],
     priceEn: "From $25,000",
     priceKa: "$25,000-დან",
@@ -50,16 +55,16 @@ const RECOMMENDATIONS: Record<Intent, Recommendation> = {
     image: "/images/models/seal-06-dmi/hero.jpg",
     objectPosition: "center 50%",
     taglineEn: "Built for those who go the distance.",
-    taglineKa: "შექმნილია გრძელი მოგზაურობისთვის.",
+    taglineKa: "გრძელი მოგზაურობისთვის.",
     bulletsEn: [
       "Up to 2,110 km combined range",
       "Low fuel consumption on the highway",
       "Elegant premium sedan profile",
     ],
     bulletsKa: [
-      "2,110 კმ-მდე კომბინირებული სვლა",
-      "დაბალი საწვავის მოხმარება",
-      "ელეგანტური პრემიუმ სედანი",
+      "2,110 კმ-მდე სვლა",
+      "დაბალი საწვავის ხარჯი",
+      "პრემიუმ სედანი",
     ],
     priceEn: "From $30,000",
     priceKa: "$30,000-დან",
@@ -70,16 +75,16 @@ const RECOMMENDATIONS: Record<Intent, Recommendation> = {
     image: "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",
     objectPosition: "center 50%",
     taglineEn: "Power, and efficiency for the whole family.",
-    taglineKa: "სივრცე, სიმძლავრე და ეფექტიანობა მთელი ოჯახისთვის.",
+    taglineKa: "სიმძლავრე და ეფექტიანობა ოჯახისთვის.",
     bulletsEn: [
       "Spacious 5-seat SUV for family comfort",
       "Up to 1,670 km combined range",
       "Confident performance in all conditions",
     ],
     bulletsKa: [
-      "5-ადგილიანი SUV ოჯახური კომფორტით",
-      "1,670 კმ-მდე კომბინირებული სვლა",
-      "თავდაჯერებული მართვა ნებისმიერ პირობებში",
+      "5-ადგილიანი ოჯახური SUV",
+      "1,670 კმ-მდე სვლა",
+      "საიმედო ნებისმიერ პირობებში",
     ],
     priceEn: "From $36,000",
     priceKa: "$36,000-დან",
@@ -90,16 +95,16 @@ const RECOMMENDATIONS: Record<Intent, Recommendation> = {
     image: "/images/models/yuan-up-dmi/hero.jpg",
     objectPosition: "center 50%",
     taglineEn: "Maximum value without compromise.",
-    taglineKa: "მაქსიმალური ღირებულება — კომპრომისის გარეშე.",
+    taglineKa: "საუკეთესო ფასი, კომპრომისის გარეშე.",
     bulletsEn: [
       "Most affordable BYD in Georgia",
       "Up to 1,000 km combined range",
       "Practical compact SUV for every day",
     ],
     bulletsKa: [
-      "ყველაზე ხელმისაწვდომი BYD საქართველოში",
-      "1,000 კმ-მდე კომბინირებული სვლა",
-      "პრაქტიკული კომპაქტური SUV ყოველდღისთვის",
+      "ყველაზე ხელმისაწვდომი BYD",
+      "1,000 კმ-მდე სვლა",
+      "პრაქტიკული კომპაქტური SUV",
     ],
     priceEn: "From $22,000",
     priceKa: "$22,000-დან",
@@ -210,12 +215,12 @@ export default function GuidedModelSelector({ locale }: { locale: string }) {
               style={{ letterSpacing: "-0.022em" }}
             >
               {ka
-                ? "რომელი BYD შეესაბამება თქვენს მართვის სტილს?"
+                ? "რომელი BYD მოგწონთ?"
                 : "Which BYD fits your driving style?"}
             </h2>
             <p className="text-sm text-[#686D71] leading-relaxed mb-7 font-light">
               {ka
-                ? "გვითხარით, რა მნიშვნელოვანია თქვენთვის — და ჩვენ გირჩევთ საუკეთესო მოდელს."
+                ? "აირჩიეთ პრიორიტეტი — შემოგთავაზებთ მოდელს."
                 : "Tell us what matters most to you and we'll recommend the right match."}
             </p>
 
@@ -308,7 +313,7 @@ export default function GuidedModelSelector({ locale }: { locale: string }) {
                   </p>
                   <div className="flex gap-2">
                     <Link
-                      href="/booking"
+                      href={getBookingHrefFromCatalogHref(rec.href)}
                       className="flex-1 inline-flex items-center justify-center px-3 py-2.5 bg-byd-red text-white text-[11px] font-bold uppercase tracking-[0.08em] hover:bg-[#A80912] transition-colors duration-150"
                     >
                       {ka ? "ტესტ დრაივი" : "Book Test Drive"}

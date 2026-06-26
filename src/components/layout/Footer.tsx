@@ -22,13 +22,13 @@ export default function Footer() {
     <footer className="bg-[#1C1E1F] border-t border-white/[0.06]">
 
       {/* ── Main footer content — 3-column, 141px min-height per spec ── */}
-      <div className="section-container py-12 md:py-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
+      <div className="section-container py-7 md:py-10">
+        <div className="grid grid-cols-2 items-stretch gap-x-6 gap-y-7 md:grid-cols-[1.35fr_0.8fr_1fr] md:gap-12">
 
           {/* Brand column */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             {/* BYD wordmark */}
-            <Link href="/" className="inline-block mb-3 group">
+            <Link href="/" className="inline-block mb-2.5 group">
               <Image
                 src="/byd-wordmark.svg"
                 alt="BYD"
@@ -40,15 +40,15 @@ export default function Footer() {
             <p className="text-[10px] text-white/30 mb-1 tracking-[0.2em] uppercase font-semibold">
               {locale === "ka" ? "თბილისი" : "Tbilisi"} · GT Group
             </p>
-            <p className="text-xs text-white/35 mb-4 tracking-wide font-light">
+            <p className="text-xs text-white/35 mb-3 tracking-wide font-light">
               {locale === "ka" ? "BYD-ის ოფიციალური დილერი" : "Authorised BYD Dealer"}
             </p>
-            <p className="text-sm text-white/45 leading-relaxed font-light max-w-xs">
+            <p className="max-w-sm text-sm leading-6 text-white/45 font-light md:max-w-xs">
               {t("description")}
             </p>
 
             {/* Social links — per BYD spec icons section */}
-            <div className="flex items-center gap-4 mt-6">
+            <div className="flex items-center gap-4 mt-4">
               {/* Instagram */}
               <a
                 href="#"
@@ -83,16 +83,16 @@ export default function Footer() {
           </div>
 
           {/* Quick Links column */}
-          <div>
-            <h3 className="text-xs font-semibold text-white uppercase tracking-[0.18em] mb-5">
+          <div className="flex h-full flex-col">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white">
               {t("quickLinks")}
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/40 hover:text-white transition-colors duration-200 font-light"
+                    className="text-sm text-white/45 hover:text-white transition-colors duration-200 font-light"
                   >
                     {link.label}
                   </Link>
@@ -102,12 +102,12 @@ export default function Footer() {
           </div>
 
           {/* Contact column */}
-          <div>
-            <h3 className="text-xs font-semibold text-white uppercase tracking-[0.18em] mb-5">
+          <div className="flex h-full flex-col">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white">
               {t("contactInfo")}
             </h3>
-            <ul className="space-y-3 text-sm text-white/40 font-light">
-              <li className="leading-relaxed">{t("address")}</li>
+            <ul className="space-y-2 text-sm text-white/45 font-light">
+              <li>{t("address")}</li>
               <li>
                 <a
                   href={`tel:${t("phone").replace(/\s/g, "")}`}
@@ -127,10 +127,10 @@ export default function Footer() {
             </ul>
 
             {/* Book test drive CTA */}
-            <div className="mt-6">
+            <div className="mt-auto pt-4">
               <Link
                 href="/booking"
-                className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.1em] uppercase text-byd-red hover:text-red-400 transition-colors duration-200"
+                className="inline-flex min-h-11 items-center justify-center gap-2 bg-byd-red px-4 text-xs font-semibold uppercase tracking-[0.1em] text-white transition-colors duration-200 hover:bg-[#A80912]"
               >
                 {locale === "ka" ? "ტესტ დრაივი" : "Book Test Drive"}
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
