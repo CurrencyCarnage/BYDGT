@@ -24,7 +24,8 @@ const labels = {
     selectVersion: "Select a version",
     selectTime: "Select a time slot",
     successTitle: "Request Received!",
-    successText: "Your test drive request has been received. Our team will contact you to confirm availability.",
+    successText:
+      "Your test drive request has been received. Our team will contact you to confirm availability.",
     newRequest: "Submit Another Request",
     validationError: "Please fill in all required fields",
   },
@@ -46,7 +47,8 @@ const labels = {
     selectVersion: "აირჩიეთ ვერსია",
     selectTime: "აირჩიეთ დრო",
     successTitle: "მოთხოვნა მიღებულია!",
-    successText: "თქვენი ტესტდრაივის მოთხოვნა მიღებულია. ჩვენი გუნდი დაგიკავშირდებათ ხელმისაწვდომობის დასადასტურებლად.",
+    successText:
+      "თქვენი ტესტდრაივის მოთხოვნა მიღებულია. ჩვენი გუნდი დაგიკავშირდებათ ხელმისაწვდომობის დასადასტურებლად.",
     newRequest: "ახალი მოთხოვნის გაგზავნა",
     validationError: "გთხოვთ შეავსოთ ყველა სავალდებულო ველი",
   },
@@ -81,7 +83,9 @@ export default function BookingForm({
   const [modalOpen, setModalOpen] = useState(false);
   const [error, setError] = useState("");
 
-  const selectedFamily = testDriveModels.find((m) => m.id === form.modelFamilyId);
+  const selectedFamily = testDriveModels.find(
+    (m) => m.id === form.modelFamilyId
+  );
   const versions = selectedFamily?.versions ?? [];
 
   useEffect(() => {
@@ -105,7 +109,9 @@ export default function BookingForm({
       return;
     }
 
-    const familyMatch = testDriveModels.find((model) => model.id === requestedId);
+    const familyMatch = testDriveModels.find(
+      (model) => model.id === requestedId
+    );
     if (!familyMatch) return;
 
     setForm((prev) => ({
@@ -128,7 +134,15 @@ export default function BookingForm({
 
   const validateAndOpenModal = (e: React.FormEvent) => {
     e.preventDefault();
-    const required = ["fullName", "phone", "email", "modelFamilyId", "versionId", "preferredDate", "preferredTimeSlot"] as const;
+    const required = [
+      "fullName",
+      "phone",
+      "email",
+      "modelFamilyId",
+      "versionId",
+      "preferredDate",
+      "preferredTimeSlot",
+    ] as const;
     for (const field of required) {
       if (!form[field].trim()) {
         setError(t.validationError);
@@ -171,27 +185,51 @@ export default function BookingForm({
     }
   };
 
-  const inputClass =
-    "form-field-light px-4 py-3 text-sm";
+  const inputClass = "form-field-light px-4 py-3 text-sm";
 
   if (submitted) {
     return (
       <div className="content-surface p-10 text-center">
         <div className="w-14 h-14 bg-byd-red/20 border border-byd-red/40 flex items-center justify-center mx-auto mb-6">
-          <svg className="w-7 h-7 text-byd-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          <svg
+            className="w-7 h-7 text-byd-red"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
           </svg>
         </div>
-        <p className="text-[#252728] font-semibold text-lg mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+        <p
+          className="text-[#252728] font-semibold text-lg mb-2"
+          style={{ fontFamily: "var(--font-montserrat)" }}
+        >
           {t.successTitle}
         </p>
-        <p className="text-[#686D71] font-light mb-6" style={{ fontFamily: "var(--font-montserrat)" }}>
+        <p
+          className="text-[#686D71] font-light mb-6"
+          style={{ fontFamily: "var(--font-montserrat)" }}
+        >
           {t.successText}
         </p>
         <button
           onClick={() => {
             setSubmitted(false);
-            setForm({ fullName: "", phone: "", email: "", modelFamilyId: "", versionId: "", preferredDate: "", preferredTimeSlot: "", message: "" });
+            setForm({
+              fullName: "",
+              phone: "",
+              email: "",
+              modelFamilyId: "",
+              versionId: "",
+              preferredDate: "",
+              preferredTimeSlot: "",
+              message: "",
+            });
           }}
           className="text-sm text-byd-red hover:text-byd-red/80 transition-colors"
           style={{ fontFamily: "var(--font-montserrat)" }}
@@ -204,11 +242,17 @@ export default function BookingForm({
 
   return (
     <>
-      <form onSubmit={validateAndOpenModal} className="content-surface p-6 md:p-8 space-y-5">
+      <form
+        onSubmit={validateAndOpenModal}
+        className="content-surface p-6 md:p-8 space-y-5"
+      >
         {/* Name + Phone */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label
+              className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
+              style={{ fontFamily: "var(--font-montserrat)" }}
+            >
               {t.fullName} <span className="text-byd-red">*</span>
             </label>
             <input
@@ -222,7 +266,10 @@ export default function BookingForm({
             />
           </div>
           <div>
-            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label
+              className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
+              style={{ fontFamily: "var(--font-montserrat)" }}
+            >
               {t.phone} <span className="text-byd-red">*</span>
             </label>
             <input
@@ -239,7 +286,10 @@ export default function BookingForm({
 
         {/* Email */}
         <div>
-          <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+          <label
+            className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
+            style={{ fontFamily: "var(--font-montserrat)" }}
+          >
             {t.email} <span className="text-byd-red">*</span>
           </label>
           <input
@@ -256,7 +306,10 @@ export default function BookingForm({
         {/* Model + Version */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label
+              className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
+              style={{ fontFamily: "var(--font-montserrat)" }}
+            >
               {t.model} <span className="text-byd-red">*</span>
             </label>
             <select
@@ -273,10 +326,18 @@ export default function BookingForm({
                 </option>
               ))}
             </select>
-            <p className="text-[11px] text-[#7A8080] mt-1.5" style={{ fontFamily: "var(--font-montserrat)" }}>{t.modelHelper}</p>
+            <p
+              className="text-[11px] text-[#7A8080] mt-1.5"
+              style={{ fontFamily: "var(--font-montserrat)" }}
+            >
+              {t.modelHelper}
+            </p>
           </div>
           <div>
-            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label
+              className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
+              style={{ fontFamily: "var(--font-montserrat)" }}
+            >
               {t.version} <span className="text-byd-red">*</span>
             </label>
             <select
@@ -284,7 +345,10 @@ export default function BookingForm({
               value={form.versionId}
               onChange={(e) => set("versionId", e.target.value)}
               disabled={!selectedFamily}
-              className={inputClass + " cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"}
+              className={
+                inputClass +
+                " cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              }
               style={{ fontFamily: "var(--font-montserrat)" }}
             >
               <option value="">{t.selectVersion}</option>
@@ -294,14 +358,22 @@ export default function BookingForm({
                 </option>
               ))}
             </select>
-            <p className="text-[11px] text-[#7A8080] mt-1.5" style={{ fontFamily: "var(--font-montserrat)" }}>{t.versionHelper}</p>
+            <p
+              className="text-[11px] text-[#7A8080] mt-1.5"
+              style={{ fontFamily: "var(--font-montserrat)" }}
+            >
+              {t.versionHelper}
+            </p>
           </div>
         </div>
 
         {/* Date + Time */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label
+              className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
+              style={{ fontFamily: "var(--font-montserrat)" }}
+            >
               {t.date} <span className="text-byd-red">*</span>
             </label>
             <input
@@ -315,7 +387,10 @@ export default function BookingForm({
             />
           </div>
           <div>
-            <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <label
+              className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
+              style={{ fontFamily: "var(--font-montserrat)" }}
+            >
               {t.time} <span className="text-byd-red">*</span>
             </label>
             <select
@@ -337,14 +412,21 @@ export default function BookingForm({
 
         {/* Message */}
         <div>
-          <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+          <label
+            className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
+            style={{ fontFamily: "var(--font-montserrat)" }}
+          >
             {t.message}
           </label>
           <textarea
             rows={3}
             value={form.message}
             onChange={(e) => set("message", e.target.value)}
-            placeholder={locale === "ka" ? "დამატებითი ინფორმაცია..." : "Any additional information..."}
+            placeholder={
+              locale === "ka"
+                ? "დამატებითი ინფორმაცია..."
+                : "Any additional information..."
+            }
             className={inputClass + " resize-none"}
             style={{ fontFamily: "var(--font-montserrat)" }}
           />
@@ -352,7 +434,10 @@ export default function BookingForm({
 
         {/* Error */}
         {error && (
-          <p className="text-sm text-red-400" style={{ fontFamily: "var(--font-montserrat)" }}>
+          <p
+            className="text-sm text-red-400"
+            style={{ fontFamily: "var(--font-montserrat)" }}
+          >
             {error}
           </p>
         )}
@@ -362,21 +447,49 @@ export default function BookingForm({
           type="submit"
           disabled={loading}
           className="w-full py-4 bg-byd-red text-white font-semibold hover:bg-[#A80912] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "0.04em" }}
+          style={{
+            fontFamily: "var(--font-montserrat)",
+            letterSpacing: "0.04em",
+          }}
         >
           {loading ? (
             <>
-              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              <svg
+                className="w-4 h-4 animate-spin"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
               </svg>
               {t.sending}
             </>
           ) : (
             <>
               {t.submit}
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </>
           )}
