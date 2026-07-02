@@ -487,7 +487,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
 
   return (
     <section
-      className="theme-media-section relative flex h-[100svh] min-h-[100svh] flex-col overflow-hidden md:h-auto md:min-h-screen"
+      className="theme-media-section mobile-home-hero relative flex min-h-[52rem] flex-col overflow-hidden md:h-auto md:min-h-screen"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -543,12 +543,15 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                 autoPlay
                 muted
                 playsInline
+                controls={false}
+                disablePictureInPicture
+                controlsList="nodownload nofullscreen noremoteplayback"
                 preload="auto"
                 poster={slide.poster}
                 onLoadedMetadata={(event) =>
                   setVideoDuration(event.currentTarget.duration)
                 }
-                className="absolute inset-0 hidden h-full w-full object-cover md:block"
+                className="mobile-hero-video absolute inset-0 hidden h-full w-full object-cover md:block"
                 style={{ objectPosition: slide.objectPosition }}
               />
               <video
@@ -557,9 +560,12 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                 autoPlay
                 muted
                 playsInline
+                controls={false}
+                disablePictureInPicture
+                controlsList="nodownload nofullscreen noremoteplayback"
                 preload="auto"
                 poster={slide.poster}
-                className="absolute inset-0 h-full w-full object-cover md:hidden"
+                className="mobile-hero-video absolute inset-0 h-full w-full object-cover md:hidden"
                 style={{
                   objectPosition:
                     slide.mobileObjectPosition ?? slide.objectPosition,
@@ -610,7 +616,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
         <button
           onClick={() => goTo((current - 1 + SLIDES.length) % SLIDES.length)}
           aria-label="Previous slide"
-          className="group absolute left-6 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/20 backdrop-blur-sm transition-all duration-200 hover:border-white/50 hover:bg-black/40 md:flex"
+          className="mobile-hero-arrow group absolute left-2 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/20 backdrop-blur-sm transition-all duration-200 hover:border-white/50 hover:bg-black/40 md:left-6 md:h-10 md:w-10"
         >
           <svg
             className="h-5 w-5 text-white/60 transition-colors duration-200 group-hover:text-white"
@@ -630,7 +636,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
         <button
           onClick={() => goTo((current + 1) % SLIDES.length)}
           aria-label="Next slide"
-          className="group absolute right-6 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/20 backdrop-blur-sm transition-all duration-200 hover:border-white/50 hover:bg-black/40 md:flex"
+          className="mobile-hero-arrow group absolute right-2 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/20 backdrop-blur-sm transition-all duration-200 hover:border-white/50 hover:bg-black/40 md:right-6 md:h-10 md:w-10"
         >
           <svg
             className="h-5 w-5 text-white/60 transition-colors duration-200 group-hover:text-white"
@@ -659,15 +665,16 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                 transition={{ duration: 0.7, ease: "easeOut" }}
               >
                 <div className="flex flex-col h-full md:h-auto md:block">
-                  <div className="mb-5 flex items-center gap-3 md:mb-5">
+                  <div className="mobile-hero-copy-glass">
+                  <div className="mobile-hero-kicker flex items-center gap-3 md:mb-5">
                     <span className="h-[2px] w-8 flex-shrink-0 bg-byd-red" />
-                    <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-byd-red">
+                    <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-byd-red md:text-[12px] md:font-semibold md:tracking-[0.22em]">
                       {ka ? "ელექტრო მობილობა" : "Electric Mobility"}
                     </p>
                   </div>
                   <h1
-                    className="mb-5 max-w-[15ch] text-[clamp(2rem,9.5vw,2.5rem)] font-semibold leading-[1.05] text-white md:mb-6 md:max-w-none md:text-h1 md:leading-[1.1]"
-                    style={{ letterSpacing: "-0.025em" }}
+                    className="max-w-[14.5ch] text-[clamp(1.78rem,8.4vw,2.22rem)] font-extrabold leading-[1.02] text-white md:mb-6 md:max-w-none md:text-h1 md:font-semibold md:leading-[1.1]"
+                    style={{ letterSpacing: "-0.015em" }}
                   >
                     {ka ? (
                       "ელექტრო მობილობა საქართველოში"
@@ -678,11 +685,12 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                       </>
                     )}
                   </h1>
-                  <p className="max-w-[22.5rem] text-[clamp(0.9rem,4.2vw,1.05rem)] font-light leading-[1.5] text-white/70 md:mb-10 md:max-w-lg md:text-body1 md:text-white/55">
+                  <p className="max-w-[19.75rem] text-[clamp(0.82rem,3.65vw,0.95rem)] font-semibold leading-[1.38] text-white md:mb-10 md:max-w-lg md:font-light md:text-body1 md:text-white/55">
                     {ka
                       ? "GT Group — BYD-ის ოფიციალური დილერი. ინოვაცია. პრემიუმ ხარისხი. ლოკალური მხარდაჭერა."
                       : "GT Group is the official BYD dealer in Georgia. Innovative technology. Premium quality. Local support you can trust."}
                   </p>
+                  </div>
                 {/* Buttons — pushed to bottom on mobile, inline on desktop */}
                 <div className="mt-auto pb-2 md:mt-0 md:pb-0">
                   <div className="grid grid-cols-2 gap-3 md:flex md:flex-wrap md:gap-4">
@@ -732,7 +740,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
               >
                 <div className="h-full md:hidden">
                   <div className="flex h-full flex-col justify-end">
-                    <div className="w-full max-w-none pb-1">
+                    <div className="mobile-hero-model-glass max-w-none pb-1">
                       <h2
                         className="w-full text-[clamp(1.6rem,7.5vw,2.06rem)] font-semibold leading-[0.96] text-white"
                         style={{ letterSpacing: "-0.025em" }}
@@ -873,7 +881,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-[106px] z-10 flex items-center justify-end gap-4 px-6 pb-2 md:relative md:bottom-auto md:px-10 md:pb-5">
+      <div className="mobile-hero-indicator absolute inset-x-0 bottom-[106px] z-10 flex items-center justify-end gap-4 px-6 pb-2 md:relative md:bottom-auto md:px-10 md:pb-5">
         <button
           onClick={startShowroomScroll}
           className="showroom-bubble group hidden items-center gap-2.5 sm:flex glass-text px-5 py-2.5 transition-all duration-300 hover:gap-3 hover:bg-[rgba(10,12,15,0.55)] hover:border-white/15"
