@@ -235,7 +235,7 @@ export default function TestDriveModal({
                 type="button"
                 onClick={handleConfirm}
                 disabled={!allChecked}
-                className="flex-1 py-3 px-5 bg-byd-red text-[#252728] font-semibold hover:bg-byd-red/90 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+                className="flex-1 py-3 px-5 bg-byd-red text-white font-semibold hover:bg-byd-red/90 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
                 style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 {t.confirm}

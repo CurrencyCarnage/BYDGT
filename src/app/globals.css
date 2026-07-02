@@ -682,6 +682,36 @@
     text-align: center;
   }
 
+  html:not(.light) .model-specs-section,
+  html:not(.light) .model-features-section {
+    background: #0A0B0C !important;
+  }
+
+  html:not(.light) .model-specs-section h2,
+  html:not(.light) .model-features-section h2 {
+    color: #FFFFFF !important;
+  }
+
+  html:not(.light) .model-specs-table {
+    border-color: rgba(255, 255, 255, 0.10) !important;
+    background: #111213 !important;
+  }
+
+  html:not(.light) .model-specs-row {
+    background: #111213 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  html:not(.light) .model-specs-row:nth-child(even) {
+    background: #151718 !important;
+  }
+
+  html:not(.light) .model-specs-label,
+  html:not(.light) .model-specs-value {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+
   html.light .media-copy-overlay .text-white,
   html.light .media-copy-overlay [class*="text-white/"] {
     color: #FFFFFF !important;
@@ -1521,6 +1551,54 @@
   nav.header-on-light-surface .mobile-menu-panel .language-toggle,
   nav.header-on-light-surface .mobile-menu-panel .language-toggle svg {
     color: #111213 !important;
+    text-shadow: none !important;
+  }
+
+  html.light nav.header-on-light-surface[data-scrolled="true"],
+  html.light nav.header-on-light-surface[data-scrolled="false"] {
+    background: rgba(255, 255, 255, 0.72) !important;
+    border-color: rgba(17, 18, 19, 0.10) !important;
+    box-shadow: 0 8px 28px rgba(24, 28, 32, 0.08) !important;
+  }
+
+  html.light nav.header-on-light-surface[data-scrolled="true"] .nav-link,
+  html.light nav.header-on-light-surface[data-scrolled="true"] .nav-link:hover,
+  html.light nav.header-on-light-surface[data-scrolled="true"] .nav-link.active,
+  html.light nav.header-on-light-surface[data-scrolled="true"] .text-white:not([data-mega-menu] *),
+  html.light nav.header-on-light-surface[data-scrolled="true"] [class*="text-white/"]:not([data-mega-menu] *),
+  html.light nav.header-on-light-surface[data-scrolled="false"] .nav-link,
+  html.light nav.header-on-light-surface[data-scrolled="false"] .nav-link:hover,
+  html.light nav.header-on-light-surface[data-scrolled="false"] .nav-link.active,
+  html.light nav.header-on-light-surface[data-scrolled="false"] .text-white:not([data-mega-menu] *),
+  html.light nav.header-on-light-surface[data-scrolled="false"] [class*="text-white/"]:not([data-mega-menu] *) {
+    color: #111213 !important;
+    text-shadow: none !important;
+  }
+
+  html.light nav.header-on-light-surface[data-scrolled="true"] .nav-link::after,
+  html.light nav.header-on-light-surface[data-scrolled="false"] .nav-link::after {
+    background: rgba(17, 18, 19, 0.9) !important;
+  }
+
+  html.light nav.header-on-light-surface[data-scrolled="true"] .language-toggle,
+  html.light nav.header-on-light-surface[data-scrolled="true"] .language-toggle svg,
+  html.light nav.header-on-light-surface[data-scrolled="false"] .language-toggle,
+  html.light nav.header-on-light-surface[data-scrolled="false"] .language-toggle svg {
+    color: #111213 !important;
+    text-shadow: none !important;
+  }
+
+  a.bg-byd-red,
+  a.bg-byd-red *,
+  button.bg-byd-red,
+  button.bg-byd-red *,
+  .btn-primary-red,
+  .btn-primary-red *,
+  html.light nav.header-on-light-surface[data-scrolled="true"] a.bg-byd-red.text-white,
+  html.light nav.header-on-light-surface[data-scrolled="true"] a.bg-byd-red.text-white *,
+  html.light nav.header-on-light-surface[data-scrolled="false"] a.bg-byd-red.text-white,
+  html.light nav.header-on-light-surface[data-scrolled="false"] a.bg-byd-red.text-white * {
+    color: #FFFFFF !important;
     text-shadow: none !important;
   }
 

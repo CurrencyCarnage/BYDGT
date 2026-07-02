@@ -202,7 +202,7 @@ export default async function ModelDetailPage({
       </section>
 
       {/* ── FULL SPECS — white section ── */}
-      <section className="py-section-sm md:py-section-lg bg-white" data-header-theme="light">
+      <section className="model-specs-section py-section-sm md:py-section-lg bg-white" data-header-theme="light">
         <div className="section-container">
           <ScrollReveal className="mb-10">
             <div className="flex items-center gap-3 mb-4">
@@ -216,16 +216,16 @@ export default async function ModelDetailPage({
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
-            <div className="border border-[#D4D8DB] overflow-hidden">
+            <div className="model-specs-table border border-[#D4D8DB] overflow-hidden">
               {specRows.map((spec, i) => (
                 <div
                   key={spec.label}
-                  className={`flex items-center justify-between px-6 py-4 ${
+                  className={`model-specs-row flex items-center justify-between px-6 py-4 ${
                     i % 2 === 0 ? "bg-white" : "bg-[#F5F6F7]"
                   } ${i !== specRows.length - 1 ? "border-b border-[#E8EAEB]" : ""}`}
                 >
-                  <span className="text-sm text-[#686D71] font-medium">{spec.label}</span>
-                  <span className="text-sm text-[#252728] font-semibold">{spec.value}</span>
+                  <span className="model-specs-label text-sm text-[#686D71] font-medium">{spec.label}</span>
+                  <span className="model-specs-value text-sm text-[#252728] font-semibold">{spec.value}</span>
                 </div>
               ))}
             </div>
@@ -235,7 +235,7 @@ export default async function ModelDetailPage({
 
       {/* ── FEATURES — dark section ── */}
       {model.features.length > 0 && (
-        <section className="py-section-sm md:py-section-lg bg-[#F7F8F8]" data-header-theme="light">
+        <section className="model-features-section py-section-sm md:py-section-lg bg-[#F7F8F8]" data-header-theme="light">
           <div className="section-container">
             <ScrollReveal className="mb-10">
               <div className="flex items-center gap-3 mb-4">
