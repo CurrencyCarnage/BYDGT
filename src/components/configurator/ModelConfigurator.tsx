@@ -32,8 +32,8 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
   const bookingHref = `/booking?version=${encodeURIComponent(model.id)}`;
 
   return (
-    <div className="relative overflow-hidden bg-white p-0">
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 top-[26rem] bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.72),transparent_34%)]" />
+    <div className="model-configurator relative overflow-hidden bg-white p-0">
+      <div className="configurator-light-glow pointer-events-none absolute inset-x-0 bottom-0 top-[26rem] bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.72),transparent_34%)]" />
 
       <div className="relative z-10">
         <div className="theme-media-section bg-[#1C1E1F] p-0">
@@ -56,7 +56,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
 
           {model.configurations.variants.length > 0 && (
           <div className="mb-8 content-surface-soft px-4 py-5 sm:px-5 lg:px-6">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#686D71]">
+          <p className="configurator-section-label mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#686D71]">
             {t("selectVariant")}
           </p>
           <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
@@ -69,7 +69,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
                   key={variant.id}
                   onClick={() => setSelectedVariant(variant)}
                   aria-pressed={isSelected}
-                  className={`group relative border px-5 py-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+                  className={`configurator-option group relative border px-5 py-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
                     isSelected
                       ? "border-byd-red bg-byd-red/[0.08] shadow-[0_14px_32px_rgba(215,12,25,0.10)]"
                       : "border-[#DDE1E3] bg-white hover:-translate-y-0.5 hover:border-[#BFC5C8]"
@@ -92,10 +92,10 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
                       </svg>
                     </span>
                   )}
-                  <p className="pr-12 text-sm font-semibold text-[#252728]">
+                  <p className="configurator-option-title pr-12 text-sm font-semibold text-[#252728]">
                     {getLocalizedValue(variant.name, locale)}
                   </p>
-                  <p className="mt-2 text-[11px] text-[#686D71]">
+                  <p className="configurator-option-meta mt-2 text-[11px] text-[#686D71]">
                     {variant.priceModifier === 0
                       ? t("included")
                       : `+${formatPrice(variant.priceModifier)}`}
@@ -111,28 +111,28 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="border-l border-byd-red/50 pl-4">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-[#686D71]">
+                <p className="configurator-summary-label text-[10px] uppercase tracking-[0.18em] text-[#686D71]">
                   {t("selectColor")}
                 </p>
-                <p className="mt-2 text-base font-semibold text-[#252728]">
+                <p className="configurator-summary-value mt-2 text-base font-semibold text-[#252728]">
                   {selectedColorName}
                 </p>
               </div>
               <div className="border-l border-[#C7CDD0] pl-4">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-[#686D71]">
+                <p className="configurator-summary-label text-[10px] uppercase tracking-[0.18em] text-[#686D71]">
                   {t("selectVariant")}
                 </p>
-                <p className="mt-2 text-base font-semibold text-[#252728]">
+                <p className="configurator-summary-value mt-2 text-base font-semibold text-[#252728]">
                   {selectedVariantName}
                 </p>
               </div>
             </div>
 
             <div className="xl:text-right">
-              <span className="text-[#686D71] font-medium">
+              <span className="configurator-summary-label text-[#686D71] font-medium">
                 {t("totalPrice")}
               </span>
-              <p className="mt-2 text-4xl font-semibold text-[#252728]">
+              <p className="configurator-total-price mt-2 text-4xl font-semibold text-[#252728]">
                 {formatPrice(totalPrice)}
               </p>
             </div>
@@ -145,9 +145,9 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
             <CompareButton
               modelId={model.id}
               modelName={getLocalizedValue(model.name, locale)}
-              className="inline-flex min-h-[48px] items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]"
+              className="configurator-secondary-action inline-flex min-h-[48px] items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]"
             />
-            <Link href="/contact" className="inline-flex min-h-[48px] items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]">
+            <Link href="/contact" className="configurator-secondary-action inline-flex min-h-[48px] items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]">
               {tCommon("contactUs")}
             </Link>
             <a
@@ -156,7 +156,7 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[48px] items-center justify-center border border-[#25D366]/50 px-6 text-center text-sm font-semibold text-[#25D366] transition-all duration-200 hover:border-[#25D366] hover:bg-[rgba(37,211,102,0.08)] hover:text-[#52e08b]"
+              className="configurator-whatsapp-action inline-flex min-h-[48px] items-center justify-center border border-[#25D366]/50 px-6 text-center text-sm font-semibold text-[#25D366] transition-all duration-200 hover:border-[#25D366] hover:bg-[rgba(37,211,102,0.08)] hover:text-[#52e08b]"
             >
               {tCommon("whatsapp")}
             </a>

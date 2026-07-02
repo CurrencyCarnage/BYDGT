@@ -829,7 +829,7 @@ export default function CompareGrid({
     differs: locale === "ka" ? "განსხვავდება" : "Differs",
     pricing: locale === "ka" ? "ფასი" : "Price",
     pricingValue:
-      locale === "ka" ? "ფასისთვის დაგვიკავშირდით" : "Contact for pricing",
+      locale === "ka" ? "მოგვმართეთ" : "Contact for pricing",
     testDrive: locale === "ka" ? "ტესტ დრაივი" : "Test Drive",
     viewCatalog: locale === "ka" ? "კატალოგი" : "View Catalog",
     selectModel:
@@ -1208,7 +1208,7 @@ export default function CompareGrid({
                     {slot ? (
                       <Link
                         href={`/${locale}/contact?subject=${encodeURIComponent(slot.familyName + " " + slot.label)}`}
-                        className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-byd-red px-3 py-2 text-[11px] md:text-[12px] font-semibold text-white transition-all duration-200 hover:bg-[#A80912] w-full text-center"
+                        className="compare-pricing-cta inline-flex min-h-[2.75rem] w-full items-center justify-center gap-1.5 rounded-lg bg-byd-red px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-white transition-all duration-200 hover:bg-[#A80912] md:min-h-0 md:px-3 md:text-[12px]"
                       >
                         {labels.pricingValue}
                       </Link>

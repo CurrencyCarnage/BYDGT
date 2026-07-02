@@ -139,17 +139,17 @@ export default async function ModelDetailPage({
                   {formatPrice(model.basePrice)}
                 </p>
               </div>
-              <div className="grid grid-cols-3 gap-1.5 w-full sm:flex sm:flex-wrap sm:gap-3 sm:w-auto">
-                <Link href={bookingHref} className="btn-primary-red justify-center text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ height: "2.75rem" }}>
+              <div className="model-hero-cta-group grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:flex-wrap sm:gap-3">
+                <Link href={bookingHref} className="model-hero-cta btn-primary-red justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ minHeight: "2.75rem" }}>
                   {tCommon("bookTestDrive")}
                 </Link>
                 <CompareButton
                   modelId={model.id}
                   modelName={name}
-                  className="btn-secondary justify-center text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm"
-                  style={{ height: "2.75rem" }}
+                  className="model-hero-cta btn-secondary justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm"
+                  style={{ minHeight: "2.75rem" }}
                 />
-                <Link href="/contact" className="btn-secondary justify-center text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ height: "2.75rem" }}>
+                <Link href="/contact" className="model-hero-cta btn-secondary justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ minHeight: "2.75rem" }}>
                   {tCommon("contactUs")}
                 </Link>
               </div>
@@ -160,7 +160,7 @@ export default async function ModelDetailPage({
       </section>
 
       {/* ── SPEC STRIP — light section, 4 headline numbers ── */}
-      <div className="bg-[#EFEFEF] border-b border-[#D4D8DB]">
+      <div className="bg-[#EFEFEF] border-b border-[#D4D8DB]" data-header-theme="light">
         <div className="section-container">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#D4D8DB]">
             {heroSpecs.map((spec, i) => (
@@ -202,7 +202,7 @@ export default async function ModelDetailPage({
       </section>
 
       {/* ── FULL SPECS — white section ── */}
-      <section className="py-section-sm md:py-section-lg bg-white">
+      <section className="py-section-sm md:py-section-lg bg-white" data-header-theme="light">
         <div className="section-container">
           <ScrollReveal className="mb-10">
             <div className="flex items-center gap-3 mb-4">
@@ -235,7 +235,7 @@ export default async function ModelDetailPage({
 
       {/* ── FEATURES — dark section ── */}
       {model.features.length > 0 && (
-        <section className="py-section-sm md:py-section-lg bg-[#F7F8F8]">
+        <section className="py-section-sm md:py-section-lg bg-[#F7F8F8]" data-header-theme="light">
           <div className="section-container">
             <ScrollReveal className="mb-10">
               <div className="flex items-center gap-3 mb-4">
@@ -257,7 +257,7 @@ export default async function ModelDetailPage({
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-sm text-[#4E5356] leading-relaxed">
+                    <span className="text-sm font-semibold text-white leading-relaxed">
                       {getLocalizedValue(feature, locale)}
                     </span>
                   </div>

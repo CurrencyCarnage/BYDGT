@@ -29,7 +29,7 @@ export default function CarColorPreview({
   return (
     <div className="mb-8 content-surface-soft px-4 py-5 sm:px-5 lg:px-6">
       <div className="mb-5">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#686D71]">
+        <p className="configurator-section-label text-[11px] font-semibold uppercase tracking-[0.2em] text-[#686D71]">
           {selectLabel}
         </p>
       </div>
@@ -46,7 +46,7 @@ export default function CarColorPreview({
               key={color.id}
               onClick={() => onSelectColor(color)}
               aria-pressed={isSelected}
-              className={`group relative overflow-hidden border text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+              className={`configurator-option group relative overflow-hidden border text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
                 isSelected
                   ? "border-byd-red bg-byd-red/[0.08] shadow-[0_14px_32px_rgba(215,12,25,0.10)]"
                   : "border-[#DDE1E3] bg-white hover:-translate-y-0.5 hover:border-[#BFC5C8]"
@@ -90,10 +90,10 @@ export default function CarColorPreview({
                   style={{ backgroundColor: color.hex }}
                 />
                 <div className="min-w-0 text-left">
-                  <p className="truncate text-sm font-semibold text-[#252728]">
+                  <p className="configurator-option-title truncate text-sm font-semibold text-[#252728]">
                     {getLocalizedValue(color.name, locale)}
                   </p>
-                  <p className="mt-1 text-[11px] text-[#686D71]">
+                  <p className="configurator-option-meta mt-1 text-[11px] text-[#686D71]">
                     {color.priceModifier === 0
                       ? includedLabel
                       : `+${formatPrice(color.priceModifier)}`}
