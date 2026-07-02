@@ -115,12 +115,12 @@ export default async function BookingPage({
   const initialVersionId = getFirstParam(searchParams?.version);
 
   return (
-    <div className="bg-byd-dark">
+    <div className="booking-page bg-byd-dark">
 
       {/* ══════════════════════════════════════════════════════════
           HERO — full viewport, img3 with cars, cinematic
       ══════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden" style={{ height: "88vh", minHeight: "32.5rem", maxHeight: "48.75rem" }}>
+      <section className="booking-media-section relative overflow-hidden" style={{ height: "88vh", minHeight: "32.5rem", maxHeight: "48.75rem" }}>
         <Image
           src="/images/testdrive/img3.jpg"
           alt="BYD Tbilisi"
@@ -129,8 +129,8 @@ export default async function BookingPage({
           priority
           quality={92}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#252728] via-[#252728]/55 to-[#252728]/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#252728]/90 via-[#252728]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#111213]/95 via-[#111213]/58 to-[#111213]/12" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#111213]/92 via-[#111213]/42 to-transparent" />
         <div className="absolute inset-0 opacity-[0.025] pointer-events-none"
           style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)", backgroundSize: "3.25rem 3.25rem" }} />
 
@@ -150,7 +150,7 @@ export default async function BookingPage({
                 style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.03em" }}>
                 {t.title}
               </h1>
-              <p className="text-base text-white/65 font-light max-w-md leading-relaxed mb-8"
+              <p className="text-base text-white/88 font-normal max-w-md leading-relaxed mb-8"
                 style={{ fontFamily: "var(--font-montserrat)" }}>
                 {t.subtitle}
               </p>
@@ -169,7 +169,7 @@ export default async function BookingPage({
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {s.val}
                     </p>
-                    <p className="text-[10px] text-white/45 uppercase tracking-[0.14em] mt-0.5"
+                    <p className="text-[10px] text-white/78 uppercase tracking-[0.14em] mt-0.5"
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {s.sub}
                     </p>
@@ -212,7 +212,7 @@ export default async function BookingPage({
                   style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.025em" }}>
                   {t.formTitle}
                 </h2>
-                <p className="text-sm text-white/65 mt-1.5 font-light max-w-sm"
+                <p className="text-sm text-white/86 mt-1.5 font-normal max-w-sm"
                   style={{ fontFamily: "var(--font-montserrat)" }}>
                   {t.subtitle}
                 </p>
@@ -293,7 +293,7 @@ export default async function BookingPage({
                   <div className="absolute inset-0 bg-gradient-to-t from-[#252728] via-[#252728]/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 px-5 py-4">
                     <div className="media-copy-overlay p-3">
-                    <p className="text-[10px] text-white/45 uppercase tracking-widest mb-0.5"
+                    <p className="text-[10px] text-white/82 uppercase tracking-widest mb-0.5"
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {t.locTitle}
                     </p>
@@ -301,7 +301,7 @@ export default async function BookingPage({
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {SHOWROOM.name}
                     </p>
-                    <p className="text-xs text-white/62 mt-0.5"
+                    <p className="text-xs text-white/84 mt-0.5"
                       style={{ fontFamily: "var(--font-montserrat)" }}>
                       {SHOWROOM.address}
                     </p>
@@ -349,7 +349,7 @@ export default async function BookingPage({
                 <div className="absolute inset-0 bg-gradient-to-t from-[#252728]/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 px-4 py-3">
                   <div className="media-copy-overlay p-2.5 inline-block">
-                  <p className="text-[10px] text-white/62 uppercase tracking-[0.2em]"
+                  <p className="text-[10px] text-white/86 uppercase tracking-[0.2em]"
                     style={{ fontFamily: "var(--font-montserrat)" }}>
                     BYD Tbilisi · GT Group
                   </p>
@@ -365,7 +365,7 @@ export default async function BookingPage({
       {/* ══════════════════════════════════════════════════════════
           MAP — showroom location
       ══════════════════════════════════════════════════════════ */}
-      <section className="border-t border-[#DDE1E3] bg-[#F7F8F8]">
+      <section data-header-theme="light" className="booking-location-section border-t border-white/[0.10] bg-[#0A0B0C]">
         <div className="section-container py-10 md:py-12">
           <ScrollReveal>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">

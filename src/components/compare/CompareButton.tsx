@@ -44,15 +44,15 @@ interface CompareButtonProps {
   children?: React.ReactNode;
 }
 
-function readCachedModelCount(): number {
+function isModelInCompare(modelId: string): boolean {
   try {
     const raw = window.localStorage.getItem(COMPARE_SELECTION_STORAGE_KEY);
-    if (!raw) return 0;
+    if (!raw) return false;
     const ids: unknown[] = JSON.parse(raw);
-    if (!Array.isArray(ids)) return 0;
-    return ids.filter((id) => typeof id === "string" && id).length;
+    if (!Array.isArray(ids)) return false;
+    return ids.some((id) => id === modelId);
   } catch {
-    return 0;
+    return false;
   }
 }
 
@@ -74,6 +74,27 @@ function readCachedModels(): SelectedModel[] {
   }
 }
 
+function addModelToCache(modelId: string): boolean {
+  try {
+    const raw = window.localStorage.getItem(COMPARE_SELECTION_STORAGE_KEY);
+    const ids: (string | null)[] = raw ? JSON.parse(raw) : [null, null, null];
+    if (!Array.isArray(ids)) return false;
+    while (ids.length < 3) ids.push(null);
+    // Already present?
+    if (ids.includes(modelId)) return false;
+    const emptyIndex = ids.findIndex((id) => id === null);
+    if (emptyIndex === -1) return false; // all full
+    ids[emptyIndex] = modelId;
+    window.localStorage.setItem(
+      COMPARE_SELECTION_STORAGE_KEY,
+      JSON.stringify(ids)
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function removeCachedModel(removeId: string) {
   try {
     const raw = window.localStorage.getItem(COMPARE_SELECTION_STORAGE_KEY);
@@ -87,6 +108,18 @@ function removeCachedModel(removeId: string) {
     );
   } catch {
     /* ignore */
+  }
+}
+
+function getCachedSlotCount(): number {
+  try {
+    const raw = window.localStorage.getItem(COMPARE_SELECTION_STORAGE_KEY);
+    if (!raw) return 0;
+    const ids: unknown[] = JSON.parse(raw);
+    if (!Array.isArray(ids)) return 0;
+    return ids.filter((id) => typeof id === "string" && id).length;
+  } catch {
+    return 0;
   }
 }
 
@@ -108,31 +141,42 @@ export default function CompareButton({
     null
   );
   const [selectedModels, setSelectedModels] = useState<SelectedModel[]>([]);
-  const [hasModelsInCompare, setHasModelsInCompare] = useState(false);
+  const [isInCompare, setIsInCompare] = useState(false);
 
   useEffect(() => {
-    setHasModelsInCompare(readCachedModelCount() > 0);
-  }, []);
+    setIsInCompare(isModelInCompare(modelId));
+  }, [modelId]);
 
   const t = locale === "ka" ? labels.ka : labels.en;
-  const dynamicLabel = hasModelsInCompare ? t.addTo : t.goTo;
+  const dynamicLabel = isInCompare ? t.goTo : t.addTo;
 
   const handleClick = useCallback(() => {
-    const models = readCachedModels();
-    const alreadySelected = models.some((m) => m.id === modelId);
-
-    if (alreadySelected) {
+    // Already in compare → navigate directly
+    if (isModelInCompare(modelId)) {
       router.push(`/${locale}/compare`);
       return;
     }
 
-    if (models.length === 0) {
-      router.push(`/${locale}/compare?models=${encodeURIComponent(modelId)}`);
+    const slotCount = getCachedSlotCount();
+
+    // All 3 slots full → show full modal
+    if (slotCount >= 3) {
+      setSelectedModels(readCachedModels());
+      setModalState("full");
       return;
     }
 
-    setSelectedModels(models);
-    setModalState(models.length >= 3 ? "full" : "navigate");
+    // Slots available → add directly, show toast
+    const added = addModelToCache(modelId);
+    if (added) {
+      setIsInCompare(true);
+      const models = readCachedModels();
+      setSelectedModels(models);
+      setModalState("navigate");
+    } else {
+      // Fallback: navigate to compare
+      router.push(`/${locale}/compare?models=${encodeURIComponent(modelId)}`);
+    }
   }, [modelId, locale, router]);
 
   const handleRemoveModel = useCallback(
@@ -140,19 +184,33 @@ export default function CompareButton({
       removeCachedModel(removeId);
       const updated = selectedModels.filter((m) => m.id !== removeId);
       setSelectedModels(updated);
-      if (modalState === "full" && updated.length < 3) {
-        setModalState("navigate");
-      }
+      // Stay in full modal — don't auto-close
     },
-    [selectedModels, modalState]
+    [selectedModels]
   );
+
+  const handleAddInSlot = useCallback(() => {
+    // Add the current model to the now-empty slot
+    const added = addModelToCache(modelId);
+    if (added) {
+      setIsInCompare(true);
+      setModalState(null);
+      router.push(`/${locale}/compare`);
+    }
+  }, [modelId, locale, router]);
 
   const handleConfirm = useCallback(() => {
     setModalState(null);
     if (modalState === "full") {
+      // Try to add the model first if there's room now
+      const slotCount = getCachedSlotCount();
+      if (slotCount < 3) {
+        addModelToCache(modelId);
+        setIsInCompare(true);
+      }
       router.push(`/${locale}/compare`);
     } else {
-      router.push(`/${locale}/compare?models=${encodeURIComponent(modelId)}`);
+      router.push(`/${locale}/compare`);
     }
   }, [modalState, modelId, locale, router]);
 
@@ -174,10 +232,12 @@ export default function CompareButton({
         state={modalState}
         locale={locale}
         modelName={modelName}
+        modelId={modelId}
         selectedModels={selectedModels}
         onClose={handleClose}
         onConfirm={handleConfirm}
         onRemoveModel={handleRemoveModel}
+        onAddInSlot={handleAddInSlot}
       />
     </>
   );

@@ -90,7 +90,7 @@ function MegaMenu({
       {/* Invisible bridge covers the gap between nav bottom and panel top */}
       <div className="h-2 w-full" />
 
-      <div className="mx-auto flex max-w-[96.5rem] items-stretch gap-2">
+      <div className="mx-auto flex max-w-[96.5rem] items-stretch gap-2" data-mega-menu>
         <div
           className="mega-menu-panel min-w-0 flex-1 overflow-hidden"
           style={{
@@ -111,7 +111,7 @@ function MegaMenu({
                 <Link
                   href={model.href}
                   onClick={onClose}
-                  className="group flex flex-col bg-[#1A1C1D] hover:bg-[#222425] transition-colors duration-180 overflow-hidden"
+                  className="mega-menu-card group flex flex-col bg-[#1A1C1D] hover:bg-[#222425] transition-colors duration-180 overflow-hidden"
                   style={{ borderLeft: "2px solid transparent" }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.borderLeftColor = "#D70C19";
@@ -121,7 +121,7 @@ function MegaMenu({
                   }}
                 >
                   {/* Thumbnail */}
-                  <div className="relative w-full overflow-hidden bg-[#252728]" style={{ height: '11.75rem' }}>
+                  <div className="mega-menu-card-thumb relative w-full overflow-hidden bg-[#252728]" style={{ height: '11.75rem' }}>
                     <Image
                       src={model.thumbnail}
                       alt={model.name}
@@ -197,10 +197,10 @@ function MegaMenu({
             disabled={!canShowNextModels}
             title={ka ? "შემდეგი 4 მოდელი" : "Show next 4 models"}
             aria-label={ka ? "შემდეგი 4 მოდელი" : "Show next 4 models"}
-            className={`flex h-11 w-11 items-center justify-center border transition-all duration-200 ${
+            className={`mega-pagination-button flex h-11 w-11 items-center justify-center border transition-all duration-200 ${
               canShowNextModels
-                ? "cursor-pointer border-white/24 bg-[#111213]/80 text-white/85 hover:border-byd-red/70 hover:bg-byd-red hover:text-white focus:outline-none focus:ring-2 focus:ring-byd-red/60"
-                : "cursor-not-allowed border-white/20 bg-[#111213]/46 text-white/52"
+                ? "cursor-pointer border-white/40 bg-[#111213]/80 text-white hover:border-byd-red/70 hover:bg-byd-red hover:text-white focus:outline-none focus:ring-2 focus:ring-byd-red/60"
+                : "cursor-not-allowed border-white/34 bg-[#111213]/46 text-white/78"
             }`}
           >
             <svg
@@ -239,6 +239,16 @@ export default function Navbar() {
   const router   = useRouter();
 
   useEffect(() => {
+    const isLightSurface = (element: Element) => {
+      const backgroundColor = window.getComputedStyle(element).backgroundColor;
+      const match = backgroundColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+      if (!match) return true;
+
+      const [, red, green, blue] = match.map(Number);
+      const luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
+      return luminance > 0.62;
+    };
+
     const updateHeaderSurface = () => {
       setScrolled(window.scrollY > 20);
 
@@ -247,9 +257,10 @@ export default function Navbar() {
       const surfaceElement = elements.find(
         (element) => !element.closest("nav")
       );
+      const lightSurface = surfaceElement?.closest('[data-header-theme="light"]');
 
       setOverLightSurface(
-        Boolean(surfaceElement?.closest('[data-header-theme="light"]'))
+        Boolean(lightSurface && isLightSurface(lightSurface))
       );
     };
 
@@ -290,8 +301,22 @@ export default function Navbar() {
   };
 
   const switchLocale = () => {
-    router.replace(pathname, { locale: locale === "en" ? "ka" : "en" });
+    sessionStorage.setItem("byd-scroll-y", String(window.scrollY));
+    router.replace(pathname, { locale: locale === "en" ? "ka" : "en", scroll: false });
   };
+
+  /* Restore scroll position after locale switch */
+  useEffect(() => {
+    const saved = sessionStorage.getItem("byd-scroll-y");
+    if (saved === null) return;
+    sessionStorage.removeItem("byd-scroll-y");
+    const y = parseInt(saved, 10);
+    window.scrollTo(0, y);
+    // Retry after layout settles (server components may render async)
+    const t1 = setTimeout(() => window.scrollTo(0, y), 60);
+    const t2 = setTimeout(() => window.scrollTo(0, y), 200);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [locale]);
 
   const toggleTheme = () => {
     const nextTheme = theme === "dark" ? "light" : "dark";
@@ -301,12 +326,8 @@ export default function Navbar() {
   };
 
   const ka = locale === "ka";
-  const isLightSurfacePage =
-    pathname === "/compare" ||
-    pathname === "/contact" ||
-    pathname.endsWith("/compare") ||
-    pathname.endsWith("/contact");
-  const useLightSurfaceHeader = isLightSurfacePage || overLightSurface;
+  const isHomepage = pathname === "/";
+  const useLightSurfaceHeader = overLightSurface || (theme === "light" && !isHomepage);
 
   /* Non-models nav links */
   const baseLinks = [
@@ -419,7 +440,7 @@ export default function Navbar() {
             onClick={toggleTheme}
             aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             title={theme === "dark" ? "Light mode" : "Dark mode"}
-            className="theme-toggle hidden sm:inline-flex h-9 w-9 items-center justify-center border border-white/15 bg-[#111213]/25 text-white/60 transition-colors duration-200 hover:border-white/35 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-byd-red/70"
+            className="theme-toggle hidden sm:inline-flex h-9 w-9 items-center justify-center border border-white/35 bg-[#111213]/35 text-white transition-colors duration-200 hover:border-white/70 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-byd-red/70"
           >
             {theme === "dark" ? (
               <svg
@@ -427,7 +448,7 @@ export default function Navbar() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                strokeWidth={1.8}
+                strokeWidth={2.4}
                 aria-hidden="true"
               >
                 <circle cx="12" cy="12" r="4" />
@@ -439,7 +460,7 @@ export default function Navbar() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                strokeWidth={1.8}
+                strokeWidth={2.4}
                 aria-hidden="true"
               >
                 <path
@@ -453,9 +474,9 @@ export default function Navbar() {
           <button
             onClick={switchLocale}
             aria-label="Switch language"
-            className="hidden sm:flex items-center gap-1.5 text-[13px] font-semibold tracking-[0.12em] uppercase text-white/45 hover:text-white transition-colors duration-200"
+            className="language-toggle hidden sm:flex items-center gap-1.5 text-[13px] font-bold tracking-[0.12em] uppercase text-white hover:text-white transition-colors duration-200"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
               <circle cx="12" cy="12" r="10" />
               <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
             </svg>
@@ -596,24 +617,24 @@ export default function Navbar() {
                 type="button"
                 onClick={toggleTheme}
                 aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-                className="theme-toggle flex h-9 w-9 items-center justify-center border border-white/12 bg-white/[0.04] text-white/45 transition-colors duration-200 hover:border-white/30 hover:text-white"
+                className="theme-toggle flex h-9 w-9 items-center justify-center border border-white/35 bg-white/[0.06] text-white transition-colors duration-200 hover:border-white/70 hover:text-white"
               >
                 {theme === "dark" ? (
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.4} aria-hidden="true">
                     <circle cx="12" cy="12" r="4" />
                     <path strokeLinecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
                   </svg>
                 ) : (
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.4} aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A8.5 8.5 0 1 1 11.21 3 6.5 6.5 0 0 0 21 12.79Z" />
                   </svg>
                 )}
               </button>
               <button
                 onClick={() => { switchLocale(); setMobileOpen(false); }}
-                className="text-xs font-semibold tracking-[0.15em] uppercase text-white/35 hover:text-white transition-colors duration-200 flex items-center gap-2"
+                className="language-toggle text-xs font-bold tracking-[0.15em] uppercase text-white hover:text-white transition-colors duration-200 flex items-center gap-2"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
                   <circle cx="12" cy="12" r="10" />
                   <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>

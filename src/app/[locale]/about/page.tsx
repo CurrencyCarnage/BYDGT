@@ -140,7 +140,7 @@ export default async function AboutPage() {
       </section>
 
       {/* ── INTRO — WHITE section ── */}
-      <section className="py-section-sm md:py-section-lg bg-white">
+      <section data-header-theme="light" className="about-intro-section py-section-sm md:py-section-lg bg-white">
         <div className="section-container">
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
@@ -302,14 +302,14 @@ export default async function AboutPage() {
             {/* Market performance */}
             <ScrollReveal direction="left">
               <div
-                className="theme-media-section relative overflow-hidden h-full min-h-[20rem] flex flex-col justify-end p-8"
+                className="about-market-card theme-media-section relative overflow-hidden h-full min-h-[20rem] flex flex-col justify-end p-8"
                 style={{
                   backgroundImage: "url('/images/aboutus/byd_about_bg_global_dark.jpg')",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-[#252728] via-[#252728]/70 to-transparent" />
+                <div className="about-market-overlay absolute inset-0 bg-gradient-to-t from-[#252728] via-[#252728]/70 to-transparent" />
                 <div className="relative">
                   <p
                     className="text-xs text-byd-red uppercase tracking-[0.2em] mb-2"

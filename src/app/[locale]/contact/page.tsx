@@ -9,8 +9,13 @@ const ShowroomMap = dynamic(() => import("@/components/ui/ShowroomMap"), {
   loading: () => <div className="w-full h-full bg-[#F0F2F3] animate-pulse" />,
 });
 
-export default function ContactPage() {
+export default function ContactPage({
+  searchParams,
+}: {
+  searchParams: { subject?: string };
+}) {
   const locale = useLocale();
+  const initialSubject = searchParams?.subject ?? "";
 
   const contactDetails = [
     {
@@ -61,7 +66,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="bg-byd-dark">
+    <div className="contact-page bg-byd-dark">
 
       {/* ── Header — dark strip ── */}
       <div className="bg-[#1C1E1F] border-b border-white/[0.06]" style={{ paddingTop: "5rem" }}>
@@ -76,7 +81,7 @@ export default function ContactPage() {
             <h1 className="text-h2 font-semibold text-white mb-4 leading-[1.15]" style={{ letterSpacing: "-0.02em" }}>
               {locale === "ka" ? "დაგვიკავშირდით" : "Get in Touch"}
             </h1>
-            <p className="text-body1 text-white/45 font-light max-w-lg">
+            <p className="text-body1 text-white/86 font-normal max-w-lg">
               {locale === "ka"
                 ? "მზად ვართ ყველა კითხვაზე გიპასუხოთ — ავტომობილებიდან ფინანსებამდე"
                 : "Ready to answer all your questions — from vehicle specs to financing options"}
@@ -99,7 +104,7 @@ export default function ContactPage() {
                   rel="noopener noreferrer"
                 className="flex items-center gap-4 p-4 content-surface-soft hover:border-[#BFC5C8] transition-all duration-200 group"
               >
-                  <div className="flex-shrink-0 w-10 h-10 bg-white border border-[#DDE1E3] flex items-center justify-center text-[#686D71] group-hover:text-byd-red group-hover:border-byd-red/30 transition-colors duration-200">
+                  <div className="contact-icon-box flex-shrink-0 w-10 h-10 bg-white border border-[#DDE1E3] flex items-center justify-center text-[#686D71] group-hover:text-byd-red group-hover:border-byd-red/30 transition-colors duration-200">
                     {item.icon}
                   </div>
                   <div className="min-w-0">
@@ -116,7 +121,7 @@ export default function ContactPage() {
 
             {/* Map — fills remaining height */}
             <ScrollReveal delay={0.35} className="flex-1">
-              <div className="border border-[#DDE1E3] bg-white overflow-hidden h-full min-h-[12rem] shadow-[0_10px_28px_rgba(24,28,32,0.06)]">
+              <div className="contact-map-card border border-[#DDE1E3] bg-white overflow-hidden h-full min-h-[12rem] shadow-[0_10px_28px_rgba(24,28,32,0.06)]">
                 <ShowroomMap
                   lat={SHOWROOM.lat}
                   lng={SHOWROOM.lng}
@@ -130,7 +135,7 @@ export default function ContactPage() {
           {/* Form */}
           <div className="flex flex-col">
             <ScrollReveal delay={0.15} className="flex-1">
-              <ContactForm />
+              <ContactForm initialSubject={initialSubject} />
             </ScrollReveal>
           </div>
         </div>

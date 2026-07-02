@@ -41,17 +41,17 @@
 
 @layer base {
   :root {
-    --theme-page-bg: #252728;
-    --theme-surface-bg: #111213;
-    --theme-surface-alt: #1A1C1D;
-    --theme-text-primary: #FFFFFF;
-    --theme-text-secondary: rgba(255, 255, 255, 0.72);
-    --theme-text-muted: rgba(255, 255, 255, 0.46);
-    --theme-border-subtle: rgba(255, 255, 255, 0.12);
-    --theme-menu-bg: #111213;
-    --theme-menu-shadow: 0 26px 58px rgba(0,0,0,0.62), 0 6px 16px rgba(0,0,0,0.4);
-    --theme-nav-bg-top: rgba(17, 18, 19, 0.05);
-    --theme-nav-bg-scrolled: rgba(17, 18, 19, 0.12);
+    --theme-page-bg: #000000;
+    --theme-surface-bg: #0A0B0C;
+    --theme-surface-alt: #111213;
+    --theme-text-primary: #E8EAEB;
+    --theme-text-secondary: rgba(232, 234, 235, 0.72);
+    --theme-text-muted: rgba(232, 234, 235, 0.46);
+    --theme-border-subtle: rgba(232, 234, 235, 0.12);
+    --theme-menu-bg: #0A0B0C;
+    --theme-menu-shadow: 0 26px 58px rgba(0,0,0,0.72), 0 6px 16px rgba(0,0,0,0.5);
+    --theme-nav-bg-top: rgba(0, 0, 0, 0.05);
+    --theme-nav-bg-scrolled: rgba(0, 0, 0, 0.20);
   }
 
   html.light {
@@ -174,20 +174,16 @@
     font-family: "NovemberGeL", system-ui, sans-serif;
   }
 
-  /* ── Georgian text scaling — NovemberGeL renders slightly larger than
-     Montserrat at the same font-size, so scale body/small headings down
-     to keep the visual weight balanced across locales. Hero headings
-     (h1/h2) are tuned individually in their components. ──────────── */
-  :lang(ka) h3, :lang(ka) h4 {
-    font-size: 0.93em;
-  }
-  :lang(ka) h5, :lang(ka) h6 {
-    font-size: 0.95em;
-  }
+  /* ── Georgian text scaling removed ─────────────────────────────
+     NovemberGeL is the Georgian font but model names / headings are
+     mostly English text, so blanket h3-h6 shrinking made captions
+     appear smaller in Georgian mode.  Any per-component Georgian
+     scaling should be done inline in the component instead. ────── */
 
-  /* English captions should read naturally, without stretched-out AI-looking letter spacing. */
-  :lang(en) .uppercase[class*="tracking-"],
-  :lang(en) [class*="uppercase"][class*="tracking-"] {
+  /* Captions should read naturally, without stretched-out letter spacing.
+     Georgian (NovemberGeL) and English (Montserrat) both benefit from tighter tracking. */
+  .uppercase[class*="tracking-"],
+  [class*="uppercase"][class*="tracking-"] {
     letter-spacing: 0 !important;
   }
 
@@ -212,7 +208,7 @@
       width: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #252728;
+      background: #000000;
     }
     ::-webkit-scrollbar-thumb {
       background: #4E5356;
@@ -220,6 +216,28 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #7A8080;
     }
+    html.light ::-webkit-scrollbar-track {
+      background: #F4F5F5;
+    }
+  }
+
+  /* Dark mode: white text stays pure white — no grey tinting */
+
+  /* Dark mode: darkest backgrounds → true black */
+  html:not(.light) .bg-byd-dark {
+    background-color: #000000 !important;
+  }
+  html:not(.light) .bg-\[\#252728\] {
+    background-color: #000000 !important;
+  }
+  html:not(.light) .bg-\[\#111213\] {
+    background-color: #0A0B0C !important;
+  }
+  html:not(.light) .bg-\[\#1A1C1D\] {
+    background-color: #111213 !important;
+  }
+  html:not(.light) .bg-\[\#1C1E1F\] {
+    background-color: #0D0E0F !important;
   }
 
   html.light body {
@@ -258,11 +276,11 @@
   html.light .bg-bg-darkAlt,
   html.light .bg-byd-dark-gradient,
   html.light .bg-section-gradient,
-  html.light [class*="bg-[#111213]"],
-  html.light [class*="bg-[#1A1C1D]"],
-  html.light [class*="bg-[#1C1E1F]"],
-  html.light [class*="bg-[#252728]"],
-  html.light [class*="bg-[#2C2F30]"] {
+  html.light .bg-\[\#111213\],
+  html.light .bg-\[\#1A1C1D\],
+  html.light .bg-\[\#1C1E1F\],
+  html.light .bg-\[\#252728\],
+  html.light .bg-\[\#2C2F30\] {
     background-color: #F4F5F5 !important;
     background-image: none !important;
   }
@@ -281,25 +299,23 @@
   }
 
   html:not(.light) nav[data-light-page="true"][data-scrolled="false"] {
-    background: rgba(245, 248, 252, 0.88) !important;
-    border-color: rgba(37, 39, 40, 0.20) !important;
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.88) inset,
-      0 8px 26px rgba(24, 28, 32, 0.12) !important;
-    backdrop-filter: blur(12px) saturate(1.16) !important;
-    -webkit-backdrop-filter: blur(12px) saturate(1.16) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(17, 18, 19, 0.10) !important;
+    box-shadow: none !important;
+    backdrop-filter: blur(4px) saturate(1.08) !important;
+    -webkit-backdrop-filter: blur(4px) saturate(1.08) !important;
   }
 
   html:not(.light) nav[data-light-page="true"][data-scrolled="false"] img[alt="BYD"] {
-    filter: invert(1) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.55));
+    filter: invert(1);
   }
 
   html:not(.light) nav[data-light-page="true"][data-scrolled="false"] .text-white,
   html:not(.light) nav[data-light-page="true"][data-scrolled="false"] [class*="text-white/"],
   html:not(.light) nav[data-light-page="true"][data-scrolled="false"] .nav-link {
-    color: rgba(20, 23, 25, 0.86) !important;
+    color: #111213 !important;
     font-weight: 600;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+    text-shadow: none !important;
   }
 
   html:not(.light) nav[data-light-page="true"][data-scrolled="false"] .nav-link:hover,
@@ -448,6 +464,23 @@
     color: #111213 !important;
   }
 
+  /* Light mode: mega-menu card backgrounds → light surfaces */
+  html.light .mega-menu-card {
+    background: #FFFFFF !important;
+  }
+  html.light .mega-menu-card:hover {
+    background: #F5F6F7 !important;
+  }
+  html.light .mega-menu-card-thumb {
+    background: #ECEFF1 !important;
+  }
+  html.light .mega-menu-panel .border-t {
+    border-color: rgba(37, 39, 40, 0.10) !important;
+  }
+  html.light .mega-menu-panel .bg-white\/\[0\.04\] {
+    background: rgba(37, 39, 40, 0.04) !important;
+  }
+
   html.light nav .text-white,
   html.light nav [class*="text-white/"],
   html.light nav .nav-link {
@@ -484,10 +517,8 @@
   html.light nav[data-light-page="true"][data-scrolled="false"] .text-white,
   html.light nav[data-light-page="true"][data-scrolled="false"] [class*="text-white/"],
   html.light nav[data-light-page="true"][data-scrolled="false"] .nav-link {
-    color: rgba(37, 39, 40, 0.76) !important;
-    text-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.50),
-      0 0 10px rgba(255, 255, 255, 0.40);
+    color: #111213 !important;
+    text-shadow: none !important;
   }
 
   html.light nav[data-light-page="true"][data-scrolled="false"] .nav-link:hover,
@@ -546,6 +577,22 @@
   html.light nav[data-scrolled="true"] .mega-menu-panel [class*="text-white/40"],
   html.light nav[data-scrolled="true"] .mega-menu-panel [class*="text-white/30"] {
     color: rgba(37, 39, 40, 0.56) !important;
+  }
+
+  html.light nav .mega-pagination-button,
+  html.light nav[data-scrolled="false"] .mega-pagination-button,
+  html.light nav[data-scrolled="true"] .mega-pagination-button {
+    background: rgba(255, 255, 255, 0.64) !important;
+    border-color: rgba(17, 18, 19, 0.42) !important;
+    color: rgba(17, 18, 19, 0.78) !important;
+    box-shadow: 0 10px 24px rgba(24, 28, 32, 0.10) !important;
+    text-shadow: none !important;
+  }
+
+  html.light nav .mega-pagination-button:not(:disabled):hover {
+    background: #D70C19 !important;
+    border-color: #D70C19 !important;
+    color: #FFFFFF !important;
   }
 
   html.light [data-model-scene="dark"] .text-white {
@@ -623,6 +670,52 @@
   html.light .media-copy-overlay [class*="border-white/"] {
     border-color: rgba(255, 255, 255, 0.35) !important;
   }
+
+  html.light .about-market-card {
+    background-color: rgba(17, 18, 19, 0.18) !important;
+  }
+
+  html.light .about-market-overlay {
+    background: linear-gradient(
+      to top,
+      rgba(17, 18, 19, 0.72) 0%,
+      rgba(17, 18, 19, 0.46) 56%,
+      rgba(17, 18, 19, 0.18) 100%
+    ) !important;
+    backdrop-filter: saturate(1.08);
+    -webkit-backdrop-filter: saturate(1.08);
+  }
+
+  html.light .compare-page-header {
+    background-color: #F4F5F5 !important;
+    border-color: rgba(37, 39, 40, 0.14) !important;
+  }
+
+  html.light .compare-page-header .text-white,
+  html.light .compare-page-header [class*="text-white/"] {
+    color: #111213 !important;
+    text-shadow: none !important;
+  }
+
+  html.light .booking-media-section .media-copy-overlay .text-white,
+  html.light .booking-media-section .media-copy-overlay [class*="text-white/"] {
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+  }
+
+  html.light .booking-page label,
+  html.light .contact-page label,
+  html.light .booking-page .text-\[\#686D71\],
+  html.light .contact-page .text-\[\#686D71\],
+  html.light .booking-page .text-\[\#7A8080\],
+  html.light .contact-page .text-\[\#7A8080\] {
+    color: #252728 !important;
+  }
+
+  html.light .booking-location-section {
+    background: #F7F8F8 !important;
+    border-color: #DDE1E3 !important;
+  }
 }
 
 @layer components {
@@ -663,31 +756,55 @@
   }
 
   .content-surface {
-    background: #F7F8F8;
-    border: 1px solid #DDE1E3;
-    color: #252728;
-    box-shadow: 0 18px 44px rgba(24, 28, 32, 0.08);
+    background: #111213;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    color: #E8EAEB;
+    box-shadow: none;
   }
 
   .content-surface-soft {
-    background: #FBFBFA;
-    border: 1px solid #E1E4E6;
-    color: #252728;
-    box-shadow: 0 10px 28px rgba(24, 28, 32, 0.06);
+    background: #111213;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    color: #E8EAEB;
+    box-shadow: none;
+  }
+
+  /* ── Model cards — dark mode surface ─────────────────────────── */
+  html:not(.light) .model-card {
+    background: #0D0E0F !important;
+    color: #E8EAEB;
+  }
+  html:not(.light) .model-card h3 {
+    color: #E8EAEB !important;
+  }
+  html:not(.light) .model-card p {
+    color: #9AA0A4 !important;
+  }
+  html:not(.light) .model-card .text-byd-red {
+    color: #D70C19 !important;
+  }
+  html:not(.light) .model-card span.font-medium {
+    color: #B0B5B8 !important;
+  }
+  html:not(.light) .model-card .border-t {
+    border-color: rgba(232, 234, 235, 0.12) !important;
+  }
+  html:not(.light) .model-card .text-\[11px\] {
+    color: #7A8080 !important;
   }
 
   .form-field-light {
     width: 100%;
-    background: #FFFFFF;
-    border: 1px solid #D4D8DB;
-    color: #252728;
+    background: #0A0B0C;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #E8EAEB;
     transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
       box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1),
       background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .form-field-light::placeholder {
-    color: #8A9094;
+    color: #686D71;
   }
 
   .form-field-light:focus {
@@ -1064,25 +1181,23 @@
   }
 
   nav.header-on-light-surface {
-    background: rgba(245, 248, 252, 0.94) !important;
-    border-color: rgba(37, 39, 40, 0.22) !important;
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.9) inset,
-      0 8px 26px rgba(24, 28, 32, 0.12) !important;
-    backdrop-filter: blur(12px) saturate(1.16) !important;
-    -webkit-backdrop-filter: blur(12px) saturate(1.16) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(17, 18, 19, 0.10) !important;
+    box-shadow: none !important;
+    backdrop-filter: blur(4px) saturate(1.08) !important;
+    -webkit-backdrop-filter: blur(4px) saturate(1.08) !important;
   }
 
   nav.header-on-light-surface img[alt="BYD"] {
-    filter: invert(1) drop-shadow(0 1px 0 rgba(255, 255, 255, 0.62)) !important;
+    filter: invert(1) !important;
   }
 
   nav.header-on-light-surface .nav-link,
-  nav.header-on-light-surface .text-white,
-  nav.header-on-light-surface [class*="text-white/"] {
-    color: rgba(15, 18, 20, 0.88) !important;
+  nav.header-on-light-surface .text-white:not([data-mega-menu] *),
+  nav.header-on-light-surface [class*="text-white/"]:not([data-mega-menu] *) {
+    color: #111213 !important;
     font-weight: 600;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.72);
+    text-shadow: none !important;
   }
 
   nav.header-on-light-surface .nav-link:hover,
@@ -1095,15 +1210,13 @@
   }
 
   nav.header-on-light-surface .theme-toggle {
-    background: rgba(255, 255, 255, 0.68) !important;
-    border-color: rgba(215, 12, 25, 0.78) !important;
-    color: rgba(15, 18, 20, 0.84) !important;
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.72) inset,
-      0 8px 18px rgba(24, 28, 32, 0.10) !important;
+    background: rgba(255, 255, 255, 0.22) !important;
+    border-color: rgba(17, 18, 19, 0.18) !important;
+    color: #111213 !important;
+    box-shadow: none !important;
   }
 
-  nav.header-on-light-surface .bg-white {
+  nav.header-on-light-surface .bg-white:not([data-mega-menu] *) {
     background-color: rgba(17, 18, 19, 0.28) !important;
   }
 
@@ -1117,8 +1230,8 @@
 
   nav.header-on-light-surface .mobile-menu-panel .text-white,
   nav.header-on-light-surface .mobile-menu-panel [class*="text-white/"] {
-    color: rgba(15, 18, 20, 0.88) !important;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.70);
+    color: #111213 !important;
+    text-shadow: none !important;
   }
 
   nav.header-on-light-surface .mobile-menu-panel [class*="border-white/"] {
@@ -1133,6 +1246,34 @@
     border-color: #D70C19 !important;
     color: #FFFFFF !important;
     text-shadow: none !important;
+  }
+
+  html:not(.light) nav .theme-toggle,
+  html:not(.light) nav.header-on-light-surface .theme-toggle {
+    background: rgba(17, 18, 19, 0.46) !important;
+    border-color: rgba(255, 255, 255, 0.42) !important;
+    color: #FFFFFF !important;
+    font-weight: 800 !important;
+    text-shadow: none !important;
+  }
+
+  html:not(.light) nav .theme-toggle:hover,
+  html:not(.light) nav.header-on-light-surface .theme-toggle:hover {
+    border-color: rgba(255, 255, 255, 0.78) !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    color: #FFFFFF !important;
+  }
+
+  html:not(.light) nav .language-toggle,
+  html:not(.light) nav.header-on-light-surface .language-toggle {
+    color: #FFFFFF !important;
+    font-weight: 800 !important;
+    text-shadow: none !important;
+  }
+
+  html:not(.light) nav .language-toggle svg,
+  html:not(.light) nav.header-on-light-surface .language-toggle svg {
+    color: #FFFFFF !important;
   }
 
   html.light .glass-card {
@@ -1176,6 +1317,375 @@
 
   html.light .compare-matrix-surface {
     box-shadow: 0 18px 46px rgba(24, 28, 32, 0.12);
+  }
+
+  /* ── Compare module — dark-mode overrides ─────────────────────── */
+  html:not(.light) .compare-module .compare-sticky-shell {
+    background: #000000 !important;
+  }
+
+  html:not(.light) .compare-module .compare-selector-surface {
+    background: #1A1C1D !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  html:not(.light) .compare-module .compare-matrix-surface {
+    background: #1A1C1D !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
+    color: #E8EAEB;
+  }
+
+  /* Dropdown trigger buttons */
+  html:not(.light) .compare-module .compare-selector-surface button[type="button"] {
+    background: #252728 !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface button[type="button"]:hover {
+    background: #2E3133 !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface button[type="button"] p {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface button[type="button"] .text-\[15px\],
+  html:not(.light) .compare-module .compare-selector-surface button[type="button"] .text-\[11px\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface button[type="button"] .text-\[14px\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface .text-\[#686D71\] {
+    color: #8A9094 !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface .text-\[#8A9094\] {
+    color: #686D71 !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface .bg-\[\#F0F2F3\] {
+    background-color: #2A2D2F !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface .border-\[\#C7CDD0\] {
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  /* Dropdown floating menus */
+  html:not(.light) .compare-module .compare-selector-surface .absolute {
+    background: #1A1C1D !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45) !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface .absolute .border-\[\#EEF0F1\] {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface .absolute .text-\[#7A8080\] {
+    color: #686D71 !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface .absolute .text-\[#252728\] {
+    color: #E8EAEB !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface .absolute .text-\[#686D71\] {
+    color: #8A9094 !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface .absolute button:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+  }
+  html:not(.light) .compare-module .compare-selector-surface .absolute .bg-byd-red\/\[0\.08\] {
+    background: rgba(215, 12, 25, 0.12) !important;
+  }
+
+  /* Model card headers */
+  html:not(.light) .compare-module .compare-matrix-surface .border-\[\#DDE1E3\] {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .text-\[#252728\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .text-\[#686D71\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .text-\[#4E5356\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .bg-\[\#ECEFF1\] {
+    background-color: #252728 !important;
+  }
+
+  /* Empty slot + button */
+  html:not(.light) .compare-module .compare-matrix-surface button:hover {
+    background: rgba(255, 255, 255, 0.03) !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .bg-\[\#F0F2F3\] {
+    background-color: #2A2D2F !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .border-\[\#C7CDD0\] {
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .text-\[#8A9094\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+
+  /* Spec toggle / control bar */
+  html:not(.light) .compare-module .compare-matrix-surface .bg-\[\#FAFBFB\] {
+    background-color: #151718 !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .bg-white {
+    background-color: #1A1C1D !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .inline-grid {
+    background: #252728 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .inline-grid .bg-\[\#252728\] {
+    background-color: #E8EAEB !important;
+    color: #111213 !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .inline-grid .text-\[#686D71\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .inline-grid button:not([aria-pressed="true"]):hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  /* Spec label rows */
+  html:not(.light) .compare-module .compare-matrix-surface .bg-\[\#F7F8F8\] {
+    background-color: #151718 !important;
+  }
+
+  /* Spec value borders */
+  html:not(.light) .compare-module .compare-matrix-surface .border-\[\#E6E9EA\] {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .text-\[#B6BDC1\] {
+    color: rgba(255, 255, 255, 0.58) !important;
+    font-weight: 700 !important;
+  }
+
+  html:not(.light) .compare-module .compare-matrix-surface span,
+  html:not(.light) .compare-module .compare-matrix-surface p,
+  html:not(.light) .compare-module .compare-matrix-surface h3 {
+    color: #FFFFFF;
+  }
+
+  /* Compare card action buttons — dark mode */
+  html:not(.light) .compare-card-action-secondary {
+    background: #252728 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #E8EAEB !important;
+  }
+  html:not(.light) .compare-card-action-secondary:hover {
+    background: #2E3133 !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    color: #FFFFFF !important;
+  }
+
+  /* Swap buttons — dark mode */
+  html:not(.light) .compare-module .compare-swap-button {
+    background: rgba(37, 39, 40, 0.88) !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+    color: rgba(154, 160, 164, 0.86) !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.20) !important;
+  }
+  html:not(.light) .compare-module .compare-swap-button:hover,
+  html:not(.light) .compare-module .compare-swap-button:focus-visible {
+    background: rgba(50, 53, 56, 0.98) !important;
+    border-color: rgba(215, 12, 25, 0.58) !important;
+    color: #D70C19 !important;
+  }
+
+  /* Home/About light sections become dark sections in dark mode */
+  html:not(.light) .home-stats-section,
+  html:not(.light) .guided-model-selector,
+  html:not(.light) .about-intro-section {
+    background: #0A0B0C !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  html:not(.light) .home-stats-section .divide-\[\#D4D8DB\] > :not([hidden]) ~ :not([hidden]) {
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  html:not(.light) .home-stats-section .text-\[\#252728\],
+  html:not(.light) .guided-model-selector .text-\[\#0f1214\],
+  html:not(.light) .guided-model-selector .text-\[\#252728\],
+  html:not(.light) .about-intro-section .text-\[\#4E5356\] {
+    color: #FFFFFF !important;
+  }
+
+  html:not(.light) .home-stats-section .text-\[\#686D71\],
+  html:not(.light) .guided-model-selector .text-\[\#686D71\],
+  html:not(.light) .guided-model-selector .text-\[\#3A3F44\],
+  html:not(.light) .guided-model-selector .text-\[\#9CA3AF\] {
+    color: #D4D8DB !important;
+  }
+
+  html:not(.light) .guided-model-selector .bg-\[\#F5F6F7\],
+  html:not(.light) .guided-model-selector .bg-\[\#F8F9FA\],
+  html:not(.light) .about-intro-section .bg-\[\#F5F6F7\] {
+    background-color: #111213 !important;
+  }
+
+  html:not(.light) .guided-model-selector .border-\[\#E2E4E6\],
+  html:not(.light) .guided-model-selector .border-\[\#C0C4C8\],
+  html:not(.light) .about-intro-section .border-\[\#E0E2E4\] {
+    border-color: rgba(255, 255, 255, 0.14) !important;
+  }
+
+  html:not(.light) .guided-model-selector button:not(.bg-byd-red):hover {
+    background-color: #1A1C1D !important;
+    border-color: rgba(255, 255, 255, 0.24) !important;
+  }
+
+  /* Booking page — dark-mode content surfaces */
+  html:not(.light) .booking-page {
+    color: #FFFFFF;
+  }
+
+  html:not(.light) .booking-page .content-surface,
+  html:not(.light) .booking-page .content-surface-soft {
+    background: #111213 !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+    color: #E8EAEB !important;
+    box-shadow: none !important;
+  }
+
+  html:not(.light) .booking-page .form-field-light {
+    background: #0A0B0C !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    color: #FFFFFF !important;
+    font-weight: 600;
+  }
+
+  html:not(.light) .booking-page .form-field-light::placeholder {
+    color: rgba(255, 255, 255, 0.62) !important;
+  }
+
+  html:not(.light) .booking-page .form-field-light:disabled {
+    background: #151718 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #686D71 !important;
+  }
+
+  html:not(.light) .booking-page label,
+  html:not(.light) .booking-page .text-\[\#686D71\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+
+  html:not(.light) .booking-page .text-\[\#7A8080\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+
+  html:not(.light) .booking-page .text-\[\#4E5356\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+
+  html:not(.light) .booking-page .border-\[\#DDE1E3\] {
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  html:not(.light) .booking-page .bg-white,
+  html:not(.light) .booking-page .bg-\[\#F7F8F8\],
+  html:not(.light) .booking-page .bg-\[\#FBFBFA\] {
+    background-color: #111213 !important;
+  }
+
+  html:not(.light) .booking-page .bg-\[\#F0F2F3\] {
+    background-color: #151718 !important;
+  }
+
+  html:not(.light) .booking-page .booking-location-section {
+    background: #0A0B0C !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  html:not(.light) .booking-page .booking-location-section h2,
+  html:not(.light) .booking-page .booking-location-section .text-\[\#252728\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+
+  html:not(.light) .booking-page .booking-location-section p,
+  html:not(.light) .booking-page .booking-location-section .text-\[\#686D71\],
+  html:not(.light) .booking-page .booking-location-section .text-\[\#7A8080\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+
+  html:not(.light) .booking-page .bg-byd-red\/\[0\.08\] {
+    background-color: rgba(215, 12, 25, 0.12) !important;
+  }
+
+  html:not(.light) .booking-page .border-byd-red\/\[0\.18\] {
+    border-color: rgba(215, 12, 25, 0.30) !important;
+  }
+
+  html:not(.light) .booking-page .shadow-\[0_10px_28px_rgba\(24\,28\,32\,0\.06\)\] {
+    box-shadow: none !important;
+  }
+
+  html:not(.light) .booking-page .leaflet-tile-pane,
+  html:not(.light) .contact-page .leaflet-tile-pane {
+    filter: invert(0.92) hue-rotate(180deg) saturate(0.65) brightness(0.72);
+  }
+
+  /* Contact page — dark-mode content surfaces */
+  html:not(.light) .contact-page {
+    color: #FFFFFF;
+  }
+
+  html:not(.light) .contact-page .content-surface,
+  html:not(.light) .contact-page .content-surface-soft {
+    background: #111213 !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+    color: #E8EAEB !important;
+    box-shadow: none !important;
+  }
+
+  html:not(.light) .contact-page .form-field-light {
+    background: #0A0B0C !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    color: #FFFFFF !important;
+    font-weight: 600;
+  }
+
+  html:not(.light) .contact-page .form-field-light::placeholder {
+    color: rgba(255, 255, 255, 0.62) !important;
+  }
+
+  html:not(.light) .contact-page label,
+  html:not(.light) .contact-page .text-\[\#686D71\],
+  html:not(.light) .contact-page .text-\[\#7A8080\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+
+  html:not(.light) .contact-page .text-\[\#252728\] {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+
+  html:not(.light) .contact-page .border-\[\#DDE1E3\] {
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  html:not(.light) .contact-page .contact-icon-box,
+  html:not(.light) .contact-page .contact-map-card,
+  html:not(.light) .contact-page .bg-white {
+    background-color: #111213 !important;
+  }
+
+  html:not(.light) .contact-page .contact-map-card {
+    box-shadow: none !important;
   }
 
   .compare-swap-button {

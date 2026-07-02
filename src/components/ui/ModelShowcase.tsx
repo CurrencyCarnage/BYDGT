@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 type WheelFrame = {
   left: number;
@@ -192,8 +192,6 @@ function ModelSection({
   const carRef = useRef<HTMLDivElement>(null);
   const wheelFrontRef = useRef<HTMLImageElement>(null);
   const wheelRearRef = useRef<HTMLImageElement>(null);
-  const [entered, setEntered] = useState(false);
-
   useEffect(() => {
     const section = sectionRef.current;
     const car = carRef.current;
@@ -205,8 +203,6 @@ function ModelSection({
       ([entry]) => {
         if (!entry.isIntersecting) return;
         observer.disconnect();
-
-        setEntered(true);
 
         const timing: KeyframeAnimationOptions = {
           duration: 2600,
@@ -375,7 +371,6 @@ function ModelSection({
             model.titleWidthClass,
             "text-center text-[clamp(2.1rem,6vw,4.5rem)] font-semibold leading-[0.9] select-none",
             lightSection ? "text-[#0f1214]" : "text-white",
-            entered ? "sc-title-enter" : "sc-title-hidden",
           ].join(" ")}
           style={{ letterSpacing: "-0.045em" }}
         >

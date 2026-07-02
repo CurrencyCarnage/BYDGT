@@ -383,10 +383,22 @@ function SwapColumnsIcon({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
+/** Extract the first parseable number from a spec value string.
+ *  e.g. "up to 1,505 km" → 1505, "8.5 s" → 8.5, "N/A" → null */
+function extractNumber(val: string): number | null {
+  const cleaned = val.replace(/,/g, "");
+  const match = cleaned.match(/[\d]+(?:\.[\d]+)?/);
+  return match ? parseFloat(match[0]) : null;
+}
+
+/** "higher" = bigger number wins, "lower" = smaller number wins, "neutral" = no ranking */
+type BetterIs = "higher" | "lower" | "neutral";
+
 const SPEC_ROWS: {
   key: string;
   label: Bilingual;
   getValue: (version: SlotVersion, locale: LocaleCode) => string;
+  betterIs: BetterIs;
 }[] = [
   {
     key: "powertrain",
@@ -397,76 +409,91 @@ const SPEC_ROWS: {
           ? "ელექტრო"
           : "Electric"
         : "Plug-in Hybrid",
+    betterIs: "neutral",
   },
   {
     key: "bodyType",
     label: { en: "Body Type", ka: "ძარის ტიპი" },
     getValue: (version, locale) => t(version.category, locale),
+    betterIs: "neutral",
   },
   {
     key: "totalRange",
     label: { en: "Total Range", ka: "ჯამური მანძილი" },
     getValue: (version) => version.specs.totalRange,
+    betterIs: "higher",
   },
   {
     key: "evRange",
     label: { en: "EV Range", ka: "ელექტრო სავალი" },
     getValue: (version) => version.specs.evRange,
+    betterIs: "higher",
   },
   {
     key: "power",
     label: { en: "Power", ka: "სიმძლავრე" },
     getValue: (version) => version.specs.power,
+    betterIs: "higher",
   },
   {
     key: "torque",
     label: { en: "Torque", ka: "მომენტი" },
     getValue: (version) => version.specs.torque,
+    betterIs: "higher",
   },
   {
     key: "acceleration",
     label: { en: "0-100 km/h", ka: "0-100 კმ/სთ" },
     getValue: (version) => version.specs.acceleration,
+    betterIs: "lower",
   },
   {
     key: "topSpeed",
     label: { en: "Top Speed", ka: "მაქს. სიჩქარე" },
     getValue: (version) => version.specs.topSpeed,
+    betterIs: "higher",
   },
   {
     key: "battery",
     label: { en: "Battery", ka: "ბატარეა" },
     getValue: (version) => version.specs.battery,
+    betterIs: "higher",
   },
   {
     key: "drive",
     label: { en: "Drive", ka: "წამყვანი" },
     getValue: (version) => version.specs.drive,
+    betterIs: "neutral",
   },
   {
     key: "charging",
     label: { en: "Charging", ka: "დამუხტვა" },
     getValue: (version) => version.specs.charging,
+    betterIs: "higher",
   },
   {
     key: "length",
     label: { en: "Length", ka: "სიგრძე" },
     getValue: (version) => version.specs.length,
+    betterIs: "neutral",
   },
   {
     key: "width",
     label: { en: "Width", ka: "სიგანე" },
     getValue: (version) => version.specs.width,
+    betterIs: "neutral",
   },
   {
     key: "height",
     label: { en: "Height", ka: "სიმაღლე" },
     getValue: (version) => version.specs.height,
+    betterIs: "neutral",
   },
   {
     key: "wheelbase",
     label: { en: "Wheelbase", ka: "თვლების ბაზა" },
     getValue: (version) => version.specs.wheelbase,
+    betterIs: "neutral",
   },
 ];
 
@@ -839,7 +866,23 @@ export default function CompareGrid({
         const hasDifference =
           filled.length >= 2 &&
           new Set(filled.map(normalizeValue)).size > 1;
-        return { ...row, values, hasDifference };
+
+        // Determine which column(s) have the "best" value
+        let bestIndices: number[] = [];
+        if (hasDifference && row.betterIs !== "neutral") {
+          const nums = values.map((v) => (v ? extractNumber(v) : null));
+          const validNums = nums.filter((n): n is number => n !== null);
+          if (validNums.length >= 2) {
+            const bestVal = row.betterIs === "higher"
+              ? Math.max(...validNums)
+              : Math.min(...validNums);
+            bestIndices = nums
+              .map((n, i) => (n === bestVal ? i : -1))
+              .filter((i) => i !== -1);
+          }
+        }
+
+        return { ...row, values, hasDifference, bestIndices };
       })
     : [];
 
@@ -883,7 +926,7 @@ export default function CompareGrid({
       .map((s) => s.id);
 
   return (
-    <div className="pb-16 pt-4 md:pt-8">
+    <div className="compare-module pb-16 pt-4 md:pt-8">
       {/* ── Mobile: 3 compact thumbnails in one row ── */}
       <div className="compare-sticky-shell sticky top-[5rem] z-30 bg-byd-dark/95 backdrop-blur md:hidden">
         <div className="section-container">
@@ -1104,20 +1147,12 @@ export default function CompareGrid({
             <div
               key={row.key}
               className={`border-b border-[#E6E9EA] ${
-                comparisonMode === "differences" && row.hasDifference
-                  ? "bg-[rgba(215,12,25,0.045)]"
-                  : rowIndex % 2 === 0
-                    ? "bg-white"
-                    : ""
+                rowIndex % 2 === 0 ? "bg-white" : ""
               }`}
             >
               {/* Spec label row spanning full width */}
               <div
-                className={`flex items-center justify-center gap-2 border-b border-[#E6E9EA] px-3 py-2.5 text-center ${
-                  comparisonMode === "differences" && row.hasDifference
-                    ? "bg-byd-red/[0.035]"
-                    : "bg-[#F7F8F8]"
-                }`}
+                className="flex items-center justify-center gap-2 border-b border-[#E6E9EA] px-3 py-2.5 text-center bg-[#F7F8F8]"
               >
                 <span className="text-[10px] font-semibold uppercase text-[#686D71] md:text-[11px]">
                   {t(row.label, locale)}
@@ -1126,32 +1161,39 @@ export default function CompareGrid({
 
               {/* Values: 3 columns */}
               <div className="grid grid-cols-3">
-                {row.values.map((value, ci) => (
-                  <div
-                    key={`${row.key}-${ci}`}
-                    title={t(row.label, locale)}
-                    className={`flex min-h-[3.75rem] items-center px-3 py-3 text-center text-[12px] leading-5 md:min-h-[4rem] md:justify-center md:px-5 md:py-4 md:text-[14px] md:leading-6 ${getSwapClass(ci)} ${
-                      ci < 2 ? "border-r border-[#E6E9EA]" : ""
-                    } ${
-                      value === null
-                        ? "text-[#B6BDC1]"
-                        : comparisonMode === "differences" && row.hasDifference
-                          ? "font-semibold text-[#252728]"
-                          : "text-[#4E5356]"
-                    }`}
-                  >
-                    <span className="w-full break-words">{value ?? "—"}</span>
-                  </div>
-                ))}
+                {row.values.map((value, ci) => {
+                  const isBest =
+                    comparisonMode === "differences" &&
+                    row.hasDifference &&
+                    row.bestIndices.includes(ci);
+
+                  return (
+                    <div
+                      key={`${row.key}-${ci}`}
+                      title={t(row.label, locale)}
+                      className={`flex min-h-[3.75rem] items-center px-3 py-3 text-center leading-5 md:min-h-[4rem] md:justify-center md:px-5 md:py-4 md:leading-6 ${getSwapClass(ci)} ${
+                        ci < 2 ? "border-r border-[#E6E9EA]" : ""
+                      } ${
+                        value === null
+                          ? "text-[12px] md:text-[14px] text-[#B6BDC1]"
+                          : isBest
+                            ? "text-[14px] md:text-[16px] font-bold text-byd-red"
+                            : "text-[12px] md:text-[14px] text-[#4E5356]"
+                      }`}
+                    >
+                      <span className="w-full break-words">{value ?? "—"}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}
 
-          {/* Price row */}
+          {/* Price row — centered buttons linking to contact */}
           {hasComparison && (
             <div>
-              <div className="px-3 pb-0.5 pt-2 md:hidden">
-                <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-[#686D71]">
+              <div className="flex items-center justify-center border-b border-[#E6E9EA] px-3 py-2.5 text-center bg-[#F7F8F8]">
+                <span className="text-[10px] font-semibold uppercase text-[#686D71] md:text-[11px]">
                   {labels.pricing}
                 </span>
               </div>
@@ -1159,12 +1201,20 @@ export default function CompareGrid({
                 {slots.map((slot, ci) => (
                   <div
                     key={`price-${ci}`}
-                    title={labels.pricing}
-                    className={`px-3 pb-2.5 pt-0.5 text-[11px] italic text-[#686D71] md:flex md:items-center md:px-5 md:py-3.5 md:text-[13px] ${getSwapClass(ci)} ${
+                    className={`flex items-center justify-center px-3 py-3 md:px-5 md:py-4 ${getSwapClass(ci)} ${
                       ci < 2 ? "border-r border-[#E6E9EA]" : ""
                     }`}
                   >
-                    {slot ? labels.pricingValue : "—"}
+                    {slot ? (
+                      <Link
+                        href={`/${locale}/contact?subject=${encodeURIComponent(slot.familyName + " " + slot.label)}`}
+                        className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-byd-red px-3 py-2 text-[11px] md:text-[12px] font-semibold text-white transition-all duration-200 hover:bg-[#A80912] w-full text-center"
+                      >
+                        {labels.pricingValue}
+                      </Link>
+                    ) : (
+                      <span className="text-[11px] text-[#B6BDC1]">—</span>
+                    )}
                   </div>
                 ))}
               </div>

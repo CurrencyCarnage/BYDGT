@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useLocale } from "next-intl";
 
-export default function ContactForm() {
+export default function ContactForm({ initialSubject = "" }: { initialSubject?: string }) {
   const locale = useLocale();
-  const [form, setForm] = useState({ name: "", phone: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({ name: "", phone: "", email: "", subject: initialSubject, message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 

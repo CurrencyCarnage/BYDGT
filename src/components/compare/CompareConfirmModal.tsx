@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
@@ -16,10 +16,12 @@ interface CompareConfirmModalProps {
   state: ModalState;
   locale: string;
   modelName: string;
+  modelId: string;
   selectedModels: SelectedModel[];
   onClose: () => void;
   onConfirm: () => void;
   onRemoveModel: (id: string) => void;
+  onAddInSlot: () => void;
 }
 
 const copy = {
@@ -30,12 +32,13 @@ const copy = {
     confirm: "Go to Compare",
     selectedLabel: "Currently selected:",
     addModel: (name: string) =>
-      `${name} will be added to your comparison.`,
+      `${name} has been added to compare.`,
     fullMessage:
-      "All 3 slots are taken. Remove a model below to make room, or go to the Compare page.",
+      "All 3 slots are taken. Remove a model below to make room.",
     goToCompare: "Go to Compare",
     remove: "Remove",
     slotCount: (n: number) => `${n}/3 models selected`,
+    addInSlot: "+ Add in this slot",
   },
   ka: {
     navigateTitle: "შედარებაში დაემატა",
@@ -44,12 +47,13 @@ const copy = {
     confirm: "შედარებაზე გადასვლა",
     selectedLabel: "არჩეული მოდელები:",
     addModel: (name: string) =>
-      `${name} დაემატება შედარებაში.`,
+      `${name} დაემატა შედარებაში.`,
     fullMessage:
-      "სამივე ადგილი შევსებულია. წაშალეთ ქვემოთ ერთ-ერთი მოდელი ახლის დასამატებლად, ან გადახვიდეთ შედარების გვერდზე.",
+      "სამივე ადგილი შევსებულია. წაშალეთ მოდელი ახლის დასამატებლად.",
     goToCompare: "შედარების გვერდზე გადასვლა",
     remove: "წაშლა",
     slotCount: (n: number) => `${n}/3 მოდელი არჩეულია`,
+    addInSlot: "+ ამ ადგილზე დამატება",
   },
 };
 
@@ -61,9 +65,11 @@ export default function CompareConfirmModal({
   onClose,
   onConfirm,
   onRemoveModel,
+  onAddInSlot,
 }: CompareConfirmModalProps) {
   const t = locale === "ka" ? copy.ka : copy.en;
   const isFull = state === "full";
+  const autoDismissTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
@@ -83,10 +89,29 @@ export default function CompareConfirmModal({
     };
   }, [state, handleKey, isFull]);
 
+  // Auto-dismiss toast after 10 seconds
+  useEffect(() => {
+    if (state === "navigate") {
+      autoDismissTimer.current = setTimeout(() => {
+        onClose();
+      }, 10000);
+    }
+    return () => {
+      if (autoDismissTimer.current) {
+        clearTimeout(autoDismissTimer.current);
+        autoDismissTimer.current = null;
+      }
+    };
+  }, [state, onClose]);
+
+  // Build 3 slots for full modal (filled + empty)
+  const totalSlots = 3;
+  const emptySlotCount = totalSlots - selectedModels.length;
+
   return (
     <AnimatePresence>
       {state === "navigate" && (
-        /* ── Bottom sheet / toast-style notification ── */
+        /* ── Bottom sheet / toast-style notification — auto-dismisses in 10s ── */
         <motion.div
           className="fixed inset-x-0 bottom-0 z-[100] flex justify-center p-4 pointer-events-none"
           initial={{ opacity: 0, y: 80 }}
@@ -99,9 +124,9 @@ export default function CompareConfirmModal({
             <div className="px-5 pt-5 pb-4">
               <div className="flex items-start gap-3.5">
                 {/* Success icon */}
-                <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-byd-red/10">
-                  <svg className="h-[18px] w-[18px] text-byd-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent2-green/10">
+                  <svg className="h-[18px] w-[18px] text-accent2-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
                 <div className="flex-1 min-w-0">
@@ -109,7 +134,7 @@ export default function CompareConfirmModal({
                     {t.addModel(modelName)}
                   </p>
                   <p className="mt-1 text-xs text-[#7A8080]">
-                    {t.slotCount(selectedModels.length + 1)}
+                    {t.slotCount(selectedModels.length)}
                   </p>
                 </div>
                 {/* Close X */}
@@ -147,7 +172,7 @@ export default function CompareConfirmModal({
       )}
 
       {state === "full" && (
-        /* ── Centered modal for full-state warning ── */
+        /* ── Centered modal for full-state — stays open on individual removal ── */
         <motion.div
           className="fixed inset-0 z-[100] flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
@@ -163,7 +188,7 @@ export default function CompareConfirmModal({
 
           {/* Modal */}
           <motion.div
-            className="relative w-full max-w-md bg-white border border-[#D4D8DB] shadow-2xl"
+            className="relative w-full max-w-md bg-white border border-[#D4D8DB] shadow-2xl rounded-xl"
             initial={{ scale: 0.95, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.95, y: 20 }}
@@ -220,56 +245,78 @@ export default function CompareConfirmModal({
                 {t.fullMessage}
               </p>
 
-              {/* Selected model thumbnails */}
-              {selectedModels.length > 0 && (
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[#7A8080] mb-3">
-                    {t.selectedLabel}
-                  </p>
-                  <div className="space-y-2">
-                    {selectedModels.map((model) => (
-                      <div
-                        key={model.id}
-                        className="flex items-center gap-3 bg-[#F5F6F7] border border-[#E8EAEB] p-2 pr-3 group"
-                      >
-                        <div className="relative w-16 h-10 shrink-0 overflow-hidden bg-[#E8EAEB]">
-                          <Image
-                            src={model.image}
-                            alt={model.name}
-                            fill
-                            sizes="64px"
-                            className="object-cover"
-                            unoptimized
-                          />
-                        </div>
-                        <span className="flex-1 text-sm text-[#252728] font-medium truncate">
-                          {model.name}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => onRemoveModel(model.id)}
-                          className="shrink-0 w-7 h-7 flex items-center justify-center text-[#7A8080] hover:text-byd-red hover:bg-byd-red/[0.08] transition-all duration-150"
-                          title={t.remove}
-                        >
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        </button>
+              {/* 3 slots: filled models + empty slots with "+ add here" */}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[#7A8080] mb-3">
+                  {t.selectedLabel}
+                </p>
+                <div className="space-y-2">
+                  {selectedModels.map((model) => (
+                    <div
+                      key={model.id}
+                      className="flex items-center gap-3 bg-[#F5F6F7] border border-[#E8EAEB] p-2 pr-3 group rounded-lg"
+                    >
+                      <div className="relative w-16 h-10 shrink-0 overflow-hidden bg-[#E8EAEB] rounded">
+                        <Image
+                          src={model.image}
+                          alt={model.name}
+                          fill
+                          sizes="64px"
+                          className="object-cover"
+                          unoptimized
+                        />
                       </div>
-                    ))}
-                  </div>
+                      <span className="flex-1 text-sm text-[#252728] font-medium truncate">
+                        {model.name}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => onRemoveModel(model.id)}
+                        className="shrink-0 w-7 h-7 flex items-center justify-center text-[#7A8080] hover:text-byd-red hover:bg-byd-red/[0.08] transition-all duration-150 rounded-full"
+                        title={t.remove}
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  ))}
+
+                  {/* Empty slot placeholders with "+ add in this slot" */}
+                  {Array.from({ length: emptySlotCount }).map((_, i) => (
+                    <button
+                      key={`empty-${i}`}
+                      type="button"
+                      onClick={onAddInSlot}
+                      className="flex w-full items-center gap-3 rounded-lg border border-dashed border-[#C7CDD0] bg-[#FAFBFB] p-2 pr-3 text-left transition-all duration-200 hover:border-byd-red/40 hover:bg-byd-red/[0.03]"
+                    >
+                      <div className="flex w-16 h-10 shrink-0 items-center justify-center rounded bg-[#F0F2F3]">
+                        <svg
+                          className="h-4 w-4 text-[#8A9094]"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                        </svg>
+                      </div>
+                      <span className="flex-1 text-sm text-byd-red font-medium">
+                        {t.addInSlot}
+                      </span>
+                    </button>
+                  ))}
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Footer */}
@@ -277,14 +324,14 @@ export default function CompareConfirmModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 py-3 px-5 border border-[#D4D8DB] text-[#4E5356] hover:border-[#7A8080] hover:text-[#252728] transition-all duration-200 text-sm font-medium"
+                className="flex-1 py-3 px-5 border border-[#D4D8DB] text-[#4E5356] hover:border-[#7A8080] hover:text-[#252728] transition-all duration-200 text-sm font-medium rounded-lg"
               >
                 {t.cancel}
               </button>
               <button
                 type="button"
                 onClick={onConfirm}
-                className="flex-1 py-3 px-5 bg-byd-red text-white font-semibold hover:bg-[#A80912] transition-all duration-200 text-sm"
+                className="flex-1 py-3 px-5 bg-byd-red text-white font-semibold hover:bg-[#A80912] transition-all duration-200 text-sm rounded-lg"
               >
                 {t.goToCompare}
               </button>
