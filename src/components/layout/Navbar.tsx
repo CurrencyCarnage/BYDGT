@@ -6,6 +6,8 @@ import { Link, usePathname, useRouter } from "@/i18n/routing";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
+type MegaCategory = "passenger" | "commercial";
+
 /* ─────────────────────────────────────────────────────────────────
    Models mega-menu data
 ───────────────────────────────────────────────────────────────── */
@@ -53,6 +55,43 @@ const MEGA_MODELS = [
 ];
 
 const MEGA_MODELS_PER_PAGE = 4;
+const COMMERCIAL_CONTACT_HREF = "/contact?subject=Commercial%20Vehicles";
+
+const COMMERCIAL_DIRECTIONS = [
+  {
+    id: "commercial-vehicles",
+    title: "Commercial Vehicles",
+    titleKa: "კომერციული ავტომობილები",
+    eyebrow: "BYD Business",
+    eyebrowKa: "BYD ბიზნესი",
+    description: "Electric and hybrid mobility options for companies, fleet operators and logistics needs.",
+    descriptionKa: "ელექტრო და ჰიბრიდული მობილობის მიმართულება კომპანიებისთვის, ავტოპარკებისა და ლოგისტიკისთვის.",
+  },
+  {
+    id: "fleet-consultation",
+    title: "Fleet Consultation",
+    titleKa: "ფლოტის კონსულტაცია",
+    eyebrow: "Custom Offer",
+    eyebrowKa: "ინდივიდუალური შეთავაზება",
+    description: "Request model availability, configuration guidance and a tailored commercial proposal.",
+    descriptionKa: "მოითხოვეთ მოდელების ხელმისაწვდომობა, კონფიგურაციის რჩევა და კომერციული შეთავაზება.",
+  },
+];
+
+function getMegaCategoryLabels(ka: boolean) {
+  return [
+    {
+      key: "passenger" as const,
+      label: ka ? "მსუბუქი ავტომობილები" : "Passenger Cars",
+      caption: ka ? "მოდელები პირადი გამოყენებისთვის" : "Personal mobility lineup",
+    },
+    {
+      key: "commercial" as const,
+      label: ka ? "კომერციული ავტომობილები" : "Commercial Vehicles",
+      caption: ka ? "ბიზნესისა და ფლოტისთვის" : "For business and fleet needs",
+    },
+  ];
+}
 
 /* ─────────────────────────────────────────────────────────────────
    Desktop mega-menu panel
@@ -65,6 +104,7 @@ function MegaMenu({
   onClose: () => void;
 }) {
   const ka = locale === "ka";
+  const [category, setCategory] = useState<MegaCategory>("passenger");
   const [modelPage, setModelPage] = useState(0);
   const pageCount = Math.ceil(MEGA_MODELS.length / MEGA_MODELS_PER_PAGE);
   const visibleModels = MEGA_MODELS.slice(
@@ -77,6 +117,7 @@ function MegaMenu({
     if (!canShowNextModels) return;
     setModelPage((page) => Math.min(page + 1, pageCount - 1));
   };
+  const categoryLabels = getMegaCategoryLabels(ka);
 
   return (
     <motion.div
@@ -100,6 +141,36 @@ function MegaMenu({
           }}
         >
           {/* 2 × 2 model grid */}
+          <div className="mega-category-tabs border-b border-white/[0.06] px-4 py-3 md:px-5">
+            <div className="grid grid-cols-2 gap-2">
+              {categoryLabels.map((item) => (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => {
+                    setCategory(item.key);
+                    setModelPage(0);
+                  }}
+                  aria-pressed={category === item.key}
+                  className={`mega-category-tab min-h-11 px-3 py-2 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-byd-red/70 ${
+                    category === item.key
+                      ? "bg-byd-red text-white shadow-[0_10px_24px_rgba(215,12,25,0.24)]"
+                      : "border border-white/[0.10] bg-white/[0.03] text-white/60 hover:border-white/[0.22] hover:bg-white/[0.06] hover:text-white"
+                  }`}
+                >
+                  <span className="block text-[12px] font-bold leading-tight">
+                    {item.label}
+                  </span>
+                  <span className="mt-1 block text-[10px] font-medium leading-tight opacity-70">
+                    {item.caption}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {category === "passenger" ? (
+            <>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/[0.04] p-px">
             {visibleModels.map((model, i) => (
               <motion.div
@@ -188,17 +259,94 @@ function MegaMenu({
               </svg>
             </Link>
           </motion.div>
+            </>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 gap-px bg-white/[0.04] p-px md:grid-cols-2">
+                {COMMERCIAL_DIRECTIONS.map((item, i) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.04, duration: 0.22, ease: "easeOut" }}
+                  >
+                    <Link
+                      href={COMMERCIAL_CONTACT_HREF}
+                      onClick={onClose}
+                      className="mega-menu-card commercial-direction-card group relative flex min-h-[15.75rem] flex-col justify-between overflow-hidden bg-[#1A1C1D] px-6 py-5 transition-colors duration-200 hover:bg-[#222425]"
+                    >
+                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-byd-red/70 to-transparent opacity-70" />
+                      <div className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-byd-red/[0.10] blur-3xl" />
+                      <div className="pointer-events-none absolute bottom-0 right-0 h-24 w-40 border-b border-r border-white/[0.10]" />
+                      <div className="relative z-10">
+                        <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-byd-red">
+                          {ka ? item.eyebrowKa : item.eyebrow}
+                        </span>
+                        <h3 className="mt-2 text-[18px] font-bold leading-tight text-white transition-colors duration-200 group-hover:text-white">
+                          {ka ? item.titleKa : item.title}
+                        </h3>
+                        <p className="mt-3 max-w-md text-[12px] font-light leading-relaxed text-white/48">
+                          {ka ? item.descriptionKa : item.description}
+                        </p>
+                      </div>
+                      <div className="relative z-10 mt-8 flex items-center justify-between gap-4">
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50 transition-colors duration-200 group-hover:text-white/80">
+                          {ka ? "შეთავაზების მოთხოვნა" : "Request offer"}
+                        </span>
+                        <span className="flex h-10 w-10 items-center justify-center border border-white/[0.18] text-white/70 transition-all duration-200 group-hover:border-byd-red group-hover:bg-byd-red group-hover:text-white">
+                          <svg
+                            className="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2.2}
+                            aria-hidden="true"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </span>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.18, duration: 0.2 }}
+                className="border-t border-white/[0.06]"
+              >
+                <Link
+                  href={COMMERCIAL_CONTACT_HREF}
+                  onClick={onClose}
+                  className="group flex items-center justify-center gap-2 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40 transition-colors duration-200 hover:text-white/80"
+                >
+                  {ka ? "კომერციული კონსულტაცია" : "Commercial consultation"}
+                  <svg
+                    className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </motion.div>
+            </>
+          )}
         </div>
 
         <div className="hidden w-12 shrink-0 items-center justify-center md:flex">
           <button
             type="button"
             onClick={showNextModels}
-            disabled={!canShowNextModels}
+            disabled={category !== "passenger" || !canShowNextModels}
             title={ka ? "შემდეგი 4 მოდელი" : "Show next 4 models"}
             aria-label={ka ? "შემდეგი 4 მოდელი" : "Show next 4 models"}
             className={`mega-pagination-button flex h-11 w-11 items-center justify-center border transition-all duration-200 ${
-              canShowNextModels
+              category === "passenger" && canShowNextModels
                 ? "cursor-pointer border-white/40 bg-[#111213]/80 text-white hover:border-byd-red/70 hover:bg-byd-red hover:text-white focus:outline-none focus:ring-2 focus:ring-byd-red/60"
                 : "cursor-not-allowed border-white/34 bg-[#111213]/46 text-white/78"
             }`}
@@ -227,6 +375,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen]       = useState(false);
   const [megaOpen, setMegaOpen]           = useState(false);
   const [mobileModels, setMobileModels]   = useState(false);
+  const [mobileModelCategory, setMobileModelCategory] = useState<MegaCategory>("passenger");
   const [scrolled, setScrolled]           = useState(false);
   const [overLightSurface, setOverLightSurface] = useState(false);
   const [theme, setTheme]                 = useState<"dark" | "light">("dark");
@@ -285,6 +434,7 @@ export default function Navbar() {
   useEffect(() => {
     setMobileOpen(false);
     setMobileModels(false);
+    setMobileModelCategory("passenger");
   }, [pathname]);
 
   /* ── Mega-menu hover intent handlers ── */
@@ -328,6 +478,7 @@ export default function Navbar() {
   const ka = locale === "ka";
   const isHomepage = pathname === "/";
   const useLightSurfaceHeader = overLightSurface || (theme === "light" && !isHomepage);
+  const mobileCategoryLabels = getMegaCategoryLabels(ka);
 
   /* Non-models nav links */
   const baseLinks = [
@@ -507,9 +658,11 @@ export default function Navbar() {
 
       {/* ── Mobile menu ──────────────────────────────────────────── */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-400 ${
-          mobileOpen ? "max-h-[560px]" : "max-h-0"
-        }`}
+        className="md:hidden overflow-hidden transition-all duration-400"
+        style={{
+          maxHeight: mobileOpen ? "calc(100dvh - 5rem)" : "0px",
+          overflowY: mobileOpen ? "auto" : "hidden",
+        }}
       >
         <div className="mobile-menu-panel">
           <div className="section-container py-2">
@@ -552,9 +705,31 @@ export default function Navbar() {
               {/* Model sub-items */}
               <div
                 className="overflow-hidden transition-all duration-300"
-                style={{ maxHeight: mobileModels ? "340px" : "0px" }}
+                style={{ maxHeight: mobileModels ? "520px" : "0px" }}
               >
                 <div className="pb-3 pl-2 space-y-1">
+                  <div className="grid grid-cols-2 gap-2 px-2 pb-2 pt-1">
+                    {mobileCategoryLabels.map((item) => (
+                      <button
+                        key={item.key}
+                        type="button"
+                        onClick={() => setMobileModelCategory(item.key)}
+                        aria-pressed={mobileModelCategory === item.key}
+                        className={`mega-category-tab min-h-11 px-3 py-2 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-byd-red/70 ${
+                          mobileModelCategory === item.key
+                            ? "bg-byd-red text-white"
+                            : "border border-white/[0.10] bg-white/[0.03] text-white/60"
+                        }`}
+                      >
+                        <span className="block text-[11px] font-bold leading-tight">
+                          {item.label}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {mobileModelCategory === "passenger" ? (
+                    <>
                   {MEGA_MODELS.map((model) => (
                     <Link
                       key={model.id}
@@ -592,6 +767,31 @@ export default function Navbar() {
                   >
                     {ka ? "ყველა მოდელი" : "View all"} →
                   </Link>
+                    </>
+                  ) : (
+                    <div className="px-2 pb-1">
+                      <Link
+                        href={COMMERCIAL_CONTACT_HREF}
+                        onClick={() => { setMobileOpen(false); setMobileModels(false); }}
+                        className="commercial-mobile-card block border border-white/[0.10] bg-white/[0.04] px-4 py-4 transition-colors duration-200 hover:border-byd-red/55 hover:bg-white/[0.07]"
+                      >
+                        <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-byd-red">
+                          {ka ? "BYD ბიზნესი" : "BYD Business"}
+                        </span>
+                        <p className="mt-1 text-[14px] font-bold leading-tight text-white">
+                          {ka ? "კომერციული ავტომობილები" : "Commercial Vehicles"}
+                        </p>
+                        <p className="mt-2 text-[12px] font-light leading-relaxed text-white/55">
+                          {ka
+                            ? "ფლოტის, ბიზნესისა და ლოგისტიკისთვის დაგეგმილი შეთავაზებები."
+                            : "Fleet, business and logistics offers handled by consultation."}
+                        </p>
+                        <span className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/55">
+                          {ka ? "შეთავაზების მოთხოვნა" : "Request offer"} →
+                        </span>
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

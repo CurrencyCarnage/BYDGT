@@ -495,6 +495,41 @@
     background: rgba(37, 39, 40, 0.04) !important;
   }
 
+  html.light nav .mega-menu-panel .mega-category-tab:not(.bg-byd-red) {
+    background: #F5F6F7 !important;
+    border-color: rgba(37, 39, 40, 0.12) !important;
+    color: rgba(37, 39, 40, 0.76) !important;
+    text-shadow: none !important;
+  }
+
+  html.light nav .mobile-menu-panel .mega-category-tab:not(.bg-byd-red),
+  nav.header-on-light-surface .mobile-menu-panel .mega-category-tab:not(.bg-byd-red) {
+    background: rgba(17, 18, 19, 0.04) !important;
+    border-color: rgba(37, 39, 40, 0.12) !important;
+    color: rgba(17, 18, 19, 0.78) !important;
+    text-shadow: none !important;
+  }
+
+  html.light nav .mega-menu-panel .mega-category-tab.bg-byd-red,
+  html.light nav .mega-menu-panel .mega-category-tab.bg-byd-red *,
+  html.light nav .mobile-menu-panel .mega-category-tab.bg-byd-red,
+  html.light nav .mobile-menu-panel .mega-category-tab.bg-byd-red *,
+  nav.header-on-light-surface .mobile-menu-panel .mega-category-tab.bg-byd-red,
+  nav.header-on-light-surface .mobile-menu-panel .mega-category-tab.bg-byd-red * {
+    background-color: #D70C19 !important;
+    border-color: #D70C19 !important;
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+  }
+
+  html.light .commercial-direction-card {
+    background: #FFFFFF !important;
+  }
+
+  html.light .commercial-direction-card:hover {
+    background: #F5F6F7 !important;
+  }
+
   html.light nav .text-white,
   html.light nav [class*="text-white/"],
   html.light nav .nav-link {
