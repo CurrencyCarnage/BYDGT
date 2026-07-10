@@ -1072,6 +1072,174 @@
     color: #7A8080 !important;
   }
 
+  html:not(.light) .model-card .model-card-spec {
+    background: #17191A !important;
+    border-color: rgba(255, 255, 255, 0.11) !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24) !important;
+  }
+
+  html:not(.light) .model-card .model-card-spec p {
+    color: #8F969A !important;
+  }
+
+  html:not(.light) .model-card .model-card-spec span {
+    color: #F1F3F4 !important;
+  }
+
+  html:not(.light) .model-card .model-card-action {
+    color: #D4D8DB !important;
+  }
+
+  html:not(.light) .model-card:hover .model-card-action {
+    color: #D70C19 !important;
+  }
+
+  html:not(.light) .compare-module .compare-contact-cta {
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.24) !important;
+    color: #FFFFFF !important;
+  }
+
+  html:not(.light) .compare-module .compare-contact-cta:hover {
+    border-color: #D70C19 !important;
+    color: #D70C19 !important;
+  }
+
+  /* Model detail purchase surfaces — layered charcoal in dark mode */
+  html:not(.light) .model-configurator {
+    background: #121415 !important;
+    color: #E8EAEB !important;
+  }
+
+  html:not(.light) .model-configurator .content-surface-soft {
+    background: #191B1D !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+    color: #E8EAEB !important;
+  }
+
+  html:not(.light) .model-configurator .configurator-option {
+    background: #232628 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  html:not(.light) .model-configurator .configurator-color-preview {
+    background: linear-gradient(180deg, #34383A 0%, #202325 100%) !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  html:not(.light) .model-configurator .configurator-section-label,
+  html:not(.light) .model-configurator .configurator-summary-label,
+  html:not(.light) .model-configurator .configurator-option-meta {
+    color: #9AA0A4 !important;
+  }
+
+  html:not(.light) .model-configurator .configurator-option-title,
+  html:not(.light) .model-configurator .configurator-summary-value,
+  html:not(.light) .model-configurator .configurator-total-price {
+    color: #F2F4F5 !important;
+    text-shadow: none !important;
+  }
+
+  html:not(.light) .model-configurator .configurator-option[aria-pressed="true"] {
+    background: rgba(215, 12, 25, 0.14) !important;
+    border-color: #D70C19 !important;
+  }
+
+  html:not(.light) .model-configurator .configurator-option[aria-pressed="true"] .configurator-option-title {
+    color: #FFFFFF !important;
+  }
+
+  html:not(.light) .model-configurator .configurator-option[aria-pressed="true"] .configurator-option-meta {
+    color: #FF9AA1 !important;
+  }
+
+  html:not(.light) .model-configurator .configurator-secondary-action {
+    border-color: rgba(255, 255, 255, 0.24) !important;
+    color: #F2F4F5 !important;
+  }
+
+  html:not(.light) .model-configurator .configurator-secondary-action:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.46) !important;
+  }
+
+  html:not(.light) .model-specs-section {
+    background: #0B0C0D !important;
+  }
+
+  html:not(.light) .model-specs-section h2 {
+    color: #FFFFFF !important;
+  }
+
+  html:not(.light) .model-specs-section .text-\[\#686D71\] {
+    color: #A3A8AB !important;
+  }
+
+  html:not(.light) .model-specs-section .technical-selection-summary,
+  html:not(.light) .model-specs-section .technical-spec-card {
+    background: #1A1C1D !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.26) !important;
+  }
+
+  html:not(.light) .model-specs-section .technical-spec-card h3,
+  html:not(.light) .model-specs-section .technical-spec-item p:last-child {
+    color: #F2F4F5 !important;
+  }
+
+  html:not(.light) .model-specs-section .technical-spec-item {
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  html:not(.light) .model-specs-section .technical-spec-item p:first-child,
+  html:not(.light) .model-specs-section .technical-selection-summary p:first-child {
+    color: #9AA0A4 !important;
+  }
+
+  html:not(.light) .model-trims-section {
+    background: #0E0F10 !important;
+  }
+
+  html:not(.light) .model-trims-section h2 {
+    color: #FFFFFF !important;
+  }
+
+  html:not(.light) .model-trims-section .trim-card {
+    background: #1A1C1D !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24) !important;
+  }
+
+  html:not(.light) .model-trims-section .trim-card[data-selected="true"] {
+    border-color: #D70C19 !important;
+    box-shadow: 0 16px 36px rgba(215, 12, 25, 0.14) !important;
+  }
+
+  html:not(.light) .model-trims-section .trim-card h3,
+  html:not(.light) .model-trims-section .trim-card li {
+    color: #F2F4F5 !important;
+  }
+
+  html:not(.light) .model-trims-section .trim-card .bg-\[\#E1E4E6\] {
+    background-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  html:not(.light) .model-trims-section .trim-card .text-\[\#8A9094\] {
+    color: #9AA0A4 !important;
+  }
+
+  html:not(.light) .model-trims-section .trim-card button,
+  html:not(.light) .model-trims-section .trim-card a:not(.bg-byd-red) {
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    color: #F2F4F5 !important;
+  }
+
+  html:not(.light) .model-trims-section .trim-card button:hover,
+  html:not(.light) .model-trims-section .trim-card a:not(.bg-byd-red):hover {
+    border-color: #D70C19 !important;
+    color: #D70C19 !important;
+  }
+
   .form-field-light {
     width: 100%;
     background: #0A0B0C;
@@ -1460,11 +1628,11 @@
   }
 
   nav.header-on-light-surface {
-    background: rgba(255, 255, 255, 0.06) !important;
+    background: rgba(224, 226, 227, 0.84) !important;
     border-color: rgba(17, 18, 19, 0.10) !important;
-    box-shadow: none !important;
-    backdrop-filter: blur(4px) saturate(1.08) !important;
-    -webkit-backdrop-filter: blur(4px) saturate(1.08) !important;
+    box-shadow: 0 8px 28px rgba(24, 28, 32, 0.10) !important;
+    backdrop-filter: blur(10px) saturate(1.08) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(1.08) !important;
   }
 
   nav.header-on-light-surface img[alt="BYD"] {
@@ -1795,6 +1963,9 @@
   /* Spec toggle / control bar */
   html:not(.light) .compare-module .compare-matrix-surface .bg-\[\#FAFBFB\] {
     background-color: #151718 !important;
+  }
+  html:not(.light) .compare-module .compare-matrix-surface .bg-\[\#EEF0F1\] {
+    background-color: #0D0E0F !important;
   }
   html:not(.light) .compare-module .compare-matrix-surface .bg-white {
     background-color: #1A1C1D !important;

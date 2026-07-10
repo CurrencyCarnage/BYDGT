@@ -144,7 +144,14 @@ export default function CompareButton({
   const [isInCompare, setIsInCompare] = useState(false);
 
   useEffect(() => {
-    setIsInCompare(isModelInCompare(modelId));
+    const syncState = () => setIsInCompare(isModelInCompare(modelId));
+    syncState();
+    window.addEventListener("storage", syncState);
+    window.addEventListener("byd-compare-change", syncState);
+    return () => {
+      window.removeEventListener("storage", syncState);
+      window.removeEventListener("byd-compare-change", syncState);
+    };
   }, [modelId]);
 
   const t = locale === "ka" ? labels.ka : labels.en;
@@ -170,6 +177,7 @@ export default function CompareButton({
     const added = addModelToCache(modelId);
     if (added) {
       setIsInCompare(true);
+      window.dispatchEvent(new Event("byd-compare-change"));
       const models = readCachedModels();
       setSelectedModels(models);
       setModalState("navigate");
@@ -182,6 +190,7 @@ export default function CompareButton({
   const handleRemoveModel = useCallback(
     (removeId: string) => {
       removeCachedModel(removeId);
+      window.dispatchEvent(new Event("byd-compare-change"));
       const updated = selectedModels.filter((m) => m.id !== removeId);
       setSelectedModels(updated);
       // Stay in full modal — don't auto-close
@@ -194,6 +203,7 @@ export default function CompareButton({
     const added = addModelToCache(modelId);
     if (added) {
       setIsInCompare(true);
+      window.dispatchEvent(new Event("byd-compare-change"));
       setModalState(null);
       router.push(`/${locale}/compare`);
     }
@@ -207,6 +217,7 @@ export default function CompareButton({
       if (slotCount < 3) {
         addModelToCache(modelId);
         setIsInCompare(true);
+        window.dispatchEvent(new Event("byd-compare-change"));
       }
       router.push(`/${locale}/compare`);
     } else {

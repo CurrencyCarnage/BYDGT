@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { CarModel, formatPrice, getLocalizedValue } from "@/lib/types";
@@ -10,9 +10,19 @@ import CompareButton from "@/components/compare/CompareButton";
 
 interface ModelConfiguratorProps {
   model: CarModel;
+  onSelectionChange?: (selection: ConfiguratorSelection) => void;
 }
 
-export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
+export interface ConfiguratorSelection {
+  colorId: string | null;
+  colorName: string;
+  colorHex: string | null;
+  variantId: string | null;
+  variantName: string;
+  totalPrice: number;
+}
+
+export default function ModelConfigurator({ model, onSelectionChange }: ModelConfiguratorProps) {
   const [selectedColor, setSelectedColor] = useState(
     model.configurations.colors[0] ?? null
   );
@@ -30,6 +40,25 @@ export default function ModelConfigurator({ model }: ModelConfiguratorProps) {
   const selectedColorName = selectedColor ? getLocalizedValue(selectedColor.name, locale) : "";
   const selectedVariantName = selectedVariant ? getLocalizedValue(selectedVariant.name, locale) : "";
   const bookingHref = `/booking?version=${encodeURIComponent(model.id)}`;
+
+  useEffect(() => {
+    onSelectionChange?.({
+      colorId: selectedColor?.id ?? null,
+      colorName: selectedColorName,
+      colorHex: selectedColor?.hex ?? null,
+      variantId: selectedVariant?.id ?? null,
+      variantName: selectedVariantName,
+      totalPrice,
+    });
+  }, [
+    onSelectionChange,
+    selectedColor?.hex,
+    selectedColor?.id,
+    selectedColorName,
+    selectedVariant?.id,
+    selectedVariantName,
+    totalPrice,
+  ]);
 
   return (
     <div className="model-configurator relative overflow-hidden bg-white p-0">
