@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+type ShowcaseView = "vertical" | "one-line";
 
 type WheelFrame = {
   left: number;
@@ -134,6 +136,13 @@ const MODELS: ModelItem[] = [
   },
 ];
 
+const ONE_LINE_SCENES = [
+  "radial-gradient(ellipse 58% 78% at 94% 58%, rgba(215,12,25,0.34) 0%, rgba(215,12,25,0.08) 48%, transparent 72%), linear-gradient(135deg, #090b0d 0%, #121416 55%, #19090c 100%)",
+  "radial-gradient(ellipse 64% 84% at 88% 18%, rgba(86,151,255,0.42) 0%, rgba(40,84,170,0.12) 48%, transparent 72%), linear-gradient(135deg, #080d17 0%, #111a2a 58%, #09101b 100%)",
+  "radial-gradient(ellipse 62% 80% at 92% 56%, rgba(0,220,180,0.34) 0%, rgba(0,125,120,0.10) 50%, transparent 74%), linear-gradient(135deg, #05090a 0%, #0a1717 58%, #061110 100%)",
+  "radial-gradient(ellipse 68% 86% at 12% 8%, rgba(255,176,58,0.40) 0%, rgba(173,78,20,0.11) 48%, transparent 72%), linear-gradient(135deg, #110b07 0%, #21150c 58%, #130b08 100%)",
+] as const;
+
 function WheelSprite({
   src,
   frame,
@@ -192,6 +201,7 @@ function ModelSection({
   const carRef = useRef<HTMLDivElement>(null);
   const wheelFrontRef = useRef<HTMLImageElement>(null);
   const wheelRearRef = useRef<HTMLImageElement>(null);
+
   useEffect(() => {
     const section = sectionRef.current;
     const car = carRef.current;
@@ -229,7 +239,10 @@ function ModelSection({
       { threshold: 0.14, rootMargin: "0px 0px -10% 0px" }
     );
     observer.observe(section);
-    return () => observer.disconnect();
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   // ── Per-model scene config ────────────────────────────────────────────────
@@ -242,28 +255,24 @@ function ModelSection({
       lightSection: false,
       base: "#0c0d0e",
       groundShadow: "radial-gradient(ellipse 85% 40% at 50% 100%, rgba(215,12,25,0.18) 0%, rgba(0,0,0,0.55) 55%, transparent 80%)",
-      carGlow: "radial-gradient(ellipse 70% 90% at 50% 42%, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.04) 48%, transparent 72%)",
     },
     // 1 — Seal 06 DM-i: pearl white studio, ice-blue overhead key
     {
       lightSection: true,
       base: "#dde4ee",
       groundShadow: "radial-gradient(ellipse 85% 35% at 50% 100%, rgba(20,50,110,0.16) 0%, rgba(20,50,110,0.05) 55%, transparent 80%)",
-      carGlow: "radial-gradient(ellipse 68% 88% at 50% 40%, rgba(255,255,255,1) 0%, rgba(230,240,255,0.82) 38%, rgba(190,215,255,0.22) 68%, transparent 84%)",
     },
     // 2 — Yuan Up EV: near-black studio, teal-green EV charge rim light
     {
       lightSection: false,
       base: "#050709",
       groundShadow: "radial-gradient(ellipse 85% 40% at 50% 100%, rgba(0,200,170,0.16) 0%, rgba(0,0,0,0.60) 55%, transparent 80%)",
-      carGlow: "radial-gradient(ellipse 70% 90% at 50% 42%, rgba(0,230,195,0.11) 0%, rgba(80,200,255,0.05) 46%, transparent 72%)",
     },
     // 3 — Yuan Up DM-i: warm light grey studio, golden sunrise key light
     {
       lightSection: true,
       base: "#ede8e0",
       groundShadow: "radial-gradient(ellipse 85% 35% at 50% 100%, rgba(170,95,15,0.20) 0%, rgba(120,70,10,0.07) 55%, transparent 80%)",
-      carGlow: "radial-gradient(ellipse 68% 88% at 50% 40%, rgba(255,248,228,0.98) 0%, rgba(255,225,155,0.72) 36%, rgba(245,190,85,0.20) 68%, transparent 84%)",
     },
   ];
   const scene = scenes[index] ?? scenes[0];
@@ -279,72 +288,12 @@ function ModelSection({
       className="relative isolate overflow-hidden md:![min-height:88svh]"
       style={{
         minHeight: "clamp(260px, 36svh, 500px)",
+        background: scene.base,
         borderBottom: lightSection
           ? "1px solid rgba(0,0,0,0.07)"
           : "1px solid rgba(255,255,255,0.04)",
       }}
     >
-      {/* ── Studio base coat ─────────────────────────────────────── */}
-      <div className="absolute inset-0" style={{ background: scene.base }} />
-
-      {/* Top fade from header — seamless blend on first section */}
-      {index === 0 && (
-        <div className="absolute inset-x-0 top-0 h-20 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(26,28,29,0.35) 0%, transparent 100%)" }} />
-      )}
-
-      {/* ── Shared studio layers ─────────────────────────────────── */}
-      {/* Overhead key light — wide ellipse from top-centre */}
-      <div
-        className="absolute inset-x-0 top-0 h-[55%]"
-        style={{
-          background: lightSection
-            ? "radial-gradient(ellipse 80% 100% at 50% 0%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 48%, transparent 80%)"
-            : "radial-gradient(ellipse 80% 100% at 50% 0%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 48%, transparent 80%)",
-        }}
-      />
-      {/* Floor gradient — bottom half fades to slightly lighter to sell floor */}
-      <div
-        className="absolute inset-x-0 bottom-0 h-[45%]"
-        style={{
-          background: lightSection
-            ? "linear-gradient(to top, rgba(255,255,255,0.30) 0%, transparent 100%)"
-            : "linear-gradient(to top, rgba(255,255,255,0.04) 0%, transparent 100%)",
-        }}
-      />
-      {/* Per-scene accent layers */}
-      {index === 0 && (
-        <>
-          {/* Dark: faint red rim light from car's right (enters from right) */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 60% 70% at 96% 62%, rgba(215,12,25,0.14) 0%, transparent 55%)" }} />
-          {/* Subtle cool reflection on left side */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 40% 60% at 0% 55%, rgba(100,130,180,0.06) 0%, transparent 60%)" }} />
-        </>
-      )}
-      {index === 1 && (
-        <>
-          {/* Light ice-blue tint from upper right — studio softbox */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 80% at 92% 10%, rgba(140,185,245,0.22) 0%, transparent 55%)" }} />
-          {/* Subtle grid for precision feel */}
-          <div className="absolute inset-0 opacity-[0.35]" style={{ backgroundImage: "linear-gradient(rgba(60,100,170,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(60,100,170,0.08) 1px, transparent 1px)", backgroundSize: "3.75rem 3.75rem" }} />
-        </>
-      )}
-      {index === 2 && (
-        <>
-          {/* Teal-green rim from right — EV charge colour */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 65% at 95% 58%, rgba(0,210,175,0.13) 0%, transparent 55%)" }} />
-          {/* Deep blue ceiling */}
-          <div className="absolute inset-x-0 top-0 h-[30%]" style={{ background: "linear-gradient(to bottom, rgba(0,80,160,0.14) 0%, transparent 100%)" }} />
-        </>
-      )}
-      {index === 3 && (
-        <>
-          {/* Warm amber key from upper-left — golden hour */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 75% at 8% 0%, rgba(240,175,55,0.28) 0%, rgba(235,140,38,0.08) 48%, transparent 70%)" }} />
-          {/* Peach accent right */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 60% at 95% 20%, rgba(240,120,70,0.10) 0%, transparent 55%)" }} />
-        </>
-      )}
-
       {/* Ground shadow */}
       <div
         className="absolute left-1/2 bottom-[6%] h-6 w-[min(70vw,53.75rem)] -translate-x-1/2 rounded-[999px] blur-[14px]"
@@ -369,7 +318,7 @@ function ModelSection({
           className={[
             "mx-auto mt-2 md:mt-3",
             model.titleWidthClass,
-            "text-center text-[clamp(2.1rem,6vw,4.5rem)] font-semibold leading-[0.9] select-none",
+            "bg-transparent text-center text-[clamp(2.1rem,6vw,4.5rem)] font-semibold leading-[0.9] select-none",
             lightSection ? "text-[#0f1214]" : "text-white",
           ].join(" ")}
           style={{ letterSpacing: "-0.045em" }}
@@ -377,34 +326,31 @@ function ModelSection({
           {model.name}
         </h3>
 
-        {/* Car + wheels — rolls in from the right */}
+        {/* Car + wheels — scroll-triggered roll-in for mobile Vertical view */}
         <div className="mt-auto">
           <Link
             href={model.href}
             aria-label={ka ? `${model.name} დეტალები` : `Explore ${model.name}`}
-            className="group block"
+            className="group block bg-transparent"
           >
             <div
               ref={carRef}
-              className={["relative mx-auto", model.stageWidthClass].join(" ")}
+              className={[
+                "showcase-car-stage relative mx-auto bg-transparent",
+                model.stageWidthClass,
+              ].join(" ")}
               style={{
                 transform: "translateX(110vw)",
                 opacity: 0,
                 willChange: "transform, opacity",
               }}
             >
-              {/* Stage: aspect ratio = car bbox, overflow clips wheel halos */}
+              {/* Transparent stage: aspect ratio = car bbox; overflow only clips wheel halos. */}
               <div
-                className="relative overflow-hidden"
+                className="relative overflow-hidden bg-transparent"
                 style={{ aspectRatio: `${model.width} / ${model.height}` }}
               >
-                {/* Ambient car glow — per-theme color */}
-                <div
-                  className="absolute inset-x-[3%] top-[5%] bottom-[4%] blur-3xl"
-                  style={{ background: scene.carGlow }}
-                />
-
-                {/* Animated wheel overlays */}
+                {/* Wheel overlays rotate only with the One Line roll-in. */}
                 <WheelSprite
                   src={model.frontWheelImage}
                   frame={model.frontWheelFrame}
@@ -420,12 +366,6 @@ function ModelSection({
                   stageHeight={model.height}
                   imgRef={wheelRearRef}
                   isDark={!lightSection}
-                />
-
-                {/* Bottom-edge blend — dissolves the hard overflow-hidden clip into the section bg */}
-                <div
-                  className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-[8%]"
-                  style={{ background: `linear-gradient(to top, ${scene.base} 0%, transparent 100%)` }}
                 />
 
                 {/* Car body */}
@@ -452,21 +392,20 @@ function ModelSection({
   );
 }
 
-function ShowcaseHeader({ locale }: { locale: string }) {
+function ShowcaseHeader({
+  locale,
+}: {
+  locale: string;
+}) {
   const ka = locale === "ka";
   return (
-    // Seamless transition: sits between ticker and first model.
-    // Gradient pulls from dark ticker above, softly fades to match first model's studio lighting.
     <div
       className="theme-media-section relative overflow-hidden"
       style={{
-        background: "linear-gradient(to bottom, #1a1c1d 0%, #0c0d0e 100%)",
+        background: "#111314",
         minHeight: "clamp(5rem, 12vh, 8.75rem)",
       }}
     >
-      {/* Matching studio rim light — begins the first scene's lighting */}
-      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 85% at 100% 65%, rgba(215,12,25,0.04) 0%, transparent 60%)" }} />
-
       <div className="relative section-container flex items-center justify-between gap-6 h-full py-6 md:py-8">
         <div>
           <div className="mb-2 flex items-center gap-2.5">
@@ -487,10 +426,10 @@ function ShowcaseHeader({ locale }: { locale: string }) {
         </div>
         <Link
           href="/catalog"
-          className="hidden flex-shrink-0 items-center gap-1 text-[10px] uppercase tracking-[0.18em] text-white/25 transition-colors duration-200 hover:text-white/50 md:flex"
+          className="hidden flex-shrink-0 items-center gap-3 text-[12px] font-medium uppercase text-white/55 transition-colors duration-200 hover:text-white md:flex"
         >
           {ka ? "ყველა" : "All"}
-          <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
           </svg>
         </Link>
@@ -500,18 +439,334 @@ function ShowcaseHeader({ locale }: { locale: string }) {
 }
 
 export default function ModelShowcase({ locale }: { locale: string }) {
+  const [view, setView] = useState<ShowcaseView | null>(null);
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 768px)");
+    const syncView = () => {
+      setView(desktopQuery.matches ? "one-line" : "vertical");
+    };
+
+    syncView();
+    desktopQuery.addEventListener("change", syncView);
+    return () => desktopQuery.removeEventListener("change", syncView);
+  }, []);
+
   return (
     <div id="showroom" className="bg-[#0c0d0e]">
       <ShowcaseHeader locale={locale} />
-      {MODELS.map((model, index) => (
-        <ModelSection
-          key={model.id}
-          model={model}
-          locale={locale}
-          index={index}
-          total={MODELS.length}
+      {view === null ? (
+        <div
+          aria-hidden="true"
+          className="min-h-[clamp(260px,36svh,500px)] bg-[#0c0d0e] md:min-h-[clamp(32rem,78svh,56rem)]"
         />
-      ))}
+      ) : view === "vertical" ? (
+        <>
+        {MODELS.map((model, index) => (
+          <ModelSection
+            key={model.id}
+            model={model}
+            locale={locale}
+            index={index}
+            total={MODELS.length}
+          />
+        ))}
+        </>
+      ) : (
+        <OneLineShowcase locale={locale} />
+      )}
     </div>
+  );
+}
+
+function OneLineCar({
+  model,
+  index,
+  position,
+  carRef,
+  frontWheelRef,
+  rearWheelRef,
+}: {
+  model: ModelItem;
+  index: number;
+  position: "settled" | "incoming" | "outgoing";
+  carRef: React.RefObject<HTMLDivElement>;
+  frontWheelRef: React.RefObject<HTMLImageElement>;
+  rearWheelRef: React.RefObject<HTMLImageElement>;
+}) {
+  const incoming = position === "incoming";
+
+  return (
+    <div className="absolute inset-x-0 bottom-0 z-10">
+      <div
+        ref={carRef}
+        className={["relative mx-auto bg-transparent", model.stageWidthClass].join(" ")}
+        style={{
+          transform: incoming ? "translateX(110vw)" : "translateX(0)",
+          opacity: incoming ? 0 : 1,
+          willChange: "transform, opacity",
+        }}
+      >
+        <div
+          className="relative overflow-hidden bg-transparent"
+          style={{ aspectRatio: `${model.width} / ${model.height}` }}
+        >
+          <WheelSprite
+            src={model.frontWheelImage}
+            frame={model.frontWheelFrame}
+            stageWidth={model.width}
+            stageHeight={model.height}
+            imgRef={frontWheelRef}
+            isDark
+          />
+          <WheelSprite
+            src={model.rearWheelImage}
+            frame={model.rearWheelFrame}
+            stageWidth={model.width}
+            stageHeight={model.height}
+            imgRef={rearWheelRef}
+            isDark
+          />
+          <Image
+            src={model.foregroundImage}
+            alt={model.name}
+            width={1254}
+            height={1254}
+            priority={index === 0}
+            quality={92}
+            unoptimized
+            sizes="(max-width: 768px) 96vw, min(96vw, 1200px)"
+            className="pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover"
+            style={{ objectPosition: model.objectPosition }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function OneLineShowcase({ locale }: { locale: string }) {
+  const ka = locale === "ka";
+  const [settledIndex, setSettledIndex] = useState(0);
+  const [transition, setTransition] = useState<{
+    from: number;
+    to: number;
+  } | null>(null);
+  const [initialEntryComplete, setInitialEntryComplete] = useState(false);
+
+  const incomingCarRef = useRef<HTMLDivElement>(null);
+  const incomingFrontWheelRef = useRef<HTMLImageElement>(null);
+  const incomingRearWheelRef = useRef<HTMLImageElement>(null);
+  const outgoingCarRef = useRef<HTMLDivElement>(null);
+  const outgoingFrontWheelRef = useRef<HTMLImageElement>(null);
+  const outgoingRearWheelRef = useRef<HTMLImageElement>(null);
+  const queuedAdvancesRef = useRef(0);
+
+  useEffect(() => {
+    const car = incomingCarRef.current;
+    const frontWheel = incomingFrontWheelRef.current;
+    const rearWheel = incomingRearWheelRef.current;
+    if (!car) return;
+
+    const timing: KeyframeAnimationOptions = {
+      duration: 2600,
+      delay: 120,
+      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+      fill: "both",
+    };
+    const carAnimation = car.animate(
+      [
+        { transform: "translateX(110vw)", opacity: "0" },
+        { transform: "translateX(0px)", opacity: "1" },
+      ],
+      timing
+    );
+    const wheelFrames: Keyframe[] = [
+      { transform: "rotate(0deg)" },
+      { transform: "rotate(-720deg)" },
+    ];
+    const frontAnimation = frontWheel?.animate(wheelFrames, timing);
+    const rearAnimation = rearWheel?.animate(wheelFrames, timing);
+
+    carAnimation.finished
+      .then(() => {
+        setInitialEntryComplete(true);
+        if (queuedAdvancesRef.current > 0) {
+          queuedAdvancesRef.current -= 1;
+          setTransition({ from: 0, to: 1 % MODELS.length });
+        }
+      })
+      .catch(() => undefined);
+
+    return () => {
+      carAnimation.cancel();
+      frontAnimation?.cancel();
+      rearAnimation?.cancel();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!transition) return;
+
+    const incomingCar = incomingCarRef.current;
+    const incomingFrontWheel = incomingFrontWheelRef.current;
+    const incomingRearWheel = incomingRearWheelRef.current;
+    const outgoingCar = outgoingCarRef.current;
+    const outgoingFrontWheel = outgoingFrontWheelRef.current;
+    const outgoingRearWheel = outgoingRearWheelRef.current;
+    if (!incomingCar || !outgoingCar) return;
+
+    const timing: KeyframeAnimationOptions = {
+      duration: 2600,
+      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+      fill: "both",
+    };
+    const outgoingTiming: KeyframeAnimationOptions = {
+      ...timing,
+      duration: 2200,
+    };
+    const incomingAnimation = incomingCar.animate(
+      [
+        { transform: "translateX(110vw)", opacity: "0" },
+        { transform: "translateX(0px)", opacity: "1" },
+      ],
+      timing
+    );
+    const outgoingAnimation = outgoingCar.animate(
+      [
+        { transform: "translateX(0px)", opacity: "1" },
+        { transform: "translateX(-110vw)", opacity: "0" },
+      ],
+      outgoingTiming
+    );
+    const wheelFrames: Keyframe[] = [
+      { transform: "rotate(0deg)" },
+      { transform: "rotate(-720deg)" },
+    ];
+    const incomingFrontAnimation = incomingFrontWheel?.animate(wheelFrames, timing);
+    const incomingRearAnimation = incomingRearWheel?.animate(wheelFrames, timing);
+
+    // Keep the outgoing wheels rolling for the entire left-side exit.
+    const outgoingFrontAnimation = outgoingFrontWheel?.animate(
+      wheelFrames,
+      outgoingTiming
+    );
+    const outgoingRearAnimation = outgoingRearWheel?.animate(
+      wheelFrames,
+      outgoingTiming
+    );
+
+    Promise.all([incomingAnimation.finished, outgoingAnimation.finished])
+      .then(() => {
+        const arrivedIndex = transition.to;
+        setSettledIndex(arrivedIndex);
+
+        if (queuedAdvancesRef.current > 0) {
+          queuedAdvancesRef.current -= 1;
+          setTransition({
+            from: arrivedIndex,
+            to: (arrivedIndex + 1) % MODELS.length,
+          });
+        } else {
+          setTransition(null);
+        }
+      })
+      .catch(() => undefined);
+
+    return () => {
+      incomingAnimation.cancel();
+      outgoingAnimation.cancel();
+      incomingFrontAnimation?.cancel();
+      incomingRearAnimation?.cancel();
+      outgoingFrontAnimation?.cancel();
+      outgoingRearAnimation?.cancel();
+    };
+  }, [transition]);
+
+  const displayedIndex = transition?.to ?? settledIndex;
+  const displayedModel = MODELS[displayedIndex];
+
+  const showNext = () => {
+    if (transition || !initialEntryComplete) {
+      queuedAdvancesRef.current = Math.min(
+        queuedAdvancesRef.current + 1,
+        MODELS.length
+      );
+      return;
+    }
+    setTransition({
+      from: settledIndex,
+      to: (settledIndex + 1) % MODELS.length,
+    });
+  };
+
+  return (
+    <section
+      data-model-section
+      data-model-scene="dark"
+      className="theme-media-section relative isolate min-h-[clamp(32rem,78svh,56rem)] overflow-hidden"
+      style={{ background: ONE_LINE_SCENES[displayedIndex] }}
+    >
+      <div className="relative z-20 section-container flex min-h-[inherit] flex-col px-4 pb-0 pt-6 md:pt-8">
+        <div className="flex justify-end">
+          <p className="select-none font-mono text-[10px] tracking-[0.16em] text-white/35">
+            {String(displayedIndex + 1).padStart(2, "0")}&thinsp;/&thinsp;
+            {String(MODELS.length).padStart(2, "0")}
+          </p>
+        </div>
+        <h3
+          className="mx-auto mt-3 max-w-[11ch] bg-transparent text-center text-[clamp(2.2rem,6vw,4.75rem)] font-semibold leading-[0.9] text-white select-none"
+          style={{ letterSpacing: "-0.045em" }}
+        >
+          {displayedModel.name}
+        </h3>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-0 h-[68%]">
+        {transition ? (
+          <>
+            <OneLineCar
+              key={`outgoing-${transition.from}`}
+              model={MODELS[transition.from]}
+              index={transition.from}
+              position="outgoing"
+              carRef={outgoingCarRef}
+              frontWheelRef={outgoingFrontWheelRef}
+              rearWheelRef={outgoingRearWheelRef}
+            />
+            <OneLineCar
+              key={`incoming-${transition.to}`}
+              model={MODELS[transition.to]}
+              index={transition.to}
+              position="incoming"
+              carRef={incomingCarRef}
+              frontWheelRef={incomingFrontWheelRef}
+              rearWheelRef={incomingRearWheelRef}
+            />
+          </>
+        ) : (
+          <OneLineCar
+            key={`settled-${settledIndex}`}
+            model={MODELS[settledIndex]}
+            index={settledIndex}
+            position={initialEntryComplete ? "settled" : "incoming"}
+            carRef={incomingCarRef}
+            frontWheelRef={incomingFrontWheelRef}
+            rearWheelRef={incomingRearWheelRef}
+          />
+        )}
+      </div>
+
+      <button
+        type="button"
+        onClick={showNext}
+        aria-label={ka ? "შემდეგი მოდელი" : "Next model"}
+        className="absolute right-4 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center border border-white/30 bg-black/20 text-white backdrop-blur-sm transition-colors duration-200 hover:border-white/65 hover:bg-black/35 active:scale-95 md:right-8 md:h-16 md:w-16"
+      >
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </section>
   );
 }

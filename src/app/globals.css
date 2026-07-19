@@ -1637,6 +1637,25 @@
     text-shadow: none !important;
   }
 
+  nav a.navbar-book-test-drive,
+  nav a.navbar-book-test-drive:hover,
+  nav.header-on-light-surface a.navbar-book-test-drive,
+  nav.header-on-light-surface a.navbar-book-test-drive:hover,
+  html.light nav a.navbar-book-test-drive,
+  html.light nav a.navbar-book-test-drive:hover {
+    background-color: #D70C19 !important;
+    border-color: #D70C19 !important;
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+  }
+
+  nav a.navbar-book-test-drive *,
+  nav.header-on-light-surface a.navbar-book-test-drive *,
+  html.light nav a.navbar-book-test-drive * {
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+  }
+
   html.light .glass-card {
     background: rgba(255, 255, 255, 0.82);
     border-color: rgba(37, 39, 40, 0.12);
@@ -2301,10 +2320,14 @@
   }
 }
 
+/* ── ModelShowcase view-specific presentation ────────────────────────────── */
+.showcase-car-stage {
+  transform: none;
+  opacity: 1;
+}
+
 /* ── ModelShowcase entrance animations ─────────────────────────────────────
-   Using @keyframes (not CSS transitions) so the from: state is applied
-   by the browser regardless of when the class is toggled. This is the only
-   reliable way to guarantee the car starts off-screen before animating in.
+   Retained for the original One Line presentation.
    ───────────────────────────────────────────────────────────────────────── */
 @keyframes showcase-car-roll-in {
   from { transform: translateX(100vw); opacity: 0; }
@@ -2321,11 +2344,9 @@
   to   { transform: translateY(0);    opacity: 1; }
 }
 
-/* Pre-animation state — element is invisible and off-screen */
 .sc-car-hidden   { transform: translateX(100vw); opacity: 0; }
 .sc-title-hidden { transform: translateY(28px);  opacity: 0; }
 
-/* Animation classes — applied once when section enters viewport */
 .sc-car-enter {
   animation: showcase-car-roll-in 3.2s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: 0.5s;
@@ -2336,13 +2357,8 @@
   animation-delay: 0.2s;
 }
 
-/* .sc-wheel-spin — removed; wheels are now animated via WAAPI in ModelShowcase.tsx */
-
 @media (prefers-reduced-motion: reduce) {
-  /* Title still animates in (CSS), just instantly */
   .sc-title-enter { animation: none; transform: translateY(0); opacity: 1; }
-  /* Hidden states remain hidden until IO fires — do NOT override here */
-  /* Car + wheels use WAAPI — caller should check matchMedia before animating */
   .compare-swap-from-left,
   .compare-swap-from-right {
     animation: none;

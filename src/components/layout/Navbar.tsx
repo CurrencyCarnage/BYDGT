@@ -638,7 +638,7 @@ export default function Navbar() {
 
           <Link
             href="/booking"
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-byd-red text-white text-[13px] font-bold tracking-[0.1em] uppercase hover:bg-[#A80912] transition-colors duration-200"
+            className="navbar-book-test-drive hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-byd-red text-[13px] font-bold tracking-[0.1em] uppercase transition-colors duration-200"
           >
             {tCommon("bookTestDrive")}
           </Link>
@@ -843,7 +843,7 @@ export default function Navbar() {
               <Link
                 href="/booking"
                 onClick={() => setMobileOpen(false)}
-                className="inline-flex min-h-11 items-center justify-center bg-byd-red px-4 text-xs font-bold uppercase tracking-[0.1em] text-white transition-colors duration-200 hover:bg-[#A80912]"
+                className="navbar-book-test-drive inline-flex min-h-11 items-center justify-center bg-byd-red px-4 text-xs font-bold uppercase tracking-[0.1em] transition-colors duration-200"
               >
                 {tCommon("bookTestDrive")}
               </Link>
