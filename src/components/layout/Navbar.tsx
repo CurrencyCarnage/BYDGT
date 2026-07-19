@@ -476,7 +476,16 @@ export default function Navbar() {
   };
 
   const ka = locale === "ka";
-  const isHomepage = pathname === "/";
+  const isGateway = pathname === "/";
+  const isHomepage = isGateway || pathname === "/cars";
+
+  useEffect(() => {
+    if (!isGateway) return;
+    setMegaOpen(false);
+    setMobileOpen(false);
+    setMobileModels(false);
+  }, [isGateway]);
+
   const useLightSurfaceHeader = overLightSurface || (theme === "light" && !isHomepage);
   const mobileCategoryLabels = getMegaCategoryLabels(ka);
 
@@ -523,7 +532,7 @@ export default function Navbar() {
         </Link>
 
         {/* ── Desktop nav ──────────────────────────────────────── */}
-        <div className="hidden md:flex items-center gap-7 flex-1 justify-center relative">
+        <div className={isGateway ? "hidden" : "hidden md:flex items-center gap-7 flex-1 justify-center relative"}>
 
           {/* Home, About */}
           {[baseLinks[0], baseLinks[1]].map((link) => (
@@ -646,7 +655,7 @@ export default function Navbar() {
           {/* Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden flex flex-col gap-[5px] p-1.5"
+            className={`${isGateway ? "hidden" : "flex"} md:hidden flex-col gap-[5px] p-1.5`}
             aria-label={mobileOpen ? tCommon("close") : tCommon("menu")}
           >
             <span className={`block w-5 h-[1.5px] bg-white transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[6.5px]" : ""}`} />
@@ -658,7 +667,7 @@ export default function Navbar() {
 
       {/* ── Mobile menu ──────────────────────────────────────────── */}
       <div
-        className="md:hidden overflow-hidden transition-all duration-400"
+        className={`${isGateway ? "hidden" : "md:hidden"} overflow-hidden transition-all duration-400`}
         style={{
           maxHeight: mobileOpen ? "calc(100dvh - 5rem)" : "0px",
           overflowY: mobileOpen ? "auto" : "hidden",

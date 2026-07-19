@@ -497,6 +497,29 @@ const SPEC_ROWS: {
   },
 ];
 
+const SPEC_GROUPS: { key: string; title: Bilingual; rows: string[] }[] = [
+  {
+    key: "powertrain",
+    title: { en: "Powertrain", ka: "ძრავა და ამძრავი" },
+    rows: ["powertrain", "drive", "power", "torque"],
+  },
+  {
+    key: "range",
+    title: { en: "Range & energy", ka: "მანძილი და ენერგია" },
+    rows: ["totalRange", "evRange", "battery", "charging"],
+  },
+  {
+    key: "performance",
+    title: { en: "Performance", ka: "წარმადობა" },
+    rows: ["acceleration", "topSpeed"],
+  },
+  {
+    key: "dimensions",
+    title: { en: "Body & dimensions", ka: "ძარა და ზომები" },
+    rows: ["bodyType", "length", "width", "height", "wheelbase"],
+  },
+];
+
 interface ModelDropdownProps {
   selected: SlotVersion | null;
   onSelect: (version: SlotVersion) => void;
@@ -1142,52 +1165,55 @@ export default function CompareGrid({
             </div>
           )}
 
-          {/* Spec rows */}
-          {visibleSpecRows.map((row, rowIndex) => (
-            <div
-              key={row.key}
-              className={`border-b border-[#E6E9EA] ${
-                rowIndex % 2 === 0 ? "bg-white" : ""
-              }`}
-            >
-              {/* Spec label row spanning full width */}
-              <div
-                className="flex items-center justify-center gap-2 border-b border-[#E6E9EA] px-3 py-2.5 text-center bg-[#F7F8F8]"
-              >
-                <span className="text-[10px] font-semibold uppercase text-[#686D71] md:text-[11px]">
-                  {t(row.label, locale)}
-                </span>
-              </div>
+          {/* Grouped specification cards */}
+          {hasComparison && (
+            <div className="space-y-4 bg-[#EEF0F1] p-3 md:space-y-5 md:p-6">
+              {SPEC_GROUPS.map((group, groupIndex) => {
+                const rows = visibleSpecRows.filter((row) => group.rows.includes(row.key));
+                if (rows.length === 0) return null;
 
-              {/* Values: 3 columns */}
-              <div className="grid grid-cols-3">
-                {row.values.map((value, ci) => {
-                  const isBest =
-                    comparisonMode === "differences" &&
-                    row.hasDifference &&
-                    row.bestIndices.includes(ci);
-
-                  return (
-                    <div
-                      key={`${row.key}-${ci}`}
-                      title={t(row.label, locale)}
-                      className={`flex min-h-[3.75rem] items-center px-3 py-3 text-center leading-5 md:min-h-[4rem] md:justify-center md:px-5 md:py-4 md:leading-6 ${getSwapClass(ci)} ${
-                        ci < 2 ? "border-r border-[#E6E9EA]" : ""
-                      } ${
-                        value === null
-                          ? "text-[12px] md:text-[14px] text-[#B6BDC1]"
-                          : isBest
-                            ? "text-[14px] md:text-[16px] font-bold text-byd-red"
-                            : "text-[12px] md:text-[14px] text-[#4E5356]"
-                      }`}
-                    >
-                      <span className="w-full break-words">{value ?? "—"}</span>
+                return (
+                  <section key={group.key} className="overflow-hidden rounded-xl border border-[#DDE1E3] bg-white shadow-[0_12px_30px_rgba(24,28,32,0.05)]">
+                    <div className="flex items-center gap-3 bg-byd-red px-4 py-3 text-white md:px-6 md:py-4">
+                      <span className="flex h-7 w-7 items-center justify-center border border-white/35 text-[10px] font-bold md:h-8 md:w-8 md:text-xs">0{groupIndex + 1}</span>
+                      <h3 className="text-sm font-bold uppercase tracking-[0.12em] md:text-base">{t(group.title, locale)}</h3>
                     </div>
-                  );
-                })}
-              </div>
+                    <div className="divide-y divide-[#E6E9EA]">
+                      {rows.map((row) => (
+                        <div key={row.key} className="bg-white">
+                          <div className="border-b border-[#EEF0F1] bg-[#FAFBFB] px-4 py-2.5 text-center md:px-6">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-byd-red md:text-xs">{t(row.label, locale)}</span>
+                          </div>
+                          <div className="grid grid-cols-3">
+                            {row.values.map((value, ci) => {
+                              const isBest = comparisonMode === "differences" && row.hasDifference && row.bestIndices.includes(ci);
+                              return (
+                                <div
+                                  key={`${row.key}-${ci}`}
+                                  title={t(row.label, locale)}
+                                  className={`flex min-h-[3.4rem] items-center justify-center px-2 py-3 text-center leading-5 md:min-h-[4.25rem] md:px-5 md:py-4 ${getSwapClass(ci)} ${
+                                    ci < 2 ? "border-r border-[#E6E9EA]" : ""
+                                  } ${
+                                    value === null
+                                      ? "text-[11px] text-[#B6BDC1] md:text-sm"
+                                      : isBest
+                                        ? "text-[13px] font-bold text-byd-red md:text-base"
+                                        : "text-[11px] font-semibold text-[#252728] md:text-sm"
+                                  }`}
+                                >
+                                  <span className="w-full break-words">{value ?? "—"}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
             </div>
-          ))}
+          )}
 
           {/* Price row — centered buttons linking to contact */}
           {hasComparison && (
@@ -1206,12 +1232,20 @@ export default function CompareGrid({
                     }`}
                   >
                     {slot ? (
-                      <Link
-                        href={`/${locale}/contact?subject=${encodeURIComponent(slot.familyName + " " + slot.label)}`}
-                        className="compare-pricing-cta inline-flex min-h-[2.75rem] w-full items-center justify-center gap-1.5 rounded-lg bg-byd-red px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-white transition-all duration-200 hover:bg-[#A80912] md:min-h-0 md:px-3 md:text-[12px]"
-                      >
-                        {labels.pricingValue}
-                      </Link>
+                      <div className="grid w-full gap-2">
+                        <Link
+                          href={`/${locale}/contact?subject=${encodeURIComponent(slot.familyName + " " + slot.label)}`}
+                          className="compare-pricing-cta compare-contact-cta inline-flex min-h-[2.75rem] w-full items-center justify-center gap-1.5 rounded-lg border border-[#C7CDD0] px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-[#252728] transition-colors hover:border-byd-red hover:text-byd-red md:px-3 md:text-[12px]"
+                        >
+                          {labels.pricingValue}
+                        </Link>
+                        <Link
+                          href={`/${locale}/booking?version=${encodeURIComponent(slot.id)}`}
+                          className="inline-flex min-h-[2.75rem] w-full items-center justify-center rounded-lg bg-byd-red px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-white transition-colors hover:bg-[#A80912] md:px-3 md:text-[12px]"
+                        >
+                          {locale === "ka" ? "ამ მოდელის ტესტ დრაივი" : "Test Drive this car"}
+                        </Link>
+                      </div>
                     ) : (
                       <span className="text-[11px] text-[#B6BDC1]">—</span>
                     )}

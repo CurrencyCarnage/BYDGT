@@ -28,6 +28,12 @@ const PUBLIC_ROUTES = [
 
   "/",
 
+  "/cars",
+
+  "/commercial",
+
+  "/services",
+
   "/catalog",
 
   "/catalog/sealion-06-dmi",

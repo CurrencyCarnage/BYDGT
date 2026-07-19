@@ -3,10 +3,9 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import { getModelById, getLocalizedValue, formatPrice } from "@/lib/models";
-import ModelConfigurator from "@/components/configurator/ModelConfigurator";
+import ModelPurchaseExperience, { CompareTrimsButton } from "@/components/configurator/ModelPurchaseExperience";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
-import CompareButton from "@/components/compare/CompareButton";
 
 
 export const dynamic = "force-dynamic";
@@ -30,17 +29,6 @@ export default async function ModelDetailPage({
   const name = getLocalizedValue(model.name, locale);
   const tagline = getLocalizedValue(model.tagline, locale);
   const bookingHref = `/booking?version=${encodeURIComponent(model.id)}`;
-
-  const specRows = [
-    { label: t("range"),        value: `${model.specs.range_km} km` },
-    ...(model.specs.electric_range_km
-      ? [{ label: t("electricRange"), value: `${model.specs.electric_range_km} km` }]
-      : []),
-    { label: t("power"),        value: `${model.specs.power_hp} HP` },
-    { label: t("acceleration"), value: `${model.specs.acceleration_0_100}s` },
-    { label: t("topSpeed"),     value: `${model.specs.top_speed_kmh} km/h` },
-    { label: t("battery"),      value: `${model.specs.battery_kwh} kWh` },
-  ];
 
   // Top 4 specs for the highlight strip
   const heroSpecs = [
@@ -143,9 +131,8 @@ export default async function ModelDetailPage({
                 <Link href={bookingHref} className="model-hero-cta btn-primary-red justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ minHeight: "2.75rem" }}>
                   {tCommon("bookTestDrive")}
                 </Link>
-                <CompareButton
-                  modelId={model.id}
-                  modelName={name}
+                <CompareTrimsButton
+                  label={locale === "ka" ? "კომპლექტაციების შედარება" : "Compare Trims"}
                   className="model-hero-cta btn-secondary justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm"
                   style={{ minHeight: "2.75rem" }}
                 />
@@ -181,57 +168,7 @@ export default async function ModelDetailPage({
         </div>
       </div>
 
-      {/* ── CONFIGURATOR — dark section ── */}
-      <section className="py-section-sm md:py-section-lg bg-[#1C1E1F]">
-        <div className="section-container">
-          <ScrollReveal className="mb-10">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-8 h-[2px] bg-byd-red flex-shrink-0" />
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">
-                {t("configurator")}
-              </p>
-            </div>
-            <h2 className="text-h5 md:text-h3 font-semibold text-white" style={{ letterSpacing: "-0.02em" }}>
-              {locale === "ka" ? "კონფიგურაცია" : "Build Your " + name}
-            </h2>
-          </ScrollReveal>
-          <ScrollReveal delay={0.1}>
-            <ModelConfigurator model={model} />
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* ── FULL SPECS — white section ── */}
-      <section className="model-specs-section py-section-sm md:py-section-lg bg-white" data-header-theme="light">
-        <div className="section-container">
-          <ScrollReveal className="mb-10">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-8 h-[2px] bg-byd-red flex-shrink-0" />
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">
-                {t("specsTitle")}
-              </p>
-            </div>
-            <h2 className="text-h5 md:text-h3 font-semibold text-[#252728]" style={{ letterSpacing: "-0.02em" }}>
-              {locale === "ka" ? "სპეციფიკაციები" : "Full Specifications"}
-            </h2>
-          </ScrollReveal>
-          <ScrollReveal delay={0.1}>
-            <div className="model-specs-table border border-[#D4D8DB] overflow-hidden">
-              {specRows.map((spec, i) => (
-                <div
-                  key={spec.label}
-                  className={`model-specs-row flex items-center justify-between px-6 py-4 ${
-                    i % 2 === 0 ? "bg-white" : "bg-[#F5F6F7]"
-                  } ${i !== specRows.length - 1 ? "border-b border-[#E8EAEB]" : ""}`}
-                >
-                  <span className="model-specs-label text-sm text-[#686D71] font-medium">{spec.label}</span>
-                  <span className="model-specs-value text-sm text-[#252728] font-semibold">{spec.value}</span>
-                </div>
-              ))}
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
+      <ModelPurchaseExperience model={model} locale={locale} />
 
       {/* ── FEATURES — dark section ── */}
       {model.features.length > 0 && (

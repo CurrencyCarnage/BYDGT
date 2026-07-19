@@ -71,7 +71,7 @@ export default function CarColorPreview({
               )}
 
               {imageSrc && (
-                <div className="border-b border-[#E6E9EA] bg-[linear-gradient(180deg,#F4F6F7_0%,#E5E9EB_100%)] px-3 pt-5 pb-2">
+                <div className="configurator-color-preview border-b border-[#E6E9EA] bg-[linear-gradient(180deg,#F4F6F7_0%,#E5E9EB_100%)] px-3 pt-5 pb-2">
                   <TintedCarImage
                     src={imageSrc}
                     color={color.hex}

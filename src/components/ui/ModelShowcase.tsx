@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useEffect, useRef, useState } from "react";
 
-type ShowcaseView = "vertical" | "one-line";
+type ShowcaseMode = "vertical" | "line";
 
 type WheelFrame = {
   left: number;
@@ -136,11 +136,11 @@ const MODELS: ModelItem[] = [
   },
 ];
 
-const ONE_LINE_SCENES = [
-  "radial-gradient(ellipse 58% 78% at 94% 58%, rgba(215,12,25,0.34) 0%, rgba(215,12,25,0.08) 48%, transparent 72%), linear-gradient(135deg, #090b0d 0%, #121416 55%, #19090c 100%)",
-  "radial-gradient(ellipse 64% 84% at 88% 18%, rgba(86,151,255,0.42) 0%, rgba(40,84,170,0.12) 48%, transparent 72%), linear-gradient(135deg, #080d17 0%, #111a2a 58%, #09101b 100%)",
-  "radial-gradient(ellipse 62% 80% at 92% 56%, rgba(0,220,180,0.34) 0%, rgba(0,125,120,0.10) 50%, transparent 74%), linear-gradient(135deg, #05090a 0%, #0a1717 58%, #061110 100%)",
-  "radial-gradient(ellipse 68% 86% at 12% 8%, rgba(255,176,58,0.40) 0%, rgba(173,78,20,0.11) 48%, transparent 72%), linear-gradient(135deg, #110b07 0%, #21150c 58%, #130b08 100%)",
+const LINE_BACKGROUNDS = [
+  "radial-gradient(ellipse 70% 70% at 78% 58%, rgba(155,24,34,0.34) 0%, transparent 62%), linear-gradient(125deg, #08090a 0%, #17191b 52%, #21090d 100%)",
+  "radial-gradient(ellipse 75% 80% at 72% 48%, rgba(150,185,235,0.42) 0%, transparent 64%), linear-gradient(125deg, #cfd9e8 0%, #eef3f8 56%, #c5d4e7 100%)",
+  "radial-gradient(ellipse 70% 75% at 76% 52%, rgba(0,205,174,0.25) 0%, transparent 62%), linear-gradient(125deg, #050708 0%, #0c1718 55%, #03211d 100%)",
+  "radial-gradient(ellipse 72% 75% at 72% 45%, rgba(231,159,55,0.34) 0%, transparent 62%), linear-gradient(125deg, #dfd7cb 0%, #f2eee7 54%, #dfc9aa 100%)",
 ] as const;
 
 function WheelSprite({
@@ -254,25 +254,29 @@ function ModelSection({
     {
       lightSection: false,
       base: "#0c0d0e",
-      groundShadow: "radial-gradient(ellipse 85% 40% at 50% 100%, rgba(215,12,25,0.18) 0%, rgba(0,0,0,0.55) 55%, transparent 80%)",
+      groundShadow:
+        "radial-gradient(ellipse 85% 40% at 50% 100%, rgba(215,12,25,0.18) 0%, rgba(0,0,0,0.55) 55%, transparent 80%)",
     },
     // 1 — Seal 06 DM-i: pearl white studio, ice-blue overhead key
     {
       lightSection: true,
       base: "#dde4ee",
-      groundShadow: "radial-gradient(ellipse 85% 35% at 50% 100%, rgba(20,50,110,0.16) 0%, rgba(20,50,110,0.05) 55%, transparent 80%)",
+      groundShadow:
+        "radial-gradient(ellipse 85% 35% at 50% 100%, rgba(20,50,110,0.16) 0%, rgba(20,50,110,0.05) 55%, transparent 80%)",
     },
     // 2 — Yuan Up EV: near-black studio, teal-green EV charge rim light
     {
       lightSection: false,
       base: "#050709",
-      groundShadow: "radial-gradient(ellipse 85% 40% at 50% 100%, rgba(0,200,170,0.16) 0%, rgba(0,0,0,0.60) 55%, transparent 80%)",
+      groundShadow:
+        "radial-gradient(ellipse 85% 40% at 50% 100%, rgba(0,200,170,0.16) 0%, rgba(0,0,0,0.60) 55%, transparent 80%)",
     },
     // 3 — Yuan Up DM-i: warm light grey studio, golden sunrise key light
     {
       lightSection: true,
       base: "#ede8e0",
-      groundShadow: "radial-gradient(ellipse 85% 35% at 50% 100%, rgba(170,95,15,0.20) 0%, rgba(120,70,10,0.07) 55%, transparent 80%)",
+      groundShadow:
+        "radial-gradient(ellipse 85% 35% at 50% 100%, rgba(170,95,15,0.20) 0%, rgba(120,70,10,0.07) 55%, transparent 80%)",
     },
   ];
   const scene = scenes[index] ?? scenes[0];
@@ -305,8 +309,12 @@ function ModelSection({
         {/* Counter */}
         <div className="flex justify-end">
           <p
-            className="select-none font-mono text-[10px] tracking-[0.16em]"
-            style={{ color: lightSection ? "rgba(0,0,0,0.30)" : "rgba(255,255,255,0.25)" }}
+            className="select-none font-mono text-xs tracking-[0.16em] md:text-sm 2xl:text-base"
+            style={{
+              color: lightSection
+                ? "rgba(0,0,0,0.30)"
+                : "rgba(255,255,255,0.25)",
+            }}
           >
             {String(index + 1).padStart(2, "0")}&thinsp;/&thinsp;
             {String(total).padStart(2, "0")}
@@ -391,7 +399,6 @@ function ModelSection({
     </section>
   );
 }
-
 function ShowcaseHeader({
   locale,
 }: {
@@ -406,7 +413,16 @@ function ShowcaseHeader({
         minHeight: "clamp(5rem, 12vh, 8.75rem)",
       }}
     >
-      <div className="relative section-container flex items-center justify-between gap-6 h-full py-6 md:py-8">
+      {/* Matching studio rim light — begins the first scene's lighting */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 85% at 100% 65%, rgba(215,12,25,0.04) 0%, transparent 60%)",
+        }}
+      />
+
+      <div className="relative section-container flex h-full flex-col justify-center gap-5 py-6 sm:flex-row sm:items-center sm:justify-between md:py-8">
         <div>
           <div className="mb-2 flex items-center gap-2.5">
             <span className="h-[2px] w-5 flex-shrink-0 bg-byd-red" />
@@ -415,7 +431,7 @@ function ShowcaseHeader({
             </p>
           </div>
           <h2
-            className="text-[1.75rem] font-semibold leading-tight text-white md:text-[2.4rem]"
+            className="text-[1.75rem] font-semibold leading-tight text-white md:text-[2.6rem] 2xl:text-[3rem]"
             style={{ letterSpacing: "-0.03em" }}
           >
             {ka ? "BYD ინოვაცია." : "BYD innovation."}
@@ -424,45 +440,49 @@ function ShowcaseHeader({
             </span>
           </h2>
         </div>
-        <Link
-          href="/catalog"
-          className="hidden flex-shrink-0 items-center gap-3 text-[12px] font-medium uppercase text-white/55 transition-colors duration-200 hover:text-white md:flex"
-        >
-          {ka ? "ყველა" : "All"}
-          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </Link>
+        <div className="flex flex-shrink-0 items-center gap-3 md:gap-5">
+          <Link
+            href="/catalog"
+            className="inline-flex min-h-10 flex-shrink-0 items-center gap-2 px-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/55 transition-colors duration-200 hover:text-white md:min-h-11 md:text-sm 2xl:min-h-12 2xl:text-base"
+          >
+            {ka ? "ყველა" : "All"}
+            <svg
+              className="h-4 w-4 2xl:h-5 2xl:w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.5}
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </Link>
+        </div>
       </div>
     </div>
   );
 }
 
 export default function ModelShowcase({ locale }: { locale: string }) {
-  const [view, setView] = useState<ShowcaseView | null>(null);
+  const [mode, setMode] = useState<ShowcaseMode>("vertical");
 
   useEffect(() => {
-    const desktopQuery = window.matchMedia("(min-width: 768px)");
-    const syncView = () => {
-      setView(desktopQuery.matches ? "one-line" : "vertical");
-    };
-
-    syncView();
-    desktopQuery.addEventListener("change", syncView);
-    return () => desktopQuery.removeEventListener("change", syncView);
+    const media = window.matchMedia("(min-width: 768px)");
+    const syncMode = () => setMode(media.matches ? "line" : "vertical");
+    syncMode();
+    media.addEventListener("change", syncMode);
+    return () => media.removeEventListener("change", syncMode);
   }, []);
 
   return (
     <div id="showroom" className="bg-[#0c0d0e]">
       <ShowcaseHeader locale={locale} />
-      {view === null ? (
-        <div
-          aria-hidden="true"
-          className="min-h-[clamp(260px,36svh,500px)] bg-[#0c0d0e] md:min-h-[clamp(32rem,78svh,56rem)]"
-        />
-      ) : view === "vertical" ? (
-        <>
-        {MODELS.map((model, index) => (
+      {mode === "vertical" ? (
+        MODELS.map((model, index) => (
           <ModelSection
             key={model.id}
             model={model}
@@ -470,8 +490,7 @@ export default function ModelShowcase({ locale }: { locale: string }) {
             index={index}
             total={MODELS.length}
           />
-        ))}
-        </>
+        ))
       ) : (
         <OneLineShowcase locale={locale} />
       )}
@@ -495,12 +514,16 @@ function OneLineCar({
   rearWheelRef: React.RefObject<HTMLImageElement>;
 }) {
   const incoming = position === "incoming";
+  const lightScene = index === 1 || index === 3;
 
   return (
     <div className="absolute inset-x-0 bottom-0 z-10">
       <div
         ref={carRef}
-        className={["relative mx-auto bg-transparent", model.stageWidthClass].join(" ")}
+        className={[
+          "relative mx-auto bg-transparent",
+          model.stageWidthClass,
+        ].join(" ")}
         style={{
           transform: incoming ? "translateX(110vw)" : "translateX(0)",
           opacity: incoming ? 0 : 1,
@@ -517,7 +540,7 @@ function OneLineCar({
             stageWidth={model.width}
             stageHeight={model.height}
             imgRef={frontWheelRef}
-            isDark
+            isDark={!lightScene}
           />
           <WheelSprite
             src={model.rearWheelImage}
@@ -525,7 +548,7 @@ function OneLineCar({
             stageWidth={model.width}
             stageHeight={model.height}
             imgRef={rearWheelRef}
-            isDark
+            isDark={!lightScene}
           />
           <Image
             src={model.foregroundImage}
@@ -536,7 +559,9 @@ function OneLineCar({
             quality={92}
             unoptimized
             sizes="(max-width: 768px) 96vw, min(96vw, 1200px)"
-            className="pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover"
+            className={`pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover ${
+              lightScene ? "[mix-blend-mode:multiply]" : ""
+            }`}
             style={{ objectPosition: model.objectPosition }}
           />
         </div>
@@ -554,6 +579,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
   } | null>(null);
   const [initialEntryComplete, setInitialEntryComplete] = useState(false);
 
+  const sectionRef = useRef<HTMLElement>(null);
   const incomingCarRef = useRef<HTMLDivElement>(null);
   const incomingFrontWheelRef = useRef<HTMLImageElement>(null);
   const incomingRearWheelRef = useRef<HTMLImageElement>(null);
@@ -563,43 +589,70 @@ function OneLineShowcase({ locale }: { locale: string }) {
   const queuedAdvancesRef = useRef(0);
 
   useEffect(() => {
+    const section = sectionRef.current;
     const car = incomingCarRef.current;
     const frontWheel = incomingFrontWheelRef.current;
     const rearWheel = incomingRearWheelRef.current;
-    if (!car) return;
+    if (!section || !car) return;
 
-    const timing: KeyframeAnimationOptions = {
-      duration: 2600,
-      delay: 120,
-      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-      fill: "both",
+    let carAnimation: Animation | null = null;
+    let frontAnimation: Animation | undefined;
+    let rearAnimation: Animation | undefined;
+    let disposed = false;
+
+    const startInitialEntry = () => {
+      const timing: KeyframeAnimationOptions = {
+        duration: 2600,
+        delay: 0,
+        easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+        fill: "both",
+      };
+      carAnimation = car.animate(
+        [
+          { transform: "translateX(110vw)", opacity: "0" },
+          { transform: "translateX(0px)", opacity: "1" },
+        ],
+        timing
+      );
+      const wheelFrames: Keyframe[] = [
+        { transform: "rotate(0deg)" },
+        { transform: "rotate(-720deg)" },
+      ];
+      frontAnimation = frontWheel?.animate(wheelFrames, timing);
+      rearAnimation = rearWheel?.animate(wheelFrames, timing);
+
+      carAnimation.finished
+        .then(() => {
+          if (disposed) return;
+
+          setInitialEntryComplete(true);
+          if (queuedAdvancesRef.current > 0) {
+            queuedAdvancesRef.current -= 1;
+            setTransition({ from: 0, to: 1 % MODELS.length });
+          }
+        })
+        .catch(() => undefined);
     };
-    const carAnimation = car.animate(
-      [
-        { transform: "translateX(110vw)", opacity: "0" },
-        { transform: "translateX(0px)", opacity: "1" },
-      ],
-      timing
-    );
-    const wheelFrames: Keyframe[] = [
-      { transform: "rotate(0deg)" },
-      { transform: "rotate(-720deg)" },
-    ];
-    const frontAnimation = frontWheel?.animate(wheelFrames, timing);
-    const rearAnimation = rearWheel?.animate(wheelFrames, timing);
 
-    carAnimation.finished
-      .then(() => {
-        setInitialEntryComplete(true);
-        if (queuedAdvancesRef.current > 0) {
-          queuedAdvancesRef.current -= 1;
-          setTransition({ from: 0, to: 1 % MODELS.length });
-        }
-      })
-      .catch(() => undefined);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || entry.intersectionRatio < 0.14) return;
+
+        observer.disconnect();
+        startInitialEntry();
+      },
+      {
+        threshold: 0.14,
+        rootMargin: "0px 0px -10% 0px",
+      }
+    );
+
+    observer.observe(section);
 
     return () => {
-      carAnimation.cancel();
+      disposed = true;
+      observer.disconnect();
+      carAnimation?.cancel();
       frontAnimation?.cancel();
       rearAnimation?.cancel();
     };
@@ -643,8 +696,14 @@ function OneLineShowcase({ locale }: { locale: string }) {
       { transform: "rotate(0deg)" },
       { transform: "rotate(-720deg)" },
     ];
-    const incomingFrontAnimation = incomingFrontWheel?.animate(wheelFrames, timing);
-    const incomingRearAnimation = incomingRearWheel?.animate(wheelFrames, timing);
+    const incomingFrontAnimation = incomingFrontWheel?.animate(
+      wheelFrames,
+      timing
+    );
+    const incomingRearAnimation = incomingRearWheel?.animate(
+      wheelFrames,
+      timing
+    );
 
     // Keep the outgoing wheels rolling for the entire left-side exit.
     const outgoingFrontAnimation = outgoingFrontWheel?.animate(
@@ -685,6 +744,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
 
   const displayedIndex = transition?.to ?? settledIndex;
   const displayedModel = MODELS[displayedIndex];
+  const lightScene = displayedIndex === 1 || displayedIndex === 3;
 
   const showNext = () => {
     if (transition || !initialEntryComplete) {
@@ -702,20 +762,26 @@ function OneLineShowcase({ locale }: { locale: string }) {
 
   return (
     <section
+      ref={sectionRef}
       data-model-section
-      data-model-scene="dark"
+      data-model-scene={lightScene ? "light" : "dark"}
+      data-header-theme={lightScene ? "light" : undefined}
       className="theme-media-section relative isolate min-h-[clamp(32rem,78svh,56rem)] overflow-hidden"
-      style={{ background: ONE_LINE_SCENES[displayedIndex] }}
+      style={{ background: LINE_BACKGROUNDS[displayedIndex] }}
     >
       <div className="relative z-20 section-container flex min-h-[inherit] flex-col px-4 pb-0 pt-6 md:pt-8">
         <div className="flex justify-end">
-          <p className="select-none font-mono text-[10px] tracking-[0.16em] text-white/35">
+          <p className={`select-none font-mono text-[10px] tracking-[0.16em] ${
+            lightScene ? "text-black/45" : "text-white/35"
+          }`}>
             {String(displayedIndex + 1).padStart(2, "0")}&thinsp;/&thinsp;
             {String(MODELS.length).padStart(2, "0")}
           </p>
         </div>
         <h3
-          className="mx-auto mt-3 max-w-[11ch] bg-transparent text-center text-[clamp(2.2rem,6vw,4.75rem)] font-semibold leading-[0.9] text-white select-none"
+          className={`mx-auto mt-3 max-w-[11ch] bg-transparent text-center text-[clamp(2.2rem,6vw,4.75rem)] font-semibold leading-[0.9] select-none ${
+            lightScene ? "text-[#111213]" : "text-white"
+          }`}
           style={{ letterSpacing: "-0.045em" }}
         >
           {displayedModel.name}
@@ -763,7 +829,13 @@ function OneLineShowcase({ locale }: { locale: string }) {
         aria-label={ka ? "შემდეგი მოდელი" : "Next model"}
         className="absolute right-4 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center border border-white/30 bg-black/20 text-white backdrop-blur-sm transition-colors duration-200 hover:border-white/65 hover:bg-black/35 active:scale-95 md:right-8 md:h-16 md:w-16"
       >
-        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={1.8}
+        >
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </button>

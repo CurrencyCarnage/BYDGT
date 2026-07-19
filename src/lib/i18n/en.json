@@ -70,5 +70,107 @@
     "phone": "+995 XXX XXX XXX",
     "email": "info@gtgroup.ge",
     "rights": "All rights reserved."
+  },
+  "landing": {
+    "ariaLabel": "Choose a BYD experience",
+    "meta": {
+      "title": "BYD Georgia | Passenger Cars, Commercial Vehicles & Services",
+      "description": "Explore BYD passenger cars, commercial vehicles, buses, official service, genuine parts, accessories, and model-specific solutions in Georgia."
+    },
+    "common": {
+      "enter": "Enter",
+      "expand": "Expand {section} section",
+      "collapse": "Collapse {section} section"
+    },
+    "passenger": {
+      "title": "Passenger Cars",
+      "description": "Explore our range of innovative electric and plug-in hybrid vehicles.",
+      "compactDescription": "Discover our electric and hybrid passenger vehicles.",
+      "expandedDescription": "Explore BYD's electric and plug-in hybrid passenger vehicles, built for comfort, efficiency, safety, and intelligent everyday driving.",
+      "expandedCta": "View All Models",
+      "features": {
+        "ev": "Electric Vehicles (EV)",
+        "hybrid": "Plug-in Hybrid (DM-i)",
+        "safety": "Advanced Safety Systems",
+        "technology": "Smart Cabin Technology"
+      }
+    },
+    "commercial": {
+      "title": "Commercial Vehicles & Buses",
+      "description": "Powering businesses with smart, reliable, and sustainable transport solutions.",
+      "compactDescription": "Smart transport solutions for business and public mobility.",
+      "expandedDescription": "Explore efficient transport solutions for companies, public mobility operators, logistics fleets, and professional use.",
+      "expandedCta": "View Commercial Range",
+      "features": {
+        "light": "Light Commercial Vehicles",
+        "heavy": "Heavy-Duty Transport",
+        "buses": "City & Intercity Buses",
+        "support": "Fleet Support"
+      }
+    },
+    "services": {
+      "title": "Services",
+      "description": "Service, genuine parts, accessories, and model-specific oils in one place.",
+      "compactDescription": "Service, parts, accessories, and model-specific fluids.",
+      "expandedDescription": "Select your BYD model to find recommended parts, oils, fluids, accessories, or book a service appointment.",
+      "expandedCta": "Explore Services",
+      "features": {
+        "service": "Book Car Service",
+        "parts": "Genuine Parts",
+        "accessories": "Accessories",
+        "finder": "Oils & Fluids Finder"
+      },
+      "form": {
+        "modelLabel": "Vehicle model",
+        "yearLabel": "Model year",
+        "categoryLabel": "Category",
+        "modelPlaceholder": "Select Model",
+        "yearPlaceholder": "Select Year",
+        "categoryPlaceholder": "Select Category",
+        "submit": "Find Parts & Fluids",
+        "book": "Book Service Appointment",
+        "errorModel": "Please select a vehicle model.",
+        "errorYear": "Please select a model year.",
+        "errorCategory": "Please select a category.",
+        "categories": {
+          "fluids": "Engine Oil / Fluids",
+          "filters": "Filters",
+          "brakes": "Brake Parts",
+          "suspension": "Suspension Parts",
+          "electrical": "Electrical Components",
+          "exterior": "Exterior Accessories",
+          "interior": "Interior Accessories",
+          "other": "Other"
+        }
+      }
+    },
+    "trust": {
+      "ariaLabel": "Why choose BYD GT Group",
+      "dealer": "Official BYD Dealer",
+      "warranty": "Up to 6 Years Warranty",
+      "support": "Expert Support",
+      "parts": "Genuine Parts & Service",
+      "future": "100% Electric. Better Future."
+    },
+    "destination": {
+      "back": "Back to gateway",
+      "commercial": {
+        "eyebrow": "BYD Business",
+        "title": "Commercial Vehicles & Buses",
+        "description": "Efficient mobility for fleets, logistics, public transport, and professional operations is coming to BYD GT Georgia.",
+        "status": "We are preparing the complete commercial range and consultation experience."
+      },
+      "services": {
+        "eyebrow": "Official BYD Care",
+        "title": "Services",
+        "description": "Official service, genuine parts, accessories, and model-specific support in one trusted destination.",
+        "status": "The full service hub is being prepared. Your finder selections are preserved below.",
+        "selectionsTitle": "Your vehicle selection",
+        "emptySelection": "Return to the gateway and use the Services quick finder to begin.",
+        "model": "Vehicle model",
+        "year": "Model year",
+        "category": "Category"
+      }
+    }
   }
 }
