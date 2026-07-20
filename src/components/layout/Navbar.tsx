@@ -6,8 +6,6 @@ import { Link, usePathname, useRouter } from "@/i18n/routing";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
-type MegaCategory = "passenger" | "commercial";
-
 /* ─────────────────────────────────────────────────────────────────
    Models mega-menu data
 ───────────────────────────────────────────────────────────────── */
@@ -78,21 +76,6 @@ const COMMERCIAL_DIRECTIONS = [
   },
 ];
 
-function getMegaCategoryLabels(ka: boolean) {
-  return [
-    {
-      key: "passenger" as const,
-      label: ka ? "მსუბუქი ავტომობილები" : "Passenger Cars",
-      caption: ka ? "პროდუქტები პირადი გამოყენებისთვის" : "Personal mobility lineup",
-    },
-    {
-      key: "commercial" as const,
-      label: ka ? "კომერციული ავტომობილები" : "Commercial Vehicles",
-      caption: ka ? "ბიზნესისა და ფლოტისთვის" : "For business and fleet needs",
-    },
-  ];
-}
-
 /* ─────────────────────────────────────────────────────────────────
    Desktop mega-menu panel
 ───────────────────────────────────────────────────────────────── */
@@ -104,7 +87,7 @@ function MegaMenu({
   onClose: () => void;
 }) {
   const ka = locale === "ka";
-  const [category, setCategory] = useState<MegaCategory>("passenger");
+  const category = "passenger";
   const [modelPage, setModelPage] = useState(0);
   const pageCount = Math.ceil(MEGA_MODELS.length / MEGA_MODELS_PER_PAGE);
   const visibleModels = MEGA_MODELS.slice(
@@ -117,7 +100,6 @@ function MegaMenu({
     if (!canShowNextModels) return;
     setModelPage((page) => Math.min(page + 1, pageCount - 1));
   };
-  const categoryLabels = getMegaCategoryLabels(ka);
 
   return (
     <motion.div
@@ -141,34 +123,6 @@ function MegaMenu({
           }}
         >
           {/* 2 × 2 model grid */}
-          <div className="mega-category-tabs border-b border-white/[0.06] px-4 py-3 md:px-5">
-            <div className="grid grid-cols-2 gap-2">
-              {categoryLabels.map((item) => (
-                <button
-                  key={item.key}
-                  type="button"
-                  onClick={() => {
-                    setCategory(item.key);
-                    setModelPage(0);
-                  }}
-                  aria-pressed={category === item.key}
-                  className={`mega-category-tab min-h-11 px-3 py-2 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-byd-red/70 ${
-                    category === item.key
-                      ? "bg-byd-red text-white shadow-[0_10px_24px_rgba(215,12,25,0.24)]"
-                      : "border border-white/[0.10] bg-white/[0.03] text-white/60 hover:border-white/[0.22] hover:bg-white/[0.06] hover:text-white"
-                  }`}
-                >
-                  <span className="block text-[12px] font-bold leading-tight">
-                    {item.label}
-                  </span>
-                  <span className="mt-1 block text-[10px] font-medium leading-tight opacity-70">
-                    {item.caption}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-
           {category === "passenger" ? (
             <>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/[0.04] p-px">
@@ -375,7 +329,6 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen]       = useState(false);
   const [megaOpen, setMegaOpen]           = useState(false);
   const [mobileModels, setMobileModels]   = useState(false);
-  const [mobileModelCategory, setMobileModelCategory] = useState<MegaCategory>("passenger");
   const [scrolled, setScrolled]           = useState(false);
   const [overLightSurface, setOverLightSurface] = useState(false);
   const [theme, setTheme]                 = useState<"dark" | "light">("dark");
@@ -434,7 +387,6 @@ export default function Navbar() {
   useEffect(() => {
     setMobileOpen(false);
     setMobileModels(false);
-    setMobileModelCategory("passenger");
   }, [pathname]);
 
   /* ── Mega-menu hover intent handlers ── */
@@ -481,15 +433,27 @@ export default function Navbar() {
 
   const useLightSurfaceHeader =
     overLightSurface || (theme === "light" && (isGateway || !isHomepage));
-  const mobileCategoryLabels = getMegaCategoryLabels(ka);
 
-  /* Non-models nav links */
-  const baseLinks = [
-    { href: "/"       as const, label: t("home")    },
-    { href: "/about"  as const, label: t("about")   },
-    { href: "/compare"as const, label: t("compare") },
-    { href: "/contact"as const, label: t("contact") },
-  ];
+  const sectionHomeHref =
+    pathname === "/commercial" || pathname.startsWith("/commercial/")
+      ? "/commercial"
+      : pathname === "/services" || pathname.startsWith("/services/")
+        ? "/services"
+        : pathname === "/cars" ||
+            pathname.startsWith("/cars/") ||
+            pathname.startsWith("/catalog") ||
+            pathname.startsWith("/compare") ||
+            pathname.startsWith("/booking")
+          ? "/cars"
+          : null;
+  const hasSelectedSection = sectionHomeHref !== null;
+  const mobileModelCategory = "passenger";
+  const homeLink = sectionHomeHref ? { href: sectionHomeHref, label: t("home") } : null;
+  const aboutLink = { href: "/about", label: t("about") };
+  const compareLink = { href: "/compare", label: t("compare") };
+  const contactLink = { href: "/contact", label: t("contact") };
+  const leadingNavLinks = homeLink ? [homeLink, aboutLink] : [aboutLink];
+  const trailingNavLinks = hasSelectedSection ? [compareLink, contactLink] : [contactLink];
 
   return (
     <nav
@@ -530,7 +494,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-7 flex-1 justify-center relative">
 
           {/* Home, About */}
-          {[baseLinks[0], baseLinks[1]].map((link) => (
+          {leadingNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -541,6 +505,7 @@ export default function Navbar() {
           ))}
 
           {/* ── Models trigger (with mega-menu) ── */}
+          {hasSelectedSection && (
           <div
             className="relative"
             onMouseEnter={openMega}
@@ -575,9 +540,10 @@ export default function Navbar() {
               )}
             </AnimatePresence>
           </div>
+          )}
 
           {/* Compare, Contact */}
-          {[baseLinks[2], baseLinks[3]].map((link) => (
+          {trailingNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -672,7 +638,7 @@ export default function Navbar() {
           <div className="section-container py-2">
 
             {/* Regular links */}
-            {[baseLinks[0], baseLinks[1]].map((link) => (
+            {leadingNavLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -687,6 +653,7 @@ export default function Navbar() {
             ))}
 
             {/* Models accordion */}
+            {hasSelectedSection && (
             <div className="border-b border-white/[0.05]">
               <button
                 onClick={() => setMobileModels(!mobileModels)}
@@ -712,26 +679,6 @@ export default function Navbar() {
                 style={{ maxHeight: mobileModels ? "520px" : "0px" }}
               >
                 <div className="pb-3 pl-2 space-y-1">
-                  <div className="grid grid-cols-2 gap-2 px-2 pb-2 pt-1">
-                    {mobileCategoryLabels.map((item) => (
-                      <button
-                        key={item.key}
-                        type="button"
-                        onClick={() => setMobileModelCategory(item.key)}
-                        aria-pressed={mobileModelCategory === item.key}
-                        className={`mega-category-tab min-h-11 px-3 py-2 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-byd-red/70 ${
-                          mobileModelCategory === item.key
-                            ? "bg-byd-red text-white"
-                            : "border border-white/[0.10] bg-white/[0.03] text-white/60"
-                        }`}
-                      >
-                        <span className="block text-[11px] font-bold leading-tight">
-                          {item.label}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-
                   {mobileModelCategory === "passenger" ? (
                     <>
                   {MEGA_MODELS.map((model) => (
@@ -799,9 +746,10 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
+            )}
 
             {/* Compare, Contact */}
-            {[baseLinks[2], baseLinks[3]].map((link) => (
+            {trailingNavLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
