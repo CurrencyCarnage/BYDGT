@@ -356,6 +356,49 @@
 
 @media (min-width: 768px) {
   .panelActive[data-panel="services"] .panelDetailsGrid { flex-shrink: 0; }
+
+  .panelActive[data-panel="services"] .finder,
+  :global(html.light) .panelActive[data-panel="services"] .finder {
+    border-color: rgba(255, 255, 255, 0.14);
+    border-radius: 0.3rem;
+    background: rgba(7, 12, 18, 0.035);
+    box-shadow: none;
+    backdrop-filter: blur(2px) saturate(1.05);
+    -webkit-backdrop-filter: blur(2px) saturate(1.05);
+  }
+
+  .panelActive[data-panel="services"] .field label,
+  :global(html.light) .panelActive[data-panel="services"] .field label {
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .panelActive[data-panel="services"] .field select,
+  :global(html.light) .panelActive[data-panel="services"] .field select {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(7, 12, 18, 0.16);
+    color: #fff;
+    color-scheme: dark;
+  }
+
+  .panelActive[data-panel="services"] .finderSecondary,
+  :global(html.light) .panelActive[data-panel="services"] .finderSecondary {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(7, 12, 18, 0.08);
+    color: #fff;
+  }
+
+  .panelActive[data-panel="services"] .finderSecondary:hover,
+  :global(html.light) .panelActive[data-panel="services"] .finderSecondary:hover {
+    border-color: rgba(255, 255, 255, 0.42);
+    background: rgba(7, 12, 18, 0.14);
+  }
+
+  .panelActive[data-panel="services"] .field select:focus-visible,
+  .panelActive[data-panel="services"] .finderSecondary:focus-visible,
+  :global(html.light) .panelActive[data-panel="services"] .field select:focus-visible,
+  :global(html.light) .panelActive[data-panel="services"] .finderSecondary:focus-visible {
+    outline-color: #fff;
+  }
 }
 
 @media (min-width: 768px) and (max-height: 900px) {

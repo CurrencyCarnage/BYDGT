@@ -714,7 +714,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
       outgoingTiming
     );
 
-    Promise.all([incomingAnimation.finished, outgoingAnimation.finished])
+    incomingAnimation.finished
       .then(() => {
         const arrivedIndex = transition.to;
         setSettledIndex(arrivedIndex);
