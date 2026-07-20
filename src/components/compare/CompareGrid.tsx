@@ -1173,7 +1173,7 @@ export default function CompareGrid({
                 if (rows.length === 0) return null;
 
                 return (
-                  <section key={group.key} className="overflow-hidden rounded-xl border border-[#DDE1E3] bg-white shadow-[0_12px_30px_rgba(24,28,32,0.05)]">
+                  <section key={group.key} className="overflow-hidden rounded-xl border border-byd-red/70 bg-white shadow-[0_12px_30px_rgba(24,28,32,0.05)]">
                     <div className="flex items-center gap-3 bg-byd-red px-4 py-3 text-white md:px-6 md:py-4">
                       <span className="flex h-7 w-7 items-center justify-center border border-white/35 text-[10px] font-bold md:h-8 md:w-8 md:text-xs">0{groupIndex + 1}</span>
                       <h3 className="text-sm font-bold uppercase tracking-[0.12em] md:text-base">{t(group.title, locale)}</h3>
