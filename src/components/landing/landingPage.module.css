@@ -419,7 +419,7 @@
   .panelActive[data-panel="services"] .finderSecondary { min-height: 2.45rem; }
   .panelActive[data-panel="services"] .finderSubmit,
   .panelActive[data-panel="services"] .finderSecondary { margin-top: 0.4rem; }
-  .panelActive[data-panel="services"] .panelCta { min-height: 2.65rem; margin-top: 0.65rem; }
+  .panelActive[data-panel="services"] .panelCta { min-height: 2.65rem; margin-top: auto; }
   .panelActive[data-panel="services"] .ctaArrow { width: 2.65rem; height: 2.65rem; }
 }
 
