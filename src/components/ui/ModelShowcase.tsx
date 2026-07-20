@@ -586,7 +586,6 @@ function OneLineShowcase({ locale }: { locale: string }) {
   const outgoingCarRef = useRef<HTMLDivElement>(null);
   const outgoingFrontWheelRef = useRef<HTMLImageElement>(null);
   const outgoingRearWheelRef = useRef<HTMLImageElement>(null);
-  const queuedAdvancesRef = useRef(0);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -626,10 +625,6 @@ function OneLineShowcase({ locale }: { locale: string }) {
           if (disposed) return;
 
           setInitialEntryComplete(true);
-          if (queuedAdvancesRef.current > 0) {
-            queuedAdvancesRef.current -= 1;
-            setTransition({ from: 0, to: 1 % MODELS.length });
-          }
         })
         .catch(() => undefined);
     };
@@ -667,7 +662,11 @@ function OneLineShowcase({ locale }: { locale: string }) {
     const outgoingCar = outgoingCarRef.current;
     const outgoingFrontWheel = outgoingFrontWheelRef.current;
     const outgoingRearWheel = outgoingRearWheelRef.current;
-    if (!incomingCar || !outgoingCar) return;
+    if (!incomingCar || !outgoingCar) {
+      setSettledIndex(transition.to);
+      setTransition(null);
+      return;
+    }
 
     const timing: KeyframeAnimationOptions = {
       duration: 2600,
@@ -676,7 +675,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
     };
     const outgoingTiming: KeyframeAnimationOptions = {
       ...timing,
-      duration: 2200,
+      duration: 4400,
     };
     const incomingAnimation = incomingCar.animate(
       [
@@ -720,15 +719,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
         const arrivedIndex = transition.to;
         setSettledIndex(arrivedIndex);
 
-        if (queuedAdvancesRef.current > 0) {
-          queuedAdvancesRef.current -= 1;
-          setTransition({
-            from: arrivedIndex,
-            to: (arrivedIndex + 1) % MODELS.length,
-          });
-        } else {
-          setTransition(null);
-        }
+        setTransition(null);
       })
       .catch(() => undefined);
 
@@ -745,13 +736,10 @@ function OneLineShowcase({ locale }: { locale: string }) {
   const displayedIndex = transition?.to ?? settledIndex;
   const displayedModel = MODELS[displayedIndex];
   const lightScene = displayedIndex === 1 || displayedIndex === 3;
+  const isAnimating = transition !== null || !initialEntryComplete;
 
   const showNext = () => {
-    if (transition || !initialEntryComplete) {
-      queuedAdvancesRef.current = Math.min(
-        queuedAdvancesRef.current + 1,
-        MODELS.length
-      );
+    if (isAnimating) {
       return;
     }
     setTransition({
@@ -827,7 +815,12 @@ function OneLineShowcase({ locale }: { locale: string }) {
         type="button"
         onClick={showNext}
         aria-label={ka ? "შემდეგი პროდუქტი" : "Next product"}
-        className="absolute right-4 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center border border-white/30 bg-black/20 text-white backdrop-blur-sm transition-colors duration-200 hover:border-white/65 hover:bg-black/35 active:scale-95 md:right-8 md:h-16 md:w-16"
+        disabled={isAnimating}
+        className={`absolute right-4 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center border border-white/30 bg-black/20 text-white backdrop-blur-sm transition-[border-color,background-color,opacity] duration-200 md:right-8 md:h-16 md:w-16 ${
+          isAnimating
+            ? "cursor-not-allowed opacity-35"
+            : "hover:border-white/65 hover:bg-black/35 active:scale-95"
+        }`}
       >
         <svg
           className="h-5 w-5"
