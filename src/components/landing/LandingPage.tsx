@@ -1,7 +1,7 @@
 "use client";
 
 import { getImageProps } from "next/image";
-import { PointerEvent, useEffect, useRef, useState } from "react";
+import { MouseEvent, PointerEvent, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Link } from "@/i18n/routing";
@@ -127,6 +127,12 @@ export default function LandingPage() {
     if (event.pointerType === "mouse" && !isMobileViewport()) setActiveDesktopPanel(id);
   };
 
+  const handlePanelClick = (event: MouseEvent<HTMLElement>, id: LandingPanelId) => {
+    const target = event.target as HTMLElement;
+    if (target.closest("a, button, form, input, select, textarea, label")) return;
+    togglePanel(id);
+  };
+
   return (
     <section className={styles.page} data-header-theme="dark" aria-label={t("ariaLabel")}>
       <div className={styles.gateway}>
@@ -156,6 +162,7 @@ export default function LandingPage() {
                 data-panel={panel.id}
                 ref={(node) => { panelRefs.current[panel.id] = node; }}
                 className={panelClassName}
+                onClick={(event) => handlePanelClick(event, panel.id)}
                 onPointerEnter={(event) => handlePanelPointerEnter(event, panel.id)}
                 onFocusCapture={() => { if (!isMobileViewport()) setActiveDesktopPanel(panel.id); }}
                 onBlurCapture={(event) => {
@@ -184,7 +191,8 @@ export default function LandingPage() {
                       <span>{panel.number}</span>
                     </span>
                     <span className={styles.categoryIcon}><CategoryIcon id={panel.id} /></span>
-                    <span className={styles.panelTitle}>{t(`${panel.id}.title`)}</span>
+                    <span className={`${styles.panelTitle} ${styles.desktopPanelTitle}`}>{t(`${panel.id}.title`)}</span>
+                    <span className={`${styles.panelTitle} ${styles.mobilePanelTitle}`}>{t(`${panel.id}.mobileTitle`)}</span>
                     <span className={`${styles.panelDescription} ${styles.desktopDescription}`}>
                       {t(`${panel.id}.description`)}
                     </span>
@@ -203,12 +211,20 @@ export default function LandingPage() {
                     inert={!isOpen}
                   >
                     <div className={styles.panelDetailsInner}>
-                      <p className={styles.expandedDescription}>{t(`${panel.id}.expandedDescription`)}</p>
-                      <ul className={styles.featureList}>
+                      <p className={`${styles.expandedDescription} ${styles.desktopExpandedDescription}`}>{t(`${panel.id}.expandedDescription`)}</p>
+                      <p className={`${styles.expandedDescription} ${styles.mobileExpandedDescription}`}>{t(`${panel.id}.mobileExpandedDescription`)}</p>
+                      <ul className={`${styles.featureList} ${styles.desktopFeatureList}`}>
                         {panel.featureKeys.map((feature) => (
                           <li key={feature}><span aria-hidden="true">✓</span>{t(`${panel.id}.features.${feature}`)}</li>
                         ))}
                       </ul>
+                      {panel.id !== "services" && (
+                        <ul className={`${styles.featureList} ${styles.mobileFeatureList}`}>
+                          {panel.featureKeys.slice(0, 3).map((feature) => (
+                            <li key={feature}><span aria-hidden="true">✓</span>{t(`${panel.id}.mobileFeatures.${feature}`)}</li>
+                          ))}
+                        </ul>
+                      )}
                       {panel.id === "services" && <ServicesQuickFinder />}
                     </div>
                   </div>

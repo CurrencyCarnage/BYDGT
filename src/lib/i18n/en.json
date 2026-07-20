@@ -84,10 +84,17 @@
     },
     "passenger": {
       "title": "Passenger Cars",
+      "mobileTitle": "Passenger Cars",
       "description": "Explore our range of innovative electric and plug-in hybrid vehicles.",
       "compactDescription": "Discover our electric and hybrid passenger vehicles.",
       "expandedDescription": "Explore BYD's electric and plug-in hybrid passenger vehicles, built for comfort, efficiency, safety, and intelligent everyday driving.",
+      "mobileExpandedDescription": "Electric and DM-i models made for everyday driving.",
       "expandedCta": "View All Models",
+      "mobileFeatures": {
+        "ev": "Electric",
+        "hybrid": "DM-i Hybrid",
+        "safety": "Smart Safety"
+      },
       "features": {
         "ev": "Electric Vehicles (EV)",
         "hybrid": "Plug-in Hybrid (DM-i)",
@@ -97,10 +104,17 @@
     },
     "commercial": {
       "title": "Commercial Vehicles & Buses",
+      "mobileTitle": "Commercial Transport",
       "description": "Powering businesses with smart, reliable, and sustainable transport solutions.",
       "compactDescription": "Smart transport solutions for business and public mobility.",
       "expandedDescription": "Explore efficient transport solutions for companies, public mobility operators, logistics fleets, and professional use.",
+      "mobileExpandedDescription": "Flexible transport for business and public mobility.",
       "expandedCta": "View Commercial Range",
+      "mobileFeatures": {
+        "light": "Light Commercial",
+        "heavy": "Heavy-Duty",
+        "buses": "Buses"
+      },
       "features": {
         "light": "Light Commercial Vehicles",
         "heavy": "Heavy-Duty Transport",
@@ -110,9 +124,11 @@
     },
     "services": {
       "title": "Services",
+      "mobileTitle": "Services",
       "description": "Service, genuine parts, accessories, and model-specific oils in one place.",
       "compactDescription": "Service, parts, accessories, and model-specific fluids.",
       "expandedDescription": "Select your BYD model to find recommended parts, oils, fluids, accessories, or book a service appointment.",
+      "mobileExpandedDescription": "Choose your vehicle and service need.",
       "expandedCta": "Explore Services",
       "features": {
         "service": "Book Car Service",
