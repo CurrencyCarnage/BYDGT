@@ -20,7 +20,10 @@ function easeInOutSine(t: number) {
 }
 
 function getScrollYForElement(element: Element, offset = NAVBAR_OFFSET) {
-  return Math.max(0, element.getBoundingClientRect().top + window.scrollY - offset);
+  return Math.max(
+    0,
+    element.getBoundingClientRect().top + window.scrollY - offset
+  );
 }
 
 function stopShowroomScroll() {
@@ -41,7 +44,10 @@ function stopShowroomScroll() {
 function attachShowroomCancelListeners() {
   if (detachShowroomCancelListeners) return;
 
-  const cancel = (e: Event) => { console.log("[showroom] CANCELLED by", e.type); stopShowroomScroll(); };
+  const cancel = (e: Event) => {
+    console.log("[showroom] CANCELLED by", e.type);
+    stopShowroomScroll();
+  };
   const options: AddEventListenerOptions = { passive: true };
 
   window.addEventListener("wheel", cancel, options);
@@ -98,7 +104,9 @@ function animateWindowScroll(
 }
 
 function startShowroomScroll() {
-  const firstModel = document.querySelector<HTMLElement>("[data-model-section]");
+  const firstModel = document.querySelector<HTMLElement>(
+    "[data-model-section]"
+  );
   if (!firstModel) return;
 
   stopShowroomScroll();
@@ -124,8 +132,14 @@ function beginCinematicScroll() {
   }
 
   const lastSection = sections[sections.length - 1];
-  const maxScrollY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-  const targetY = Math.min(maxScrollY, getScrollYForElement(lastSection, NAVBAR_OFFSET + 24));
+  const maxScrollY = Math.max(
+    0,
+    document.documentElement.scrollHeight - window.innerHeight
+  );
+  const targetY = Math.min(
+    maxScrollY,
+    getScrollYForElement(lastSection, NAVBAR_OFFSET + 24)
+  );
   const distance = Math.abs(targetY - window.scrollY);
 
   if (distance < 50) {
@@ -140,7 +154,6 @@ function beginCinematicScroll() {
     stopShowroomScroll();
   });
 }
-
 
 interface HomepageHeroProps {
   locale: string;
@@ -182,7 +195,9 @@ type HeroSlide = {
 
 function getBookingHrefFromCatalogHref(href: string) {
   const versionId = href.split("/").filter(Boolean).pop();
-  return versionId ? `/booking?version=${encodeURIComponent(versionId)}` : "/booking";
+  return versionId
+    ? `/booking?version=${encodeURIComponent(versionId)}`
+    : "/booking";
 }
 
 const benefits: Array<{
@@ -289,8 +304,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
     ka: {
       name: "Sealion 06 DM-i",
       type: "PHEV SUV",
-      description:
-        "ფართო PHEV SUV — კომფორტი, დინამიკა და DM-i ეფექტიანობა.",
+      description: "ფართო PHEV SUV — კომფორტი, დინამიკა და DM-i ეფექტიანობა.",
       range: "1,670 კმ",
       power: "218 ც.ძ.",
       price: "$36,000-დან",
@@ -310,8 +324,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
     ka: {
       name: "Seal 06 DM-i",
       type: "PHEV Sedan",
-      description:
-        "ელეგანტური PHEV სედანი — დიდი სავალი და პრემიუმ დიზაინი.",
+      description: "ელეგანტური PHEV სედანი — დიდი სავალი და პრემიუმ დიზაინი.",
       range: "2,110 კმ",
       power: "161 ც.ძ.",
       price: "$30,000-დან",
@@ -666,67 +679,67 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
               >
                 <div className="flex flex-col h-full md:h-auto md:block">
                   <div className="mobile-hero-copy-glass">
-                  <div className="mobile-hero-kicker flex items-center gap-3 md:mb-5">
-                    <span className="h-[2px] w-8 flex-shrink-0 bg-byd-red" />
-                    <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-byd-red md:text-[12px] md:font-semibold md:tracking-[0.22em]">
-                      {ka ? "ელექტრო მობილობა" : "Electric Mobility"}
+                    <div className="mobile-hero-kicker flex items-center gap-3 md:mb-5">
+                      <span className="h-[2px] w-8 flex-shrink-0 bg-byd-red" />
+                      <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-byd-red md:text-[12px] md:font-semibold md:tracking-[0.22em]">
+                        {ka ? "ელექტრო მობილობა" : "Electric Mobility"}
+                      </p>
+                    </div>
+                    <h1
+                      className="max-w-[14.5ch] text-[clamp(1.78rem,8.4vw,2.22rem)] font-extrabold leading-[1.02] text-white md:mb-6 md:max-w-none md:text-h1 md:font-semibold md:leading-[1.1]"
+                      style={{ letterSpacing: "-0.015em" }}
+                    >
+                      {ka ? (
+                        "ელექტრო მობილობა საქართველოში"
+                      ) : (
+                        <>
+                          Electric mobility,
+                          <br className="hidden sm:block" /> refined for Georgia
+                        </>
+                      )}
+                    </h1>
+                    <p className="max-w-[19.75rem] text-[clamp(0.82rem,3.65vw,0.95rem)] font-semibold leading-[1.38] text-white md:mb-10 md:max-w-lg md:font-light md:text-body1 md:text-white/55">
+                      {ka
+                        ? "GT Group — BYD-ის ოფიციალური დილერი. ინოვაცია. პრემიუმ ხარისხი. ლოკალური მხარდაჭერა."
+                        : "GT Group is the exclusive BYD dealer in Georgia. Innovative technology. Premium quality. Local support you can trust."}
                     </p>
                   </div>
-                  <h1
-                    className="max-w-[14.5ch] text-[clamp(1.78rem,8.4vw,2.22rem)] font-extrabold leading-[1.02] text-white md:mb-6 md:max-w-none md:text-h1 md:font-semibold md:leading-[1.1]"
-                    style={{ letterSpacing: "-0.015em" }}
-                  >
-                    {ka ? (
-                      "ელექტრო მობილობა საქართველოში"
-                    ) : (
-                      <>
-                        Electric mobility,
-                        <br className="hidden sm:block" /> refined for Georgia
-                      </>
-                    )}
-                  </h1>
-                  <p className="max-w-[19.75rem] text-[clamp(0.82rem,3.65vw,0.95rem)] font-semibold leading-[1.38] text-white md:mb-10 md:max-w-lg md:font-light md:text-body1 md:text-white/55">
-                    {ka
-                      ? "GT Group — BYD-ის ოფიციალური დილერი. ინოვაცია. პრემიუმ ხარისხი. ლოკალური მხარდაჭერა."
-                      : "GT Group is the official BYD dealer in Georgia. Innovative technology. Premium quality. Local support you can trust."}
-                  </p>
-                  </div>
-                {/* Buttons — pushed to bottom on mobile, inline on desktop */}
-                <div className="mt-auto pb-2 md:mt-0 md:pb-0">
-                  <div className="grid grid-cols-2 gap-3 md:flex md:flex-wrap md:gap-4">
-                    <Link
-                      href="/catalog"
-                      className="btn-primary-red min-h-[46px] justify-center px-4 text-[clamp(0.78rem,3.6vw,0.95rem)] md:px-5 md:text-[0.95rem] sm:justify-start"
-                      style={{ minWidth: "0" }}
-                    >
-                      {ka ? "პროდუქტები" : "Explore Products"}
-                      <svg
-                        className="h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
+                  {/* Buttons — pushed to bottom on mobile, inline on desktop */}
+                  <div className="mt-auto pb-2 md:mt-0 md:pb-0">
+                    <div className="grid grid-cols-2 gap-3 md:flex md:flex-wrap md:gap-4">
+                      <Link
+                        href="/catalog"
+                        className="btn-primary-red min-h-[46px] justify-center px-4 text-[clamp(0.78rem,3.6vw,0.95rem)] md:px-5 md:text-[0.95rem] sm:justify-start"
+                        style={{ minWidth: "0" }}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </Link>
-                    <Link
-                      href="/booking"
-                      className="btn-primary-red min-h-[46px] justify-center px-4 text-[clamp(0.78rem,3.6vw,0.95rem)] md:px-5 md:text-[0.95rem] sm:justify-start"
-                      style={{
-                        minWidth: "0",
-                        background: "rgba(255,255,255,0.04)",
-                        borderColor: "rgba(255,255,255,0.28)",
-                      }}
-                    >
-                      {ka ? "ტესტ დრაივი" : "Book Test Drive"}
-                    </Link>
+                        {ka ? "პროდუქტები" : "Explore Products"}
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </Link>
+                      <Link
+                        href="/booking"
+                        className="btn-primary-red min-h-[46px] justify-center px-4 text-[clamp(0.78rem,3.6vw,0.95rem)] md:px-5 md:text-[0.95rem] sm:justify-start"
+                        style={{
+                          minWidth: "0",
+                          background: "rgba(255,255,255,0.04)",
+                          borderColor: "rgba(255,255,255,0.28)",
+                        }}
+                      >
+                        {ka ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
+                      </Link>
+                    </div>
                   </div>
-                </div>
                 </div>
               </motion.div>
             ) : modelSpec && modelCopy ? (
@@ -787,14 +800,17 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                             borderColor: "rgba(255,255,255,0.24)",
                           }}
                         >
-                          {ka ? "ტესტ დრაივი" : "Book Test Drive"}
+                          {ka ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
                         </Link>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="hidden md:block md:py-8 xl:py-10" style={{ width: 'min(35vw, 29.375rem)' }}>
+                <div
+                  className="hidden md:block md:py-8 xl:py-10"
+                  style={{ width: "min(35vw, 29.375rem)" }}
+                >
                   <div className="mb-4 flex items-center gap-3 md:mb-8 xl:mb-10">
                     <span className="h-[2px] w-10 flex-shrink-0 bg-byd-red" />
                     <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-byd-red">
@@ -871,7 +887,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                         borderColor: "rgba(255,255,255,0.24)",
                       }}
                     >
-                      {ka ? "ტესტ დრაივი" : "Book Test Drive"}
+                      {ka ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
                     </Link>
                   </div>
                 </div>
@@ -896,7 +912,11 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
             stroke="currentColor"
             strokeWidth={2}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </button>
         <div className="flex items-center gap-2">
@@ -943,4 +963,3 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
     </section>
   );
 }
-

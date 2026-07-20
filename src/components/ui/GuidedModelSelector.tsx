@@ -316,7 +316,7 @@ export default function GuidedModelSelector({ locale }: { locale: string }) {
                       href={getBookingHrefFromCatalogHref(rec.href)}
                       className="flex-1 inline-flex items-center justify-center px-3 py-2.5 bg-byd-red text-white text-[11px] font-bold uppercase tracking-[0.08em] hover:bg-[#A80912] transition-colors duration-150"
                     >
-                      {ka ? "ტესტ დრაივი" : "Book Test Drive"}
+                      {ka ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
                     </Link>
                     <Link
                       href={rec.href}

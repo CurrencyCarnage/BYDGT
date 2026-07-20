@@ -194,7 +194,7 @@ export default function ModelPurchaseExperience({ model, locale }: { model: CarM
                         className="inline-flex min-h-11 items-center justify-center border border-[#C7CDD0] px-3 text-center text-[11px] font-bold uppercase tracking-[0.06em] text-[#252728] transition-colors hover:border-byd-red hover:text-byd-red"
                       />
                       <Link href={`/booking?model=${encodeURIComponent(model.id)}&version=${encodeURIComponent(variant.id)}`} className="inline-flex min-h-11 items-center justify-center bg-byd-red px-3 text-center text-[11px] font-bold uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#A80912]">
-                        {ka ? "ტესტ დრაივი" : "Book a Test Drive"}
+                        {ka ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
                       </Link>
                       <Link href={`/contact?subject=${encodeURIComponent(`${modelName} ${variantName}`)}`} className="inline-flex min-h-11 items-center justify-center border border-[#C7CDD0] px-3 text-center text-[11px] font-bold uppercase tracking-[0.06em] text-[#252728] transition-colors hover:border-[#252728]">
                         {ka ? "კონტაქტი" : "Contact"}

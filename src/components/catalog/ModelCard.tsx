@@ -25,10 +25,9 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
   const name = getLocalizedValue(model.name, locale);
   const tagline = getLocalizedValue(model.tagline, locale);
   const isEV = model.type === "EV";
+  const accentColor = isEV ? "#78B254" : "#D70C19";
   const glowColor = isEV ? "rgba(120, 178, 84, 0.28)" : "rgba(215, 12, 25, 0.24)";
   const glowColorHover = isEV ? "rgba(120, 178, 84, 0.45)" : "rgba(215, 12, 25, 0.42)";
-  const borderColor = isEV ? "rgba(120, 178, 84, 0.25)" : "rgba(215, 12, 25, 0.20)";
-  const borderColorHover = isEV ? "rgba(120, 178, 84, 0.45)" : "rgba(215, 12, 25, 0.40)";
 
   return (
     <Link href={`/catalog/${model.id}`} className="relative z-0 block h-full transition-[z-index] hover:z-10 focus-visible:z-10">
@@ -36,15 +35,15 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
         className="model-card group flex h-full cursor-pointer flex-col overflow-hidden rounded-xl transition-all duration-400 hover:-translate-y-1"
         style={{
           background: "#FBFBFA",
-          border: `1px solid ${borderColor}`,
+          border: `1px solid ${accentColor}`,
           boxShadow: `0 0 54px ${glowColor}, 0 8px 24px rgba(24, 28, 32, 0.06)`,
         }}
         onMouseEnter={(event) => {
-          event.currentTarget.style.border = `1px solid ${borderColorHover}`;
+          event.currentTarget.style.border = `1px solid ${accentColor}`;
           event.currentTarget.style.boxShadow = `0 0 84px ${glowColorHover}, 0 12px 32px rgba(24, 28, 32, 0.10)`;
         }}
         onMouseLeave={(event) => {
-          event.currentTarget.style.border = `1px solid ${borderColor}`;
+          event.currentTarget.style.border = `1px solid ${accentColor}`;
           event.currentTarget.style.boxShadow = `0 0 54px ${glowColor}, 0 8px 24px rgba(24, 28, 32, 0.06)`;
         }}
       >

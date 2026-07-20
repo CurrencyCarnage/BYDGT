@@ -102,65 +102,122 @@ const aboutContent = {
   ...content,
   en: {
     heroTitle: "About GT Group",
-    heroSubtitle: "Building trusted partnerships, delivering international brands, and supporting mobility and industry in Georgia since 1999.",
+    heroSubtitle:
+      "Building trusted partnerships, delivering international brands, and supporting mobility and industry in Georgia since 1999.",
     introTitle: "Since 1999",
-    introText: "GT Group is a diversified Georgian private holding with extensive experience in automotive distribution, specialised machinery, technical service, and international brand representation. Since beginning operations in 1999, the company has continuously expanded its capabilities while remaining focused on quality, long-term partnerships, and customer satisfaction. Today, GT Group connects Georgian customers and businesses with established global manufacturers across passenger and commercial vehicles, construction and agricultural machinery, municipal equipment, lubricants, marine transport, and viticulture solutions.",
+    introText:
+      "GT Group is a diversified Georgian private holding with extensive experience in automotive distribution, specialised machinery, technical service, and international brand representation. Since beginning operations in 1999, the company has continuously expanded its capabilities while remaining focused on quality, long-term partnerships, and customer satisfaction. Today, GT Group connects Georgian customers and businesses with established global manufacturers across passenger and commercial vehicles, construction and agricultural machinery, municipal equipment, lubricants, marine transport, and viticulture solutions.",
     globalLabel: "Local Expertise, Global Standards",
-    globalText: "GT Group's growth has been built on close cooperation with leading international manufacturers and on the ability to deliver more than a product. The company supports customers throughout the ownership lifecycle with professional consultation, technical expertise, maintenance, and after-sales service. This experience provides the foundation for GT Group's partnership with BYD and for the introduction of authorised electric and plug-in hybrid mobility solutions to customers in Georgia.",
+    globalText:
+      "GT Group's growth has been built on close cooperation with leading international manufacturers and on the ability to deliver more than a product. The company supports customers throughout the ownership lifecycle with professional consultation, technical expertise, maintenance, and after-sales service. This experience provides the foundation for GT Group's partnership with BYD and for the introduction of authorised electric and plug-in hybrid mobility solutions to customers in Georgia.",
     innovationLabel: "Our Strengths",
     innovationTitle: "Experience Built Across Mobility and Industry",
-    innovationText: "GT Group combines local market knowledge with long-term experience in international distribution, technical service, and complex customer support. Its diversified structure allows the company to serve private customers, businesses, public organisations, and major infrastructure projects across Georgia.",
+    innovationText:
+      "GT Group combines local market knowledge with long-term experience in international distribution, technical service, and complex customer support. Its diversified structure allows the company to serve private customers, businesses, public organisations, and major infrastructure projects across Georgia.",
     features: [
-      { title: "Operating in Georgia Since 1999", desc: "More than two decades of continuous operation have given GT Group deep knowledge of the Georgian market, customer expectations, and the operational standards required to represent major international brands responsibly." },
-      { title: "Multiple Business Directions", desc: "GT Group operates across passenger and commercial vehicles, construction and agricultural machinery, municipal equipment, lubricants, marine transport, viticulture solutions, and related technical services." },
-      { title: "Sales, Service, and After-Sales Support", desc: "GT Group's role extends beyond vehicle and equipment sales. The company provides technical consultation, diagnostics, maintenance, repair, and continuing customer support through specialised teams and service infrastructure." },
-      { title: "Global Brands, Local Responsibility", desc: "By working with recognised manufacturers across several industries, GT Group brings global technologies and operating standards to Georgia while providing customers with accessible local expertise and support." },
+      {
+        title: "Operating in Georgia Since 1999",
+        desc: "More than two decades of continuous operation have given GT Group deep knowledge of the Georgian market, customer expectations, and the operational standards required to represent major international brands responsibly.",
+      },
+      {
+        title: "Multiple Business Directions",
+        desc: "GT Group operates across passenger and commercial vehicles, construction and agricultural machinery, municipal equipment, lubricants, marine transport, viticulture solutions, and related technical services.",
+      },
+      {
+        title: "Sales, Service, and After-Sales Support",
+        desc: "GT Group's role extends beyond vehicle and equipment sales. The company provides technical consultation, diagnostics, maintenance, repair, and continuing customer support through specialised teams and service infrastructure.",
+      },
+      {
+        title: "Global Brands, Local Responsibility",
+        desc: "By working with recognised manufacturers across several industries, GT Group brings global technologies and operating standards to Georgia while providing customers with accessible local expertise and support.",
+      },
     ],
     safetyLabel: "Service & Quality",
     safetyTitle: "Support That Continues After the Purchase",
-    safetyText: "Reliable ownership depends on professional service, qualified technical support, and access to the correct parts and procedures. GT Group has developed its automotive and machinery operations around long-term customer support, manufacturer requirements, and modern service infrastructure. Through its authorised BYD operations, GT Group aims to provide Georgian customers with official vehicles, warranty support, certified servicing, qualified technical assistance, and original spare parts in accordance with BYD standards.",
-    badges: ["Authorised Sales", "Warranty Support", "Certified Service", "Original Parts"],
+    safetyText:
+      "Reliable ownership depends on professional service, qualified technical support, and access to the correct parts and procedures. GT Group has developed its automotive and machinery operations around long-term customer support, manufacturer requirements, and modern service infrastructure. Through its authorised BYD operations, GT Group aims to provide Georgian customers with official vehicles, warranty support, certified servicing, qualified technical assistance, and original spare parts in accordance with BYD standards.",
+    badges: [
+      "Authorised Sales",
+      "Warranty Support",
+      "Certified Service",
+      "Original Parts",
+    ],
     marketLabel: "BYD in Georgia",
     marketTitle: "A New Chapter in GT Group's Automotive Journey",
-    marketText: "Beginning in 2026, GT Group became the exclusive authorised BYD dealer in Georgia. The partnership brings together BYD's electric and plug-in hybrid vehicle technology with GT Group's local market experience, established automotive operations, and long-term commitment to customer service. Georgian customers can now discover BYD through an authorised local partner focused on transparent sales, professional consultation, warranty support, qualified service, technical assistance, and original spare parts.",
-    stats: [{ value: "25+", label: "Years of Experience" }, { value: "1999", label: "Operating Since" }],
+    marketText:
+      "Beginning in 2026, GT Group became the exclusive authorised BYD dealer in Georgia. The partnership brings together BYD's electric and plug-in hybrid vehicle technology with GT Group's local market experience, established automotive operations, and long-term commitment to customer service. Georgian customers can now discover BYD through an authorised local partner focused on transparent sales, professional consultation, warranty support, qualified service, technical assistance, and original spare parts.",
+    stats: [
+      { value: "25+", label: "Years of Experience" },
+      { value: "1999", label: "Operating Since" },
+    ],
     sustainLabel: "Future Mobility",
     sustainTitle: "Bringing Advanced Electrified Vehicles to Georgia",
-    sustainText: "The partnership with BYD reflects GT Group's continued focus on innovation and on bringing relevant global technologies to the Georgian market. BYD's electric and plug-in hybrid vehicles expand the choices available to local drivers and support the gradual transition toward more efficient, intelligent, and lower-emission mobility. GT Group's responsibility is to make that technology accessible through professional guidance, authorised sales, dependable service, and long-term ownership support in Georgia.",
+    sustainText:
+      "The partnership with BYD reflects GT Group's continued focus on innovation and on bringing relevant global technologies to the Georgian market. BYD's electric and plug-in hybrid vehicles expand the choices available to local drivers and support the gradual transition toward more efficient, intelligent, and lower-emission mobility. GT Group's responsibility is to make that technology accessible through professional guidance, authorised sales, dependable service, and long-term ownership support in Georgia.",
     partnershipYear: "2026",
-    partnershipCaption: "Official BYD Partnership in Georgia",
-    closing: "For GT Group, representing BYD is not only about introducing new vehicles. It is about giving Georgian customers access to advanced mobility through trusted local service, professional support, and a long-term partnership.",
+    partnershipCaption: "Exclusive BYD Partnership in Georgia",
+    closing:
+      "For GT Group, representing BYD is not only about introducing new vehicles. It is about giving Georgian customers access to advanced mobility through trusted local service, professional support, and a long-term partnership.",
   },
   ka: {
     heroTitle: "GT ჯგუფის შესახებ",
-    heroSubtitle: "სანდო პარტნიორობების შექმნა, საერთაშორისო ბრენდების წარმოდგენა და საქართველოში მობილობისა და ინდუსტრიის მხარდაჭერა 1999 წლიდან.",
+    heroSubtitle:
+      "სანდო პარტნიორობების შექმნა, საერთაშორისო ბრენდების წარმოდგენა და საქართველოში მობილობისა და ინდუსტრიის მხარდაჭერა 1999 წლიდან.",
     introTitle: "1999 წლიდან",
-    introText: "GT ჯგუფი მრავალპროფილიანი ქართული კერძო ჰოლდინგია, რომელსაც აქვს დიდი გამოცდილება საავტომობილო დისტრიბუციაში, სპეციალიზებულ ტექნიკაში, ტექნიკურ სერვისსა და საერთაშორისო ბრენდების წარმომადგენლობაში. 1999 წლიდან კომპანია მუდმივად აფართოებს შესაძლებლობებს და ამავე დროს ხარისხზე, გრძელვადიან პარტნიორობებსა და მომხმარებლის კმაყოფილებაზეა ორიენტირებული. დღეს GT ჯგუფი ქართველ მომხმარებლებსა და ბიზნესს აკავშირებს საერთაშორისო მწარმოებლებთან მსუბუქი და კომერციული ავტომობილების, სამშენებლო და სასოფლო-სამეურნეო ტექნიკის, მუნიციპალური აღჭურვილობის, ლუბრიკანტების, საზღვაო ტრანსპორტისა და მევენახეობის გადაწყვეტილებების მიმართულებით.",
+    introText:
+      "GT ჯგუფი მრავალპროფილიანი ქართული კერძო ჰოლდინგია, რომელსაც აქვს დიდი გამოცდილება საავტომობილო დისტრიბუციაში, სპეციალიზებულ ტექნიკაში, ტექნიკურ სერვისსა და საერთაშორისო ბრენდების წარმომადგენლობაში. 1999 წლიდან კომპანია მუდმივად აფართოებს შესაძლებლობებს და ამავე დროს ხარისხზე, გრძელვადიან პარტნიორობებსა და მომხმარებლის კმაყოფილებაზეა ორიენტირებული. დღეს GT ჯგუფი ქართველ მომხმარებლებსა და ბიზნესს აკავშირებს საერთაშორისო მწარმოებლებთან მსუბუქი და კომერციული ავტომობილების, სამშენებლო და სასოფლო-სამეურნეო ტექნიკის, მუნიციპალური აღჭურვილობის, ლუბრიკანტების, საზღვაო ტრანსპორტისა და მევენახეობის გადაწყვეტილებების მიმართულებით.",
     globalLabel: "ადგილობრივი გამოცდილება, გლობალური სტანდარტები",
-    globalText: "GT ჯგუფის ზრდას საფუძვლად უდევს მჭიდრო თანამშრომლობა წამყვან საერთაშორისო მწარმოებლებთან და მომხმარებლისთვის მხოლოდ პროდუქტის მიწოდებაზე მეტის შეთავაზების უნარი. კომპანია მხარს უჭერს მომხმარებელს მფლობელობის მთელი ციკლის განმავლობაში პროფესიული კონსულტაციით, ტექნიკური გამოცდილებით, მოვლითა და გაყიდვის შემდგომი მომსახურებით. ეს გამოცდილება ქმნის საფუძველს GT ჯგუფისა და BYD-ის პარტნიორობისთვის და საქართველოში ავტორიზებული ელექტრო და პლაგ-ინ ჰიბრიდული მობილობის გადაწყვეტილებების დანერგვისთვის.",
+    globalText:
+      "GT ჯგუფის ზრდას საფუძვლად უდევს მჭიდრო თანამშრომლობა წამყვან საერთაშორისო მწარმოებლებთან და მომხმარებლისთვის მხოლოდ პროდუქტის მიწოდებაზე მეტის შეთავაზების უნარი. კომპანია მხარს უჭერს მომხმარებელს მფლობელობის მთელი ციკლის განმავლობაში პროფესიული კონსულტაციით, ტექნიკური გამოცდილებით, მოვლითა და გაყიდვის შემდგომი მომსახურებით. ეს გამოცდილება ქმნის საფუძველს GT ჯგუფისა და BYD-ის პარტნიორობისთვის და საქართველოში ავტორიზებული ელექტრო და პლაგ-ინ ჰიბრიდული მობილობის გადაწყვეტილებების დანერგვისთვის.",
     innovationLabel: "ჩვენი ძლიერი მხარეები",
     innovationTitle: "გამოცდილება მობილობასა და ინდუსტრიაში",
-    innovationText: "GT ჯგუფი აერთიანებს ადგილობრივი ბაზრის ცოდნას საერთაშორისო დისტრიბუციის, ტექნიკური სერვისისა და კომპლექსური მომხმარებლის მხარდაჭერის მრავალწლიან გამოცდილებასთან. მისი მრავალპროფილიანი სტრუქტურა საშუალებას აძლევს კომპანიას მოემსახუროს კერძო მომხმარებლებს, ბიზნესს, საჯარო ორგანიზაციებსა და მსხვილ ინფრასტრუქტურულ პროექტებს საქართველოს მასშტაბით.",
+    innovationText:
+      "GT ჯგუფი აერთიანებს ადგილობრივი ბაზრის ცოდნას საერთაშორისო დისტრიბუციის, ტექნიკური სერვისისა და კომპლექსური მომხმარებლის მხარდაჭერის მრავალწლიან გამოცდილებასთან. მისი მრავალპროფილიანი სტრუქტურა საშუალებას აძლევს კომპანიას მოემსახუროს კერძო მომხმარებლებს, ბიზნესს, საჯარო ორგანიზაციებსა და მსხვილ ინფრასტრუქტურულ პროექტებს საქართველოს მასშტაბით.",
     features: [
-      { title: "საქართველოში 1999 წლიდან", desc: "ოც წელზე მეტი უწყვეტი საქმიანობა GT ჯგუფს აძლევს საქართველოს ბაზრის, მომხმარებელთა მოლოდინებისა და საერთაშორისო ბრენდების პასუხისმგებლიანად წარმოდგენისთვის საჭირო საოპერაციო სტანდარტების ღრმა ცოდნას." },
-      { title: "ბიზნესის მრავალი მიმართულება", desc: "GT ჯგუფი საქმიანობს მსუბუქი და კომერციული ავტომობილების, სამშენებლო და სასოფლო-სამეურნეო ტექნიკის, მუნიციპალური აღჭურვილობის, ლუბრიკანტების, საზღვაო ტრანსპორტის, მევენახეობის გადაწყვეტილებებისა და დაკავშირებული ტექნიკური სერვისების მიმართულებით." },
-      { title: "გაყიდვები, სერვისი და შემდგომი მხარდაჭერა", desc: "GT ჯგუფის საქმიანობა ავტომობილებისა და ტექნიკის გაყიდვებს სცდება. სპეციალიზებული გუნდებისა და სერვის ინფრასტრუქტურის მეშვეობით კომპანია უზრუნველყოფს ტექნიკურ კონსულტაციას, დიაგნოსტიკას, მოვლას, შეკეთებასა და მომხმარებლის მუდმივ მხარდაჭერას." },
-      { title: "გლობალური ბრენდები, ადგილობრივი პასუხისმგებლობა", desc: "რამდენიმე ინდუსტრიაში აღიარებულ მწარმოებლებთან თანამშრომლობით GT ჯგუფს საქართველოში მოაქვს გლობალური ტექნოლოგიები და საოპერაციო სტანდარტები, მომხმარებლებს კი სთავაზობს ხელმისაწვდომ ადგილობრივ გამოცდილებასა და მხარდაჭერას." },
+      {
+        title: "საქართველოში 1999 წლიდან",
+        desc: "ოც წელზე მეტი უწყვეტი საქმიანობა GT ჯგუფს აძლევს საქართველოს ბაზრის, მომხმარებელთა მოლოდინებისა და საერთაშორისო ბრენდების პასუხისმგებლიანად წარმოდგენისთვის საჭირო საოპერაციო სტანდარტების ღრმა ცოდნას.",
+      },
+      {
+        title: "ბიზნესის მრავალი მიმართულება",
+        desc: "GT ჯგუფი საქმიანობს მსუბუქი და კომერციული ავტომობილების, სამშენებლო და სასოფლო-სამეურნეო ტექნიკის, მუნიციპალური აღჭურვილობის, ლუბრიკანტების, საზღვაო ტრანსპორტის, მევენახეობის გადაწყვეტილებებისა და დაკავშირებული ტექნიკური სერვისების მიმართულებით.",
+      },
+      {
+        title: "გაყიდვები, სერვისი და შემდგომი მხარდაჭერა",
+        desc: "GT ჯგუფის საქმიანობა ავტომობილებისა და ტექნიკის გაყიდვებს სცდება. სპეციალიზებული გუნდებისა და სერვის ინფრასტრუქტურის მეშვეობით კომპანია უზრუნველყოფს ტექნიკურ კონსულტაციას, დიაგნოსტიკას, მოვლას, შეკეთებასა და მომხმარებლის მუდმივ მხარდაჭერას.",
+      },
+      {
+        title: "გლობალური ბრენდები, ადგილობრივი პასუხისმგებლობა",
+        desc: "რამდენიმე ინდუსტრიაში აღიარებულ მწარმოებლებთან თანამშრომლობით GT ჯგუფს საქართველოში მოაქვს გლობალური ტექნოლოგიები და საოპერაციო სტანდარტები, მომხმარებლებს კი სთავაზობს ხელმისაწვდომ ადგილობრივ გამოცდილებასა და მხარდაჭერას.",
+      },
     ],
     safetyLabel: "სერვისი და ხარისხი",
     safetyTitle: "მხარდაჭერა, რომელიც შეძენის შემდეგაც გრძელდება",
-    safetyText: "საიმედო მფლობელობისთვის აუცილებელია პროფესიული სერვისი, კვალიფიციური ტექნიკური მხარდაჭერა და სწორი ნაწილებისა და პროცედურების ხელმისაწვდომობა. GT ჯგუფმა საავტომობილო და ტექნიკის მიმართულებები გრძელვადიანი მომხმარებლის მხარდაჭერის, მწარმოებლის მოთხოვნებისა და თანამედროვე სერვის ინფრასტრუქტურის საფუძველზე განავითარა. BYD-ის ავტორიზებული ოპერაციების მეშვეობით GT ჯგუფი ცდილობს საქართველოს მომხმარებლებს შესთავაზოს ოფიციალური ავტომობილები, საგარანტიო მხარდაჭერა, სერტიფიცირებული სერვისი, კვალიფიციური ტექნიკური დახმარება და ორიგინალი სათადარიგო ნაწილები BYD-ის სტანდარტების შესაბამისად.",
-    badges: ["ავტორიზებული გაყიდვები", "საგარანტიო მხარდაჭერა", "სერტიფიცირებული სერვისი", "ორიგინალი ნაწილები"],
+    safetyText:
+      "საიმედო მფლობელობისთვის აუცილებელია პროფესიული სერვისი, კვალიფიციური ტექნიკური მხარდაჭერა და სწორი ნაწილებისა და პროცედურების ხელმისაწვდომობა. GT ჯგუფმა საავტომობილო და ტექნიკის მიმართულებები გრძელვადიანი მომხმარებლის მხარდაჭერის, მწარმოებლის მოთხოვნებისა და თანამედროვე სერვის ინფრასტრუქტურის საფუძველზე განავითარა. BYD-ის ავტორიზებული ოპერაციების მეშვეობით GT ჯგუფი ცდილობს საქართველოს მომხმარებლებს შესთავაზოს ოფიციალური ავტომობილები, საგარანტიო მხარდაჭერა, სერტიფიცირებული სერვისი, კვალიფიციური ტექნიკური დახმარება და ორიგინალი სათადარიგო ნაწილები BYD-ის სტანდარტების შესაბამისად.",
+    badges: [
+      "ავტორიზებული გაყიდვები",
+      "საგარანტიო მხარდაჭერა",
+      "სერტიფიცირებული სერვისი",
+      "ორიგინალი ნაწილები",
+    ],
     marketLabel: "BYD საქართველოში",
     marketTitle: "ახალი ეტაპი GT ჯგუფის საავტომობილო გზაზე",
-    marketText: "2026 წლიდან GT ჯგუფი საქართველოში BYD-ის ექსკლუზიური ავტორიზებული დილერი გახდა. პარტნიორობა აერთიანებს BYD-ის ელექტრო და პლაგ-ინ ჰიბრიდული ავტომობილების ტექნოლოგიას GT ჯგუფის ადგილობრივი ბაზრის გამოცდილებასთან, ჩამოყალიბებულ საავტომობილო ოპერაციებთან და მომხმარებლის მომსახურებისადმი გრძელვადიან ერთგულებასთან. საქართველოს მომხმარებლებს ახლა შეუძლიათ BYD გაეცნონ ავტორიზებული ადგილობრივი პარტნიორის მეშვეობით, რომელიც ორიენტირებულია გამჭვირვალე გაყიდვებზე, პროფესიულ კონსულტაციაზე, საგარანტიო მხარდაჭერაზე, კვალიფიციურ სერვისზე, ტექნიკურ დახმარებასა და ორიგინალ სათადარიგო ნაწილებზე.",
-    stats: [{ value: "25+", label: "წლის გამოცდილება" }, { value: "1999", label: "საქმიანობის დასაწყისი" }],
+    marketText:
+      "2026 წლიდან GT ჯგუფი საქართველოში BYD-ის ექსკლუზიური ავტორიზებული დილერი გახდა. პარტნიორობა აერთიანებს BYD-ის ელექტრო და პლაგ-ინ ჰიბრიდული ავტომობილების ტექნოლოგიას GT ჯგუფის ადგილობრივი ბაზრის გამოცდილებასთან, ჩამოყალიბებულ საავტომობილო ოპერაციებთან და მომხმარებლის მომსახურებისადმი გრძელვადიან ერთგულებასთან. საქართველოს მომხმარებლებს ახლა შეუძლიათ BYD გაეცნონ ავტორიზებული ადგილობრივი პარტნიორის მეშვეობით, რომელიც ორიენტირებულია გამჭვირვალე გაყიდვებზე, პროფესიულ კონსულტაციაზე, საგარანტიო მხარდაჭერაზე, კვალიფიციურ სერვისზე, ტექნიკურ დახმარებასა და ორიგინალ სათადარიგო ნაწილებზე.",
+    stats: [
+      { value: "25+", label: "წლის გამოცდილება" },
+      { value: "1999", label: "საქმიანობის დასაწყისი" },
+    ],
     sustainLabel: "მომავლის მობილობა",
-    sustainTitle: "საქართველოში მოწინავე ელექტრიფიცირებული ავტომობილების შემოტანა",
-    sustainText: "BYD-თან პარტნიორობა ასახავს GT ჯგუფის მუდმივ ყურადღებას ინოვაციაზე და საქართველოს ბაზარზე შესაბამისი გლობალური ტექნოლოგიების შემოტანაზე. BYD-ის ელექტრო და პლაგ-ინ ჰიბრიდული ავტომობილები ადგილობრივ მძღოლებს არჩევანს უფართოებს და ხელს უწყობს უფრო ეფექტიანი, გონიერი და დაბალი ემისიის მობილობისკენ თანდათანობით გადასვლას. GT ჯგუფის პასუხისმგებლობაა ეს ტექნოლოგია ხელმისაწვდომი გახადოს პროფესიული კონსულტაციის, ავტორიზებული გაყიდვების, საიმედო სერვისისა და საქართველოში მფლობელობის გრძელვადიანი მხარდაჭერის მეშვეობით.",
+    sustainTitle:
+      "საქართველოში მოწინავე ელექტრიფიცირებული ავტომობილების შემოტანა",
+    sustainText:
+      "BYD-თან პარტნიორობა ასახავს GT ჯგუფის მუდმივ ყურადღებას ინოვაციაზე და საქართველოს ბაზარზე შესაბამისი გლობალური ტექნოლოგიების შემოტანაზე. BYD-ის ელექტრო და პლაგ-ინ ჰიბრიდული ავტომობილები ადგილობრივ მძღოლებს არჩევანს უფართოებს და ხელს უწყობს უფრო ეფექტიანი, გონიერი და დაბალი ემისიის მობილობისკენ თანდათანობით გადასვლას. GT ჯგუფის პასუხისმგებლობაა ეს ტექნოლოგია ხელმისაწვდომი გახადოს პროფესიული კონსულტაციის, ავტორიზებული გაყიდვების, საიმედო სერვისისა და საქართველოში მფლობელობის გრძელვადიანი მხარდაჭერის მეშვეობით.",
     partnershipYear: "2026",
     partnershipCaption: "BYD-ის ოფიციალური პარტნიორობა საქართველოში",
-    closing: "GT ჯგუფისთვის BYD-ის წარმომადგენლობა მხოლოდ ახალი ავტომობილების შემოყვანას არ ნიშნავს. ეს ნიშნავს ქართველ მომხმარებლებს მისცეს წვდომა მოწინავე მობილობაზე სანდო ადგილობრივი სერვისის, პროფესიული მხარდაჭერისა და გრძელვადიანი პარტნიორობის მეშვეობით.",
+    closing:
+      "GT ჯგუფისთვის BYD-ის წარმომადგენლობა მხოლოდ ახალი ავტომობილების შემოყვანას არ ნიშნავს. ეს ნიშნავს ქართველ მომხმარებლებს მისცეს წვდომა მოწინავე მობილობაზე სანდო ადგილობრივი სერვისის, პროფესიული მხარდაჭერისა და გრძელვადიანი პარტნიორობის მეშვეობით.",
   },
 };
 
@@ -187,11 +244,16 @@ export default async function AboutPage() {
               className="text-xs text-byd-red uppercase tracking-[0.25em] mb-4"
               style={{ fontFamily: "var(--font-montserrat)" }}
             >
-              {locale === "ka" ? "GT ჯგუფი — BYD საქართველო" : "GT Group — BYD Georgia"}
+              {locale === "ka"
+                ? "GT ჯგუფი — BYD საქართველო"
+                : "GT Group — BYD Georgia"}
             </p>
             <h1
               className="text-4xl md:text-[4rem] font-bold text-white mb-6 max-w-3xl leading-tight"
-              style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.02em" }}
+              style={{
+                fontFamily: "var(--font-montserrat)",
+                letterSpacing: "-0.02em",
+              }}
             >
               {c.heroTitle}
             </h1>
@@ -206,7 +268,10 @@ export default async function AboutPage() {
       </section>
 
       {/* ── INTRO — WHITE section ── */}
-      <section data-header-theme="light" className="about-intro-section py-section-sm md:py-section-lg bg-white">
+      <section
+        data-header-theme="light"
+        className="about-intro-section py-section-sm md:py-section-lg bg-white"
+      >
         <div className="section-container">
           <div className="max-w-3xl mx-auto">
             <ScrollReveal>
@@ -228,10 +293,20 @@ export default async function AboutPage() {
             <ScrollReveal delay={0.15} className="mt-10">
               <div className="flex items-start gap-4 p-6 bg-[#F5F6F7] border border-[#E0E2E4]">
                 <span className="flex-shrink-0 mt-0.5 text-byd-red">
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
-                    </svg>
-                  </span>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={1.5}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                    />
+                  </svg>
+                </span>
                 <div>
                   <p
                     className="text-xs text-byd-red uppercase tracking-widest mb-2"
@@ -274,7 +349,10 @@ export default async function AboutPage() {
               </p>
               <h2
                 className="text-h3 md:text-h2 font-bold text-white mb-6"
-                style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.02em" }}
+                style={{
+                  fontFamily: "var(--font-montserrat)",
+                  letterSpacing: "-0.02em",
+                }}
               >
                 {c.innovationTitle}
               </h2>
@@ -333,7 +411,10 @@ export default async function AboutPage() {
               </p>
               <h2
                 className="text-h3 md:text-h2 font-semibold text-white mb-5"
-                style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.02em" }}
+                style={{
+                  fontFamily: "var(--font-montserrat)",
+                  letterSpacing: "-0.02em",
+                }}
               >
                 {c.safetyTitle}
               </h2>
@@ -370,7 +451,8 @@ export default async function AboutPage() {
               <div
                 className="about-market-card theme-media-section relative overflow-hidden h-full min-h-[20rem] flex flex-col justify-end p-8"
                 style={{
-                  backgroundImage: "url('/images/aboutus/byd_about_bg_global_dark.jpg')",
+                  backgroundImage:
+                    "url('/images/aboutus/byd_about_bg_global_dark.jpg')",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -385,7 +467,10 @@ export default async function AboutPage() {
                   </p>
                   <h2
                     className="text-xl md:text-2xl font-bold text-white mb-3"
-                    style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.01em" }}
+                    style={{
+                      fontFamily: "var(--font-montserrat)",
+                      letterSpacing: "-0.01em",
+                    }}
                   >
                     {c.marketTitle}
                   </h2>
@@ -398,12 +483,32 @@ export default async function AboutPage() {
                   {/* Stats */}
                   <div className="flex gap-6 mt-6">
                     <div>
-                      <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-montserrat)" }}>{c.stats[0].value}</p>
-                      <p className="text-xs text-white/35 uppercase tracking-wider mt-0.5" style={{ fontFamily: "var(--font-montserrat)" }}>{c.stats[0].label}</p>
+                      <p
+                        className="text-2xl font-bold text-white"
+                        style={{ fontFamily: "var(--font-montserrat)" }}
+                      >
+                        {c.stats[0].value}
+                      </p>
+                      <p
+                        className="text-xs text-white/35 uppercase tracking-wider mt-0.5"
+                        style={{ fontFamily: "var(--font-montserrat)" }}
+                      >
+                        {c.stats[0].label}
+                      </p>
                     </div>
                     <div>
-                      <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-montserrat)" }}>{c.stats[1].value}</p>
-                      <p className="text-xs text-white/35 uppercase tracking-wider mt-0.5" style={{ fontFamily: "var(--font-montserrat)" }}>{c.stats[1].label}</p>
+                      <p
+                        className="text-2xl font-bold text-white"
+                        style={{ fontFamily: "var(--font-montserrat)" }}
+                      >
+                        {c.stats[1].value}
+                      </p>
+                      <p
+                        className="text-xs text-white/35 uppercase tracking-wider mt-0.5"
+                        style={{ fontFamily: "var(--font-montserrat)" }}
+                      >
+                        {c.stats[1].label}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -422,7 +527,10 @@ export default async function AboutPage() {
                   </p>
                   <h2
                     className="text-xl md:text-2xl font-bold text-white mb-4"
-                    style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.01em" }}
+                    style={{
+                      fontFamily: "var(--font-montserrat)",
+                      letterSpacing: "-0.01em",
+                    }}
                   >
                     {c.sustainTitle}
                   </h2>
@@ -435,10 +543,16 @@ export default async function AboutPage() {
                 </div>
                 {/* Partnership milestone */}
                 <div className="mt-8 pt-6 border-t border-[rgba(200,208,220,0.1)]">
-                  <p className="text-3xl font-bold text-white" style={{ fontFamily: "var(--font-montserrat)" }}>
+                  <p
+                    className="text-3xl font-bold text-white"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
+                  >
                     {c.partnershipYear}
                   </p>
-                  <p className="text-xs text-white/35 uppercase tracking-wider mt-1" style={{ fontFamily: "var(--font-montserrat)" }}>
+                  <p
+                    className="text-xs text-white/35 uppercase tracking-wider mt-1"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
+                  >
                     {c.partnershipCaption}
                   </p>
                 </div>

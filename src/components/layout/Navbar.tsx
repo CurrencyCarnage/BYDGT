@@ -469,7 +469,7 @@ export default function Navbar() {
       }`}
       style={{ height: "5rem" }}
     >
-      <div className="section-container h-full flex items-center justify-between gap-8">
+      <div className="section-container relative h-full flex items-center justify-between gap-8">
 
         {/* ── Logo ─────────────────────────────────────────────── */}
         <Link href="/" className="flex-shrink-0 h-[22px] flex items-center gap-3 group">
@@ -491,7 +491,9 @@ export default function Navbar() {
         </Link>
 
         {/* ── Desktop nav ──────────────────────────────────────── */}
-        <div className="hidden md:flex items-center gap-7 flex-1 justify-center relative">
+        <div className={`hidden md:flex items-center gap-7 ${
+          isGateway ? "absolute left-1/2 -translate-x-1/2" : "flex-1 justify-center"
+        }`}>
 
           {/* Home, About */}
           {leadingNavLinks.map((link) => (
@@ -592,6 +594,7 @@ export default function Navbar() {
               </svg>
             )}
           </button>
+          <span className="hidden md:block h-4 w-px bg-white/15" />
           <button
             onClick={switchLocale}
             aria-label="Switch language"
@@ -603,15 +606,16 @@ export default function Navbar() {
             </svg>
             <span>{locale === "en" ? "KA" : "EN"}</span>
           </button>
+          <span className="hidden sm:block md:hidden h-4 w-px bg-white/15" />
 
-          <span className="hidden sm:block h-4 w-px bg-white/15" />
-
-          <Link
-            href="/booking"
-            className="navbar-book-test-drive hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-byd-red text-[13px] font-bold tracking-[0.1em] uppercase transition-colors duration-200"
-          >
-            {tCommon("bookTestDrive")}
-          </Link>
+          {!isGateway && (
+            <Link
+              href="/booking"
+              className="navbar-book-test-drive hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-byd-red text-[13px] font-bold tracking-[0.1em] uppercase transition-colors duration-200"
+            >
+              {tCommon("bookTestDrive")}
+            </Link>
+          )}
 
           {/* Hamburger */}
           <button
@@ -792,13 +796,15 @@ export default function Navbar() {
                 </svg>
                 {locale === "en" ? "ქართული" : "English"}
               </button>
-              <Link
-                href="/booking"
-                onClick={() => setMobileOpen(false)}
-                className="navbar-book-test-drive inline-flex min-h-11 items-center justify-center bg-byd-red px-4 text-xs font-bold uppercase tracking-[0.1em] transition-colors duration-200"
-              >
-                {tCommon("bookTestDrive")}
-              </Link>
+              {!isGateway && (
+                <Link
+                  href="/booking"
+                  onClick={() => setMobileOpen(false)}
+                  className="navbar-book-test-drive inline-flex min-h-11 items-center justify-center bg-byd-red px-4 text-xs font-bold uppercase tracking-[0.1em] transition-colors duration-200"
+                >
+                  {tCommon("bookTestDrive")}
+                </Link>
+              )}
             </div>
           </div>
         </div>

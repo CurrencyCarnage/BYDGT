@@ -29,13 +29,9 @@ export default async function AdminLoginPage() {
               GT<span className="text-byd-red">Group</span>
             </span>
             <span className="text-white/35 text-sm">×</span>
-            <span className="text-lg font-semibold text-white/60">
-              BYD
-            </span>
+            <span className="text-lg font-semibold text-white/60">BYD</span>
           </div>
-          <h1 className="text-xl font-semibold text-white">
-            Admin Access
-          </h1>
+          <h1 className="text-xl font-semibold text-white">Admin Access</h1>
           <p className="text-sm text-white/35 mt-1">
             Authorised personnel only
           </p>
@@ -47,7 +43,7 @@ export default async function AdminLoginPage() {
         </div>
 
         <p className="text-center text-xs text-white/35 mt-6">
-          GT Group · Official BYD Dealer · Georgia
+          GT Group · Exclusive BYD Dealer · Georgia
         </p>
       </div>
     </div>

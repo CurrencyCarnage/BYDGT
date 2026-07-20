@@ -1,11 +1,11 @@
 {
   "common": {
     "brandName": "GT Group",
-    "brandTagline": "Official BYD Dealer in Georgia",
+    "brandTagline": "Exclusive BYD Dealer in Georgia",
     "currency": "USD",
     "learnMore": "Learn More",
     "viewAll": "View All Products",
-    "bookTestDrive": "Book Test Drive",
+    "bookTestDrive": "BOOK TEST DRIVE",
     "contactUs": "Contact Us",
     "whatsapp": "WhatsApp",
     "startingFrom": "Starting from",
@@ -33,7 +33,7 @@
     "featuredTitle": "Featured Products",
     "featuredSubtitle": "Handpicked vehicles that define the next generation of mobility",
     "brandTitle": "Why GT Group?",
-    "brandText": "As Georgia's official BYD partner, GT Group brings you cutting-edge electric and plug-in hybrid vehicles with full local warranty, service support, and the promise of a cleaner, smarter future on Georgian roads.",
+    "brandText": "As Georgia's exclusive BYD partner, GT Group brings you cutting-edge electric and plug-in hybrid vehicles with full local warranty, service support, and the promise of a cleaner, smarter future on Georgian roads.",
     "brandCta": "About BYD"
   },
   "catalog": {
@@ -162,7 +162,7 @@
     },
     "trust": {
       "ariaLabel": "Why choose BYD GT Group",
-      "dealer": "Official BYD Dealer",
+      "dealer": "Exclusive BYD Dealer",
       "warranty": "Up to 6 Years Warranty",
       "support": "Expert Support",
       "parts": "Genuine Parts & Service",

@@ -853,7 +853,7 @@ export default function CompareGrid({
     pricing: locale === "ka" ? "ფასი" : "Price",
     pricingValue:
       locale === "ka" ? "მოგვმართეთ" : "Contact for pricing",
-    testDrive: locale === "ka" ? "ტესტ დრაივი" : "Test Drive",
+    testDrive: locale === "ka" ? "ტესტ დრაივი" : "BOOK TEST DRIVE",
     viewCatalog: locale === "ka" ? "კატალოგი" : "View Catalog",
     selectModel:
       locale === "ka" ? "აირჩიეთ პროდუქტი" : "Select a product",
@@ -1241,9 +1241,9 @@ export default function CompareGrid({
                         </Link>
                         <Link
                           href={`/${locale}/booking?version=${encodeURIComponent(slot.id)}`}
-                          className="inline-flex min-h-[2.75rem] w-full items-center justify-center rounded-lg bg-byd-red px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-white transition-colors hover:bg-[#A80912] md:px-3 md:text-[12px]"
+                          className="inline-flex min-h-[2.75rem] w-full items-center justify-center bg-byd-red px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-white transition-colors hover:bg-[#A80912] md:px-3 md:text-[12px]"
                         >
-                          {locale === "ka" ? "ამ პროდუქტის ტესტ დრაივი" : "Test Drive this car"}
+                          {locale === "ka" ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
                         </Link>
                       </div>
                     ) : (

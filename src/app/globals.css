@@ -1322,6 +1322,10 @@
     white-space: nowrap;
   }
 
+  :lang(en) a[href*="/booking"] {
+    font-weight: 700;
+  }
+
   .btn-primary-red:hover {
     background: #A80912;
     border-color: #A80912;
