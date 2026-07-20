@@ -421,7 +421,7 @@ export default function Navbar() {
       window.removeEventListener("scroll", updateHeaderSurface);
       window.removeEventListener("resize", updateHeaderSurface);
     };
-  }, [pathname]);
+  }, [pathname, theme]);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("byd-theme");
@@ -479,14 +479,8 @@ export default function Navbar() {
   const isGateway = pathname === "/";
   const isHomepage = isGateway || pathname === "/cars";
 
-  useEffect(() => {
-    if (!isGateway) return;
-    setMegaOpen(false);
-    setMobileOpen(false);
-    setMobileModels(false);
-  }, [isGateway]);
-
-  const useLightSurfaceHeader = overLightSurface || (theme === "light" && !isHomepage);
+  const useLightSurfaceHeader =
+    overLightSurface || (theme === "light" && (isGateway || !isHomepage));
   const mobileCategoryLabels = getMegaCategoryLabels(ka);
 
   /* Non-models nav links */
@@ -500,6 +494,7 @@ export default function Navbar() {
   return (
     <nav
       data-scrolled={scrolled ? "true" : "false"}
+      data-gateway={isGateway ? "true" : "false"}
       data-light-page={useLightSurfaceHeader ? "true" : "false"}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         useLightSurfaceHeader ? "header-on-light-surface" : ""
@@ -532,7 +527,7 @@ export default function Navbar() {
         </Link>
 
         {/* ── Desktop nav ──────────────────────────────────────── */}
-        <div className={isGateway ? "hidden" : "hidden md:flex items-center gap-7 flex-1 justify-center relative"}>
+        <div className="hidden md:flex items-center gap-7 flex-1 justify-center relative">
 
           {/* Home, About */}
           {[baseLinks[0], baseLinks[1]].map((link) => (
@@ -655,7 +650,7 @@ export default function Navbar() {
           {/* Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className={`${isGateway ? "hidden" : "flex"} md:hidden flex-col gap-[5px] p-1.5`}
+            className="flex md:hidden flex-col gap-[5px] p-1.5"
             aria-label={mobileOpen ? tCommon("close") : tCommon("menu")}
           >
             <span className={`block w-5 h-[1.5px] bg-white transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[6.5px]" : ""}`} />
@@ -667,7 +662,7 @@ export default function Navbar() {
 
       {/* ── Mobile menu ──────────────────────────────────────────── */}
       <div
-        className={`${isGateway ? "hidden" : "md:hidden"} overflow-hidden transition-all duration-400`}
+        className="md:hidden overflow-hidden transition-all duration-400"
         style={{
           maxHeight: mobileOpen ? "calc(100dvh - 5rem)" : "0px",
           overflowY: mobileOpen ? "auto" : "hidden",

@@ -420,6 +420,88 @@
   .selectionSummary dd { text-align: left; }
 }
 
+/* Landing gateway light mode. Dark mode remains defined by the base rules above. */
+:global(html.light) .page {
+  background: #f4f5f5;
+}
+
+:global(html.light) .gateway {
+  background: #f4f5f5;
+}
+
+:global(html.light) .panels {
+  border-color: rgba(37, 39, 40, 0.16);
+  background: #e6e9ea;
+  box-shadow: 0 1.25rem 3.75rem rgba(24, 28, 32, 0.12);
+}
+
+:global(html.light) .finderSubmit:focus-visible,
+:global(html.light) .finderSecondary:focus-visible,
+:global(html.light) .field select:focus-visible {
+  outline-color: #252728;
+  box-shadow: 0 0 0 3px rgba(215, 12, 25, 0.68);
+}
+
+:global(html.light) .finder {
+  border-color: rgba(37, 39, 40, 0.16);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 0.8rem 2.2rem rgba(24, 28, 32, 0.12);
+}
+
+:global(html.light) .field label {
+  color: #5b6063;
+}
+
+:global(html.light) .field select {
+  border-color: rgba(37, 39, 40, 0.24);
+  background: #fff;
+  color: #252728;
+  color-scheme: light;
+}
+
+:global(html.light) .field select[aria-invalid="true"] {
+  border-color: #b00020;
+}
+
+:global(html.light) .fieldError {
+  color: #a4001d;
+}
+
+:global(html.light) .finderSubmit {
+  background: #d70c19;
+  color: #fff;
+}
+
+:global(html.light) .finderSubmit:hover {
+  background: #b80a15;
+}
+
+:global(html.light) .finderSecondary {
+  border-color: rgba(37, 39, 40, 0.28);
+  background: #f4f5f5;
+  color: #252728;
+}
+
+:global(html.light) .finderSecondary:hover {
+  border-color: rgba(37, 39, 40, 0.52);
+  background: #e8ebec;
+}
+
+:global(html.light) .trustStrip {
+  border-color: rgba(37, 39, 40, 0.14);
+  background: #fff;
+  box-shadow: 0 0.5rem 1.75rem rgba(24, 28, 32, 0.06);
+}
+
+:global(html.light) .trustItem {
+  border-color: rgba(37, 39, 40, 0.14);
+  color: #555a5d;
+}
+
+:global(html.light) .trustIcon {
+  color: #3e4244;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .panel,
   .panelImage,

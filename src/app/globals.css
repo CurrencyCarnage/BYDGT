@@ -1656,6 +1656,7 @@
     background: rgba(17, 18, 19, 0.9) !important;
   }
 
+  html.light nav[data-gateway="true"] .theme-toggle,
   nav.header-on-light-surface .theme-toggle {
     background: rgba(255, 255, 255, 0.22) !important;
     border-color: rgba(17, 18, 19, 0.18) !important;
@@ -1758,7 +1759,9 @@
   }
 
   html.light nav.header-on-light-surface[data-scrolled="true"],
-  html.light nav.header-on-light-surface[data-scrolled="false"] {
+  html.light nav.header-on-light-surface[data-scrolled="false"],
+  html.light nav[data-gateway="true"][data-scrolled="true"],
+  html.light nav[data-gateway="true"][data-scrolled="false"] {
     background: rgba(255, 255, 255, 0.72) !important;
     border-color: rgba(17, 18, 19, 0.10) !important;
     box-shadow: 0 8px 28px rgba(24, 28, 32, 0.08) !important;
@@ -1773,20 +1776,28 @@
   html.light nav.header-on-light-surface[data-scrolled="false"] .nav-link:hover,
   html.light nav.header-on-light-surface[data-scrolled="false"] .nav-link.active,
   html.light nav.header-on-light-surface[data-scrolled="false"] .text-white:not([data-mega-menu] *),
-  html.light nav.header-on-light-surface[data-scrolled="false"] [class*="text-white/"]:not([data-mega-menu] *) {
+  html.light nav.header-on-light-surface[data-scrolled="false"] [class*="text-white/"]:not([data-mega-menu] *),
+  html.light nav[data-gateway="true"] .nav-link,
+  html.light nav[data-gateway="true"] .nav-link:hover,
+  html.light nav[data-gateway="true"] .nav-link.active,
+  html.light nav[data-gateway="true"] .text-white:not([data-mega-menu] *),
+  html.light nav[data-gateway="true"] [class*="text-white/"]:not([data-mega-menu] *) {
     color: #111213 !important;
     text-shadow: none !important;
   }
 
   html.light nav.header-on-light-surface[data-scrolled="true"] .nav-link::after,
-  html.light nav.header-on-light-surface[data-scrolled="false"] .nav-link::after {
+  html.light nav.header-on-light-surface[data-scrolled="false"] .nav-link::after,
+  html.light nav[data-gateway="true"] .nav-link::after {
     background: rgba(17, 18, 19, 0.9) !important;
   }
 
   html.light nav.header-on-light-surface[data-scrolled="true"] .language-toggle,
   html.light nav.header-on-light-surface[data-scrolled="true"] .language-toggle svg,
   html.light nav.header-on-light-surface[data-scrolled="false"] .language-toggle,
-  html.light nav.header-on-light-surface[data-scrolled="false"] .language-toggle svg {
+  html.light nav.header-on-light-surface[data-scrolled="false"] .language-toggle svg,
+  html.light nav[data-gateway="true"] .language-toggle,
+  html.light nav[data-gateway="true"] .language-toggle svg {
     color: #111213 !important;
     text-shadow: none !important;
   }
