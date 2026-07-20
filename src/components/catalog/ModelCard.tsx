@@ -31,21 +31,21 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
   const borderColorHover = isEV ? "rgba(120, 178, 84, 0.45)" : "rgba(215, 12, 25, 0.40)";
 
   return (
-    <Link href={`/catalog/${model.id}`} className="block h-full">
+    <Link href={`/catalog/${model.id}`} className="relative z-0 block h-full transition-[z-index] hover:z-10 focus-visible:z-10">
       <article
         className="model-card group flex h-full cursor-pointer flex-col overflow-hidden rounded-xl transition-all duration-400 hover:-translate-y-1"
         style={{
           background: "#FBFBFA",
           border: `1px solid ${borderColor}`,
-          boxShadow: `0 0 18px ${glowColor}, 0 8px 24px rgba(24, 28, 32, 0.06)`,
+          boxShadow: `0 0 54px ${glowColor}, 0 8px 24px rgba(24, 28, 32, 0.06)`,
         }}
         onMouseEnter={(event) => {
           event.currentTarget.style.border = `1px solid ${borderColorHover}`;
-          event.currentTarget.style.boxShadow = `0 0 28px ${glowColorHover}, 0 12px 32px rgba(24, 28, 32, 0.10)`;
+          event.currentTarget.style.boxShadow = `0 0 84px ${glowColorHover}, 0 12px 32px rgba(24, 28, 32, 0.10)`;
         }}
         onMouseLeave={(event) => {
           event.currentTarget.style.border = `1px solid ${borderColor}`;
-          event.currentTarget.style.boxShadow = `0 0 18px ${glowColor}, 0 8px 24px rgba(24, 28, 32, 0.06)`;
+          event.currentTarget.style.boxShadow = `0 0 54px ${glowColor}, 0 8px 24px rgba(24, 28, 32, 0.06)`;
         }}
       >
         <div className="relative aspect-[16/9] overflow-hidden rounded-t-xl bg-[#ECEFF1]">
