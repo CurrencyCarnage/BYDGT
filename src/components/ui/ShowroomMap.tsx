@@ -8,11 +8,14 @@ interface ShowroomMapProps {
   lat: number;
   lng: number;
   label: string;
-  address: string;
+  address?: string;
   routePath?: [number, number][];
+  zoom?: number;
+  preview?: boolean;
+  popupEyebrow?: string;
 }
 
-export default function ShowroomMap({ lat, lng, label, address, routePath }: ShowroomMapProps) {
+export default function ShowroomMap({ lat, lng, label, address, routePath, zoom = 15, preview = false, popupEyebrow = "BYD Tbilisi" }: ShowroomMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
 
@@ -21,7 +24,7 @@ export default function ShowroomMap({ lat, lng, label, address, routePath }: Sho
 
     const map = L.map(containerRef.current, {
       center: [lat, lng],
-      zoom: 15,
+      zoom,
       zoomControl: false,
       attributionControl: false,
       scrollWheelZoom: false,
@@ -113,10 +116,10 @@ export default function ShowroomMap({ lat, lng, label, address, routePath }: Sho
             text-transform: uppercase;
             padding: 2px 8px;
             margin-bottom: 7px;
-          ">BYD Tbilisi</div>
+          ">${popupEyebrow}</div>
           <strong style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 3px; color: #252728;">${label}</strong>
-          <span style="font-size: 11px; color: #686D71;">${address}</span><br/>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}"
+          ${address ? `<span style="font-size: 11px; color: #686D71;">${address}</span><br/>` : ""}
+          ${preview ? "" : `<a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}"
              target="_blank" rel="noopener noreferrer"
              style="
                display: inline-block;
@@ -129,7 +132,7 @@ export default function ShowroomMap({ lat, lng, label, address, routePath }: Sho
                text-transform: uppercase;
              ">
             Get Directions &rarr;
-          </a>
+          </a>`}
         </div>`,
         { maxWidth: 240 }
       )
@@ -148,7 +151,7 @@ export default function ShowroomMap({ lat, lng, label, address, routePath }: Sho
       map.remove();
       mapRef.current = null;
     };
-  }, [lat, lng, label, address, routePath]);
+  }, [lat, lng, label, address, routePath, zoom, preview, popupEyebrow]);
 
   return <div ref={containerRef} className="w-full h-full" />;
 }

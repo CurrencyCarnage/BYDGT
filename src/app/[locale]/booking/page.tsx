@@ -2,15 +2,8 @@ import { getLocale } from "next-intl/server";
 import Image from "next/image";
 import BookingForm from "@/components/ui/BookingForm";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import dynamic from "next/dynamic";
-import { SHOWROOM, TEST_DRIVE_ROUTE } from "@/lib/test-drive";
-
-const ShowroomMap = dynamic(() => import("@/components/ui/ShowroomMap"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full bg-[#F0F2F3] animate-pulse" />
-  ),
-});
+import { SHOWROOM } from "@/lib/test-drive";
+import TestDriveLocationMap from "@/components/ui/TestDriveLocationMap";
 
 const copy = {
   en: {
@@ -366,55 +359,8 @@ export default async function BookingPage({
           MAP — showroom location
       ══════════════════════════════════════════════════════════ */}
       <section data-header-theme="light" className="booking-location-section border-t border-white/[0.10] bg-[#0A0B0C]">
-        <div className="section-container py-10 md:py-12">
-          <ScrollReveal>
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-              <div>
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="w-6 h-px bg-byd-red" />
-                  <p className="text-xs text-byd-red uppercase tracking-[0.25em] font-semibold"
-                    style={{ fontFamily: "var(--font-montserrat)" }}>
-                    {t.routeTag}
-                  </p>
-                </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-[#252728]"
-                  style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.02em" }}>
-                  {t.routeTitle}
-                </h2>
-                <p className="text-sm text-[#686D71] mt-1.5 max-w-sm"
-                  style={{ fontFamily: "var(--font-montserrat)" }}>
-                  {t.routeSub}
-                </p>
-              </div>
-              <div className="flex gap-3 flex-wrap">
-                {t.routeChips.map((chip) => (
-                  <div key={chip.val}
-                    className="px-4 py-2.5 content-surface-soft text-center min-w-[5.625rem]">
-                    <p className="text-sm font-bold text-[#252728]"
-                      style={{ fontFamily: "var(--font-montserrat)" }}>
-                      {chip.val}
-                    </p>
-                    <p className="text-[10px] text-[#7A8080] uppercase tracking-wider mt-0.5"
-                      style={{ fontFamily: "var(--font-montserrat)" }}>
-                      {chip.sub}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-
         <ScrollReveal>
-          <div className="w-full h-[30rem] md:h-[33.75rem] border-t border-[#DDE1E3]">
-            <ShowroomMap
-              lat={SHOWROOM.lat}
-              lng={SHOWROOM.lng}
-              label={SHOWROOM.name}
-              address={SHOWROOM.address}
-              routePath={TEST_DRIVE_ROUTE}
-            />
-          </div>
+          <TestDriveLocationMap locale={locale} />
         </ScrollReveal>
       </section>
 
