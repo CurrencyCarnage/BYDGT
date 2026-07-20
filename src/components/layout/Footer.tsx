@@ -41,7 +41,7 @@ export default function Footer() {
               {locale === "ka" ? "თბილისი" : "Tbilisi"} · GT Group
             </p>
             <p className="text-xs text-white/35 mb-3 tracking-wide font-light">
-              {locale === "ka" ? "BYD-ის ოფიციალური დილერი" : "Authorised BYD Dealer"}
+              {locale === "ka" ? "BYD-ის ექსკლუზიური ავტორიზებული დილერი საქართველოში" : "Exclusive Authorised BYD Dealer in Georgia"}
             </p>
             <p className="max-w-sm text-sm leading-6 text-white/45 font-light md:max-w-xs">
               {t("description")}
