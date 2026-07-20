@@ -83,7 +83,7 @@ export default function ModelsTable({
           <thead>
             <tr className="border-b border-glass-border bg-[#2C2F30]/50">
               <th className="text-left px-5 py-3 text-xs font-medium text-white/35 uppercase tracking-widest">
-                Model
+                Product
               </th>
               <th className="text-left px-5 py-3 text-xs font-medium text-white/35 uppercase tracking-widest">
                 Type

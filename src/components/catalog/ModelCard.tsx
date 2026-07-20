@@ -119,7 +119,7 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
               {model.configurations.variants.length} {locale === "ka" ? "კომპლექტაცია" : "trims available"}
             </span>
             <span className="model-card-action inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-[#252728] transition-colors group-hover:text-byd-red">
-              {locale === "ka" ? "ნახვა" : "Explore model"}
+              {locale === "ka" ? "ნახვა" : "Explore product"}
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2} aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-5-5 5 5-5 5" />
               </svg>

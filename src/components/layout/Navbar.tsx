@@ -73,8 +73,8 @@ const COMMERCIAL_DIRECTIONS = [
     titleKa: "ფლოტის კონსულტაცია",
     eyebrow: "Custom Offer",
     eyebrowKa: "ინდივიდუალური შეთავაზება",
-    description: "Request model availability, configuration guidance and a tailored commercial proposal.",
-    descriptionKa: "მოითხოვეთ მოდელების ხელმისაწვდომობა, კონფიგურაციის რჩევა და კომერციული შეთავაზება.",
+    description: "Request product availability, configuration guidance and a tailored commercial proposal.",
+    descriptionKa: "მოითხოვეთ პროდუქტების ხელმისაწვდომობა, კონფიგურაციის რჩევა და კომერციული შეთავაზება.",
   },
 ];
 
@@ -83,7 +83,7 @@ function getMegaCategoryLabels(ka: boolean) {
     {
       key: "passenger" as const,
       label: ka ? "მსუბუქი ავტომობილები" : "Passenger Cars",
-      caption: ka ? "მოდელები პირადი გამოყენებისთვის" : "Personal mobility lineup",
+      caption: ka ? "პროდუქტები პირადი გამოყენებისთვის" : "Personal mobility lineup",
     },
     {
       key: "commercial" as const,
@@ -247,7 +247,7 @@ function MegaMenu({
               onClick={onClose}
               className="group flex items-center justify-center gap-2 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40 hover:text-white/80 transition-colors duration-200"
             >
-              {ka ? "ყველა მოდელის ნახვა" : "View all models"}
+              {ka ? "ყველა პროდუქტის ნახვა" : "View all products"}
               <svg
                 className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1"
                 fill="none"
@@ -343,8 +343,8 @@ function MegaMenu({
             type="button"
             onClick={showNextModels}
             disabled={category !== "passenger" || !canShowNextModels}
-            title={ka ? "შემდეგი 4 მოდელი" : "Show next 4 models"}
-            aria-label={ka ? "შემდეგი 4 მოდელი" : "Show next 4 models"}
+            title={ka ? "შემდეგი 4 პროდუქტი" : "Show next 4 products"}
+            aria-label={ka ? "შემდეგი 4 პროდუქტი" : "Show next 4 products"}
             className={`mega-pagination-button flex h-11 w-11 items-center justify-center border transition-all duration-200 ${
               category === "passenger" && canShowNextModels
                 ? "cursor-pointer border-white/40 bg-[#111213]/80 text-white hover:border-byd-red/70 hover:bg-byd-red hover:text-white focus:outline-none focus:ring-2 focus:ring-byd-red/60"
@@ -553,7 +553,7 @@ export default function Navbar() {
               aria-expanded={megaOpen}
               aria-haspopup="true"
             >
-              {ka ? "მოდელები" : "Models"}
+              {ka ? "პროდუქტები" : "Products"}
               <motion.svg
                 className="w-3 h-3 text-white/40 mt-px"
                 fill="none"
@@ -692,7 +692,7 @@ export default function Navbar() {
                 onClick={() => setMobileModels(!mobileModels)}
                 className="flex items-center justify-between w-full py-3.5 text-sm text-white/50 hover:text-white transition-colors duration-200"
               >
-                <span>{ka ? "მოდელები" : "Models"}</span>
+                <span>{ka ? "პროდუქტები" : "Products"}</span>
                 <motion.svg
                   className="w-4 h-4"
                   fill="none"
@@ -769,7 +769,7 @@ export default function Navbar() {
                     onClick={() => { setMobileOpen(false); setMobileModels(false); }}
                     className="flex items-center gap-1.5 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/30 hover:text-white/60 transition-colors"
                   >
-                    {ka ? "ყველა მოდელი" : "View all"} →
+                    {ka ? "ყველა პროდუქტი" : "View all"} →
                   </Link>
                     </>
                   ) : (

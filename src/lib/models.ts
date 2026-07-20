@@ -117,7 +117,7 @@ export async function getAvailableModels(): Promise<CarModel[]> {
 export async function createModel(model: CarModel): Promise<CarModel> {
   const safeId = sanitizeModelId(model.id);
   if (!safeId) {
-    throw new Error("Invalid model ID");
+    throw new Error("Invalid product ID");
   }
 
   const newModel = {
@@ -132,7 +132,7 @@ export async function createModel(model: CarModel): Promise<CarModel> {
     await ensureD1(db);
     const existing = await getModelById(safeId);
     if (existing) {
-      throw new Error("A model with this ID already exists");
+      throw new Error("A product with this ID already exists");
     }
     await db
       .prepare(
@@ -147,7 +147,7 @@ export async function createModel(model: CarModel): Promise<CarModel> {
   const filePath = path.join(MODELS_DIR, `${safeId}.json`);
   try {
     await fs.access(filePath);
-    throw new Error("A model with this ID already exists");
+    throw new Error("A product with this ID already exists");
   } catch (error) {
     if (error instanceof Error && error.message.includes("already exists")) {
       throw error;
@@ -170,7 +170,7 @@ export async function updateModel(id: string, model: CarModel): Promise<CarModel
     await ensureD1(db);
     const existing = await getModelById(id);
     if (!existing) {
-      throw new Error("Model not found");
+      throw new Error("Product not found");
     }
     await db
       .prepare("UPDATE models SET data = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?")

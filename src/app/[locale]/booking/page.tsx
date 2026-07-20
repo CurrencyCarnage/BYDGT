@@ -16,10 +16,10 @@ const copy = {
   en: {
     tag: "Test Drive",
     title: "Book a Test Drive",
-    subtitle: "Choose your model, pick a time, and our team confirms within 24 hours.",
+    subtitle: "Choose your product, pick a time, and our team confirms within 24 hours.",
     stat1: "Free", stat1sub: "No obligation",
     stat2: "24 h",  stat2sub: "Response time",
-    stat3: "3",     stat3sub: "Models available",
+    stat3: "3",     stat3sub: "Products available",
     formTitle: "Your Details",
     reqTitle: "Requirements",
     reqs: [
@@ -43,10 +43,10 @@ const copy = {
   ka: {
     tag: "ტესტ დრაივი",
     title: "ტესტ დრაივის დაჯავშნა",
-    subtitle: "აირჩიეთ მოდელი, დრო და ჩვენი გუნდი 24 საათში დაადასტურებს.",
+    subtitle: "აირჩიეთ პროდუქტი, დრო და ჩვენი გუნდი 24 საათში დაადასტურებს.",
     stat1: "უფასო", stat1sub: "ვალდებულება არ არის",
     stat2: "24 სთ",  stat2sub: "პასუხის დრო",
-    stat3: "3",      stat3sub: "ხელმისაწვდომი მოდელი",
+    stat3: "3",      stat3sub: "ხელმისაწვდომი პროდუქტი",
     formTitle: "თქვენი მონაცემები",
     reqTitle: "მოთხოვნები",
     reqs: [

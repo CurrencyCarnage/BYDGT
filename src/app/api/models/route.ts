@@ -9,7 +9,7 @@ export async function GET() {
     return NextResponse.json(models);
   } catch {
     return NextResponse.json(
-      { error: "Failed to load models" },
+      { error: "Failed to load products" },
       { status: 500 }
     );
   }
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
     const safeId = newModel.id.replace(/[^a-z0-9-]/gi, "").toLowerCase();
     if (!safeId) {
-      return NextResponse.json({ error: "Invalid model ID" }, { status: 400 });
+      return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
     }
 
     const savedModel = await createModel({ ...newModel, id: safeId });
@@ -41,13 +41,13 @@ export async function POST(req: Request) {
   } catch (error) {
     if (
       error instanceof Error &&
-      error.message === "A model with this ID already exists"
+      error.message === "A product with this ID already exists"
     ) {
       return NextResponse.json({ error: error.message }, { status: 409 });
     }
 
     return NextResponse.json(
-      { error: "Failed to create model" },
+      { error: "Failed to create product" },
       { status: 500 }
     );
   }

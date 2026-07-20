@@ -13,7 +13,7 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "GT Group - Official BYD Dealer in Georgia",
   description:
-    "Discover BYD electric and hybrid vehicles in Georgia. GT Group is the official BYD reseller offering Sealion 06, Yuan Up, and Seal 06 models.",
+    "Discover BYD electric and hybrid vehicles in Georgia. GT Group is the official BYD reseller offering Sealion 06, Yuan Up, and Seal 06 products.",
 };
 
 export default function RootLayout({

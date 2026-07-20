@@ -56,7 +56,7 @@ export default async function DashboardPage() {
 
       {/* Stats grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-        <StatCard label="Total Models" value={models.length} />
+        <StatCard label="Total Products" value={models.length} />
         <StatCard
           label="Available"
           value={available}
@@ -71,7 +71,7 @@ export default async function DashboardPage() {
 
       {/* Model quick-access cards */}
       <h2 className="text-sm font-semibold text-white/60 uppercase tracking-widest mb-4">
-        Models
+        Products
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         {models.map((model) => (
@@ -113,7 +113,7 @@ export default async function DashboardPage() {
               href={`/admin/models/${model.id}`}
               className="mt-auto text-center text-sm font-medium text-byd-red border border-byd-red/30 py-2 hover:bg-byd-red/10 transition-colors duration-200"
             >
-              Edit Model
+              Edit Product
             </Link>
           </div>
         ))}
@@ -126,7 +126,7 @@ export default async function DashboardPage() {
           <svg className="w-8 h-8 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
           </svg>
-          <span className="text-sm font-medium text-white/40">New Model</span>
+          <span className="text-sm font-medium text-white/40">New Product</span>
         </Link>
       </div>
 
@@ -136,7 +136,7 @@ export default async function DashboardPage() {
           href="/admin/models"
           className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-byd-red transition-colors duration-200"
         >
-          View all models →
+          View all products →
         </Link>
       </div>
     </div>

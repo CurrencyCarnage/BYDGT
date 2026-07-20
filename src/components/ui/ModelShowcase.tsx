@@ -826,7 +826,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
       <button
         type="button"
         onClick={showNext}
-        aria-label={ka ? "შემდეგი მოდელი" : "Next model"}
+        aria-label={ka ? "შემდეგი პროდუქტი" : "Next product"}
         className="absolute right-4 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center border border-white/30 bg-black/20 text-white backdrop-blur-sm transition-colors duration-200 hover:border-white/65 hover:bg-black/35 active:scale-95 md:right-8 md:h-16 md:w-16"
       >
         <svg

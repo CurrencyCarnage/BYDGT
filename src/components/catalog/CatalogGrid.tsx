@@ -51,7 +51,7 @@ export default function CatalogGrid({ models }: CatalogGridProps) {
 
       {filteredModels.length === 0 && (
         <div className="text-center py-20 text-white/35">
-          <p>No models found for this filter.</p>
+          <p>No products found for this filter.</p>
         </div>
       )}
     </>

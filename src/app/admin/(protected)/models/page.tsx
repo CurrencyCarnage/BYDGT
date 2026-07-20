@@ -11,7 +11,7 @@ export default async function ModelsPage() {
     <div className="p-8">
       <div className="flex items-start justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-white">Models</h1>
+          <h1 className="text-2xl font-bold text-white">Products</h1>
           <p className="text-white/35 mt-1">
             Toggle availability, or click Edit to update pricing and specs.
           </p>
@@ -20,7 +20,7 @@ export default async function ModelsPage() {
           href="/admin/models/new"
           className="flex-shrink-0 bg-byd-red text-white text-sm font-semibold px-4 py-2.5 hover:bg-byd-red/90 transition-colors duration-200"
         >
-          + New Model
+          + New Product
         </Link>
       </div>
 

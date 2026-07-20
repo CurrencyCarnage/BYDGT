@@ -231,7 +231,7 @@ export default async function ModelDetailPage({
                 href="/catalog"
                 className="inline-flex items-center justify-center gap-2 px-5 py-3.5 border-2 border-white text-white text-sm font-semibold tracking-[0.06em] uppercase hover:bg-white/10 transition-all duration-200"
               >
-                {locale === "ka" ? "სხვა მოდელები" : "View All Models"}
+                {locale === "ka" ? "სხვა პროდუქტები" : "View All Products"}
               </Link>
             </div>
           </ScrollReveal>

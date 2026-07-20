@@ -4,7 +4,7 @@
     "brandTagline": "Official BYD Dealer in Georgia",
     "currency": "USD",
     "learnMore": "Learn More",
-    "viewAll": "View All Models",
+    "viewAll": "View All Products",
     "bookTestDrive": "Book Test Drive",
     "contactUs": "Contact Us",
     "whatsapp": "WhatsApp",
@@ -21,7 +21,7 @@
   "nav": {
     "home": "Home",
     "about": "About Us",
-    "catalog": "Models",
+    "catalog": "Products",
     "compare": "Compare",
     "booking": "Test Drive",
     "contact": "Contact"
@@ -29,15 +29,15 @@
   "home": {
     "heroTitle": "The Future of Driving Starts Here",
     "heroSubtitle": "Discover BYD's revolutionary electric and hybrid vehicles, now available in Georgia through GT Group",
-    "heroCta": "Explore Models",
-    "featuredTitle": "Featured Models",
+    "heroCta": "Explore Products",
+    "featuredTitle": "Featured Products",
     "featuredSubtitle": "Handpicked vehicles that define the next generation of mobility",
     "brandTitle": "Why GT Group?",
     "brandText": "As Georgia's official BYD partner, GT Group brings you cutting-edge electric and plug-in hybrid vehicles with full local warranty, service support, and the promise of a cleaner, smarter future on Georgian roads.",
     "brandCta": "About BYD"
   },
   "catalog": {
-    "title": "Our Models",
+    "title": "Our Products",
     "subtitle": "Explore the complete BYD lineup available in Georgia",
     "filterAll": "All",
     "filterEV": "Electric (EV)",
@@ -75,7 +75,7 @@
     "ariaLabel": "Choose a BYD experience",
     "meta": {
       "title": "BYD Georgia | Passenger Cars, Commercial Vehicles & Services",
-      "description": "Explore BYD passenger cars, commercial vehicles, buses, official service, genuine parts, accessories, and model-specific solutions in Georgia."
+      "description": "Explore BYD passenger cars, commercial vehicles, buses, official service, genuine parts, accessories, and product-specific solutions in Georgia."
     },
     "common": {
       "enter": "Enter",
@@ -88,8 +88,8 @@
       "description": "Explore our range of innovative electric and plug-in hybrid vehicles.",
       "compactDescription": "Discover our electric and hybrid passenger vehicles.",
       "expandedDescription": "Explore BYD's electric and plug-in hybrid passenger vehicles, built for comfort, efficiency, safety, and intelligent everyday driving.",
-      "mobileExpandedDescription": "Electric and DM-i models made for everyday driving.",
-      "expandedCta": "View All Models",
+      "mobileExpandedDescription": "Electric and DM-i products made for everyday driving.",
+      "expandedCta": "View All Products",
       "mobileFeatures": {
         "ev": "Electric",
         "hybrid": "DM-i Hybrid",
@@ -125,9 +125,9 @@
     "services": {
       "title": "Services",
       "mobileTitle": "Services",
-      "description": "Service, genuine parts, accessories, and model-specific oils in one place.",
-      "compactDescription": "Service, parts, accessories, and model-specific fluids.",
-      "expandedDescription": "Select your BYD model to find recommended parts, oils, fluids, accessories, or book a service appointment.",
+      "description": "Service, genuine parts, accessories, and product-specific oils in one place.",
+      "compactDescription": "Service, parts, accessories, and product-specific fluids.",
+      "expandedDescription": "Select your BYD product to find recommended parts, oils, fluids, accessories, or book a service appointment.",
       "mobileExpandedDescription": "Choose your vehicle and service need.",
       "expandedCta": "Explore Services",
       "features": {
@@ -137,16 +137,16 @@
         "finder": "Oils & Fluids Finder"
       },
       "form": {
-        "modelLabel": "Vehicle model",
-        "yearLabel": "Model year",
+        "modelLabel": "BYD product",
+        "yearLabel": "Product year",
         "categoryLabel": "Category",
-        "modelPlaceholder": "Select Model",
+        "modelPlaceholder": "Select Product",
         "yearPlaceholder": "Select Year",
         "categoryPlaceholder": "Select Category",
         "submit": "Find Parts & Fluids",
         "book": "Book Service Appointment",
-        "errorModel": "Please select a vehicle model.",
-        "errorYear": "Please select a model year.",
+        "errorModel": "Please select a BYD product.",
+        "errorYear": "Please select a product year.",
         "errorCategory": "Please select a category.",
         "categories": {
           "fluids": "Engine Oil / Fluids",
@@ -179,12 +179,12 @@
       "services": {
         "eyebrow": "Official BYD Care",
         "title": "Services",
-        "description": "Official service, genuine parts, accessories, and model-specific support in one trusted destination.",
+        "description": "Official service, genuine parts, accessories, and product-specific support in one trusted destination.",
         "status": "The full service hub is being prepared. Your finder selections are preserved below.",
         "selectionsTitle": "Your vehicle selection",
         "emptySelection": "Return to the gateway and use the Services quick finder to begin.",
-        "model": "Vehicle model",
-        "year": "Model year",
+        "model": "BYD product",
+        "year": "Product year",
         "category": "Category"
       }
     }

@@ -21,7 +21,7 @@ export default async function ModelEditorPage({
           href="/admin/models"
           className="hover:text-white transition-colors"
         >
-          Models
+          Products
         </Link>
         <span>/</span>
         <span className="text-white">{model.name.en}</span>

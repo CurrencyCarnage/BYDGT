@@ -29,12 +29,12 @@ export default async function ComparePage({
               </p>
             </div>
             <h1 className="text-h2 font-semibold text-white mb-4 leading-[1.15]" style={{ letterSpacing: "-0.02em" }}>
-              {locale === "ka" ? "მოდელების შედარება" : "Compare Models"}
+              {locale === "ka" ? "პროდუქტების შედარება" : "Compare Products"}
             </h1>
             <p className="text-body1 text-white/86 font-normal max-w-xl">
               {locale === "ka"
-                ? "ეს 3 BYD მოდელი შეადარეთ გვერდიგვერდ — ჩამოსაშლელი მენიუდან შეარჩიეთ"
-                : "Compare 3 BYD models side by side — use the dropdowns to swap any model"}
+                ? "ეს 3 BYD პროდუქტი შეადარეთ გვერდიგვერდ — ჩამოსაშლელი მენიუდან შეარჩიეთ"
+                : "Compare 3 BYD products side by side — use the dropdowns to swap any product"}
             </p>
         </div>
       </div>

@@ -220,7 +220,7 @@ export default function GuidedModelSelector({ locale }: { locale: string }) {
             </h2>
             <p className="text-sm text-[#686D71] leading-relaxed mb-7 font-light">
               {ka
-                ? "აირჩიეთ პრიორიტეტი — შემოგთავაზებთ მოდელს."
+                ? "აირჩიეთ პრიორიტეტი — შემოგთავაზებთ პროდუქტს."
                 : "Tell us what matters most to you and we'll recommend the right match."}
             </p>
 

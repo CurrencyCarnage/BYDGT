@@ -856,13 +856,13 @@ export default function CompareGrid({
     testDrive: locale === "ka" ? "ტესტ დრაივი" : "Test Drive",
     viewCatalog: locale === "ka" ? "კატალოგი" : "View Catalog",
     selectModel:
-      locale === "ka" ? "აირჩიეთ მოდელი" : "Select a model",
+      locale === "ka" ? "აირჩიეთ პროდუქტი" : "Select a product",
     clearModel:
-      locale === "ka" ? "მოდელის წაშლა" : "Remove model",
+      locale === "ka" ? "პროდუქტის წაშლა" : "Remove product",
     emptySlot:
       locale === "ka"
-        ? "მოდელი არ არის არჩეული"
-        : "No model selected",
+        ? "პროდუქტი არ არის არჩეული"
+        : "No product selected",
     showAll: locale === "ka" ? "ყველა მონაცემი" : "All specs",
     showDifferences:
       locale === "ka" ? "განსხვავებები" : "Differences",
@@ -1243,7 +1243,7 @@ export default function CompareGrid({
                           href={`/${locale}/booking?version=${encodeURIComponent(slot.id)}`}
                           className="inline-flex min-h-[2.75rem] w-full items-center justify-center rounded-lg bg-byd-red px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-white transition-colors hover:bg-[#A80912] md:px-3 md:text-[12px]"
                         >
-                          {locale === "ka" ? "ამ მოდელის ტესტ დრაივი" : "Test Drive this car"}
+                          {locale === "ka" ? "ამ პროდუქტის ტესტ დრაივი" : "Test Drive this car"}
                         </Link>
                       </div>
                     ) : (
@@ -1260,8 +1260,8 @@ export default function CompareGrid({
             <div className="flex flex-col items-center justify-center py-12 text-center md:py-16">
               <p className="text-[13px] text-[#686D71] md:text-[15px]">
                 {locale === "ka"
-                  ? "აირჩიეთ მინიმუმ 2 მოდელი შესადარებლად"
-                  : "Select at least 2 models to compare"}
+                  ? "აირჩიეთ მინიმუმ 2 პროდუქტი შესადარებლად"
+                  : "Select at least 2 products to compare"}
               </p>
             </div>
           )}

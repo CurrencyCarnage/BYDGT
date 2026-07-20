@@ -19,7 +19,7 @@ New Test Drive Booking
 Name:            ${b.fullName}
 Phone:           ${b.phone}
 Email:           ${b.email}
-Model:           ${b.modelFamilyName}
+Product:         ${b.modelFamilyName}
 Version:         ${b.versionLabel}
 Preferred Date:  ${b.preferredDate}
 Preferred Time:  ${b.preferredTimeSlot}
@@ -60,7 +60,7 @@ export function buildCustomerTestDriveEmail(
 
 თქვენი მოთხოვნა
 ────────────────
-მოდელი:          ${b.modelFamilyName}
+პროდუქტი:        ${b.modelFamilyName}
 ვერსია:          ${b.versionLabel}
 სასურველი თარიღი: ${b.preferredDate}
 სასურველი დრო:   ${b.preferredTimeSlot}
@@ -83,7 +83,7 @@ Thank you for your interest in BYD. We have received your test drive request and
 
 Your request
 ─────────────
-Model:           ${b.modelFamilyName}
+Product:         ${b.modelFamilyName}
 Version:         ${b.versionLabel}
 Preferred date:  ${b.preferredDate}
 Preferred time:  ${b.preferredTimeSlot}

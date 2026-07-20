@@ -14,7 +14,7 @@ export default async function HomePage() {
   ]);
 
   const stats = [
-    { value: 4,    suffix: "+",    label: locale === "ka" ? "მოდელი"              : "Models Available" },
+    { value: 4,    suffix: "+",    label: locale === "ka" ? "პროდუქტი"            : "Products Available" },
     { value: 2110, suffix: " km",  label: locale === "ka" ? "მაქს. მანძილი"       : "Max Range" },
     { value: 100,  suffix: "%",    label: locale === "ka" ? "ოფიც. სერვისი"       : "Official Service" },
     { value: 10,   suffix: "+",    label: locale === "ka" ? "წლის გამოცდილ."      : "Years Experience" },

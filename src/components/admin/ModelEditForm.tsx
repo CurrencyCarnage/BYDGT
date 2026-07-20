@@ -50,7 +50,7 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
 
   async function handleSave() {
     if (mode === "create" && !model.id) {
-      setFeedback({ type: "error", msg: "Model ID is required." });
+      setFeedback({ type: "error", msg: "Product ID is required." });
       return;
     }
     if (mode === "create" && !model.name.en) {
@@ -74,10 +74,10 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
       }
 
       if (mode === "create") {
-        setFeedback({ type: "success", msg: "Model created! Redirecting..." });
+        setFeedback({ type: "success", msg: "Product created! Redirecting..." });
         setTimeout(() => router.push(`/admin/models/${model.id}`), 1000);
       } else {
-        setFeedback({ type: "success", msg: "Model saved successfully." });
+        setFeedback({ type: "success", msg: "Product saved successfully." });
         router.refresh();
       }
     } catch (e) {
@@ -95,7 +95,7 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
       router.push("/admin/models");
       router.refresh();
     } catch {
-      setFeedback({ type: "error", msg: "Failed to delete model." });
+      setFeedback({ type: "error", msg: "Failed to delete product." });
       setDeleting(false);
       setConfirmDelete(false);
     }
@@ -106,9 +106,9 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
 
       {/* Section: Identity (create mode only) */}
       {mode === "create" && (
-        <Section title="Model Identity">
+        <Section title="Product Identity">
           <div className="grid grid-cols-2 gap-4">
-            <Field label="Model ID (slug)">
+            <Field label="Product ID (slug)">
               <input
                 type="text"
                 value={model.id}
@@ -164,12 +164,12 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
       {/* Section: Images */}
       <Section title="Images">
         {mode === "create" && !model.id && (
-          <p className="text-xs text-white/30 italic -mt-2 mb-2">Enter a Model ID above first, then upload images.</p>
+          <p className="text-xs text-white/30 italic -mt-2 mb-2">Enter a Product ID above first, then upload images.</p>
         )}
         <div className="grid grid-cols-1 gap-5">
           <ImageUpload
             label="Hero Image"
-            hint="Full-width background image for the model page (JPG/PNG, ~1920px wide)"
+            hint="Full-width background image for the product page (JPG/PNG, ~1920px wide)"
             accept="image/*"
             currentPath={model.images.hero}
             uploading={uploading === "hero"}
@@ -544,7 +544,7 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
         >
           {saving
             ? mode === "create" ? "Creating…" : "Saving…"
-            : mode === "create" ? "Create Model" : "Save Changes"}
+            : mode === "create" ? "Create Product" : "Save Changes"}
         </button>
         <button
           onClick={() => {
@@ -565,7 +565,7 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-error">Danger Zone</p>
-              <p className="text-xs text-white/35 mt-0.5">Permanently delete this model and all its data.</p>
+              <p className="text-xs text-white/35 mt-0.5">Permanently delete this product and all its data.</p>
             </div>
             {confirmDelete ? (
               <div className="flex items-center gap-2">
@@ -590,7 +590,7 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
                 onClick={() => setConfirmDelete(true)}
                 className="text-sm font-medium text-error border border-error/40 px-4 py-2 hover:bg-error/10 transition-colors duration-200"
               >
-                Delete Model
+                Delete Product
               </button>
             )}
           </div>

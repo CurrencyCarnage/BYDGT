@@ -699,7 +699,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                       className="btn-primary-red min-h-[46px] justify-center px-4 text-[clamp(0.78rem,3.6vw,0.95rem)] md:px-5 md:text-[0.95rem] sm:justify-start"
                       style={{ minWidth: "0" }}
                     >
-                      {ka ? "მოდელები" : "Explore Models"}
+                      {ka ? "პროდუქტები" : "Explore Products"}
                       <svg
                         className="h-4 w-4"
                         fill="none"
@@ -776,7 +776,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                           className="btn-primary-red min-h-[42px] w-full justify-center px-4 text-[0.9rem]"
                           style={{ minWidth: "0" }}
                         >
-                          {ka ? "დეტალები" : "View Model"}
+                          {ka ? "დეტალები" : "View Product"}
                         </Link>
                         <Link
                           href={getBookingHrefFromCatalogHref(modelSpec.href)}
@@ -847,7 +847,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                       className="btn-primary-red justify-center sm:justify-start"
                       style={{ minWidth: "11.875rem" }}
                     >
-                      {ka ? "დეტალები" : "View Model"}
+                      {ka ? "დეტალები" : "View Product"}
                       <svg
                         className="h-4 w-4"
                         fill="none"

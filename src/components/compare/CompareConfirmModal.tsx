@@ -34,10 +34,10 @@ const copy = {
     addModel: (name: string) =>
       `${name} has been added to compare.`,
     fullMessage:
-      "All 3 slots are taken. Remove a model below to make room.",
+      "All 3 slots are taken. Remove a product below to make room.",
     goToCompare: "Go to Compare",
     remove: "Remove",
-    slotCount: (n: number) => `${n}/3 models selected`,
+    slotCount: (n: number) => `${n}/3 products selected`,
     addInSlot: "+ Add in this slot",
   },
   ka: {
@@ -45,14 +45,14 @@ const copy = {
     fullTitle: "შედარების ადგილები შევსებულია",
     cancel: "გაუქმება",
     confirm: "შედარებაზე გადასვლა",
-    selectedLabel: "არჩეული მოდელები:",
+    selectedLabel: "არჩეული პროდუქტები:",
     addModel: (name: string) =>
       `${name} დაემატა შედარებაში.`,
     fullMessage:
-      "სამივე ადგილი შევსებულია. წაშალეთ მოდელი ახლის დასამატებლად.",
+      "სამივე ადგილი შევსებულია. წაშალეთ პროდუქტი ახლის დასამატებლად.",
     goToCompare: "შედარების გვერდზე გადასვლა",
     remove: "წაშლა",
-    slotCount: (n: number) => `${n}/3 მოდელი არჩეულია`,
+    slotCount: (n: number) => `${n}/3 პროდუქტი არჩეულია`,
     addInSlot: "+ ამ ადგილზე დამატება",
   },
 };

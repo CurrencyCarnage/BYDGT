@@ -26,7 +26,7 @@ export async function POST(req: Request) {
   // Sanitize modelId to prevent path traversal
   const safeId = modelId.replace(/[^a-z0-9-]/gi, "");
   if (!safeId) {
-    return NextResponse.json({ error: "Invalid model ID" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
   }
 
   const arrayBuffer = await file.arrayBuffer();

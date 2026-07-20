@@ -29,7 +29,7 @@ const NAV_ITEMS = [
   },
   {
     href: "/admin/models",
-    label: "Models",
+    label: "Products",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

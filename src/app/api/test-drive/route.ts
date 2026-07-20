@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
 
     // ── Resolve model / version ─────────────────────────────────
     const family = testDriveModels.find((m) => m.id === body.modelFamilyId);
-    if (!family) return NextResponse.json({ error: "Invalid model" }, { status: 400 });
+    if (!family) return NextResponse.json({ error: "Invalid product" }, { status: 400 });
 
     const version = family.versions.find((v) => v.id === body.versionId);
     if (!version) return NextResponse.json({ error: "Invalid version" }, { status: 400 });

@@ -69,7 +69,7 @@ export default function ContactForm({ initialSubject = "" }: { initialSubject?: 
           {locale === "ka" ? "თემა" : "Subject"}
         </label>
         <input type="text" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })}
-          placeholder={locale === "ka" ? "მოდელის შესახებ კითხვა" : "Question about a model"} className={inputClass} style={{ fontFamily: "var(--font-montserrat)" }} />
+          placeholder={locale === "ka" ? "პროდუქტის შესახებ კითხვა" : "Question about a product"} className={inputClass} style={{ fontFamily: "var(--font-montserrat)" }} />
       </div>
 
       <div className="flex-1 flex flex-col">

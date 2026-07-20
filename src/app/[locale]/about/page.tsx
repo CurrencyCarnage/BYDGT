@@ -37,7 +37,7 @@ const content = {
     safetyLabel: "Safety & Quality",
     safetyTitle: "Committed to Safety and Quality",
     safetyText:
-      "BYD highlights extensive testing and international safety recognition across multiple models, with 5-star safety achievements across C-NCAP, Euro NCAP, ANCAP, and Green NCAP programs for selected vehicles including Seal, ATTO 3, and Dolphin.",
+      "BYD highlights extensive testing and international safety recognition across multiple products, with 5-star safety achievements across C-NCAP, Euro NCAP, ANCAP, and Green NCAP programs for selected vehicles including Seal, ATTO 3, and Dolphin.",
     marketLabel: "Market Performance",
     marketTitle: "A Global Leader in New Energy Vehicles",
     marketText:
@@ -84,7 +84,7 @@ const content = {
     safetyLabel: "უსაფრთხოება და ხარისხი",
     safetyTitle: "უსაფრთხოება და ხარისხი",
     safetyText:
-      "BYD-ის მოდელებს მიღებული აქვთ მაღალი უსაფრთხოების შეფასებები საერთაშორისო პროგრამებში, მათ შორის C-NCAP, Euro NCAP, ANCAP და Green NCAP-ში. ჩამოთვლილ მოდელებს შორისაა BYD Seal, ATTO 3 და Dolphin.",
+      "BYD-ის პროდუქტებს მიღებული აქვთ მაღალი უსაფრთხოების შეფასებები საერთაშორისო პროგრამებში, მათ შორის C-NCAP, Euro NCAP, ANCAP და Green NCAP-ში. ჩამოთვლილ პროდუქტებს შორისაა BYD Seal, ATTO 3 და Dolphin.",
     marketLabel: "ბაზარზე წარმატება",
     marketTitle: "ახალი ენერგიის ავტომობილების გლობალური ლიდერი",
     marketText:
