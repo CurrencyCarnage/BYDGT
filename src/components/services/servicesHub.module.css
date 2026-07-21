@@ -33,3 +33,18 @@
 @media (min-width: 768px) {
   .split > .picture { top: 8.2rem; }
 }
+
+/* These sections retain dark media or a dark-red surface in light mode. */
+:global(html.light) .hero h1,
+:global(html.light) .hero .lead,
+:global(html.light) .hero .caption,
+:global(html.light) .hero .trust span,
+:global(html.light) .finder .finderCopy h2,
+:global(html.light) .finder .finderCopy .copy,
+:global(html.light) .finder .finderForm label,
+:global(html.light) .finder .textButton,
+:global(html.light) .finder .empty,
+:global(html.light) .final h2,
+:global(html.light) .final p {
+  color: #FFFFFF;
+}
