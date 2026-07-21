@@ -10,4 +10,26 @@
 
 @media (min-width: 768px) { .finderInner { gap: clamp(3rem, 7vw, 6rem); } .finder .results { width: min(calc(100% - 5rem), 1680px); } }
 
+@media (min-width: 768px) {
+  .finderInner { align-items: stretch; }
+  .finderForm {
+    align-self: stretch;
+    align-content: start;
+    border-color: rgba(255, 255, 255, .14);
+    background: rgba(7, 12, 18, .035);
+    box-shadow: none;
+    backdrop-filter: blur(2px) saturate(1.05);
+    -webkit-backdrop-filter: blur(2px) saturate(1.05);
+  }
+}
+
 @media (min-width: 768px) { .accessoriesTop { grid-template-columns: minmax(0, 0.95fr) minmax(22rem, 0.85fr); gap: clamp(3rem, 8vw, 10rem); } .accessoriesCopy { min-width: 0; padding-top: clamp(0rem, 1vw, 1rem); } .accessoriesCopy h2, .accessoriesCopy .copy { max-width: 34rem; } }
+
+/* Keep the Services section navigation below the fixed global header. */
+.nav { top: 5rem; }
+.section { scroll-margin-top: 8.2rem; }
+.accessoryGrid { grid-template-columns: repeat(4, 1fr); }
+
+@media (min-width: 768px) {
+  .split > .picture { top: 8.2rem; }
+}

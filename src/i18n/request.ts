@@ -5,13 +5,7 @@ import kaMessages from "../lib/i18n/ka.json";
 
 const messages: Record<string, object> = {
   en: enMessages,
-  ka: {
-    ...kaMessages,
-    landing: {
-      ...kaMessages.landing,
-      servicesPage: (enMessages.landing as unknown as Record<string, object>).servicesPage,
-    },
-  },
+  ka: kaMessages,
 };
 
 export default getRequestConfig(async ({ requestLocale }) => {

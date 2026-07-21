@@ -336,6 +336,7 @@ export default function Navbar() {
 
   const t       = useTranslations("nav");
   const tCommon = useTranslations("common");
+  const tServicesNav = useTranslations("landing.servicesPage.nav");
   const locale  = useLocale();
   const pathname = usePathname();
   const router   = useRouter();
@@ -447,13 +448,20 @@ export default function Navbar() {
           ? "/cars"
           : null;
   const hasSelectedSection = sectionHomeHref !== null;
+  const isServicesSection = pathname === "/services" || pathname.startsWith("/services/");
+  const serviceSectionLinks = [
+    { id: "service", href: "/services#service" },
+    { id: "spare-parts", href: "/services#spare-parts" },
+    { id: "accessories", href: "/services#accessories" },
+    { id: "product-finder", href: "/services#product-finder" },
+  ] as const;
   const mobileModelCategory = "passenger";
   const homeLink = sectionHomeHref ? { href: sectionHomeHref, label: t("home") } : null;
   const aboutLink = { href: "/about", label: t("about") };
   const compareLink = { href: "/compare", label: t("compare") };
   const contactLink = { href: "/contact", label: t("contact") };
   const leadingNavLinks = homeLink ? [homeLink, aboutLink] : [aboutLink];
-  const trailingNavLinks = hasSelectedSection ? [compareLink, contactLink] : [contactLink];
+  const trailingNavLinks = hasSelectedSection && !isServicesSection ? [compareLink, contactLink] : [contactLink];
 
   return (
     <nav
@@ -506,7 +514,7 @@ export default function Navbar() {
             </Link>
           ))}
 
-          {/* ── Models trigger (with mega-menu) ── */}
+          {/* ── Products trigger (section links in Services; product mega-menu elsewhere) ── */}
           {hasSelectedSection && (
           <div
             className="relative"
@@ -535,11 +543,29 @@ export default function Navbar() {
             </button>
 
             <AnimatePresence>
-              {megaOpen && (
+              {megaOpen && (isServicesSection ? (
+                <div
+                  className="absolute left-1/2 top-full z-50 mt-4 w-56 -translate-x-1/2 border border-white/15 bg-[#111213]/95 p-2 shadow-2xl backdrop-blur-xl"
+                  role="menu"
+                  aria-label={tServicesNav("aria")}
+                >
+                  {serviceSectionLinks.map((link) => (
+                    <Link
+                      key={link.id}
+                      href={link.href}
+                      onClick={closeMegaImmediate}
+                      className="block px-3 py-3 text-sm text-white/70 transition-colors duration-200 hover:bg-white/[0.08] hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-byd-red/70"
+                      role="menuitem"
+                    >
+                      {tServicesNav(link.id)}
+                    </Link>
+                  ))}
+                </div>
+              ) : (
                 <div onMouseEnter={openMega} onMouseLeave={() => scheduleMegaClose(200)}>
                   <MegaMenu locale={locale} onClose={closeMegaImmediate} />
                 </div>
-              )}
+              ))}
             </AnimatePresence>
           </div>
           )}
@@ -677,13 +703,24 @@ export default function Navbar() {
                 </motion.svg>
               </button>
 
-              {/* Model sub-items */}
+              {/* Service sections or product sub-items */}
               <div
                 className="overflow-hidden transition-all duration-300"
                 style={{ maxHeight: mobileModels ? "520px" : "0px" }}
               >
                 <div className="pb-3 pl-2 space-y-1">
-                  {mobileModelCategory === "passenger" ? (
+                  {isServicesSection ? (
+                    serviceSectionLinks.map((link) => (
+                      <Link
+                        key={link.id}
+                        href={link.href}
+                        onClick={() => { setMobileOpen(false); setMobileModels(false); }}
+                        className="block px-3 py-3 text-sm text-white/70 transition-colors duration-200 hover:bg-white/[0.04] hover:text-white"
+                      >
+                        {tServicesNav(link.id)}
+                      </Link>
+                    ))
+                  ) : mobileModelCategory === "passenger" ? (
                     <>
                   {MEGA_MODELS.map((model) => (
                     <Link
