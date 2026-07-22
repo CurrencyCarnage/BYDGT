@@ -21,6 +21,7 @@ Phone:           ${b.phone}
 Email:           ${b.email}
 Product:         ${b.modelFamilyName}
 Version:         ${b.versionLabel}
+Trim:            ${b.trimLabel || "—"}
 Preferred Date:  ${b.preferredDate}
 Preferred Time:  ${b.preferredTimeSlot}
 Message:         ${b.message || "—"}
@@ -62,6 +63,7 @@ export function buildCustomerTestDriveEmail(
 ────────────────
 პროდუქტი:        ${b.modelFamilyName}
 ვერსია:          ${b.versionLabel}
+კომპლექტაცია:    ${b.trimLabel || "—"}
 სასურველი თარიღი: ${b.preferredDate}
 სასურველი დრო:   ${b.preferredTimeSlot}
 
@@ -85,6 +87,7 @@ Your request
 ─────────────
 Product:         ${b.modelFamilyName}
 Version:         ${b.versionLabel}
+Trim:            ${b.trimLabel || "—"}
 Preferred date:  ${b.preferredDate}
 Preferred time:  ${b.preferredTimeSlot}
 

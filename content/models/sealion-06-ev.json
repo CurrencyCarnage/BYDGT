@@ -1,0 +1,38 @@
+{
+  "id": "sealion-06-ev",
+  "name": { "en": "BYD Sealion 06 EV", "ka": "BYD Sealion 06 EV" },
+  "tagline": { "en": "Electric SUV with official BYD long-range configurations", "ka": "Electric SUV with official BYD long-range configurations" },
+  "category": "SUV",
+  "type": "EV",
+  "currency": "USD",
+  "priceStatus": "contact",
+  "specs": {
+    "range_km": 605,
+    "range_label": "CLTC comprehensive range",
+    "power_kw": 240,
+    "torque_nm": 305,
+    "acceleration_0_100": 6.8,
+    "battery_kwh": 69.07,
+    "charging_ac_kw": 7
+  },
+  "configurations": {
+    "colors": [],
+    "variants": [
+      { "id": "605km-core", "name": { "en": "605km Core", "ka": "605km Core" }, "priceModifier": 0 },
+      { "id": "710km-flagship", "name": { "en": "710km Flagship", "ka": "710km Flagship" }, "priceModifier": 0 }
+    ]
+  },
+  "trimDetails": {
+    "605km-core": { "name": { "en": "605km Core", "ka": "605km Core" } },
+    "710km-flagship": { "name": { "en": "710km Flagship", "ka": "710km Flagship" }, "specs": { "range_km": 710, "power_kw": 270, "acceleration_0_100": 7.2, "battery_kwh": 82.73 }, "highlights": [{ "en": "710 km CLTC comprehensive range and 82.73 kWh battery", "ka": "710 km CLTC comprehensive range and 82.73 kWh battery" }, { "en": "270 kW rear motor and 26-inch W-HUD", "ka": "270 kW rear motor and 26-inch W-HUD" }, { "en": "Dynaudio 12-speaker audio, front seat massage and intelligent refrigerator/warmer", "ka": "Dynaudio 12-speaker audio, front seat massage and intelligent refrigerator/warmer" }] }
+  },
+  "images": { "hero": "/images/models/sealion-06-dmi/hero-smoke-grey.jpg", "gallery": [], "colorViews": {} },
+  "features": [
+    { "en": "Second generation Blade Battery", "ka": "Second generation Blade Battery" },
+    { "en": "7 kW AC charging", "ka": "7 kW AC charging" },
+    { "en": "Flash charging function", "ka": "Flash charging function" },
+    { "en": "VTOL mobile power station (max 6 kW)", "ka": "VTOL mobile power station (max 6 kW)" }
+  ],
+  "isAvailable": true,
+  "isFeatured": false
+}

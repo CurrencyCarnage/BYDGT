@@ -10,12 +10,16 @@
   "basePrice": 22000,
   "currency": "USD",
   "specs": {
-    "range_km": 1000,
-    "electric_range_km": 90,
-    "power_hp": 212,
-    "acceleration_0_100": 8.9,
-    "top_speed_kmh": 170,
-    "battery_kwh": 12.9
+    "range_km": 1100,
+    "range_label": "NEDC range — combined",
+    "electric_range_km": 110,
+    "electric_range_label": "NEDC electric range — combined",
+    "power_kw": 145,
+    "torque_nm": 300,
+    "acceleration_0_100": 7.5,
+    "top_speed_kmh": 180,
+    "battery_kwh": 18.03,
+    "charging_ac_kw": 6.6
   },
   "configurations": {
     "colors": [
@@ -28,6 +32,9 @@
       { "id": "standard", "name": { "en": "Standard", "ka": "სტანდარტი" }, "priceModifier": 0 },
       { "id": "premium", "name": { "en": "Premium", "ka": "პრემიუმი" }, "priceModifier": 2500 }
     ]
+  },
+  "trimDetails": {
+    "standard": { "name": { "en": "110km Flagship", "ka": "110km Flagship" } }
   },
   "images": {
     "hero": "/images/models/yuan-up-dmi/hero.jpg",

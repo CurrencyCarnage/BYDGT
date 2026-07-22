@@ -14,10 +14,14 @@
   "currency": "USD",
   "specs": {
     "range_km": 401,
-    "power_hp": 177,
+    "range_label": "CLTC electric range — combined",
+    "power_kw": 130,
+    "torque_nm": 290,
     "acceleration_0_100": 7.9,
     "top_speed_kmh": 160,
-    "battery_kwh": 45.1
+    "battery_kwh": 45.12,
+    "charging_ac_kw": 7,
+    "charging_dc_kw": 65
   },
   "configurations": {
     "colors": [
@@ -76,6 +80,9 @@
         "priceModifier": 3500
       }
     ]
+  },
+  "trimDetails": {
+    "standard-range": { "name": { "en": "401km Flagship", "ka": "401km Flagship" } }
   },
   "images": {
     "hero": "/images/models/yuan-up-ev/hero.jpg",

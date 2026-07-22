@@ -13,12 +13,16 @@
   "basePrice": 36000,
   "currency": "USD",
   "specs": {
-    "range_km": 1670,
-    "electric_range_km": 170,
-    "power_hp": 218,
+    "range_km": 1621,
+    "range_label": "Combined range",
+    "electric_range_km": 121,
+    "electric_range_label": "CLTC pure electric range",
+    "power_kw": 160,
+    "torque_nm": 260,
     "acceleration_0_100": 7.5,
-    "top_speed_kmh": 180,
-    "battery_kwh": 15.2
+    "battery_kwh": 18.3,
+    "charging_ac_kw": 3.3,
+    "charging_dc_kw": 26
   },
   "configurations": {
     "colors": [
@@ -94,6 +98,11 @@
         "priceModifier": 5500
       }
     ]
+  },
+  "trimDetails": {
+    "comfort": { "name": { "en": "121km Core", "ka": "121km Core" } },
+    "luxury": { "name": { "en": "170km Elite", "ka": "170km Elite" }, "specs": { "range_km": 1670, "electric_range_km": 170, "battery_kwh": 26.6, "acceleration_0_100": 7.8, "charging_ac_kw": 7, "charging_dc_kw": 54 }, "highlights": [{ "en": "170 km CLTC / 130 km WLTC electric range and 26.6 kWh battery", "ka": "170 km CLTC / 130 km WLTC electric range and 26.6 kWh battery" }, { "en": "7 kW AC, 54 kW DC and up to 6 kW VTOL power output", "ka": "7 kW AC, 54 kW DC and up to 6 kW VTOL power output" }, { "en": "Panoramic glass roof, 50W wireless charger and ambient lighting", "ka": "Panoramic glass roof, 50W wireless charger and ambient lighting" }] },
+    "flagship": { "name": { "en": "170km Design", "ka": "170km Design" }, "specs": { "range_km": 1670, "electric_range_km": 170, "battery_kwh": 26.6, "acceleration_0_100": 7.8, "charging_ac_kw": 7, "charging_dc_kw": 54 }, "highlights": [{ "en": "26-inch W-HUD and Dynaudio 12-speaker branded audio", "ka": "26-inch W-HUD and Dynaudio 12-speaker branded audio" }, { "en": "8-way power driver seat with 4-way power lumbar support", "ka": "8-way power driver seat with 4-way power lumbar support" }, { "en": "Heated steering wheel and intelligent refrigerator/warmer", "ka": "Heated steering wheel and intelligent refrigerator/warmer" }] }
   },
   "images": {
     "hero": "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",

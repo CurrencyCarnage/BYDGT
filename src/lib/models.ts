@@ -5,11 +5,12 @@ import type { CarModel } from "./types";
 import { getCloudflareEnv, type D1DatabaseLike } from "./cloudflare-env";
 import { seedModels } from "./seed-models";
 
-export type { CarModel, LocalizedString, ColorOption, VariantOption, CarSpecs } from "./types";
-export { getLocalizedValue, formatPrice } from "./types";
+export type { CarModel, LocalizedString, ColorOption, VariantOption, CarSpecs, TrimDetails } from "./types";
+export { getLocalizedValue, getOfficialVariants, getVariantDetails, formatPrice } from "./types";
 
 const MODELS_DIR = path.join(process.cwd(), "content", "models");
 let d1Ready: Promise<void> | null = null;
+const OFFICIAL_MODEL_CONTENT_VERSION = "2026-07-22-official-specs-v1";
 
 function sanitizeModelId(id: string) {
   return id.replace(/[^a-z0-9-]/gi, "").toLowerCase();
@@ -17,6 +18,29 @@ function sanitizeModelId(id: string) {
 
 function getDb() {
   return getCloudflareEnv().DB;
+}
+
+function preserveCommercialTerms(source: CarModel, existing: CarModel): CarModel {
+  const existingColorPrices = new Map(existing.configurations.colors.map((color) => [color.id, color.priceModifier]));
+  const existingVariantPrices = new Map(existing.configurations.variants.map((variant) => [variant.id, variant.priceModifier]));
+
+  return {
+    ...source,
+    basePrice: existing.basePrice ?? source.basePrice,
+    currency: existing.currency || source.currency,
+    priceStatus: existing.priceStatus ?? source.priceStatus,
+    configurations: {
+      ...source.configurations,
+      colors: source.configurations.colors.map((color) => ({
+        ...color,
+        priceModifier: existingColorPrices.get(color.id) ?? color.priceModifier,
+      })),
+      variants: source.configurations.variants.map((variant) => ({
+        ...variant,
+        priceModifier: existingVariantPrices.get(variant.id) ?? variant.priceModifier,
+      })),
+    },
+  };
 }
 
 async function ensureD1(db: D1DatabaseLike) {
@@ -53,6 +77,37 @@ async function ensureD1(db: D1DatabaseLike) {
         await db
           .prepare("INSERT INTO app_meta (key, value) VALUES (?, ?)")
           .bind("models_seeded", new Date().toISOString())
+          .run();
+      }
+
+      const migration = await db
+        .prepare("SELECT value FROM app_meta WHERE key = ?")
+        .bind("official_model_content_version")
+        .first<{ value: string }>();
+
+      if (migration?.value !== OFFICIAL_MODEL_CONTENT_VERSION) {
+        for (const model of seedModels) {
+          const existing = await db
+            .prepare("SELECT data FROM models WHERE id = ?")
+            .bind(model.id)
+            .first<{ data: string }>();
+          const migrated = existing
+            ? preserveCommercialTerms(model, JSON.parse(existing.data) as CarModel)
+            : model;
+
+          await db
+            .prepare(
+              `INSERT INTO models (id, data, created_at, updated_at)
+               VALUES (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+               ON CONFLICT(id) DO UPDATE SET data = excluded.data, updated_at = CURRENT_TIMESTAMP`
+            )
+            .bind(model.id, JSON.stringify(migrated))
+            .run();
+        }
+
+        await db
+          .prepare("INSERT OR REPLACE INTO app_meta (key, value) VALUES (?, ?)")
+          .bind("official_model_content_version", OFFICIAL_MODEL_CONTENT_VERSION)
           .run();
       }
     })();

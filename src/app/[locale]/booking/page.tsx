@@ -92,6 +92,7 @@ const reqIcons: Record<string, React.ReactNode> = {
 type BookingSearchParams = {
   model?: string | string[];
   version?: string | string[];
+  trim?: string | string[];
 };
 
 const getFirstParam = (value: string | string[] | undefined) =>
@@ -106,6 +107,7 @@ export default async function BookingPage({
   const t = copy[locale];
   const initialModelId = getFirstParam(searchParams?.model);
   const initialVersionId = getFirstParam(searchParams?.version);
+  const initialTrimId = getFirstParam(searchParams?.trim);
 
   return (
     <div className="booking-page bg-byd-dark">
@@ -265,6 +267,7 @@ export default async function BookingPage({
               <BookingForm
                 initialModelId={initialModelId}
                 initialVersionId={initialVersionId}
+                initialTrimId={initialTrimId}
               />
             </div>
           </ScrollReveal>

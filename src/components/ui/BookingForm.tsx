@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
-import { testDriveModels, TIME_SLOTS } from "@/lib/test-drive";
+import { getOfficialTrimLabel, testDriveModels, TIME_SLOTS } from "@/lib/test-drive";
 import TestDriveModal, { AgreementFlags } from "./TestDriveModal";
 
 const labels = {
@@ -14,6 +14,7 @@ const labels = {
     modelHelper: "Select a BYD product family",
     version: "Version / Powertrain",
     versionHelper: "Select a powertrain variant",
+    selectedTrim: "Selected trim",
     date: "Preferred Date",
     time: "Preferred Time",
     message: "Notes (optional)",
@@ -37,6 +38,7 @@ const labels = {
     modelHelper: "აირჩიეთ BYD პროდუქტი",
     version: "ვერსია / ძრავის ტიპი",
     versionHelper: "აირჩიეთ ძრავის ვარიანტი",
+    selectedTrim: "არჩეული კომპლექტაცია",
     date: "სასურველი თარიღი",
     time: "სასურველი დრო",
     message: "შენიშვნა (სურვილისამებრ)",
@@ -57,11 +59,13 @@ const labels = {
 interface BookingFormProps {
   initialModelId?: string;
   initialVersionId?: string;
+  initialTrimId?: string;
 }
 
 export default function BookingForm({
   initialModelId,
   initialVersionId,
+  initialTrimId,
 }: BookingFormProps) {
   const locale = useLocale() as "en" | "ka";
   const appliedInitialSelection = useRef(false);
@@ -73,6 +77,7 @@ export default function BookingForm({
     email: "",
     modelFamilyId: "",
     versionId: "",
+    trimId: "",
     preferredDate: "",
     preferredTimeSlot: "",
     message: "",
@@ -87,6 +92,9 @@ export default function BookingForm({
     (m) => m.id === form.modelFamilyId
   );
   const versions = selectedFamily?.versions ?? [];
+  const selectedTrimLabel = form.trimId && form.versionId
+    ? getOfficialTrimLabel(form.versionId, form.trimId)
+    : undefined;
 
   useEffect(() => {
     if (appliedInitialSelection.current) return;
@@ -105,7 +113,7 @@ export default function BookingForm({
       .find((item) => item.versionId === requestedId);
 
     if (versionMatch) {
-      setForm((prev) => ({ ...prev, ...versionMatch }));
+      setForm((prev) => ({ ...prev, ...versionMatch, trimId: initialTrimId ?? "" }));
       return;
     }
 
@@ -119,8 +127,9 @@ export default function BookingForm({
       modelFamilyId: familyMatch.id,
       versionId:
         familyMatch.versions.length === 1 ? familyMatch.versions[0].id : "",
+      trimId: initialTrimId ?? "",
     }));
-  }, [initialModelId, initialVersionId]);
+  }, [initialModelId, initialTrimId, initialVersionId]);
 
   const set = (field: string, value: string) => {
     setError("");
@@ -129,7 +138,7 @@ export default function BookingForm({
 
   const handleModelChange = (modelId: string) => {
     setError("");
-    setForm((prev) => ({ ...prev, modelFamilyId: modelId, versionId: "" }));
+    setForm((prev) => ({ ...prev, modelFamilyId: modelId, versionId: "", trimId: "" }));
   };
 
   const validateAndOpenModal = (e: React.FormEvent) => {
@@ -226,6 +235,7 @@ export default function BookingForm({
               email: "",
               modelFamilyId: "",
               versionId: "",
+              trimId: "",
               preferredDate: "",
               preferredTimeSlot: "",
               message: "",
@@ -343,7 +353,10 @@ export default function BookingForm({
             <select
               required
               value={form.versionId}
-              onChange={(e) => set("versionId", e.target.value)}
+              onChange={(e) => {
+                setError("");
+                setForm((prev) => ({ ...prev, versionId: e.target.value, trimId: "" }));
+              }}
               disabled={!selectedFamily}
               className={
                 inputClass +
@@ -364,6 +377,12 @@ export default function BookingForm({
             >
               {t.versionHelper}
             </p>
+            {selectedTrimLabel && (
+              <div className="mt-3 border-l-2 border-byd-red bg-byd-red/[0.06] px-3 py-2">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#686D71]">{t.selectedTrim}</p>
+                <p className="mt-0.5 text-sm font-semibold text-[#252728]">{selectedTrimLabel}</p>
+              </div>
+            )}
           </div>
         </div>
 

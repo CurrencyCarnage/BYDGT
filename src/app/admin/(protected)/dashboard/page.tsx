@@ -106,7 +106,7 @@ export default async function DashboardPage() {
             </div>
 
             <p className="text-lg font-bold text-white">
-              ${model.basePrice.toLocaleString()}
+                {model.priceStatus === "contact" ? "Contact for pricing" : `$${(model.basePrice ?? 0).toLocaleString()}`}
             </p>
 
             <Link

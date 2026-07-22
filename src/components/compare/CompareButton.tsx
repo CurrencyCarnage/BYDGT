@@ -14,10 +14,6 @@ const VERSION_INFO: Record<string, { name: string; image: string }> = {
     name: "BYD Seal 06 DM-i",
     image: "/images/models/seal-06-dmi/hero.jpg",
   },
-  "seal-06-ev": {
-    name: "BYD Seal 06 EV",
-    image: "/images/models/seal-06-dmi/hero.jpg",
-  },
   "sealion-06-dmi": {
     name: "BYD Sealion 06 DM-i",
     image: "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",

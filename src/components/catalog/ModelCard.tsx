@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { CarModel, formatPrice, getLocalizedValue } from "@/lib/types";
+import { CarModel, formatPrice, getLocalizedValue, getOfficialVariants } from "@/lib/types";
 
 interface ModelCardProps {
   model: CarModel;
@@ -24,6 +24,9 @@ function StatIcon({ type }: { type: "power" | "range" | "speed" }) {
 export default function ModelCard({ model, locale }: ModelCardProps) {
   const name = getLocalizedValue(model.name, locale);
   const tagline = getLocalizedValue(model.tagline, locale);
+  const powerValue = model.specs.power_kw ?? model.specs.power_hp;
+  const powerUnit = model.specs.power_kw ? "kW" : "HP";
+  const officialVariants = getOfficialVariants(model);
   const isEV = model.type === "EV";
   const accentColor = isEV ? "#78B254" : "#D70C19";
   const glowColor = isEV ? "rgba(120, 178, 84, 0.28)" : "rgba(215, 12, 25, 0.24)";
@@ -86,7 +89,7 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
                 {locale === "ka" ? "დან" : "From"}
               </span>
               <p className="mt-1 text-xl font-bold leading-none text-byd-red md:text-2xl">
-                {formatPrice(model.basePrice)}
+                {model.priceStatus === "contact" ? "Contact for pricing" : formatPrice(model.basePrice ?? 0)}
               </p>
             </div>
           </div>
@@ -99,11 +102,11 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
             <div className="model-card-spec border border-[#E1E4E6] bg-[#F4F6F7] p-3 text-center shadow-[0_8px_18px_rgba(24,28,32,0.06)]">
               <StatIcon type="power" />
               <p className="text-[10px] uppercase tracking-[0.12em] text-[#8A9094]">{locale === "ka" ? "სიმძლავრე" : "Power"}</p>
-              <span className="mt-1 block text-sm font-semibold text-[#252728]">{model.specs.power_hp} HP</span>
+              <span className="mt-1 block text-sm font-semibold text-[#252728]">{powerValue ?? "—"} {powerValue === undefined ? "" : powerUnit}</span>
             </div>
             <div className="model-card-spec border border-[#E1E4E6] bg-[#F4F6F7] p-3 text-center shadow-[0_8px_18px_rgba(24,28,32,0.06)]">
               <StatIcon type="range" />
-              <p className="text-[10px] uppercase tracking-[0.12em] text-[#8A9094]">{locale === "ka" ? "მანძილი" : "Range"}</p>
+              <p className="text-[10px] uppercase tracking-[0.12em] text-[#8A9094]">{model.specs.range_label ?? (locale === "ka" ? "მანძილი" : "Range")}</p>
               <span className="mt-1 block text-sm font-semibold text-[#252728]">{model.specs.range_km} km</span>
             </div>
             <div className="model-card-spec border border-[#E1E4E6] bg-[#F4F6F7] p-3 text-center shadow-[0_8px_18px_rgba(24,28,32,0.06)]">
@@ -115,7 +118,7 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
 
           <div className="mt-5 flex items-center justify-between border-t border-[#E1E4E6] pt-4">
             <span className="text-[11px] font-medium text-[#8A9094]">
-              {model.configurations.variants.length} {locale === "ka" ? "კომპლექტაცია" : "trims available"}
+              {officialVariants.length} {locale === "ka" ? "კომპლექტაცია" : "trims available"}
             </span>
             <span className="model-card-action inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-[#252728] transition-colors group-hover:text-byd-red">
               {locale === "ka" ? "ნახვა" : "Explore product"}

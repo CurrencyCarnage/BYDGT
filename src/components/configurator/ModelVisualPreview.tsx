@@ -114,18 +114,24 @@ export default function ModelVisualPreview({
         </div>
 
         <div className="relative aspect-[16/10.5] sm:aspect-[16/7.4] lg:min-h-[29rem]">
-          <Image
-            key={previewSrc}
-            src={previewSrc}
-            alt={`${modelName} ${activeAsset.label}`}
-            fill
-            sizes="(max-width: 768px) 100vw, 80vw"
-            className="object-cover"
-            onError={() =>
-              setFailedSrcs((current) => ({ ...current, [activeAsset.src]: true }))
-            }
-            priority={mode === "exterior" && exteriorIndex === 0}
-          />
+          {previewSrc ? (
+            <Image
+              key={previewSrc}
+              src={previewSrc}
+              alt={`${modelName} ${activeAsset.label}`}
+              fill
+              sizes="(max-width: 768px) 100vw, 80vw"
+              className="object-cover"
+              onError={() =>
+                setFailedSrcs((current) => ({ ...current, [activeAsset.src]: true }))
+              }
+              priority={mode === "exterior" && exteriorIndex === 0}
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-[#252728] text-center text-sm font-medium text-white/60">
+              {locale === "ka" ? "ავტომობილის გამოსახულება მალე დაემატება" : "Vehicle imagery coming soon"}
+            </div>
+          )}
         </div>
 
         {mode === "exterior" && (

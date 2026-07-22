@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
-import { TestDriveBooking, SHOWROOM, testDriveModels } from "@/lib/test-drive";
+import { TestDriveBooking, SHOWROOM, getOfficialTrimLabel, testDriveModels } from "@/lib/test-drive";
 import { buildAdminTestDriveEmail, buildCustomerTestDriveEmail } from "@/lib/email";
 import { saveBooking } from "@/lib/bookings";
 
@@ -101,6 +101,11 @@ export async function POST(req: NextRequest) {
 
     const version = family.versions.find((v) => v.id === body.versionId);
     if (!version) return NextResponse.json({ error: "Invalid version" }, { status: 400 });
+    const trimId = typeof body.trimId === "string" && body.trimId.trim() ? body.trimId.trim() : undefined;
+    const trimLabel = trimId ? getOfficialTrimLabel(version.id, trimId) : undefined;
+    if (trimId && !trimLabel) {
+      return NextResponse.json({ error: "Invalid trim" }, { status: 400 });
+    }
 
     // ── Build booking ───────────────────────────────────────────
     const now = new Date().toISOString();
@@ -119,6 +124,8 @@ export async function POST(req: NextRequest) {
       modelFamilyName: family.name,
       versionId:    version.id,
       versionLabel: version.label,
+      trimId,
+      trimLabel,
       preferredDate:     body.preferredDate,
       preferredTimeSlot: body.preferredTimeSlot,
       message:  body.message?.trim() || undefined,

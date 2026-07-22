@@ -205,7 +205,7 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
               type="number"
               min={0}
               step={100}
-              value={model.basePrice}
+                value={model.basePrice ?? 0}
               onChange={(e) => set("basePrice", Number(e.target.value))}
               className={inputCls}
             />

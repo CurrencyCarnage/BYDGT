@@ -3,13 +3,15 @@
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
-import { CarModel, formatPrice, getLocalizedValue } from "@/lib/types";
+import { CarModel, formatPrice, getLocalizedValue, getOfficialVariants, getVariantDetails } from "@/lib/types";
 import CarColorPreview from "./CarColorPreview";
 import ModelVisualPreview from "./ModelVisualPreview";
 import CompareButton from "@/components/compare/CompareButton";
 
 interface ModelConfiguratorProps {
   model: CarModel;
+  selectedVariantId?: string | null;
+  onVariantChange?: (variantId: string) => void;
   onSelectionChange?: (selection: ConfiguratorSelection) => void;
 }
 
@@ -19,27 +21,30 @@ export interface ConfiguratorSelection {
   colorHex: string | null;
   variantId: string | null;
   variantName: string;
-  totalPrice: number;
+  totalPrice: number | null;
 }
 
-export default function ModelConfigurator({ model, onSelectionChange }: ModelConfiguratorProps) {
+export default function ModelConfigurator({ model, selectedVariantId, onVariantChange, onSelectionChange }: ModelConfiguratorProps) {
+  const variants = getOfficialVariants(model);
+  const [localVariantId, setLocalVariantId] = useState<string | null>(variants[0]?.id ?? null);
   const [selectedColor, setSelectedColor] = useState(
     model.configurations.colors[0] ?? null
   );
-  const [selectedVariant, setSelectedVariant] = useState(
-    model.configurations.variants[0] ?? null
-  );
+  const activeVariantId = selectedVariantId ?? localVariantId;
+  const selectedVariant = variants.find((variant) => variant.id === activeVariantId) ?? variants[0] ?? null;
   const t = useTranslations("model");
   const tCommon = useTranslations("common");
   const locale = useLocale();
 
-  const totalPrice =
-    model.basePrice +
+  const totalPrice = model.priceStatus === "contact"
+    ? null
+    : (model.basePrice ?? 0) +
     (selectedColor?.priceModifier ?? 0) +
     (selectedVariant?.priceModifier ?? 0);
   const selectedColorName = selectedColor ? getLocalizedValue(selectedColor.name, locale) : "";
-  const selectedVariantName = selectedVariant ? getLocalizedValue(selectedVariant.name, locale) : "";
-  const bookingHref = `/booking?version=${encodeURIComponent(model.id)}`;
+  const selectedVariantName = selectedVariant ? getLocalizedValue(getVariantDetails(model, selectedVariant).name, locale) : "";
+  const bookingHref = `/booking?version=${encodeURIComponent(model.id)}&trim=${encodeURIComponent(selectedVariant?.id ?? "")}`;
+  const enquiryHref = `/contact?subject=${encodeURIComponent(getLocalizedValue(model.name, "en") + " " + (selectedVariant ? getLocalizedValue(getVariantDetails(model, selectedVariant).name, "en") : ""))}`;
 
   useEffect(() => {
     onSelectionChange?.({
@@ -83,20 +88,24 @@ export default function ModelConfigurator({ model, onSelectionChange }: ModelCon
             />
           )}
 
-          {model.configurations.variants.length > 0 && (
+          {variants.length > 0 && (
           <div className="mb-8 content-surface-soft px-4 py-5 sm:px-5 lg:px-6">
           <p className="configurator-section-label mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#686D71]">
             {t("selectVariant")}
           </p>
           <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
-            {model.configurations.variants.map((variant) => {
+            {variants.map((variant) => {
               const isSelected = selectedVariant?.id === variant.id;
+              const details = getVariantDetails(model, variant);
 
               return (
                 <button
                   type="button"
                   key={variant.id}
-                  onClick={() => setSelectedVariant(variant)}
+                  onClick={() => {
+                    setLocalVariantId(variant.id);
+                    onVariantChange?.(variant.id);
+                  }}
                   aria-pressed={isSelected}
                   className={`configurator-option group relative border px-5 py-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
                     isSelected
@@ -122,10 +131,12 @@ export default function ModelConfigurator({ model, onSelectionChange }: ModelCon
                     </span>
                   )}
                   <p className="configurator-option-title pr-12 text-sm font-semibold text-[#252728]">
-                    {getLocalizedValue(variant.name, locale)}
+                    {getLocalizedValue(details.name, locale)}
                   </p>
                   <p className="configurator-option-meta mt-2 text-[11px] text-[#686D71]">
-                    {variant.priceModifier === 0
+                    {model.priceStatus === "contact"
+                      ? (locale === "ka" ? "Contact for pricing" : "Contact for pricing")
+                      : variant.priceModifier === 0
                       ? t("included")
                       : `+${formatPrice(variant.priceModifier)}`}
                   </p>
@@ -162,7 +173,7 @@ export default function ModelConfigurator({ model, onSelectionChange }: ModelCon
                 {t("totalPrice")}
               </span>
               <p className="configurator-total-price mt-2 text-4xl font-semibold text-[#252728]">
-                {formatPrice(totalPrice)}
+                {totalPrice === null ? "Contact for pricing" : formatPrice(totalPrice)}
               </p>
             </div>
           </div>
@@ -176,12 +187,12 @@ export default function ModelConfigurator({ model, onSelectionChange }: ModelCon
               modelName={getLocalizedValue(model.name, locale)}
               className="configurator-secondary-action inline-flex min-h-[48px] items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]"
             />
-            <Link href="/contact" className="configurator-secondary-action inline-flex min-h-[48px] items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]">
+            <Link href={enquiryHref} className="configurator-secondary-action inline-flex min-h-[48px] items-center justify-center border border-[#C7CDD0] px-6 text-center text-sm font-semibold text-[#252728] transition-all duration-200 hover:border-[#8A9094] hover:bg-[#F0F2F3]">
               {tCommon("contactUs")}
             </Link>
             <a
               href={`https://wa.me/995XXXXXXXXX?text=${encodeURIComponent(
-                `Hi, I'm interested in the ${getLocalizedValue(model.name, "en")}${selectedColor ? ` (${getLocalizedValue(selectedColor.name, "en")}` : ""}${selectedVariant ? `, ${getLocalizedValue(selectedVariant.name, "en")})` : selectedColor ? ")" : ""}`
+                `Hi, I'm interested in the ${getLocalizedValue(model.name, "en")}${selectedColor ? ` (${getLocalizedValue(selectedColor.name, "en")}` : ""}${selectedVariant ? `, ${getLocalizedValue(getVariantDetails(model, selectedVariant).name, "en")})` : selectedColor ? ")" : ""}`
               )}`}
               target="_blank"
               rel="noopener noreferrer"

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
-import { getModelById, getLocalizedValue, formatPrice } from "@/lib/models";
+import { getModelById, getLocalizedValue, getOfficialVariants, formatPrice } from "@/lib/models";
 import ModelPurchaseExperience, { CompareTrimsButton } from "@/components/configurator/ModelPurchaseExperience";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
@@ -29,16 +29,17 @@ export default async function ModelDetailPage({
   const name = getLocalizedValue(model.name, locale);
   const tagline = getLocalizedValue(model.tagline, locale);
   const bookingHref = `/booking?version=${encodeURIComponent(model.id)}`;
+  const hasUpgrades = getOfficialVariants(model).length > 1;
 
   // Top 4 specs for the highlight strip
   const heroSpecs = [
-    { label: t("range"), value: model.specs.range_km, suffix: " km" },
+    { label: model.specs.range_label ?? t("range"), value: model.specs.range_km, suffix: " km" },
     ...(model.specs.electric_range_km
       ? [{ label: t("electricRange"), value: model.specs.electric_range_km, suffix: " km" }]
       : []),
-    { label: t("power"), value: model.specs.power_hp, suffix: " HP" },
+    { label: t("power"), value: model.specs.power_kw ?? model.specs.power_hp ?? 0, suffix: model.specs.power_kw ? " kW" : " HP" },
     { label: t("acceleration"), value: model.specs.acceleration_0_100, suffix: "s", decimals: 1 },
-    { label: t("topSpeed"), value: model.specs.top_speed_kmh, suffix: " km/h" },
+    ...(model.specs.top_speed_kmh ? [{ label: t("topSpeed"), value: model.specs.top_speed_kmh, suffix: " km/h" }] : []),
   ].slice(0, 4);
 
   return (
@@ -124,18 +125,18 @@ export default async function ModelDetailPage({
                   {tCommon("startingFrom")}
                 </p>
                 <p className="text-2xl md:text-3xl font-bold text-white">
-                  {formatPrice(model.basePrice)}
+                    {model.priceStatus === "contact" ? "Contact for pricing" : formatPrice(model.basePrice ?? 0)}
                 </p>
               </div>
               <div className="model-hero-cta-group grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:flex-wrap sm:gap-3">
                 <Link href={bookingHref} className="model-hero-cta btn-primary-red justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ minHeight: "2.75rem" }}>
                   {tCommon("bookTestDrive")}
                 </Link>
-                <CompareTrimsButton
+                {hasUpgrades && <CompareTrimsButton
                   label={locale === "ka" ? "კომპლექტაციების შედარება" : "Compare Trims"}
                   className="model-hero-cta btn-secondary justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm"
                   style={{ minHeight: "2.75rem" }}
-                />
+                />}
                 <Link href="/contact" className="model-hero-cta btn-secondary justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ minHeight: "2.75rem" }}>
                   {tCommon("contactUs")}
                 </Link>

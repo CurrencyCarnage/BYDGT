@@ -12,7 +12,6 @@ export const testDriveModels: TestDriveModel[] = [
     name: "BYD Seal 06",
     versions: [
       { id: "seal-06-dmi", label: "DM-i / PHEV" },
-      { id: "seal-06-ev", label: "EV" },
     ],
   },
   {
@@ -32,6 +31,18 @@ export const testDriveModels: TestDriveModel[] = [
     ],
   },
 ];
+
+const officialTrimLabels: Record<string, Record<string, string>> = {
+  "seal-06-dmi": { comfort: "128km Active", luxury: "128km Design", flagship: "210km Flagship" },
+  "sealion-06-dmi": { comfort: "121km Core", luxury: "170km Elite", flagship: "170km Design" },
+  "sealion-06-ev": { "605km-core": "605km Core", "710km-flagship": "710km Flagship" },
+  "yuan-up-ev": { "standard-range": "401km Flagship" },
+  "yuan-up-dmi": { standard: "110km Flagship" },
+};
+
+export function getOfficialTrimLabel(versionId: string, trimId: string) {
+  return officialTrimLabels[versionId]?.[trimId];
+}
 
 export const SHOWROOM = {
   name: "BYD Tbilisi" as const,
@@ -152,6 +163,8 @@ export interface TestDriveBooking {
   modelFamilyName: string;
   versionId: string;
   versionLabel: string;
+  trimId?: string;
+  trimLabel?: string;
   preferredDate: string;
   preferredTimeSlot: string;
   message?: string;

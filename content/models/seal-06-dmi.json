@@ -10,12 +10,14 @@
   "basePrice": 30000,
   "currency": "USD",
   "specs": {
-    "range_km": 2110,
-    "electric_range_km": 90,
-    "power_hp": 161,
+    "range_km": 128,
+    "range_label": "CLTC pure electric range",
+    "power_kw": 120,
+    "torque_nm": 210,
     "acceleration_0_100": 7.9,
-    "top_speed_kmh": 175,
-    "battery_kwh": 13.8
+    "battery_kwh": 15.87,
+    "charging_ac_kw": 3.5,
+    "charging_dc_kw": 23
   },
   "configurations": {
     "colors": [
@@ -30,6 +32,11 @@
       { "id": "luxury", "name": { "en": "Luxury", "ka": "ლუქსი" }, "priceModifier": 2800 },
       { "id": "flagship", "name": { "en": "Flagship", "ka": "ფლაგმანი" }, "priceModifier": 4800 }
     ]
+  },
+  "trimDetails": {
+    "comfort": { "name": { "en": "128km Active", "ka": "128km Active" } },
+    "luxury": { "name": { "en": "128km Design", "ka": "128km Design" }, "specs": { "power_kw": 160, "torque_nm": 260, "acceleration_0_100": 7.5 }, "highlights": [{ "en": "17-inch two-tone alloy wheels replace the 16-inch mono alloy wheels", "ka": "17-დუიმიანი ორფერი ალუმინის დისკები 16-დუიმიან ერთფერიან დისკებს ცვლის" }, { "en": "160 kW / 260 N·m electric motor and 7.5-second 0–100 km/h acceleration", "ka": "160 kW / 260 N·m ელექტროძრავი და 0–100 კმ/სთ 7.5 წამში" }, { "en": "Intelligent driving, parking and safety assistance including adaptive cruise, high beam control, remote parking and blind-spot monitoring", "ka": "ინტელექტუალური მართვის, პარკირებისა და უსაფრთხოების ასისტენტები: ადაპტური კრუიზი, შორი სინათლის კონტროლი, დისტანციური პარკირება და ბრმა ზონის მონიტორინგი" }, { "en": "Capacitive steering wheel, power driver seat and four anti-pinch one-touch windows", "ka": "კაპაციტიური საჭე, ელექტრო მძღოლის სავარძელი და ოთხი Anti-pinch ერთშეხებიანი ფანჯარა" }, { "en": "Power-folding exterior mirrors with blind-spot indicators", "ka": "ელექტროდასაკეცი გარე სარკეები ბრმა ზონის ინდიკატორებით" }] },
+    "flagship": { "name": { "en": "210km Flagship", "ka": "210km Flagship" }, "specs": { "range_km": 210, "power_kw": 175, "torque_nm": 270, "acceleration_0_100": 7.5, "battery_kwh": 25.28, "charging_ac_kw": 6.6, "charging_dc_kw": 48 }, "highlights": [{ "en": "210 km CLTC electric range, 25.28 kWh battery, 175 kW / 270 N·m and 18-inch wheels", "ka": "210 კმ CLTC ელექტრო სავალი მარაგი, 25.28 kWh ბატარეა, 175 kW / 270 N·m და 18-დუიმიანი დისკები" }, { "en": "Flat-tire stability control, Yun-nian C suspension and front-centre airbag", "ka": "საბურავის გახეთქვის სტაბილურობის კონტროლი, Yun-nian C საკიდარი და წინა ცენტრალური აირბაგი" }, { "en": "HUD, 50 W wireless charging, vanity lighting, multi-colour ambient lighting and panoramic sunroof with electric shade", "ka": "HUD, 50 W უსადენო დამუხტვა, სარკის განათება, მრავალფერიანი ატმოსფერული განათება და პანორამული სახურავი ელექტრო ფარდით" }, { "en": "Upgraded front seats with power adjustment, heating, ventilation and memory", "ka": "განახლებული წინა სავარძლები: ელექტრო რეგულირება, გათბობა, ვენტილაცია და მეხსიერება" }, { "en": "Rain-sensing wipers, exterior-mirror memory, dual-zone climate control and vehicle refrigerator", "ka": "წვიმის სენსორიანი საწმენდები, გარე სარკეების მეხსიერება, ორზონიანი კლიმატკონტროლი და ავტომობილის მაცივარი" }] }
   },
   "images": {
     "hero": "/images/models/seal-06-dmi/hero.jpg",

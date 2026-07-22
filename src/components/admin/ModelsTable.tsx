@@ -123,7 +123,7 @@ export default function ModelsTable({
                   </span>
                 </td>
                 <td className="px-5 py-4 font-semibold text-white">
-                  ${model.basePrice.toLocaleString()}
+                    {model.priceStatus === "contact" ? "Contact for pricing" : `$${(model.basePrice ?? 0).toLocaleString()}`}
                 </td>
                 <td className="px-5 py-4 text-center">
                   <Toggle
