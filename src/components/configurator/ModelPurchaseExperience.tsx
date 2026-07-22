@@ -11,11 +11,11 @@ export function CompareTrimsButton({ label, className, style }: { label: string;
   return <button type="button" onClick={() => document.getElementById("trims")?.scrollIntoView({ behavior: "smooth", block: "start" })} className={className} style={style}>{label}</button>;
 }
 
-function SpecItem({ label, value }: { label: string; value: string }) {
-  return <div className="border-b border-[#E4E7E8] py-3 last:border-b-0"><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#8A9094]">{label}</p><p className="mt-1 text-base font-semibold text-[#252728]">{value}</p></div>;
+function SpecItem({ label, value, dark = false }: { label: string; value: string; dark?: boolean }) {
+  return <div className={dark ? "model-baseline-spec-item py-3 last:border-b-0" : "border-b border-[#E4E7E8] py-3 last:border-b-0"}><p className={dark ? "model-baseline-spec-label text-[10px] font-semibold uppercase tracking-[0.14em]" : "text-[10px] font-semibold uppercase tracking-[0.14em] text-[#8A9094]"}>{label}</p><p className={dark ? "model-baseline-spec-value mt-1 text-base font-semibold" : "mt-1 text-base font-semibold text-[#252728]"}>{value}</p></div>;
 }
 
-function SpecsGrid({ specs, ka }: { specs: CarSpecs; ka: boolean }) {
+function SpecsGrid({ specs, ka, dark = false }: { specs: CarSpecs; ka: boolean; dark?: boolean }) {
   const power = specs.power_kw ?? specs.power_hp;
   const unit = specs.power_kw ? "kW" : "HP";
   const groups = [
@@ -23,7 +23,7 @@ function SpecsGrid({ specs, ka }: { specs: CarSpecs; ka: boolean }) {
     { title: ka ? "წარმადობა" : "Performance", items: [...(power !== undefined ? [{ label: ka ? "სიმძლავრე" : "Power", value: power + " " + unit }] : []), ...(specs.torque_nm ? [{ label: "Torque", value: specs.torque_nm + " N·m" }] : []), { label: "0–100 km/h", value: specs.acceleration_0_100 + "s" }, ...(specs.top_speed_kmh ? [{ label: ka ? "მაქს. სიჩქარე" : "Top speed", value: specs.top_speed_kmh + " km/h" }] : [])] },
     ...(specs.charging_ac_kw || specs.charging_dc_kw ? [{ title: ka ? "დამუხტვა" : "Charging", items: [...(specs.charging_ac_kw ? [{ label: "AC", value: specs.charging_ac_kw + " kW" }] : []), ...(specs.charging_dc_kw ? [{ label: "DC", value: specs.charging_dc_kw + " kW" }] : [])] }] : []),
   ];
-  return <div className="grid gap-4 lg:grid-cols-3">{groups.map((group, index) => <div key={group.title} className="border border-[#DDE1E3] bg-[#FBFBFA] p-5 md:p-6"><div className="mb-3 flex items-center gap-3 border-b border-[#DDE1E3] pb-4"><span className="flex h-8 w-8 items-center justify-center bg-byd-red text-xs font-bold text-white">0{index + 1}</span><h3 className="text-base font-bold text-[#252728]">{group.title}</h3></div>{group.items.map((item) => <SpecItem key={item.label} label={item.label} value={item.value} />)}</div>)}</div>;
+  return <div className="grid gap-4 lg:grid-cols-3">{groups.map((group, index) => <div key={group.title} className={dark ? "model-baseline-spec-card p-5 md:p-6" : "border border-[#DDE1E3] bg-[#FBFBFA] p-5 md:p-6"}><div className={dark ? "model-baseline-spec-heading mb-3 flex items-center gap-3 pb-4" : "mb-3 flex items-center gap-3 border-b border-[#DDE1E3] pb-4"}><span className="flex h-8 w-8 items-center justify-center bg-byd-red text-xs font-bold text-white">0{index + 1}</span><h3 className={dark ? "model-baseline-spec-title text-base font-bold" : "text-base font-bold text-[#252728]"}>{group.title}</h3></div>{group.items.map((item) => <SpecItem key={item.label} label={item.label} value={item.value} dark={dark} />)}</div>)}</div>;
 }
 
 export default function ModelPurchaseExperience({ model, locale }: { model: CarModel; locale: string }) {
@@ -40,7 +40,7 @@ export default function ModelPurchaseExperience({ model, locale }: { model: CarM
     <section id="configurator" className="scroll-mt-24 bg-[#1C1E1F] py-section-sm md:py-section-lg"><div className="section-container"><ScrollReveal className="mb-10"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">{ka ? "კონფიგურატორი" : "Configurator"}</p><h2 className="mt-3 text-h5 font-semibold text-white md:text-h3">{ka ? modelName + " — კონფიგურაცია" : "Build Your " + modelName}</h2></ScrollReveal><ScrollReveal delay={0.1}><ModelConfigurator model={model} selectedVariantId={selectedVariantId} onVariantChange={setSelectedVariantId} /></ScrollReveal></div></section>
 
 
-    {baselineDetails && <section className="bg-[#F3F4F5] py-section-sm md:py-section-lg" data-header-theme="light"><div className="section-container"><ScrollReveal className="mb-8"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">{ka ? "შედის სტანდარტულად" : "Included baseline"}</p><h2 className="mt-3 text-h5 font-semibold text-[#252728] md:text-h3">{getLocalizedValue(baselineDetails.name, locale)}</h2><p className="mt-2 text-sm text-[#686D71]">{ka ? "ეს არის ოფიციალური საწყისი კომპლექტაცია; მისი მონაცემები განახლების არჩევით არ იცვლება." : "This official entry trim is the fixed included specification baseline."}</p></ScrollReveal><SpecsGrid specs={baselineDetails.specs} ka={ka} /></div></section>}
+    {baselineDetails && <section className="model-baseline-section py-section-sm md:py-section-lg"><div className="section-container"><ScrollReveal className="mb-8"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">{ka ? "შედის სტანდარტულად" : "Included baseline"}</p><h2 className="model-baseline-title mt-3 text-h5 font-semibold md:text-h3">{getLocalizedValue(baselineDetails.name, locale)}</h2><p className="model-baseline-copy mt-2 text-sm">{ka ? "ეს არის ოფიციალური საწყისი კომპლექტაცია; მისი მონაცემები განახლების არჩევით არ იცვლება." : "This official entry trim is the fixed included specification baseline."}</p></ScrollReveal><SpecsGrid specs={baselineDetails.specs} ka={ka} dark /></div></section>}
 
     {upgrades.length > 0 && <section id="trims" className="scroll-mt-24 bg-white py-section-sm md:py-section-lg" data-header-theme="light"><div className="section-container"><ScrollReveal className="mb-10"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">{ka ? "განახლებები" : "Upgrades"}</p><h2 className="mt-3 text-h5 font-semibold text-[#252728] md:text-h3">{ka ? "აირჩიეთ შემდეგი კომპლექტაცია" : "Choose your next official trim"}</h2></ScrollReveal><div className="space-y-6">{upgrades.map((variant, index) => {
       const details = getVariantDetails(model, variant);

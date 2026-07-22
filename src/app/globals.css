@@ -1326,6 +1326,63 @@
     font-weight: 700;
   }
 
+  /* Fixed dark specification panel on model pages, with an explicit light-theme fallback. */
+  .model-baseline-section {
+    background-color: #0D0E0F;
+  }
+
+  .model-baseline-title,
+  .model-baseline-spec-title,
+  .model-baseline-spec-value {
+    color: #FFFFFF;
+  }
+
+  .model-baseline-copy {
+    color: rgba(232, 234, 235, 0.72);
+  }
+
+  .model-baseline-spec-card {
+    border: 1px solid rgba(232, 234, 235, 0.38);
+    background-color: #181A1B;
+  }
+
+  .model-baseline-spec-heading,
+  .model-baseline-spec-item {
+    border-bottom: 1px solid rgba(232, 234, 235, 0.30);
+  }
+
+  .model-baseline-spec-label {
+    color: rgba(232, 234, 235, 0.55);
+  }
+
+  html.light .model-baseline-section {
+    background-color: #F4F5F5;
+  }
+
+  html.light .model-baseline-title,
+  html.light .model-baseline-spec-title,
+  html.light .model-baseline-spec-value {
+    color: #252728;
+  }
+
+  html.light .model-baseline-copy {
+    color: rgba(37, 39, 40, 0.74);
+  }
+
+  html.light .model-baseline-spec-card {
+    border-color: rgba(37, 39, 40, 0.16);
+    background-color: #FFFFFF;
+  }
+
+  html.light .model-baseline-spec-heading,
+  html.light .model-baseline-spec-item {
+    border-color: rgba(37, 39, 40, 0.16);
+  }
+
+  html.light .model-baseline-spec-label {
+    color: rgba(37, 39, 40, 0.52);
+  }
+
   .btn-primary-red:hover {
     background: #A80912;
     border-color: #A80912;

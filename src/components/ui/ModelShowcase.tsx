@@ -500,6 +500,7 @@ export default function ModelShowcase({ locale }: { locale: string }) {
 
 function OneLineCar({
   model,
+  ka,
   index,
   position,
   carRef,
@@ -507,6 +508,7 @@ function OneLineCar({
   rearWheelRef,
 }: {
   model: ModelItem;
+  ka: boolean;
   index: number;
   position: "settled" | "incoming" | "outgoing";
   carRef: React.RefObject<HTMLDivElement>;
@@ -515,57 +517,74 @@ function OneLineCar({
 }) {
   const incoming = position === "incoming";
   const lightScene = index === 1 || index === 3;
+  const carStage = (
+    <div
+      ref={carRef}
+      className={[
+        "relative mx-auto bg-transparent",
+        model.stageWidthClass,
+      ].join(" ")}
+      style={{
+        transform: incoming ? "translateX(110vw)" : "translateX(0)",
+        opacity: incoming ? 0 : 1,
+        willChange: "transform, opacity",
+      }}
+    >
+      <div
+        className="relative overflow-hidden bg-transparent"
+        style={{ aspectRatio: `${model.width} / ${model.height}` }}
+      >
+        <WheelSprite
+          src={model.frontWheelImage}
+          frame={model.frontWheelFrame}
+          stageWidth={model.width}
+          stageHeight={model.height}
+          imgRef={frontWheelRef}
+          isDark={!lightScene}
+        />
+        <WheelSprite
+          src={model.rearWheelImage}
+          frame={model.rearWheelFrame}
+          stageWidth={model.width}
+          stageHeight={model.height}
+          imgRef={rearWheelRef}
+          isDark={!lightScene}
+        />
+        <Image
+          src={model.foregroundImage}
+          alt={model.name}
+          width={1254}
+          height={1254}
+          priority={index === 0}
+          quality={92}
+          unoptimized
+          sizes="(max-width: 768px) 96vw, min(96vw, 1200px)"
+          className={`pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover ${
+            lightScene ? "[mix-blend-mode:multiply]" : ""
+          }`}
+          style={{ objectPosition: model.objectPosition }}
+        />
+      </div>
+    </div>
+  );
+
+  if (position === "settled") {
+    return (
+      <div className="absolute inset-x-0 bottom-0 z-10">
+        <Link
+          href={model.href}
+          aria-label={ka ? `${model.name} დეტალები` : `Explore ${model.name}`}
+          className="relative mx-auto block w-fit cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-6px] focus-visible:outline-byd-red"
+        >
+          {carStage}
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="absolute inset-x-0 bottom-0 z-10">
-      <div
-        ref={carRef}
-        className={[
-          "relative mx-auto bg-transparent",
-          model.stageWidthClass,
-        ].join(" ")}
-        style={{
-          transform: incoming ? "translateX(110vw)" : "translateX(0)",
-          opacity: incoming ? 0 : 1,
-          willChange: "transform, opacity",
-        }}
-      >
-        <div
-          className="relative overflow-hidden bg-transparent"
-          style={{ aspectRatio: `${model.width} / ${model.height}` }}
-        >
-          <WheelSprite
-            src={model.frontWheelImage}
-            frame={model.frontWheelFrame}
-            stageWidth={model.width}
-            stageHeight={model.height}
-            imgRef={frontWheelRef}
-            isDark={!lightScene}
-          />
-          <WheelSprite
-            src={model.rearWheelImage}
-            frame={model.rearWheelFrame}
-            stageWidth={model.width}
-            stageHeight={model.height}
-            imgRef={rearWheelRef}
-            isDark={!lightScene}
-          />
-          <Image
-            src={model.foregroundImage}
-            alt={model.name}
-            width={1254}
-            height={1254}
-            priority={index === 0}
-            quality={92}
-            unoptimized
-            sizes="(max-width: 768px) 96vw, min(96vw, 1200px)"
-            className={`pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover ${
-              lightScene ? "[mix-blend-mode:multiply]" : ""
-            }`}
-            style={{ objectPosition: model.objectPosition }}
-          />
-        </div>
-      </div>
+      {carStage}
     </div>
   );
 }
@@ -782,6 +801,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
             <OneLineCar
               key={`outgoing-${transition.from}`}
               model={MODELS[transition.from]}
+              ka={ka}
               index={transition.from}
               position="outgoing"
               carRef={outgoingCarRef}
@@ -791,6 +811,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
             <OneLineCar
               key={`incoming-${transition.to}`}
               model={MODELS[transition.to]}
+              ka={ka}
               index={transition.to}
               position="incoming"
               carRef={incomingCarRef}
@@ -802,6 +823,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
           <OneLineCar
             key={`settled-${settledIndex}`}
             model={MODELS[settledIndex]}
+            ka={ka}
             index={settledIndex}
             position={initialEntryComplete ? "settled" : "incoming"}
             carRef={incomingCarRef}

@@ -105,6 +105,29 @@ export default function LandingPage() {
     setExpandedMobilePanel(null);
   }, [locale]);
 
+  useEffect(() => {
+    if (!expandedMobilePanel || !window.matchMedia(MOBILE_QUERY).matches) return;
+
+    const panelId = expandedMobilePanel;
+    const frame = requestAnimationFrame(() => {
+      const panel = panelRefs.current[panelId];
+      if (!panel) return;
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const nav = document.querySelector("nav[data-gateway='true']") ?? document.querySelector("nav");
+      const navOffset = Math.max(0, nav?.getBoundingClientRect().bottom ?? 0) + 8;
+      const top = Math.max(0, window.scrollY + panel.getBoundingClientRect().top - navOffset);
+
+      if (reduceMotion) {
+        window.scrollTo(0, top);
+      } else {
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [expandedMobilePanel]);
+
   const isMobileViewport = () => window.matchMedia(MOBILE_QUERY).matches;
 
   const togglePanel = (id: LandingPanelId) => {
@@ -113,14 +136,7 @@ export default function LandingPage() {
       return;
     }
 
-    const opening = expandedMobilePanel !== id;
     setExpandedMobilePanel((current) => current === id ? null : id);
-    if (!opening) return;
-
-    requestAnimationFrame(() => {
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      panelRefs.current[id]?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
-    });
   };
 
   const handlePanelPointerEnter = (event: PointerEvent<HTMLElement>, id: LandingPanelId) => {
