@@ -747,6 +747,45 @@
     font-weight: 700 !important;
   }
 
+  /* ── Spec strip: dark mode ── */
+  html:not(.light) .spec-strip-section {
+    background: #0A0B0C !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  html:not(.light) .spec-strip-section .spec-strip-divider {
+    --tw-divide-opacity: 1;
+  }
+
+  html:not(.light) .spec-strip-section .spec-strip-divider > :not(:first-child) {
+    border-color: rgba(255, 255, 255, 0.10);
+  }
+
+  html:not(.light) .spec-strip-value {
+    color: #FFFFFF !important;
+  }
+
+  html:not(.light) .spec-strip-upto {
+    color: rgba(255, 255, 255, 0.50) !important;
+  }
+
+  html:not(.light) .spec-strip-label {
+    color: rgba(255, 255, 255, 0.55) !important;
+  }
+
+  /* ── Spec strip: light mode ── */
+  .spec-strip-value {
+    color: #252728;
+  }
+
+  .spec-strip-upto {
+    color: #8A9094;
+  }
+
+  .spec-strip-label {
+    color: #686D71;
+  }
+
   html.light .media-copy-overlay .text-white,
   html.light .media-copy-overlay [class*="text-white/"] {
     color: #FFFFFF !important;
@@ -1381,6 +1420,117 @@
 
   html.light .model-baseline-spec-label {
     color: rgba(37, 39, 40, 0.52);
+  }
+
+  /* The official-trim journey remains part of the model page's dark surface. */
+  .model-purchase-experience #trims {
+    background-color: #0D0E0F !important;
+  }
+
+  .model-purchase-experience #trims > .section-container > div > h2 {
+    color: #FFFFFF;
+  }
+
+  .model-purchase-experience #trims article {
+    border-color: rgba(232, 234, 235, 0.30);
+    background-color: #181A1B;
+  }
+
+  .model-purchase-experience #trims article.border-byd-red {
+    border-color: #D70C19;
+    background-color: rgba(215, 12, 25, 0.10);
+  }
+
+  .model-purchase-experience #trims article h3,
+  .model-purchase-experience #trims article strong,
+  .model-purchase-experience #trims article button,
+  .model-purchase-experience #trims article a:not(.bg-byd-red) {
+    color: #FFFFFF;
+  }
+
+  .model-purchase-experience #trims article button {
+    border-color: rgba(232, 234, 235, 0.70);
+  }
+
+  .model-purchase-experience #trims article a:not(.bg-byd-red) {
+    border-color: rgba(232, 234, 235, 0.42);
+  }
+
+  .model-purchase-experience #trims article [class*="text-[#8A9094]"],
+  .model-purchase-experience #trims article [class*="text-[#686D71]"],
+  .model-purchase-experience #trims article [class*="text-[#4E5356]"] {
+    color: rgba(232, 234, 235, 0.68);
+  }
+
+  .model-purchase-experience #trims article [class*="border-[#DDE1E3]"] {
+    border-color: rgba(232, 234, 235, 0.30);
+  }
+
+  .model-purchase-experience #trims article [class*="bg-[#FBFBFA]"],
+  .model-purchase-experience #trims article [class*="bg-white"] {
+    background-color: #181A1B;
+  }
+
+  html.light .model-purchase-experience #trims {
+    background-color: #F4F5F5 !important;
+  }
+
+  html.light .model-purchase-experience #trims > .section-container > div > h2,
+  html.light .model-purchase-experience #trims article h3,
+  html.light .model-purchase-experience #trims article strong,
+  html.light .model-purchase-experience #trims article button,
+  html.light .model-purchase-experience #trims article a:not(.bg-byd-red) {
+    color: #252728;
+  }
+
+  html.light .model-purchase-experience #trims article {
+    border-color: rgba(37, 39, 40, 0.16);
+    background-color: #FFFFFF;
+  }
+
+  html.light .model-purchase-experience #trims article.border-byd-red {
+    border-color: #D70C19;
+    background-color: rgba(215, 12, 25, 0.03);
+  }
+
+  html.light .model-purchase-experience #trims article button,
+  html.light .model-purchase-experience #trims article a:not(.bg-byd-red),
+  html.light .model-purchase-experience #trims article [class*="border-[#DDE1E3]"] {
+    border-color: rgba(37, 39, 40, 0.18);
+  }
+
+  html.light .model-purchase-experience #trims article [class*="text-[#8A9094]"],
+  html.light .model-purchase-experience #trims article [class*="text-[#686D71]"],
+  html.light .model-purchase-experience #trims article [class*="text-[#4E5356]"] {
+    color: rgba(37, 39, 40, 0.64);
+  }
+
+  html.light .model-purchase-experience #trims article [class*="bg-[#FBFBFA]"],
+  html.light .model-purchase-experience #trims article [class*="bg-white"] {
+    background-color: #FFFFFF;
+  }
+
+  /* Model pages are dark journeys by default, including the header over trim upgrades. */
+  html:not(.light) body:has(.model-purchase-experience) nav[data-light-page="true"] {
+    background: rgba(10, 11, 12, 0.82) !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  html:not(.light) body:has(.model-purchase-experience) nav[data-light-page="true"] img[alt="BYD"] {
+    filter: none;
+  }
+
+  html:not(.light) body:has(.model-purchase-experience) nav[data-light-page="true"] .text-white,
+  html:not(.light) body:has(.model-purchase-experience) nav[data-light-page="true"] [class*="text-white/"],
+  html:not(.light) body:has(.model-purchase-experience) nav[data-light-page="true"] .nav-link {
+    color: rgba(255, 255, 255, 0.88) !important;
+    text-shadow: none !important;
+  }
+
+  html:not(.light) body:has(.model-purchase-experience) nav[data-light-page="true"] .nav-link:hover,
+  html:not(.light) body:has(.model-purchase-experience) nav[data-light-page="true"] .nav-link.active {
+    color: #FFFFFF !important;
   }
 
   .btn-primary-red:hover {

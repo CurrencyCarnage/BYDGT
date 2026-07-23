@@ -26,6 +26,34 @@ function SpecsGrid({ specs, ka, dark = false }: { specs: CarSpecs; ka: boolean; 
   return <div className="grid gap-4 lg:grid-cols-3">{groups.map((group, index) => <div key={group.title} className={dark ? "model-baseline-spec-card p-5 md:p-6" : "border border-[#DDE1E3] bg-[#FBFBFA] p-5 md:p-6"}><div className={dark ? "model-baseline-spec-heading mb-3 flex items-center gap-3 pb-4" : "mb-3 flex items-center gap-3 border-b border-[#DDE1E3] pb-4"}><span className="flex h-8 w-8 items-center justify-center bg-byd-red text-xs font-bold text-white">0{index + 1}</span><h3 className={dark ? "model-baseline-spec-title text-base font-bold" : "text-base font-bold text-[#252728]"}>{group.title}</h3></div>{group.items.map((item) => <SpecItem key={item.label} label={item.label} value={item.value} dark={dark} />)}</div>)}</div>;
 }
 
+function UpgradeSpecComparison({ specs, baselineSpecs, ka }: { specs: CarSpecs; baselineSpecs: CarSpecs; ka: boolean }) {
+  const powerComparison = specs.power_kw !== undefined && baselineSpecs.power_kw !== undefined
+    ? { value: specs.power_kw, baseline: baselineSpecs.power_kw, unit: "kW" }
+    : specs.power_hp !== undefined && baselineSpecs.power_hp !== undefined
+    ? { value: specs.power_hp, baseline: baselineSpecs.power_hp, unit: "HP" }
+    : null;
+  const comparisons = [
+    { label: ka ? "სავალი მარაგი" : "Range", value: specs.range_km, baseline: baselineSpecs.range_km, unit: "km" },
+    { label: ka ? "ელექტრო სავალი მარაგი" : "Electric range", value: specs.electric_range_km, baseline: baselineSpecs.electric_range_km, unit: "km" },
+    { label: ka ? "ბატარეა" : "Battery", value: specs.battery_kwh, baseline: baselineSpecs.battery_kwh, unit: "kWh" },
+    ...(powerComparison ? [{ label: ka ? "სიმძლავრე" : "Power", ...powerComparison }] : []),
+    { label: ka ? "მაბრუნი მომენტი" : "Torque", value: specs.torque_nm, baseline: baselineSpecs.torque_nm, unit: "N·m" },
+    { label: "0–100 km/h", value: specs.acceleration_0_100, baseline: baselineSpecs.acceleration_0_100, unit: "s", acceleration: true },
+    { label: ka ? "მაქს. სიჩქარე" : "Top speed", value: specs.top_speed_kmh, baseline: baselineSpecs.top_speed_kmh, unit: "km/h" },
+    { label: "AC", value: specs.charging_ac_kw, baseline: baselineSpecs.charging_ac_kw, unit: "kW" },
+    { label: "DC", value: specs.charging_dc_kw, baseline: baselineSpecs.charging_dc_kw, unit: "kW" },
+  ].filter((item) => item.value !== undefined && item.baseline !== undefined);
+
+  return <div className="mt-6 border-y border-[#DDE1E3] py-4"><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#686D71]">{ka ? "საწყის კომპლექტაციასთან შედარება" : "Compared with included trim"}</p><div className="mt-3 flex flex-wrap gap-2">{comparisons.map((item) => {
+    const difference = Number(Math.abs(item.value! - item.baseline!).toFixed(2));
+    const unchanged = difference === 0;
+    const change = item.acceleration
+      ? (ka ? `${difference} წმ-ით ${item.value! < item.baseline! ? "სწრაფია" : "ნელია"}` : `${difference}s ${item.value! < item.baseline! ? "faster" : "slower"}`)
+      : `${item.value! > item.baseline! ? "+" : "−"}${difference} ${item.unit}`;
+    return <span key={item.label} className={unchanged ? "border border-[#DDE1E3] bg-white px-2 py-1 text-[11px] font-medium text-[#686D71]" : "border border-byd-red/30 bg-byd-red/[0.06] px-2 py-1 text-[11px] font-semibold text-byd-red"}><strong className="mr-1 text-[#252728]">{item.label}:</strong>{unchanged ? (ka ? "იგივეა" : "Same") : change}</span>;
+  })}</div></div>;
+}
+
 export default function ModelPurchaseExperience({ model, locale }: { model: CarModel; locale: string }) {
   const ka = locale === "ka";
   const officialVariants = getOfficialVariants(model);
@@ -34,9 +62,9 @@ export default function ModelPurchaseExperience({ model, locale }: { model: CarM
   const baselineDetails = baselineVariant ? getVariantDetails(model, baselineVariant) : null;
   const upgrades = officialVariants.slice(1);
   const modelName = getLocalizedValue(model.name, locale);
-  const chooseUpgrade = (id: string) => { setSelectedVariantId(id); document.getElementById("configurator")?.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  const chooseUpgrade = (id: string) => { setSelectedVariantId(id); document.getElementById("configurator-options")?.scrollIntoView({ behavior: "smooth", block: "start" }); };
 
-  return <>
+  return <div className="model-purchase-experience">
     <section id="configurator" className="scroll-mt-24 bg-[#1C1E1F] py-section-sm md:py-section-lg"><div className="section-container"><ScrollReveal className="mb-10"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">{ka ? "კონფიგურატორი" : "Configurator"}</p><h2 className="mt-3 text-h5 font-semibold text-white md:text-h3">{ka ? modelName + " — კონფიგურაცია" : "Build Your " + modelName}</h2></ScrollReveal><ScrollReveal delay={0.1}><ModelConfigurator model={model} selectedVariantId={selectedVariantId} onVariantChange={setSelectedVariantId} /></ScrollReveal></div></section>
 
 
@@ -49,7 +77,7 @@ export default function ModelPurchaseExperience({ model, locale }: { model: CarM
       const price = model.priceStatus === "contact" ? null : (model.basePrice ?? 0) + variant.priceModifier;
       const bookingHref = "/booking?version=" + encodeURIComponent(model.id) + "&trim=" + encodeURIComponent(variant.id);
       const contactHref = "/contact?subject=" + encodeURIComponent(modelName + " " + getLocalizedValue(details.name, "en"));
-      return <ScrollReveal key={variant.id} delay={index * 0.06}><article className={selected ? "border border-byd-red bg-byd-red/[0.03] p-6 md:p-8" : "border border-[#DDE1E3] bg-[#FBFBFA] p-6 md:p-8"}><div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between"><div><p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-byd-red">{ka ? "განახლება " + (index + 1) : "Upgrade " + (index + 1)}</p><h3 className="mt-2 text-2xl font-bold text-[#252728]">{name}</h3><p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#8A9094]">{ka ? "ფასი შეღებვამდე" : "Price before paint"}</p><p className="mt-1 text-lg font-bold text-byd-red">{price === null ? "Contact for pricing" : formatPrice(price)}</p></div><div className="grid gap-2 sm:grid-cols-3"><button type="button" onClick={() => chooseUpgrade(variant.id)} className="min-h-11 border border-[#252728] px-4 text-xs font-bold uppercase text-[#252728]">{selected ? (ka ? "არჩეულია" : "Selected") : (ka ? "არჩევა" : "Select")}</button><Link href={bookingHref} className="inline-flex min-h-11 items-center justify-center bg-byd-red px-4 text-xs font-bold uppercase text-white">{ka ? "ტესტ დრაივი" : "Book test drive"}</Link><Link href={contactHref} className="inline-flex min-h-11 items-center justify-center border border-[#C7CDD0] px-4 text-xs font-bold uppercase text-[#252728]">{ka ? "კონტაქტი" : "Enquire"}</Link></div></div><ul className="mt-6 grid gap-3 md:grid-cols-2">{details.highlights.map((highlight) => <li key={highlight.en} className="flex gap-3 text-sm leading-relaxed text-[#4E5356]"><span className="mt-1 h-2 w-2 flex-shrink-0 bg-byd-red" />{getLocalizedValue(highlight, locale)}</li>)}</ul><div className="mt-6"><SpecsGrid specs={details.specs} ka={ka} /></div></article></ScrollReveal>;
+      return <ScrollReveal key={variant.id} delay={index * 0.06}><article className={selected ? "border border-byd-red bg-byd-red/[0.03] p-6 md:p-8" : "border border-[#DDE1E3] bg-[#FBFBFA] p-6 md:p-8"}><div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between"><div><p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-byd-red">{ka ? "განახლება " + (index + 1) : "Upgrade " + (index + 1)}</p><h3 className="mt-2 text-2xl font-bold text-[#252728]">{name}</h3><p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#8A9094]">{ka ? "ფასი შეღებვამდე" : "Price before paint"}</p><p className="mt-1 text-lg font-bold text-byd-red">{price === null ? "Contact for pricing" : formatPrice(price)}</p></div><div className="grid gap-2 sm:grid-cols-3"><button type="button" onClick={() => chooseUpgrade(variant.id)} className="min-h-11 border border-[#252728] px-4 text-xs font-bold uppercase text-[#252728]">{selected ? (ka ? "არჩეულია" : "Selected") : (ka ? "არჩევა" : "Select")}</button><Link href={bookingHref} className="inline-flex min-h-11 items-center justify-center bg-byd-red px-4 text-xs font-bold uppercase text-white">{ka ? "ტესტ დრაივი" : "Book test drive"}</Link><Link href={contactHref} className="inline-flex min-h-11 items-center justify-center border border-[#C7CDD0] px-4 text-xs font-bold uppercase text-[#252728]">{ka ? "კონტაქტი" : "Enquire"}</Link></div></div>{baselineDetails && <UpgradeSpecComparison specs={details.specs} baselineSpecs={baselineDetails.specs} ka={ka} />}<ul className="mt-6 grid gap-3 md:grid-cols-2">{details.highlights.map((highlight) => <li key={highlight.en} className="flex gap-3 text-sm leading-relaxed text-[#4E5356]"><span className="mt-1 h-2 w-2 flex-shrink-0 bg-byd-red" />{getLocalizedValue(highlight, locale)}</li>)}</ul><div className="mt-6"><SpecsGrid specs={details.specs} ka={ka} /></div></article></ScrollReveal>;
     })}</div></div></section>}
-  </>;
+  </div>;
 }

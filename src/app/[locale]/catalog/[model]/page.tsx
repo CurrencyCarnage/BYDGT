@@ -3,7 +3,8 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import { getModelById, getLocalizedValue, getOfficialVariants, formatPrice } from "@/lib/models";
-import ModelPurchaseExperience, { CompareTrimsButton } from "@/components/configurator/ModelPurchaseExperience";
+import { getVariantDetails } from "@/lib/types";
+import ModelPurchaseExperience from "@/components/configurator/ModelPurchaseExperience";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
@@ -29,17 +30,34 @@ export default async function ModelDetailPage({
   const name = getLocalizedValue(model.name, locale);
   const tagline = getLocalizedValue(model.tagline, locale);
   const bookingHref = `/booking?version=${encodeURIComponent(model.id)}`;
-  const hasUpgrades = getOfficialVariants(model).length > 1;
 
-  // Top 4 specs for the highlight strip
+
+  // Best-trim specs for the highlight strip — advertise the highest figures
+  const officialTrims = getOfficialVariants(model);
+  const bestSpecs = officialTrims.reduce((best, variant) => {
+    const merged = getVariantDetails(model, variant).specs;
+    return {
+      range_km: Math.max(best.range_km, merged.range_km ?? 0),
+      electric_range_km: Math.max(best.electric_range_km, merged.electric_range_km ?? 0),
+      power_kw: Math.max(best.power_kw, merged.power_kw ?? 0),
+      acceleration_0_100: best.acceleration_0_100 === 0 ? merged.acceleration_0_100 : Math.min(best.acceleration_0_100, merged.acceleration_0_100),
+      top_speed_kmh: Math.max(best.top_speed_kmh, merged.top_speed_kmh ?? 0),
+    };
+  }, { range_km: model.specs.range_km, electric_range_km: model.specs.electric_range_km ?? 0, power_kw: model.specs.power_kw ?? model.specs.power_hp ?? 0, acceleration_0_100: model.specs.acceleration_0_100, top_speed_kmh: model.specs.top_speed_kmh ?? 0 });
+
+  const isKa = locale === "ka";
+  const hasBetterRange = bestSpecs.range_km > model.specs.range_km;
+  const hasBetterPower = bestSpecs.power_kw > (model.specs.power_kw ?? model.specs.power_hp ?? 0);
+  const hasBetterAccel = bestSpecs.acceleration_0_100 < model.specs.acceleration_0_100;
+
   const heroSpecs = [
-    { label: model.specs.range_label ?? t("range"), value: model.specs.range_km, suffix: " km" },
-    ...(model.specs.electric_range_km
-      ? [{ label: t("electricRange"), value: model.specs.electric_range_km, suffix: " km" }]
+    { label: model.specs.range_label ?? t("range"), value: bestSpecs.range_km, suffix: " km", upTo: hasBetterRange },
+    ...(bestSpecs.electric_range_km > 0
+      ? [{ label: t("electricRange"), value: bestSpecs.electric_range_km, suffix: " km", upTo: bestSpecs.electric_range_km > (model.specs.electric_range_km ?? 0) }]
       : []),
-    { label: t("power"), value: model.specs.power_kw ?? model.specs.power_hp ?? 0, suffix: model.specs.power_kw ? " kW" : " HP" },
-    { label: t("acceleration"), value: model.specs.acceleration_0_100, suffix: "s", decimals: 1 },
-    ...(model.specs.top_speed_kmh ? [{ label: t("topSpeed"), value: model.specs.top_speed_kmh, suffix: " km/h" }] : []),
+    { label: t("power"), value: bestSpecs.power_kw, suffix: " kW", upTo: hasBetterPower },
+    { label: t("acceleration"), value: bestSpecs.acceleration_0_100, suffix: "s", decimals: 1, upTo: hasBetterAccel },
+    ...(bestSpecs.top_speed_kmh > 0 ? [{ label: t("topSpeed"), value: bestSpecs.top_speed_kmh, suffix: " km/h", upTo: false }] : []),
   ].slice(0, 4);
 
   return (
@@ -132,11 +150,7 @@ export default async function ModelDetailPage({
                 <Link href={bookingHref} className="model-hero-cta btn-primary-red justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ minHeight: "2.75rem" }}>
                   {tCommon("bookTestDrive")}
                 </Link>
-                {hasUpgrades && <CompareTrimsButton
-                  label={locale === "ka" ? "კომპლექტაციების შედარება" : "Compare Trims"}
-                  className="model-hero-cta btn-secondary justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm"
-                  style={{ minHeight: "2.75rem" }}
-                />}
+
                 <Link href="/contact" className="model-hero-cta btn-secondary justify-center px-3 text-[0.78rem] leading-tight sm:text-[clamp(0.6rem,2.8vw,0.875rem)] md:text-sm" style={{ minHeight: "2.75rem" }}>
                   {tCommon("contactUs")}
                 </Link>
@@ -147,20 +161,22 @@ export default async function ModelDetailPage({
         </div>
       </section>
 
-      {/* ── SPEC STRIP — light section, 4 headline numbers ── */}
-      <div className="bg-[#EFEFEF] border-b border-[#D4D8DB]" data-header-theme="light">
+      {/* ── SPEC STRIP — best-trim headline numbers ── */}
+      <div className="spec-strip-section bg-[#EFEFEF] border-b border-[#D4D8DB]" data-header-theme="light">
         <div className="section-container">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#D4D8DB]">
+          <div className={`grid grid-cols-2 ${heroSpecs.length >= 4 ? "md:grid-cols-4" : heroSpecs.length === 3 ? "md:grid-cols-3" : "md:grid-cols-2"} divide-x spec-strip-divider`}>
             {heroSpecs.map((spec, i) => (
               <ScrollReveal key={spec.label} delay={i * 0.08} className="py-8 px-6 text-center">
-                <p className="text-3xl md:text-4xl font-semibold text-[#252728] mb-1">
+                <p className="text-3xl md:text-4xl font-semibold spec-strip-value mb-1">
+                  {spec.upTo && !isKa && <span className="text-xs font-medium spec-strip-upto mr-1">up to</span>}
                   <AnimatedCounter
                     value={spec.value}
                     suffix={spec.suffix}
                     decimals={"decimals" in spec ? spec.decimals : 0}
                   />
+                  {spec.upTo && isKa && <span className="text-xs font-medium spec-strip-upto ml-1">-მდე</span>}
                 </p>
-                <p className="text-[11px] text-[#686D71] uppercase tracking-[0.18em] font-medium">
+                <p className="text-[11px] spec-strip-label uppercase tracking-[0.18em] font-medium">
                   {spec.label}
                 </p>
               </ScrollReveal>

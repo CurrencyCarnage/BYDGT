@@ -74,7 +74,7 @@ export default function ModelConfigurator({ model, selectedVariantId, onVariantC
           <ModelVisualPreview model={model} locale={locale} />
         </div>
 
-        <div className="p-6 md:p-8">
+        <div id="configurator-options" className="scroll-mt-24 p-6 md:p-8">
           {model.configurations.colors.length > 0 && selectedColor && (
             <CarColorPreview
               colorSilhouette={model.images.colorSilhouette}
