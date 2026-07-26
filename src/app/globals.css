@@ -45,8 +45,8 @@
     --theme-surface-bg: #0A0B0C;
     --theme-surface-alt: #111213;
     --theme-text-primary: #E8EAEB;
-    --theme-text-secondary: rgba(232, 234, 235, 0.72);
-    --theme-text-muted: rgba(232, 234, 235, 0.46);
+    --theme-text-secondary: rgba(232, 234, 235, 0.86);
+    --theme-text-muted: rgba(232, 234, 235, 0.82);
     --theme-border-subtle: rgba(232, 234, 235, 0.12);
     --theme-menu-bg: #0A0B0C;
     --theme-menu-shadow: 0 26px 58px rgba(0,0,0,0.72), 0 6px 16px rgba(0,0,0,0.5);

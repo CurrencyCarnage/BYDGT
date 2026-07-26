@@ -27,6 +27,8 @@ export default async function ModelDetailPage({
     notFound();
   }
 
+  const retiredFeatureItems = model.features;
+
   const name = getLocalizedValue(model.name, locale);
   const tagline = getLocalizedValue(model.tagline, locale);
   const bookingHref = `/booking?version=${encodeURIComponent(model.id)}`;
@@ -188,7 +190,7 @@ export default async function ModelDetailPage({
       <ModelPurchaseExperience model={model} locale={locale} />
 
       {/* ── FEATURES — dark section ── */}
-      {model.features.length > 0 && (
+      {retiredFeatureItems.length > 0 && false && (
         <section className="model-features-section py-section-sm md:py-section-lg bg-[#F7F8F8]" data-header-theme="light">
           <div className="section-container">
             <ScrollReveal className="mb-10">
@@ -203,7 +205,7 @@ export default async function ModelDetailPage({
               </h2>
             </ScrollReveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {model.features.map((feature, i) => (
+              {retiredFeatureItems.map((feature, i) => (
                 <ScrollReveal key={i} delay={(i % 4) * 0.07}>
                   <div className="flex items-start gap-4 p-6 content-surface-soft hover:border-[#BFC5C8] transition-colors duration-200">
                     <div className="flex-shrink-0 w-5 h-5 bg-byd-red flex items-center justify-center mt-0.5">
