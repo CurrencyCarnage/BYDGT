@@ -48,3 +48,10 @@
 :global(html.light) .final p {
   color: #FFFFFF;
 }
+
+/* Custom listbox triggers retain the existing form-control height. */
+.request [data-byd-select-trigger],
+.finderForm [data-byd-select-trigger] {
+  min-height: 2.55rem;
+  font: inherit;
+}

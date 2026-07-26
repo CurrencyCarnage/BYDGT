@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/routing";
 import { serviceCategories, serviceModels, serviceYears } from "./landingPage.data";
 import styles from "./landingPage.module.css";
+import CustomSelect from "@/components/ui/CustomSelect";
 
 type FinderField = "model" | "year" | "category";
 type FinderErrors = Partial<Record<FinderField, string>>;
@@ -53,46 +54,43 @@ export default function ServicesQuickFinder() {
       <div className={styles.finderGrid}>
         <div className={styles.field}>
           <label htmlFor="landing-service-model">{t("modelLabel")}</label>
-          <select
+          <CustomSelect
             id="landing-service-model"
             value={model}
-            onChange={(event) => { setModel(event.target.value); clearError("model"); }}
+            onChange={(value) => { setModel(value); clearError("model"); }}
+            placeholder={t("modelPlaceholder")}
+            options={[{ value: "", label: t("modelPlaceholder") }, ...serviceModels.map((item) => ({ value: item.value, label: item.label }))]}
             aria-invalid={Boolean(errors.model)}
             aria-describedby={errors.model ? "landing-service-model-error" : undefined}
-          >
-            <option value="">{t("modelPlaceholder")}</option>
-            {serviceModels.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
-          </select>
+          />
           {errors.model && <p id="landing-service-model-error" role="alert" className={styles.fieldError}>{errors.model}</p>}
         </div>
 
         <div className={styles.field}>
           <label htmlFor="landing-service-year">{t("yearLabel")}</label>
-          <select
+          <CustomSelect
             id="landing-service-year"
             value={year}
-            onChange={(event) => { setYear(event.target.value); clearError("year"); }}
+            onChange={(value) => { setYear(value); clearError("year"); }}
+            placeholder={t("yearPlaceholder")}
+            options={[{ value: "", label: t("yearPlaceholder") }, ...serviceYears.map((item) => ({ value: item, label: item }))]}
             aria-invalid={Boolean(errors.year)}
             aria-describedby={errors.year ? "landing-service-year-error" : undefined}
-          >
-            <option value="">{t("yearPlaceholder")}</option>
-            {serviceYears.map((item) => <option key={item} value={item}>{item}</option>)}
-          </select>
+          />
           {errors.year && <p id="landing-service-year-error" role="alert" className={styles.fieldError}>{errors.year}</p>}
         </div>
 
         <div className={`${styles.field} ${styles.categoryField}`}>
           <label htmlFor="landing-service-category">{t("categoryLabel")}</label>
-          <select
+          <CustomSelect
             id="landing-service-category"
             value={category}
-            onChange={(event) => { setCategory(event.target.value); clearError("category"); }}
+            onChange={(value) => { setCategory(value); clearError("category"); }}
+            placeholder={t("categoryPlaceholder")}
+            options={[{ value: "", label: t("categoryPlaceholder") }, ...serviceCategories.map((item) => ({ value: item, label: t(`categories.${item}`) }))]}
             aria-invalid={Boolean(errors.category)}
             aria-describedby={errors.category ? "landing-service-category-error" : undefined}
-          >
-            <option value="">{t("categoryPlaceholder")}</option>
-            {serviceCategories.map((item) => <option key={item} value={item}>{t(`categories.${item}`)}</option>)}
-          </select>
+          />
           {errors.category && <p id="landing-service-category-error" role="alert" className={styles.fieldError}>{errors.category}</p>}
         </div>
       </div>

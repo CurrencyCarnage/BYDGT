@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { getOfficialTrimLabel, testDriveModels, TIME_SLOTS } from "@/lib/test-drive";
 import TestDriveModal, { AgreementFlags } from "./TestDriveModal";
+import CustomSelect from "./CustomSelect";
 
 const labels = {
   en: {
@@ -322,20 +323,16 @@ export default function BookingForm({
             >
               {t.model} <span className="text-byd-red">*</span>
             </label>
-            <select
+            <CustomSelect
               required
+              aria-label={t.model}
               value={form.modelFamilyId}
-              onChange={(e) => handleModelChange(e.target.value)}
-              className={inputClass + " cursor-pointer"}
+              onChange={handleModelChange}
+              placeholder={t.selectModel}
+              options={[{ value: "", label: t.selectModel }, ...testDriveModels.map((model) => ({ value: model.id, label: model.name }))]}
+              buttonClassName="px-4 py-3"
               style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              <option value="">{t.selectModel}</option>
-              {testDriveModels.map((m) => (
-                <option key={m.id} value={m.id}>
-                  {m.name}
-                </option>
-              ))}
-            </select>
+            />
             <p
               className="text-[11px] text-[#7A8080] mt-1.5"
               style={{ fontFamily: "var(--font-montserrat)" }}
@@ -350,27 +347,20 @@ export default function BookingForm({
             >
               {t.version} <span className="text-byd-red">*</span>
             </label>
-            <select
+            <CustomSelect
               required
+              aria-label={t.version}
               value={form.versionId}
-              onChange={(e) => {
+              onChange={(versionId) => {
                 setError("");
-                setForm((prev) => ({ ...prev, versionId: e.target.value, trimId: "" }));
+                setForm((prev) => ({ ...prev, versionId, trimId: "" }));
               }}
               disabled={!selectedFamily}
-              className={
-                inputClass +
-                " cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-              }
+              placeholder={t.selectVersion}
+              options={[{ value: "", label: t.selectVersion }, ...versions.map((version) => ({ value: version.id, label: version.label }))]}
+              buttonClassName="px-4 py-3"
               style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              <option value="">{t.selectVersion}</option>
-              {versions.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.label}
-                </option>
-              ))}
-            </select>
+            />
             <p
               className="text-[11px] text-[#7A8080] mt-1.5"
               style={{ fontFamily: "var(--font-montserrat)" }}
@@ -412,20 +402,16 @@ export default function BookingForm({
             >
               {t.time} <span className="text-byd-red">*</span>
             </label>
-            <select
+            <CustomSelect
               required
+              aria-label={t.time}
               value={form.preferredTimeSlot}
-              onChange={(e) => set("preferredTimeSlot", e.target.value)}
-              className={inputClass + " cursor-pointer"}
+              onChange={(timeSlot) => set("preferredTimeSlot", timeSlot)}
+              placeholder={t.selectTime}
+              options={[{ value: "", label: t.selectTime }, ...TIME_SLOTS.map((slot) => ({ value: slot, label: slot }))]}
+              buttonClassName="px-4 py-3"
               style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              <option value="">{t.selectTime}</option>
-              {TIME_SLOTS.map((slot) => (
-                <option key={slot} value={slot}>
-                  {slot}
-                </option>
-              ))}
-            </select>
+            />
           </div>
         </div>
 

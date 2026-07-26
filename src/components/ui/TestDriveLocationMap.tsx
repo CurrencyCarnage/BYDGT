@@ -3,6 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { SHOWROOM, TEST_DRIVE_ROUTE } from "@/lib/test-drive";
+import CustomSelect from "./CustomSelect";
 
 const ShowroomMap = dynamic(() => import("@/components/ui/ShowroomMap"), {
   ssr: false,
@@ -54,10 +55,18 @@ export default function TestDriveLocationMap({ locale }: { locale: Locale }) {
         <div className="flex flex-wrap items-end gap-3">
           <label className="flex flex-col gap-1.5 text-[10px] text-[#7A8080] uppercase tracking-wider" style={{ fontFamily: "var(--font-montserrat)" }}>
             {t.city}
-            <select aria-label={t.city} value={city} onChange={(event) => setCity(event.target.value as City)} className="min-w-[10rem] border border-[#DDE1E3] bg-white px-3 py-2.5 text-sm font-semibold text-[#252728] outline-none transition-colors focus:border-byd-red" style={{ fontFamily: "var(--font-montserrat)" }}>
-              <option value="tbilisi">{t.cities.tbilisi}</option>
-              <option value="batumi">{t.cities.batumi}</option>
-            </select>
+            <CustomSelect
+              aria-label={t.city}
+              value={city}
+              onChange={(value) => setCity(value as City)}
+              placeholder={t.city}
+              options={[
+                { value: "tbilisi", label: t.cities.tbilisi },
+                { value: "batumi", label: t.cities.batumi },
+              ]}
+              buttonClassName="min-w-[10rem] px-3 py-2.5 text-sm font-semibold"
+              style={{ fontFamily: "var(--font-montserrat)" }}
+            />
           </label>
           {!isBatumi && t.chips.map((chip) => <div key={chip.val} className="px-4 py-2.5 content-surface-soft text-center min-w-[5.625rem]">
             <p className="text-sm font-bold text-[#252728]" style={{ fontFamily: "var(--font-montserrat)" }}>{chip.val}</p>

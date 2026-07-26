@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import type { CarModel } from "@/lib/types";
+import CustomSelect from "@/components/ui/CustomSelect";
 
 interface Props {
   initialModel: CarModel;
@@ -119,14 +120,13 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
               <p className="text-[10px] text-white/30 mt-1">Lowercase, hyphens only. Used in URLs and filenames.</p>
             </Field>
             <Field label="Type">
-              <select
+              <CustomSelect
                 value={model.type}
-                onChange={(e) => set("type", e.target.value as "EV" | "PHEV")}
-                className={inputCls}
-              >
-                <option value="EV">EV</option>
-                <option value="PHEV">PHEV</option>
-              </select>
+                onChange={(value) => set("type", value as "EV" | "PHEV")}
+                placeholder="Type"
+                options={[{ value: "EV", label: "EV" }, { value: "PHEV", label: "PHEV" }]}
+                buttonClassName="px-4 py-2.5 text-sm"
+              />
             </Field>
           </div>
           <div className="grid grid-cols-2 gap-4">

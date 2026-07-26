@@ -15,6 +15,7 @@ import accessoriesMobile from "@/servicespage/accessories-feature-mobile.jpg";
 import finderDesktop from "@/servicespage/product-finder-desktop.jpg";
 import finderMobile from "@/servicespage/product-finder-mobile.jpg";
 import styles from "./servicesHub.module.css";
+import CustomSelect, { type SelectOption } from "@/components/ui/CustomSelect";
 
 type Selection = { model?: string; year?: string; category?: string };
 const categories = ["serviceParts", "fluids", "filters", "brakes", "exterior", "interior", "electrical", "charging", "protection", "comfort", "other"] as const;
@@ -50,5 +51,23 @@ export default function ServicesHub({ initialSelection }: { initialSelection: Se
 }
 
 function Heading({ t, section }: { t: ReturnType<typeof useTranslations>; section: string }) { return <><p className={styles.eyebrow}>{t(`${section}.eyebrow`)}</p><h2>{t(`${section}.title`)}</h2><p className={styles.copy}>{t(`${section}.body`)}</p></>; }
-function Select({ t, label, value, set, options }: { t: ReturnType<typeof useTranslations>; label: string; value: string; set: (value: string) => void; options: readonly (readonly [string, string])[] }) { return <label>{t(`fields.${label}`)}<select value={value} onChange={(event) => set(event.target.value)}><option value="">{t("fields.choose")}</option>{options.map(([id, name]) => <option value={id} key={id}>{name}</option>)}</select></label>; }
-function RequestForm({ t, kind }: { t: ReturnType<typeof useTranslations>; kind: "appointment" | "parts" }) { const [sent, setSent] = useState(false); const [values, setValues] = useState<Record<string, string>>({}); const [invalid, setInvalid] = useState(false); const fields = kind === "appointment" ? ["model", "year", "serviceType", "date", "name", "phone", "note"] : ["model", "year", "vin", "partCategory", "description", "installation", "name", "phone"]; const optional = ["note", "vin", "description"]; if (sent) return <div className={styles.success}><p>{t(`${kind}.success`)}</p><button className={styles.textButton} onClick={() => { setSent(false); setValues({}); }}>{t("forms.newRequest")}</button></div>; return <form className={styles.request} onSubmit={(event: FormEvent) => { event.preventDefault(); if (fields.filter((key) => !optional.includes(key)).some((key) => !values[key])) return setInvalid(true); setSent(true); }}><h3>{t(`${kind}.formTitle`)}</h3><p>{t(`${kind}.formText`)}</p><div>{fields.map((key) => <label key={key}>{t(`fields.${key}`)}{["model", "year", "serviceType", "partCategory", "installation"].includes(key) ? <select value={values[key] ?? ""} onChange={(event) => setValues({ ...values, [key]: event.target.value })}><option value="">{t("fields.choose")}</option>{(key === "model" ? serviceModels.map((item) => [item.value, item.label]) : key === "year" ? serviceYears.map((item) => [item, item]) : ["one", "two", "three", "other"].map((item) => [item, t(`forms.options.${item}`)])).map(([id, name]) => <option value={id} key={id}>{name}</option>)}</select> : key === "note" || key === "description" ? <textarea value={values[key] ?? ""} onChange={(event) => setValues({ ...values, [key]: event.target.value })} /> : <input type={key === "date" ? "date" : key === "phone" ? "tel" : "text"} value={values[key] ?? ""} onChange={(event) => setValues({ ...values, [key]: event.target.value })} />}</label>)}</div>{invalid && <small className={styles.error}>{t("forms.required")}</small>}{kind === "parts" && <small>{t("parts.helper")}</small>}<button className={styles.primary}>{t(`${kind}.submit`)}</button></form>; }
+function Select({ t, label, value, set, options }: { t: ReturnType<typeof useTranslations>; label: string; value: string; set: (value: string) => void; options: readonly (readonly [string, string])[] }) {
+  return <label>{t(`fields.${label}`)}<CustomSelect value={value} onChange={set} placeholder={t("fields.choose")} options={[{ value: "", label: t("fields.choose") }, ...options.map(([value, label]) => ({ value, label }))]} /></label>;
+}
+
+function requestOptions(t: ReturnType<typeof useTranslations>, key: string): SelectOption[] {
+  if (key === "model") return serviceModels.map((item) => ({ value: item.value, label: item.label }));
+  if (key === "year") return serviceYears.map((item) => ({ value: item, label: item }));
+  return ["one", "two", "three", "other"].map((item) => ({ value: item, label: t(`forms.options.${item}`) }));
+}
+
+function RequestForm({ t, kind }: { t: ReturnType<typeof useTranslations>; kind: "appointment" | "parts" }) {
+  const [sent, setSent] = useState(false);
+  const [values, setValues] = useState<Record<string, string>>({});
+  const [invalid, setInvalid] = useState(false);
+  const fields = kind === "appointment" ? ["model", "year", "serviceType", "date", "name", "phone", "note"] : ["model", "year", "vin", "partCategory", "description", "installation", "name", "phone"];
+  const optional = ["note", "vin", "description"];
+  const selectFields = ["model", "year", "serviceType", "partCategory", "installation"];
+  if (sent) return <div className={styles.success}><p>{t(`${kind}.success`)}</p><button className={styles.textButton} onClick={() => { setSent(false); setValues({}); }}>{t("forms.newRequest")}</button></div>;
+  return <form className={styles.request} onSubmit={(event: FormEvent) => { event.preventDefault(); if (fields.filter((key) => !optional.includes(key)).some((key) => !values[key])) return setInvalid(true); setSent(true); }}><h3>{t(`${kind}.formTitle`)}</h3><p>{t(`${kind}.formText`)}</p><div>{fields.map((key) => <label key={key}>{t(`fields.${key}`)}{selectFields.includes(key) ? <CustomSelect value={values[key] ?? ""} onChange={(value) => setValues({ ...values, [key]: value })} placeholder={t("fields.choose")} options={[{ value: "", label: t("fields.choose") }, ...requestOptions(t, key)]} /> : key === "note" || key === "description" ? <textarea value={values[key] ?? ""} onChange={(event) => setValues({ ...values, [key]: event.target.value })} /> : <input type={key === "date" ? "date" : key === "phone" ? "tel" : "text"} value={values[key] ?? ""} onChange={(event) => setValues({ ...values, [key]: event.target.value })} />}</label>)}</div>{invalid && <small className={styles.error}>{t("forms.required")}</small>}{kind === "parts" && <small>{t("parts.helper")}</small>}<button className={styles.primary}>{t(`${kind}.submit`)}</button></form>;
+}

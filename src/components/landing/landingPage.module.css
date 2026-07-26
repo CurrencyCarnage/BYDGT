@@ -249,6 +249,12 @@
   font-size: 0.75rem;
 }
 
+.field [data-byd-select-trigger] {
+  min-height: 2.75rem;
+  font: inherit;
+  font-size: 0.75rem;
+}
+
 .fieldError { color: #ff8b94; font-size: 0.67rem; line-height: 1.25; }
 
 .finderSubmit,
@@ -560,6 +566,10 @@
 }
 
 :global(html.light) .field select[aria-invalid="true"] {
+  border-color: #b00020;
+}
+
+.field [data-byd-select-trigger][aria-invalid="true"] {
   border-color: #b00020;
 }
 
