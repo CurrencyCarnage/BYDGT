@@ -2,6 +2,12 @@ import type { StaticImageData } from "next/image";
 
 import commercialDesktop from "@/landingpage/commercial-vehicles-desktop.jpg";
 import commercialMobile from "@/landingpage/commercial-vehicles-mobile.jpg";
+import lightCommercialDesktop from "@/landingpage/lightmode-commercial-vehicles-desktop.jpg";
+import lightCommercialMobile from "@/landingpage/lightmode-commercial-vehicles-mobile.jpg";
+import lightPassengerDesktop from "@/landingpage/lightmode-passenger-cars-desktop.jpg";
+import lightPassengerMobile from "@/landingpage/lightmode-passenger-cars-mobile.jpg";
+import lightServicesDesktop from "@/landingpage/lightmode-services-desktop.jpg";
+import lightServicesMobile from "@/landingpage/lightmode-services-mobile.jpg";
 import passengerDesktop from "@/landingpage/passenger-cars-desktop.jpg";
 import passengerMobile from "@/landingpage/passenger-cars-mobile.jpg";
 import servicesDesktop from "@/landingpage/services-desktop.jpg";
@@ -15,13 +21,15 @@ export type LandingPanelDefinition = {
   href: "/cars" | "/commercial" | "/services";
   desktopImage: StaticImageData;
   mobileImage: StaticImageData;
+  lightDesktopImage: StaticImageData;
+  lightMobileImage: StaticImageData;
   featureKeys: readonly string[];
 };
 
 export const landingPanels: readonly LandingPanelDefinition[] = [
-  { id: "passenger", number: "01", href: "/cars", desktopImage: passengerDesktop, mobileImage: passengerMobile, featureKeys: ["ev", "hybrid", "safety", "technology"] },
-  { id: "commercial", number: "02", href: "/commercial", desktopImage: commercialDesktop, mobileImage: commercialMobile, featureKeys: ["light", "heavy", "buses", "support"] },
-  { id: "services", number: "03", href: "/services", desktopImage: servicesDesktop, mobileImage: servicesMobile, featureKeys: ["service", "parts", "accessories", "finder"] },
+  { id: "passenger", number: "01", href: "/cars", desktopImage: passengerDesktop, mobileImage: passengerMobile, lightDesktopImage: lightPassengerDesktop, lightMobileImage: lightPassengerMobile, featureKeys: ["ev", "hybrid", "safety", "technology"] },
+  { id: "commercial", number: "02", href: "/commercial", desktopImage: commercialDesktop, mobileImage: commercialMobile, lightDesktopImage: lightCommercialDesktop, lightMobileImage: lightCommercialMobile, featureKeys: ["light", "heavy", "buses", "support"] },
+  { id: "services", number: "03", href: "/services", desktopImage: servicesDesktop, mobileImage: servicesMobile, lightDesktopImage: lightServicesDesktop, lightMobileImage: lightServicesMobile, featureKeys: ["service", "parts", "accessories", "finder"] },
 ] as const;
 
 export const serviceModels = [

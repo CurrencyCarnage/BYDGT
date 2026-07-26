@@ -1,7 +1,7 @@
 "use client";
 
 import { getImageProps } from "next/image";
-import { MouseEvent, PointerEvent, useEffect, useRef, useState } from "react";
+import { MouseEvent, PointerEvent, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Link } from "@/i18n/routing";
@@ -46,9 +46,19 @@ function CategoryIcon({ id }: { id: LandingPanelId }) {
   );
 }
 
-function ResponsivePanelImage({ panel, priority }: { panel: LandingPanelDefinition; priority: boolean }) {
+function subscribeToTheme(onStoreChange: () => void) {
+  const observer = new MutationObserver(onStoreChange);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+  return () => observer.disconnect();
+}
+
+function isLightTheme() {
+  return document.documentElement.classList.contains("light");
+}
+
+function ResponsivePanelImage({ panel, priority, isLightMode }: { panel: LandingPanelDefinition; priority: boolean; isLightMode: boolean }) {
   const { props: desktopProps } = getImageProps({
-    src: panel.desktopImage,
+    src: isLightMode ? panel.lightDesktopImage : panel.desktopImage,
     alt: "",
     fill: true,
     sizes: "(min-width: 1440px) 42vw, (min-width: 768px) 52vw, 100vw",
@@ -56,7 +66,7 @@ function ResponsivePanelImage({ panel, priority }: { panel: LandingPanelDefiniti
     priority,
   });
   const { props: mobileProps } = getImageProps({
-    src: panel.mobileImage,
+    src: isLightMode ? panel.lightMobileImage : panel.mobileImage,
     alt: "",
     fill: true,
     sizes: "100vw",
@@ -86,6 +96,7 @@ function TrustIcon({ index }: { index: number }) {
 export default function LandingPage() {
   const t = useTranslations("landing");
   const locale = useLocale();
+  const isLightMode = useSyncExternalStore(subscribeToTheme, isLightTheme, () => false);
   const [activeDesktopPanel, setActiveDesktopPanel] = useState<LandingPanelId | null>(null);
   const [expandedMobilePanel, setExpandedMobilePanel] = useState<LandingPanelId | null>(null);
   const panelRefs = useRef<Partial<Record<LandingPanelId, HTMLElement | null>>>({});
@@ -204,7 +215,7 @@ export default function LandingPage() {
                   if (isClosingPanel) requestAnimationFrame(scrollToPageTop);
                 }}
               >
-                <ResponsivePanelImage panel={panel} priority={index === 0} />
+                <ResponsivePanelImage panel={panel} priority={index === 0} isLightMode={isLightMode} />
                 <div className={styles.panelOverlay} aria-hidden="true" />
 
                 <div className={styles.panelContent}>

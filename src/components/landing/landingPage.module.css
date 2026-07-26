@@ -68,12 +68,14 @@
 .panelPicture { display: block; background: #101822; }
 
 .panelImage {
+  --landing-image-scale: 1.015;
+  --landing-image-offset-y: 0%;
   object-fit: cover;
-  transform: scale(1.015);
+  transform: translateY(var(--landing-image-offset-y)) scale(var(--landing-image-scale));
   transition: transform 1150ms var(--landing-ease);
 }
 
-.panelActive .panelImage { transform: scale(1.06); }
+.panelActive .panelImage { --landing-image-scale: 1.06; }
 
 .panelOverlay {
   z-index: 1;
@@ -450,16 +452,16 @@
   .panelDimmed { filter: none; }
   .mobileExpanded { min-height: 27.5rem; border-color: rgba(235, 0, 40, 0.95); box-shadow: inset 0 0 0 1px rgba(235, 0, 40, 0.3), 0 0 1.25rem rgba(235, 0, 40, 0.12); }
   .panelImage {
-    transform: scale(1.18);
+    --landing-image-scale: 1.18;
     object-position: center;
     filter: brightness(1.18) saturate(1.06);
     transition: transform 1150ms var(--landing-ease);
   }
   .panel[data-panel="passenger"] .panelImage,
-  .panel[data-panel="services"] .panelImage { transform: scale(1.34); }
-  .mobileExpanded .panelImage { transform: scale(1.26); }
+  .panel[data-panel="services"] .panelImage { --landing-image-scale: 1.34; }
+  .mobileExpanded .panelImage { --landing-image-scale: 1.26; }
   .mobileExpanded[data-panel="passenger"] .panelImage,
-  .mobileExpanded[data-panel="services"] .panelImage { transform: scale(1.42); }
+  .mobileExpanded[data-panel="services"] .panelImage { --landing-image-scale: 1.42; }
   .panelOverlay {
     background:
       linear-gradient(90deg, rgba(4, 9, 15, 0.12), rgba(4, 9, 15, 0.44) 60%, rgba(4, 9, 15, 0.68)),
