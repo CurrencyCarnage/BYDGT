@@ -169,6 +169,30 @@ function WheelSprite({
         height: `${(frame.height / stageHeight) * 100}%`,
       }}
     >
+      {/*
+       * Invert the wheel PNG's alpha mask inside the rim so glass only appears
+       * through transparent spoke openings—not over the tyre or wheel artwork.
+       * This shared layer covers every carousel and mobile wheel sprite.
+       */}
+      <span
+        className="absolute inset-0 z-0 [backdrop-filter:blur(6px)]"
+        style={{
+          background: isDark
+            ? "rgba(7, 12, 20, 0.68)"
+            : "rgba(24, 33, 45, 0.62)",
+          WebkitBackdropFilter: "blur(6px)",
+          WebkitMaskImage: `radial-gradient(circle at center, #000 0 39%, transparent 40%), url(\"${src}\")`,
+          WebkitMaskSize: "100% 100%, 100% 100%",
+          WebkitMaskPosition: "center, center",
+          WebkitMaskRepeat: "no-repeat, no-repeat",
+          WebkitMaskComposite: "xor",
+          maskImage: `radial-gradient(circle at center, #000 0 39%, transparent 40%), url(\"${src}\")`,
+          maskSize: "100% 100%, 100% 100%",
+          maskPosition: "center, center",
+          maskRepeat: "no-repeat, no-repeat",
+          maskComposite: "exclude",
+        }}
+      />
       {/* eslint-disable-next-line @next/next/no-img-element -- wheel sprites need native <img> for WAAPI ref */}
       <img
         ref={imgRef}
@@ -177,12 +201,40 @@ function WheelSprite({
         loading="eager"
         decoding="async"
         draggable={false}
-        className={`block h-full w-full ${
+        className={`relative z-[1] block h-full w-full ${
           isDark ? "" : "[mix-blend-mode:multiply]"
         }`}
       />
     </div>
   );
+}
+
+function baseCarWheelCutoutMask(model: ModelItem): React.CSSProperties {
+  const wheelCutouts = [model.frontWheelFrame, model.rearWheelFrame].map(
+    (frame) => {
+      const centerX = ((frame.left + frame.width / 2) / model.width) * 100;
+      const centerY = ((frame.top + frame.height / 2) / model.height) * 100;
+
+      // The mapped sprite frame includes transparent padding around the tyre.
+      // A 39% radius removes the base-cutout wheel without cutting the fender.
+      return `radial-gradient(circle 39% at ${centerX}% ${centerY}%, #000 99%, transparent 100%)`;
+    }
+  );
+
+  return {
+    // Start with the full car cutout, then exclude its two embedded wheels.
+    // The independently animated wheel sprites above supply the visible wheels.
+    WebkitMaskImage: ["linear-gradient(#000 0 0)", ...wheelCutouts].join(", "),
+    WebkitMaskSize: "100% 100%",
+    WebkitMaskPosition: "center",
+    WebkitMaskRepeat: "no-repeat",
+    WebkitMaskComposite: "xor, xor",
+    maskImage: ["linear-gradient(#000 0 0)", ...wheelCutouts].join(", "),
+    maskSize: "100% 100%",
+    maskPosition: "center",
+    maskRepeat: "no-repeat",
+    maskComposite: "exclude, exclude",
+  } as React.CSSProperties;
 }
 
 function ModelSection({
@@ -389,7 +441,10 @@ function ModelSection({
                   className={`pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover ${
                     lightSection ? "[mix-blend-mode:multiply]" : ""
                   }`}
-                  style={{ objectPosition: model.objectPosition }}
+                  style={{
+                    objectPosition: model.objectPosition,
+                    ...baseCarWheelCutoutMask(model),
+                  }}
                 />
               </div>
             </div>
@@ -562,7 +617,10 @@ function OneLineCar({
           className={`pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover ${
             lightScene ? "[mix-blend-mode:multiply]" : ""
           }`}
-          style={{ objectPosition: model.objectPosition }}
+          style={{
+            objectPosition: model.objectPosition,
+            ...baseCarWheelCutoutMask(model),
+          }}
         />
       </div>
     </div>
