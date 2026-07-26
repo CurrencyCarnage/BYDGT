@@ -130,13 +130,25 @@ export default function LandingPage() {
 
   const isMobileViewport = () => window.matchMedia(MOBILE_QUERY).matches;
 
+  const scrollToPageTop = () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      window.scrollTo(0, 0);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   const togglePanel = (id: LandingPanelId) => {
     if (!isMobileViewport()) {
       setActiveDesktopPanel(id);
       return;
     }
 
+    const isClosingPanel = expandedMobilePanel === id;
     setExpandedMobilePanel((current) => current === id ? null : id);
+
+    if (isClosingPanel) requestAnimationFrame(scrollToPageTop);
   };
 
   const handlePanelPointerEnter = (event: PointerEvent<HTMLElement>, id: LandingPanelId) => {
@@ -186,8 +198,10 @@ export default function LandingPage() {
                 }}
                 onKeyDown={(event) => {
                   if (event.key !== "Escape") return;
+                  const isClosingPanel = expandedMobilePanel !== null;
                   setActiveDesktopPanel(null);
                   setExpandedMobilePanel(null);
+                  if (isClosingPanel) requestAnimationFrame(scrollToPageTop);
                 }}
               >
                 <ResponsivePanelImage panel={panel} priority={index === 0} />

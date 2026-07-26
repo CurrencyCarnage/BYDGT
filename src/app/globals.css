@@ -1456,10 +1456,11 @@
     border-color: rgba(232, 234, 235, 0.42);
   }
 
-  .model-purchase-experience #trims article [class*="text-[#8A9094]"],
-  .model-purchase-experience #trims article [class*="text-[#686D71]"],
-  .model-purchase-experience #trims article [class*="text-[#4E5356]"] {
-    color: rgba(232, 234, 235, 0.68);
+  html:not(.light) .model-purchase-experience #trims article [class*="text-[#252728]"],
+  html:not(.light) .model-purchase-experience #trims article [class*="text-[#8A9094]"],
+  html:not(.light) .model-purchase-experience #trims article [class*="text-[#686D71]"],
+  html:not(.light) .model-purchase-experience #trims article [class*="text-[#4E5356]"] {
+    color: #FFFFFF;
   }
 
   .model-purchase-experience #trims article [class*="border-[#DDE1E3]"] {
