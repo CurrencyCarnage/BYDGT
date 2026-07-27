@@ -55,7 +55,7 @@ type ModelItem = {
 const ASSET_VERSION = "20260503a";
 const MANUAL_INCOMING_DURATION_MS = 2600;
 const MANUAL_OUTGOING_DURATION_MS = MANUAL_INCOMING_DURATION_MS;
-const AUTO_ROLL_DURATION_MS = 6500;
+const AUTO_ROLL_DURATION_MS = 1625;
 const MANUAL_EASING = "cubic-bezier(0.16, 1, 0.3, 1)";
 
 function useReducedMotion() {
@@ -141,8 +141,8 @@ const MODELS: ModelItem[] = [
     frontWheelImage: `/images/homepage/mapped-wheels/yuan-up-ev-front.png?v=${ASSET_VERSION}`,
     rearWheelImage: `/images/homepage/mapped-wheels/yuan-up-ev-rear.png?v=${ASSET_VERSION}`,
     // scale=0.820  y_shift=−329  r_display≈67
-    frontWheelFrame: { left: 140, top: 200, width: 213, height: 213 }, // LINE 95
-    rearWheelFrame: { left: 670, top: 200, width: 213, height: 213 }, // LINE 96
+    frontWheelFrame: { left: 128, top: 182, width: 213, height: 213 }, // LINE 95
+    rearWheelFrame: { left: 676, top: 182, width: 213, height: 213 }, // LINE 96
   },
   {
     id: "yuan-up-dmi",
@@ -459,52 +459,54 @@ function ModelSection({
               willChange: "transform, opacity",
             }}
           >
-              {/* Transparent stage: aspect ratio = car bbox; overflow only clips wheel halos. */}
-              <div
-                className="relative overflow-hidden bg-transparent"
-                style={{ aspectRatio: `${model.width} / ${model.height}` }}
-              >
-                {/* Wheel overlays rotate only with the One Line roll-in. */}
-                <WheelSprite
-                  src={model.frontWheelImage}
-                  frame={model.frontWheelFrame}
-                  stageWidth={model.width}
-                  stageHeight={model.height}
-                  imgRef={wheelFrontRef}
-                  isDark={!lightSection}
-                />
-                <WheelSprite
-                  src={model.rearWheelImage}
-                  frame={model.rearWheelFrame}
-                  stageWidth={model.width}
-                  stageHeight={model.height}
-                  imgRef={wheelRearRef}
-                  isDark={!lightSection}
-                />
+            {/* Transparent stage: aspect ratio = car bbox; overflow only clips wheel halos. */}
+            <div
+              className="relative overflow-hidden bg-transparent"
+              style={{ aspectRatio: `${model.width} / ${model.height}` }}
+            >
+              {/* Wheel overlays rotate only with the One Line roll-in. */}
+              <WheelSprite
+                src={model.frontWheelImage}
+                frame={model.frontWheelFrame}
+                stageWidth={model.width}
+                stageHeight={model.height}
+                imgRef={wheelFrontRef}
+                isDark={!lightSection}
+              />
+              <WheelSprite
+                src={model.rearWheelImage}
+                frame={model.rearWheelFrame}
+                stageWidth={model.width}
+                stageHeight={model.height}
+                imgRef={wheelRearRef}
+                isDark={!lightSection}
+              />
 
-                {/* Car body */}
-                <Image
-                  src={model.foregroundImage}
-                  alt={model.name}
-                  width={1254}
-                  height={1254}
-                  priority={index === 0}
-                  quality={92}
-                  unoptimized
-                  sizes="(max-width: 768px) 96vw, min(96vw, 1200px)"
-                  className={`pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover ${
-                    lightSection ? "[mix-blend-mode:multiply]" : ""
-                  }`}
-                  style={{
-                    objectPosition: model.objectPosition,
-                    ...baseCarWheelCutoutMask(model),
-                  }}
-                />
-              </div>
+              {/* Car body */}
+              <Image
+                src={model.foregroundImage}
+                alt={model.name}
+                width={1254}
+                height={1254}
+                priority={index === 0}
+                quality={92}
+                unoptimized
+                sizes="(max-width: 768px) 96vw, min(96vw, 1200px)"
+                className={`pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover ${
+                  lightSection ? "[mix-blend-mode:multiply]" : ""
+                }`}
+                style={{
+                  objectPosition: model.objectPosition,
+                  ...baseCarWheelCutoutMask(model),
+                }}
+              />
+            </div>
             {entryComplete ? (
               <Link
                 href={model.href}
-                aria-label={ka ? `${model.name}-ის ნახვა` : `View ${model.name}`}
+                aria-label={
+                  ka ? `${model.name}-ის ნახვა` : `View ${model.name}`
+                }
                 className="absolute inset-0 z-[4] block cursor-pointer bg-transparent transition-[box-shadow,filter] duration-200 hover:shadow-[inset_0_-2px_0_rgba(215,12,25,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
               >
                 <span className="sr-only">
@@ -518,11 +520,7 @@ function ModelSection({
     </section>
   );
 }
-function ShowcaseHeader({
-  locale,
-}: {
-  locale: string;
-}) {
+function ShowcaseHeader({ locale }: { locale: string }) {
   const ka = locale === "ka";
   return (
     <div
@@ -642,68 +640,68 @@ function OneLineCar({
   const lightScene = index === 1 || index === 3;
   return (
     <div className="absolute inset-x-0 bottom-0 z-10">
-    <div
-      ref={carRef}
-      className={[
-        "relative mx-auto bg-transparent",
-        model.stageWidthClass,
-      ].join(" ")}
-      style={{
-        transform: incoming ? "translateX(110vw)" : "translateX(0)",
-        opacity: incoming ? 0 : 1,
-        willChange: "transform, opacity",
-      }}
-    >
       <div
-        className="relative overflow-hidden bg-transparent"
-        style={{ aspectRatio: `${model.width} / ${model.height}` }}
+        ref={carRef}
+        className={[
+          "relative mx-auto bg-transparent",
+          model.stageWidthClass,
+        ].join(" ")}
+        style={{
+          transform: incoming ? "translateX(110vw)" : "translateX(0)",
+          opacity: incoming ? 0 : 1,
+          willChange: "transform, opacity",
+        }}
       >
-        <WheelSprite
-          src={model.frontWheelImage}
-          frame={model.frontWheelFrame}
-          stageWidth={model.width}
-          stageHeight={model.height}
-          imgRef={frontWheelRef}
-          isDark={!lightScene}
-        />
-        <WheelSprite
-          src={model.rearWheelImage}
-          frame={model.rearWheelFrame}
-          stageWidth={model.width}
-          stageHeight={model.height}
-          imgRef={rearWheelRef}
-          isDark={!lightScene}
-        />
-        <Image
-          src={model.foregroundImage}
-          alt={model.name}
-          width={1254}
-          height={1254}
-          priority={index === 0}
-          quality={92}
-          unoptimized
-          sizes="(max-width: 768px) 96vw, min(96vw, 1200px)"
-          className={`pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover ${
-            lightScene ? "[mix-blend-mode:multiply]" : ""
-          }`}
-          style={{
-            objectPosition: model.objectPosition,
-            ...baseCarWheelCutoutMask(model),
-          }}
-        />
-      </div>
-      {actionable ? (
-        <Link
-          href={model.href}
-          aria-label={ka ? `${model.name}-ის ნახვა` : `View ${model.name}`}
-          className="absolute inset-0 z-[4] block cursor-pointer bg-transparent transition-[box-shadow,filter] duration-200 hover:shadow-[inset_0_-2px_0_rgba(215,12,25,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
+        <div
+          className="relative overflow-hidden bg-transparent"
+          style={{ aspectRatio: `${model.width} / ${model.height}` }}
         >
-          <span className="sr-only">
-            {ka ? `${model.name}-ის ნახვა` : `View ${model.name}`}
-          </span>
-        </Link>
-      ) : null}
-    </div>
+          <WheelSprite
+            src={model.frontWheelImage}
+            frame={model.frontWheelFrame}
+            stageWidth={model.width}
+            stageHeight={model.height}
+            imgRef={frontWheelRef}
+            isDark={!lightScene}
+          />
+          <WheelSprite
+            src={model.rearWheelImage}
+            frame={model.rearWheelFrame}
+            stageWidth={model.width}
+            stageHeight={model.height}
+            imgRef={rearWheelRef}
+            isDark={!lightScene}
+          />
+          <Image
+            src={model.foregroundImage}
+            alt={model.name}
+            width={1254}
+            height={1254}
+            priority={index === 0}
+            quality={92}
+            unoptimized
+            sizes="(max-width: 768px) 96vw, min(96vw, 1200px)"
+            className={`pointer-events-none absolute inset-0 z-[2] h-full w-full select-none object-cover ${
+              lightScene ? "[mix-blend-mode:multiply]" : ""
+            }`}
+            style={{
+              objectPosition: model.objectPosition,
+              ...baseCarWheelCutoutMask(model),
+            }}
+          />
+        </div>
+        {actionable ? (
+          <Link
+            href={model.href}
+            aria-label={ka ? `${model.name}-ის ნახვა` : `View ${model.name}`}
+            className="absolute inset-0 z-[4] block cursor-pointer bg-transparent transition-[box-shadow,filter] duration-200 hover:shadow-[inset_0_-2px_0_rgba(215,12,25,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
+          >
+            <span className="sr-only">
+              {ka ? `${model.name}-ის ნახვა` : `View ${model.name}`}
+            </span>
+          </Link>
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -717,14 +715,15 @@ function OneLineShowcase({
 }) {
   const ka = locale === "ka";
   const [settledIndex, setSettledIndex] = useState(0);
+  const [sceneToneIndex, setSceneToneIndex] = useState(0);
   const [transition, setTransition] = useState<Handoff | null>(null);
   const [initialEntryComplete, setInitialEntryComplete] = useState(false);
-  const [autoRollState, setAutoRollState] =
-    useState<AutoRollState>("stopped");
+  const [autoRollState, setAutoRollState] = useState<AutoRollState>("stopped");
   const [motionOptIn, setMotionOptIn] = useState(false);
   const [documentVisible, setDocumentVisible] = useState(true);
 
   const sectionRef = useRef<HTMLElement>(null);
+  const incomingBackgroundRef = useRef<HTMLDivElement>(null);
   const incomingCarRef = useRef<HTMLDivElement>(null);
   const incomingFrontWheelRef = useRef<HTMLImageElement>(null);
   const incomingRearWheelRef = useRef<HTMLImageElement>(null);
@@ -794,9 +793,7 @@ function OneLineShowcase({
       frontAnimation = frontWheel?.animate(wheelFrames, timing);
       rearAnimation = rearWheel?.animate(wheelFrames, timing);
 
-      carAnimation.finished
-        .then(settleInitialCar)
-        .catch(() => undefined);
+      carAnimation.finished.then(settleInitialCar).catch(() => undefined);
     };
 
     const observer = new IntersectionObserver(
@@ -827,13 +824,15 @@ function OneLineShowcase({
     if (!transition) return;
 
     const incomingCar = incomingCarRef.current;
+    const incomingBackground = incomingBackgroundRef.current;
     const incomingFrontWheel = incomingFrontWheelRef.current;
     const incomingRearWheel = incomingRearWheelRef.current;
     const outgoingCar = outgoingCarRef.current;
     const outgoingFrontWheel = outgoingFrontWheelRef.current;
     const outgoingRearWheel = outgoingRearWheelRef.current;
-    if (!incomingCar || !outgoingCar) {
+    if (!incomingCar || !outgoingCar || !incomingBackground) {
       setSettledIndex(transition.to);
+      setSceneToneIndex(transition.to);
       setTransition(null);
       return;
     }
@@ -846,6 +845,7 @@ function OneLineShowcase({
       incomingCar.style.transform = "translateX(0px)";
       incomingCar.style.opacity = "1";
       setSettledIndex(transition.to);
+      setSceneToneIndex(transition.to);
       activeHandoffIdRef.current = null;
       transitionRef.current = null;
       setTransition(null);
@@ -856,22 +856,50 @@ function OneLineShowcase({
 
     const automatic = transition.kind === "auto";
     const incomingTiming: KeyframeAnimationOptions = {
-      duration: automatic
-        ? AUTO_ROLL_DURATION_MS
-        : MANUAL_INCOMING_DURATION_MS,
+      duration: automatic ? AUTO_ROLL_DURATION_MS : MANUAL_INCOMING_DURATION_MS,
       easing: automatic ? "linear" : MANUAL_EASING,
       fill: "both",
     };
     const outgoingTiming: KeyframeAnimationOptions = {
       ...incomingTiming,
-      duration: automatic
-        ? AUTO_ROLL_DURATION_MS
-        : MANUAL_OUTGOING_DURATION_MS,
+      duration: automatic ? AUTO_ROLL_DURATION_MS : MANUAL_OUTGOING_DURATION_MS,
     };
+    const handoffDuration = automatic
+      ? AUTO_ROLL_DURATION_MS
+      : MANUAL_INCOMING_DURATION_MS;
     let disposed = false;
     const handoffId = transition.id;
     activeHandoffIdRef.current = handoffId;
+    const sceneToneTimer = window.setTimeout(() => {
+      if (
+        disposed ||
+        activeHandoffIdRef.current !== handoffId ||
+        transitionRef.current?.id !== handoffId
+      ) {
+        return;
+      }
 
+      setSceneToneIndex(transition.to);
+    }, handoffDuration * 0.5);
+
+    const backgroundAnimation = incomingBackground.animate(
+      [
+        {
+          opacity: "0",
+          filter: "saturate(1) brightness(0.98)",
+        },
+        {
+          offset: 0.5,
+          opacity: "0.76",
+          filter: "saturate(1.3) brightness(1.08)",
+        },
+        {
+          opacity: "1",
+          filter: "saturate(1) brightness(1)",
+        },
+      ],
+      incomingTiming
+    );
     const incomingAnimation = incomingCar.animate(
       [
         { transform: "translateX(110vw)", opacity: "0" },
@@ -913,6 +941,7 @@ function OneLineShowcase({
     // settles. This keeps the old car visible for its entire roll-out instead of
     // removing it as soon as only the incoming car finishes.
     const animations = [
+      backgroundAnimation,
       incomingAnimation,
       outgoingAnimation,
       incomingFrontAnimation,
@@ -935,6 +964,7 @@ function OneLineShowcase({
         incomingCar.style.transform = "translateX(0px)";
         incomingCar.style.opacity = "1";
         setSettledIndex(arrivedIndex);
+        setSceneToneIndex(arrivedIndex);
         activeHandoffIdRef.current = null;
         setTransition(null);
 
@@ -950,6 +980,8 @@ function OneLineShowcase({
       if (activeHandoffIdRef.current === handoffId) {
         activeHandoffIdRef.current = null;
       }
+      window.clearTimeout(sceneToneTimer);
+      backgroundAnimation.cancel();
       incomingAnimation.cancel();
       outgoingAnimation.cancel();
       incomingFrontAnimation?.cancel();
@@ -1018,8 +1050,9 @@ function OneLineShowcase({
   ]);
 
   const displayedIndex = transition?.to ?? settledIndex;
+  const backgroundIndex = transition?.from ?? settledIndex;
   const displayedModel = MODELS[displayedIndex];
-  const lightScene = displayedIndex === 1 || displayedIndex === 3;
+  const lightScene = sceneToneIndex === 1 || sceneToneIndex === 3;
   const isAnimating = transition !== null || !initialEntryComplete;
   const nextDisabled = isAnimating || autoRollState !== "stopped";
 
@@ -1054,10 +1087,10 @@ function OneLineShowcase({
         ? "მოძრაობა შეწყდება მიმდინარე პროდუქტის შემდეგ."
         : "Stopping after this product."
       : reducedMotion && !motionOptIn
-        ? ka
-          ? "შემცირებული მოძრაობა ჩართულია. მოძრაობის სანახავად აირჩიეთ დაწყება ან შემდეგი."
-          : "Reduced motion is on. Choose Start or Next to enable vehicle motion."
-        : "";
+      ? ka
+        ? "შემცირებული მოძრაობა ჩართულია. მოძრაობის სანახავად აირჩიეთ დაწყება ან შემდეგი."
+        : "Reduced motion is on. Choose Start or Next to enable vehicle motion."
+      : "";
 
   return (
     <section
@@ -1066,9 +1099,22 @@ function OneLineShowcase({
       data-model-scene={lightScene ? "light" : "dark"}
       data-header-theme={lightScene ? "light" : undefined}
       className="theme-media-section relative isolate min-h-[clamp(32rem,78svh,56rem)] overflow-hidden"
-      style={{ background: LINE_BACKGROUNDS[displayedIndex] }}
+      style={{ background: LINE_BACKGROUNDS[backgroundIndex] }}
     >
-      <div className="relative z-20 section-container flex min-h-[inherit] flex-col px-4 pb-0 pt-6 md:pt-8">
+      {transition ? (
+        <div
+          ref={incomingBackgroundRef}
+          data-showcase-background-transition
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            background: LINE_BACKGROUNDS[transition.to],
+            opacity: 0,
+            willChange: "opacity, filter",
+          }}
+        />
+      ) : null}
+      <div className="pointer-events-none relative z-20 section-container flex min-h-[inherit] flex-col px-4 pb-0 pt-6 md:pt-8">
         <div className="flex items-start justify-end">
           <div className="flex max-w-[15rem] flex-col items-end gap-1.5">
             <button
@@ -1078,28 +1124,31 @@ function OneLineShowcase({
               aria-describedby={autoStatus ? "auto-roll-status" : undefined}
               disabled={autoRollState === "stopping"}
               className={[
-                "inline-flex min-h-11 cursor-pointer items-center gap-2 border px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.12em] backdrop-blur-sm transition-[border-color,background-color,color,opacity] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-byd-red disabled:cursor-not-allowed disabled:opacity-55",
+                "pointer-events-auto inline-flex min-h-11 cursor-pointer items-center gap-2 border px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.12em] backdrop-blur-sm transition-[border-color,background-color,color,opacity] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-byd-red disabled:cursor-not-allowed disabled:opacity-55",
                 autoRollState !== "stopped"
                   ? "border-byd-red bg-byd-red text-white"
                   : lightScene
-                    ? "border-black/25 bg-white/70 text-[#202326] hover:border-byd-red"
-                    : "border-white/30 bg-black/25 text-white hover:border-byd-red",
+                  ? "border-black/25 bg-white/70 text-[#202326] hover:border-byd-red"
+                  : "border-white/30 bg-black/25 text-white hover:border-byd-red",
               ].join(" ")}
             >
               <span>{ka ? "ავტომატური მოძრაობა" : "Auto roll"}</span>
-              <span aria-hidden="true" className="h-3 w-px bg-current opacity-35" />
+              <span
+                aria-hidden="true"
+                className="h-3 w-px bg-current opacity-35"
+              />
               <span>
                 {autoRollState === "running"
                   ? ka
                     ? "შეჩერება"
                     : "Stop"
                   : autoRollState === "stopping"
-                    ? ka
-                      ? "ჩერდება…"
-                      : "Stopping…"
+                  ? ka
+                    ? "ჩერდება…"
+                    : "Stopping…"
                   : ka
-                    ? "დაწყება"
-                    : "Start"}
+                  ? "დაწყება"
+                  : "Start"}
               </span>
               {autoRollState !== "stopped" ? (
                 <svg
@@ -1147,7 +1196,7 @@ function OneLineShowcase({
                 ? `${displayedModel.name}-ის ნახვა`
                 : `View ${displayedModel.name}`
             }
-            className="transition-opacity duration-200 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
+            className="pointer-events-auto transition-opacity duration-200 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
           >
             {displayedModel.name}
           </Link>
@@ -1199,7 +1248,9 @@ function OneLineShowcase({
         type="button"
         onClick={showNext}
         aria-label={ka ? "შემდეგი პროდუქტი" : "Next product"}
-        aria-describedby={nextDisabled ? "showcase-next-disabled-reason" : undefined}
+        aria-describedby={
+          nextDisabled ? "showcase-next-disabled-reason" : undefined
+        }
         disabled={nextDisabled}
         className={`absolute right-4 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center border border-white/30 bg-black/20 text-white backdrop-blur-sm transition-[border-color,background-color,opacity] duration-200 md:right-8 md:h-16 md:w-16 ${
           nextDisabled

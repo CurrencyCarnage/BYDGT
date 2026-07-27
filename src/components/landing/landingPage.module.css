@@ -569,6 +569,14 @@
   box-shadow: 0 1.25rem 3.75rem rgba(24, 28, 32, 0.12);
 }
 
+:global(html:not(.light)) .panel[data-panel="commercial"] .panelImage {
+  --landing-image-offset-y: -6.5%;
+}
+
+:global(html.light) .panel[data-panel="services"] .panelImage {
+  --landing-image-offset-y: -3%;
+}
+
 :global(html.light) .finderSubmit:focus-visible,
 :global(html.light) .finderSecondary:focus-visible,
 :global(html.light) .field select:focus-visible {
@@ -641,6 +649,20 @@
 }
 
 @media (max-width: 767px) {
+  :global(html:not(.light)) .panel[data-panel="commercial"] .panelImage {
+    --landing-image-offset-y: 0%;
+  }
+
+  :global(html.light) .panel[data-panel="commercial"] .panelImage {
+    --landing-image-offset-y: 0%;
+    object-position: center;
+  }
+
+  :global(html.light) .panel[data-panel="services"] .panelImage {
+    --landing-image-offset-y: 0%;
+    object-position: center 86%;
+  }
+
   .mobileExpanded[data-panel="services"] .panelOverlay {
     opacity: 0.42;
     background: linear-gradient(180deg, rgba(4, 9, 15, 0.01), rgba(4, 9, 15, 0.18) 70%, rgba(4, 9, 15, 0.38));
