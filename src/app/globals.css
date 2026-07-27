@@ -60,8 +60,8 @@
     --theme-surface-bg: #FFFFFF;
     --theme-surface-alt: #ECEFF0;
     --theme-text-primary: #252728;
-    --theme-text-secondary: rgba(37, 39, 40, 0.74);
-    --theme-text-muted: rgba(37, 39, 40, 0.52);
+    --theme-text-secondary: #4E5356;
+    --theme-text-muted: #62676A;
     --theme-border-subtle: rgba(37, 39, 40, 0.16);
     --theme-menu-bg: #FFFFFF;
     --theme-menu-shadow: 0 26px 58px rgba(24, 28, 32, 0.14), 0 6px 16px rgba(24, 28, 32, 0.08);
@@ -364,9 +364,12 @@
   }
 
   html.light .text-text-secondary,
-  html.light [class*="text-[#D4D8DB]"],
+  html.light [class*="text-[#D4D8DB]"] {
+    color: var(--theme-text-secondary) !important;
+  }
+
   html.light [class*="text-[#7A8080]"] {
-    color: rgba(37, 39, 40, 0.66) !important;
+    color: var(--theme-text-muted) !important;
   }
 
   html.light [class*="border-white/"],
@@ -1405,7 +1408,7 @@
   }
 
   html.light .model-baseline-copy {
-    color: rgba(37, 39, 40, 0.74);
+    color: var(--theme-text-secondary);
   }
 
   html.light .model-baseline-spec-card {
@@ -1419,7 +1422,7 @@
   }
 
   html.light .model-baseline-spec-label {
-    color: rgba(37, 39, 40, 0.52);
+    color: var(--theme-text-muted);
   }
 
   /* The official-trim journey remains part of the model page's dark surface. */
@@ -1503,7 +1506,7 @@
   html.light .model-purchase-experience #trims article [class*="text-[#8A9094]"],
   html.light .model-purchase-experience #trims article [class*="text-[#686D71]"],
   html.light .model-purchase-experience #trims article [class*="text-[#4E5356]"] {
-    color: rgba(37, 39, 40, 0.64);
+    color: var(--theme-text-muted);
   }
 
   html.light .model-purchase-experience #trims article [class*="bg-[#FBFBFA]"],

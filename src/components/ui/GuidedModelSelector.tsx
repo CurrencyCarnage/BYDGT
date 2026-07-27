@@ -218,7 +218,7 @@ export default function GuidedModelSelector({ locale }: { locale: string }) {
                 ? "რომელი BYD მოგწონთ?"
                 : "Which BYD fits your driving style?"}
             </h2>
-            <p className="text-sm text-[#686D71] leading-relaxed mb-7 font-light">
+            <p className="mb-7 text-sm font-normal leading-relaxed text-[var(--theme-text-secondary)]">
               {ka
                 ? "აირჩიეთ პრიორიტეტი — შემოგთავაზებთ პროდუქტს."
                 : "Tell us what matters most to you and we'll recommend the right match."}
@@ -272,7 +272,7 @@ export default function GuidedModelSelector({ locale }: { locale: string }) {
                 >
                   {rec.name}
                 </h3>
-                <p className="text-sm text-[#686D71] mb-4">
+                <p className="mb-4 text-sm text-[var(--theme-text-secondary)]">
                   {ka ? rec.taglineKa : rec.taglineEn}
                 </p>
 
@@ -302,7 +302,7 @@ export default function GuidedModelSelector({ locale }: { locale: string }) {
 
                 {/* Price + CTAs pushed to bottom */}
                 <div className="mt-auto">
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-[#9CA3AF] mb-0.5 font-medium">
+                  <p className="mb-0.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[var(--theme-text-muted)]">
                     {ka ? "საწყისი ფასი" : "Starting from"}
                   </p>
                   <p

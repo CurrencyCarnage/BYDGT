@@ -5,6 +5,15 @@ import { Link } from "@/i18n/routing";
 import { useEffect, useRef, useState } from "react";
 
 type ShowcaseMode = "vertical" | "line";
+type AutoRollState = "stopped" | "running" | "stopping";
+type HandoffKind = "manual" | "auto";
+
+type Handoff = {
+  id: number;
+  from: number;
+  to: number;
+  kind: HandoffKind;
+};
 
 type WheelFrame = {
   left: number;
@@ -44,6 +53,25 @@ type ModelItem = {
 };
 
 const ASSET_VERSION = "20260503a";
+const MANUAL_INCOMING_DURATION_MS = 2600;
+const MANUAL_OUTGOING_DURATION_MS = MANUAL_INCOMING_DURATION_MS;
+const AUTO_ROLL_DURATION_MS = 6500;
+const MANUAL_EASING = "cubic-bezier(0.16, 1, 0.3, 1)";
+
+function useReducedMotion() {
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = () => setReducedMotion(media.matches);
+
+    syncPreference();
+    media.addEventListener("change", syncPreference);
+    return () => media.removeEventListener("change", syncPreference);
+  }, []);
+
+  return reducedMotion;
+}
 
 // ─── Pixel-analysis results for each 1254×1254 cropped image ──────────────────
 //
@@ -242,13 +270,16 @@ function ModelSection({
   locale,
   index,
   total,
+  reducedMotion,
 }: {
   model: ModelItem;
   locale: string;
   index: number;
   total: number;
+  reducedMotion: boolean;
 }) {
   const ka = locale === "ka";
+  const [entryComplete, setEntryComplete] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const carRef = useRef<HTMLDivElement>(null);
   const wheelFrontRef = useRef<HTMLImageElement>(null);
@@ -259,7 +290,29 @@ function ModelSection({
     const car = carRef.current;
     const wheelFront = wheelFrontRef.current;
     const wheelRear = wheelRearRef.current;
-    if (!section || !car) return;
+    if (!section || !car || entryComplete) return;
+
+    let carAnimation: Animation | null = null;
+    let frontAnimation: Animation | undefined;
+    let rearAnimation: Animation | undefined;
+    let disposed = false;
+
+    const settleCar = () => {
+      if (disposed) return;
+
+      // Keep the parked position when the finished WAAPI effect is cleaned up.
+      car.style.transform = "translateX(0px)";
+      car.style.opacity = "1";
+      setEntryComplete(true);
+    };
+
+    if (
+      reducedMotion ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      settleCar();
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -267,13 +320,13 @@ function ModelSection({
         observer.disconnect();
 
         const timing: KeyframeAnimationOptions = {
-          duration: 2600,
+          duration: MANUAL_INCOMING_DURATION_MS,
           delay: 120,
-          easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+          easing: MANUAL_EASING,
           fill: "both",
         };
 
-        car.animate(
+        carAnimation = car.animate(
           [
             { transform: "translateX(110vw)", opacity: "0" },
             { transform: "translateX(0px)", opacity: "1" },
@@ -285,17 +338,23 @@ function ModelSection({
           { transform: "rotate(0deg)" },
           { transform: "rotate(-720deg)" },
         ];
-        wheelFront?.animate(wheelFrames, timing);
-        wheelRear?.animate(wheelFrames, timing);
+        frontAnimation = wheelFront?.animate(wheelFrames, timing);
+        rearAnimation = wheelRear?.animate(wheelFrames, timing);
+
+        carAnimation.finished.then(settleCar).catch(() => undefined);
       },
       { threshold: 0.14, rootMargin: "0px 0px -10% 0px" }
     );
     observer.observe(section);
 
     return () => {
+      disposed = true;
       observer.disconnect();
+      carAnimation?.cancel();
+      frontAnimation?.cancel();
+      rearAnimation?.cancel();
     };
-  }, []);
+  }, [entryComplete, reducedMotion]);
 
   // ── Per-model scene config ────────────────────────────────────────────────
   // ── Studio scene config ───────────────────────────────────────────────────
@@ -388,23 +447,18 @@ function ModelSection({
 
         {/* Car + wheels — scroll-triggered roll-in for mobile Vertical view */}
         <div className="mt-auto">
-          <Link
-            href={model.href}
-            aria-label={ka ? `${model.name} დეტალები` : `Explore ${model.name}`}
-            className="group block bg-transparent"
+          <div
+            ref={carRef}
+            className={[
+              "showcase-car-stage relative mx-auto bg-transparent",
+              model.stageWidthClass,
+            ].join(" ")}
+            style={{
+              transform: "translateX(110vw)",
+              opacity: 0,
+              willChange: "transform, opacity",
+            }}
           >
-            <div
-              ref={carRef}
-              className={[
-                "showcase-car-stage relative mx-auto bg-transparent",
-                model.stageWidthClass,
-              ].join(" ")}
-              style={{
-                transform: "translateX(110vw)",
-                opacity: 0,
-                willChange: "transform, opacity",
-              }}
-            >
               {/* Transparent stage: aspect ratio = car bbox; overflow only clips wheel halos. */}
               <div
                 className="relative overflow-hidden bg-transparent"
@@ -447,8 +501,18 @@ function ModelSection({
                   }}
                 />
               </div>
-            </div>
-          </Link>
+            {entryComplete ? (
+              <Link
+                href={model.href}
+                aria-label={ka ? `${model.name}-ის ნახვა` : `View ${model.name}`}
+                className="absolute inset-0 z-[4] block cursor-pointer bg-transparent transition-[box-shadow,filter] duration-200 hover:shadow-[inset_0_-2px_0_rgba(215,12,25,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
+              >
+                <span className="sr-only">
+                  {ka ? `${model.name}-ის ნახვა` : `View ${model.name}`}
+                </span>
+              </Link>
+            ) : null}
+          </div>
         </div>
       </div>
     </section>
@@ -524,6 +588,7 @@ function ShowcaseHeader({
 
 export default function ModelShowcase({ locale }: { locale: string }) {
   const [mode, setMode] = useState<ShowcaseMode>("vertical");
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 768px)");
@@ -544,10 +609,11 @@ export default function ModelShowcase({ locale }: { locale: string }) {
             locale={locale}
             index={index}
             total={MODELS.length}
+            reducedMotion={reducedMotion}
           />
         ))
       ) : (
-        <OneLineShowcase locale={locale} />
+        <OneLineShowcase locale={locale} reducedMotion={reducedMotion} />
       )}
     </div>
   );
@@ -558,6 +624,7 @@ function OneLineCar({
   ka,
   index,
   position,
+  actionable,
   carRef,
   frontWheelRef,
   rearWheelRef,
@@ -566,13 +633,15 @@ function OneLineCar({
   ka: boolean;
   index: number;
   position: "settled" | "incoming" | "outgoing";
+  actionable: boolean;
   carRef: React.RefObject<HTMLDivElement>;
   frontWheelRef: React.RefObject<HTMLImageElement>;
   rearWheelRef: React.RefObject<HTMLImageElement>;
 }) {
   const incoming = position === "incoming";
   const lightScene = index === 1 || index === 3;
-  const carStage = (
+  return (
+    <div className="absolute inset-x-0 bottom-0 z-10">
     <div
       ref={carRef}
       className={[
@@ -623,38 +692,37 @@ function OneLineCar({
           }}
         />
       </div>
-    </div>
-  );
-
-  if (position === "settled") {
-    return (
-      <div className="absolute inset-x-0 bottom-0 z-10">
+      {actionable ? (
         <Link
           href={model.href}
-          aria-label={ka ? `${model.name} დეტალები` : `Explore ${model.name}`}
-          className="relative mx-auto block w-fit cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-6px] focus-visible:outline-byd-red"
+          aria-label={ka ? `${model.name}-ის ნახვა` : `View ${model.name}`}
+          className="absolute inset-0 z-[4] block cursor-pointer bg-transparent transition-[box-shadow,filter] duration-200 hover:shadow-[inset_0_-2px_0_rgba(215,12,25,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
         >
-          {carStage}
+          <span className="sr-only">
+            {ka ? `${model.name}-ის ნახვა` : `View ${model.name}`}
+          </span>
         </Link>
-      </div>
-    );
-  }
-
-  return (
-    <div className="absolute inset-x-0 bottom-0 z-10">
-      {carStage}
+      ) : null}
+    </div>
     </div>
   );
 }
 
-function OneLineShowcase({ locale }: { locale: string }) {
+function OneLineShowcase({
+  locale,
+  reducedMotion,
+}: {
+  locale: string;
+  reducedMotion: boolean;
+}) {
   const ka = locale === "ka";
   const [settledIndex, setSettledIndex] = useState(0);
-  const [transition, setTransition] = useState<{
-    from: number;
-    to: number;
-  } | null>(null);
+  const [transition, setTransition] = useState<Handoff | null>(null);
   const [initialEntryComplete, setInitialEntryComplete] = useState(false);
+  const [autoRollState, setAutoRollState] =
+    useState<AutoRollState>("stopped");
+  const [motionOptIn, setMotionOptIn] = useState(false);
+  const [documentVisible, setDocumentVisible] = useState(true);
 
   const sectionRef = useRef<HTMLElement>(null);
   const incomingCarRef = useRef<HTMLDivElement>(null);
@@ -663,24 +731,53 @@ function OneLineShowcase({ locale }: { locale: string }) {
   const outgoingCarRef = useRef<HTMLDivElement>(null);
   const outgoingFrontWheelRef = useRef<HTMLImageElement>(null);
   const outgoingRearWheelRef = useRef<HTMLImageElement>(null);
+  const nextHandoffIdRef = useRef(0);
+  const activeHandoffIdRef = useRef<number | null>(null);
+  const autoRollStateRef = useRef<AutoRollState>("stopped");
+  const transitionRef = useRef<Handoff | null>(null);
+
+  const updateAutoRollState = (next: AutoRollState) => {
+    autoRollStateRef.current = next;
+    setAutoRollState(next);
+  };
+
+  useEffect(() => {
+    transitionRef.current = transition;
+  }, [transition]);
 
   useEffect(() => {
     const section = sectionRef.current;
     const car = incomingCarRef.current;
     const frontWheel = incomingFrontWheelRef.current;
     const rearWheel = incomingRearWheelRef.current;
-    if (!section || !car) return;
+    if (!section || !car || initialEntryComplete) return;
 
     let carAnimation: Animation | null = null;
     let frontAnimation: Animation | undefined;
     let rearAnimation: Animation | undefined;
     let disposed = false;
 
+    const settleInitialCar = () => {
+      if (disposed) return;
+
+      car.style.transform = "translateX(0px)";
+      car.style.opacity = "1";
+      setInitialEntryComplete(true);
+    };
+
+    if (
+      reducedMotion ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      settleInitialCar();
+      return;
+    }
+
     const startInitialEntry = () => {
       const timing: KeyframeAnimationOptions = {
-        duration: 2600,
+        duration: MANUAL_INCOMING_DURATION_MS,
         delay: 0,
-        easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+        easing: MANUAL_EASING,
         fill: "both",
       };
       carAnimation = car.animate(
@@ -698,11 +795,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
       rearAnimation = rearWheel?.animate(wheelFrames, timing);
 
       carAnimation.finished
-        .then(() => {
-          if (disposed) return;
-
-          setInitialEntryComplete(true);
-        })
+        .then(settleInitialCar)
         .catch(() => undefined);
     };
 
@@ -728,7 +821,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
       frontAnimation?.cancel();
       rearAnimation?.cancel();
     };
-  }, []);
+  }, [initialEntryComplete, reducedMotion]);
 
   useEffect(() => {
     if (!transition) return;
@@ -745,21 +838,46 @@ function OneLineShowcase({ locale }: { locale: string }) {
       return;
     }
 
-    const timing: KeyframeAnimationOptions = {
-      duration: 2600,
-      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+    if (
+      !motionOptIn &&
+      (reducedMotion ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    ) {
+      incomingCar.style.transform = "translateX(0px)";
+      incomingCar.style.opacity = "1";
+      setSettledIndex(transition.to);
+      activeHandoffIdRef.current = null;
+      transitionRef.current = null;
+      setTransition(null);
+      autoRollStateRef.current = "stopped";
+      setAutoRollState("stopped");
+      return;
+    }
+
+    const automatic = transition.kind === "auto";
+    const incomingTiming: KeyframeAnimationOptions = {
+      duration: automatic
+        ? AUTO_ROLL_DURATION_MS
+        : MANUAL_INCOMING_DURATION_MS,
+      easing: automatic ? "linear" : MANUAL_EASING,
       fill: "both",
     };
     const outgoingTiming: KeyframeAnimationOptions = {
-      ...timing,
-      duration: 4400,
+      ...incomingTiming,
+      duration: automatic
+        ? AUTO_ROLL_DURATION_MS
+        : MANUAL_OUTGOING_DURATION_MS,
     };
+    let disposed = false;
+    const handoffId = transition.id;
+    activeHandoffIdRef.current = handoffId;
+
     const incomingAnimation = incomingCar.animate(
       [
         { transform: "translateX(110vw)", opacity: "0" },
         { transform: "translateX(0px)", opacity: "1" },
       ],
-      timing
+      incomingTiming
     );
     const outgoingAnimation = outgoingCar.animate(
       [
@@ -774,11 +892,11 @@ function OneLineShowcase({ locale }: { locale: string }) {
     ];
     const incomingFrontAnimation = incomingFrontWheel?.animate(
       wheelFrames,
-      timing
+      incomingTiming
     );
     const incomingRearAnimation = incomingRearWheel?.animate(
       wheelFrames,
-      timing
+      incomingTiming
     );
 
     // Keep the outgoing wheels rolling for the entire left-side exit.
@@ -791,16 +909,47 @@ function OneLineShowcase({ locale }: { locale: string }) {
       outgoingTiming
     );
 
-    incomingAnimation.finished
-      .then(() => {
-        const arrivedIndex = transition.to;
-        setSettledIndex(arrivedIndex);
+    // Incoming and outgoing cars complete the same handoff before the scene
+    // settles. This keeps the old car visible for its entire roll-out instead of
+    // removing it as soon as only the incoming car finishes.
+    const animations = [
+      incomingAnimation,
+      outgoingAnimation,
+      incomingFrontAnimation,
+      incomingRearAnimation,
+      outgoingFrontAnimation,
+      outgoingRearAnimation,
+    ].filter((animation): animation is Animation => Boolean(animation));
 
+    Promise.all(animations.map((animation) => animation.finished))
+      .then(() => {
+        if (
+          disposed ||
+          activeHandoffIdRef.current !== handoffId ||
+          transitionRef.current?.id !== handoffId
+        ) {
+          return;
+        }
+
+        const arrivedIndex = transition.to;
+        incomingCar.style.transform = "translateX(0px)";
+        incomingCar.style.opacity = "1";
+        setSettledIndex(arrivedIndex);
+        activeHandoffIdRef.current = null;
         setTransition(null);
+
+        if (autoRollStateRef.current === "stopping") {
+          autoRollStateRef.current = "stopped";
+          setAutoRollState("stopped");
+        }
       })
       .catch(() => undefined);
 
     return () => {
+      disposed = true;
+      if (activeHandoffIdRef.current === handoffId) {
+        activeHandoffIdRef.current = null;
+      }
       incomingAnimation.cancel();
       outgoingAnimation.cancel();
       incomingFrontAnimation?.cancel();
@@ -808,22 +957,107 @@ function OneLineShowcase({ locale }: { locale: string }) {
       outgoingFrontAnimation?.cancel();
       outgoingRearAnimation?.cancel();
     };
-  }, [transition]);
+  }, [motionOptIn, reducedMotion, transition]);
+
+  useEffect(() => {
+    const syncVisibility = () => {
+      const visible = document.visibilityState === "visible";
+      setDocumentVisible(visible);
+
+      if (!visible && autoRollStateRef.current === "running") {
+        const nextState: AutoRollState = transitionRef.current
+          ? "stopping"
+          : "stopped";
+        autoRollStateRef.current = nextState;
+        setAutoRollState(nextState);
+      }
+    };
+
+    syncVisibility();
+    document.addEventListener("visibilitychange", syncVisibility);
+    return () =>
+      document.removeEventListener("visibilitychange", syncVisibility);
+  }, []);
+
+  useEffect(() => {
+    if (
+      autoRollState !== "running" ||
+      !initialEntryComplete ||
+      transition ||
+      !documentVisible ||
+      (!motionOptIn && reducedMotion)
+    ) {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      setTransition((current) => {
+        if (current || autoRollStateRef.current !== "running") {
+          return current;
+        }
+
+        const nextIndex = (settledIndex + 1) % MODELS.length;
+        return {
+          id: ++nextHandoffIdRef.current,
+          from: settledIndex,
+          to: nextIndex,
+          kind: "auto",
+        };
+      });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [
+    autoRollState,
+    documentVisible,
+    initialEntryComplete,
+    motionOptIn,
+    reducedMotion,
+    settledIndex,
+    transition,
+  ]);
 
   const displayedIndex = transition?.to ?? settledIndex;
   const displayedModel = MODELS[displayedIndex];
   const lightScene = displayedIndex === 1 || displayedIndex === 3;
   const isAnimating = transition !== null || !initialEntryComplete;
+  const nextDisabled = isAnimating || autoRollState !== "stopped";
 
   const showNext = () => {
-    if (isAnimating) {
+    if (nextDisabled) {
       return;
     }
+    setMotionOptIn(true);
     setTransition({
+      id: ++nextHandoffIdRef.current,
       from: settledIndex,
       to: (settledIndex + 1) % MODELS.length,
+      kind: "manual",
     });
   };
+
+  const toggleAutoRoll = () => {
+    if (autoRollStateRef.current === "stopping") return;
+
+    if (autoRollStateRef.current === "running") {
+      updateAutoRollState(transitionRef.current ? "stopping" : "stopped");
+      return;
+    }
+
+    setMotionOptIn(true);
+    updateAutoRollState("running");
+  };
+
+  const autoStatus =
+    autoRollState === "stopping"
+      ? ka
+        ? "მოძრაობა შეწყდება მიმდინარე პროდუქტის შემდეგ."
+        : "Stopping after this product."
+      : reducedMotion && !motionOptIn
+        ? ka
+          ? "შემცირებული მოძრაობა ჩართულია. მოძრაობის სანახავად აირჩიეთ დაწყება ან შემდეგი."
+          : "Reduced motion is on. Choose Start or Next to enable vehicle motion."
+        : "";
 
   return (
     <section
@@ -835,7 +1069,70 @@ function OneLineShowcase({ locale }: { locale: string }) {
       style={{ background: LINE_BACKGROUNDS[displayedIndex] }}
     >
       <div className="relative z-20 section-container flex min-h-[inherit] flex-col px-4 pb-0 pt-6 md:pt-8">
-        <div className="flex justify-end">
+        <div className="flex items-start justify-end gap-3">
+          <div className="flex max-w-[15rem] flex-col items-end gap-1.5">
+            <button
+              type="button"
+              onClick={toggleAutoRoll}
+              aria-pressed={autoRollState !== "stopped"}
+              aria-describedby={autoStatus ? "auto-roll-status" : undefined}
+              disabled={autoRollState === "stopping"}
+              className={[
+                "inline-flex min-h-11 cursor-pointer items-center gap-2 border px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.12em] backdrop-blur-sm transition-[border-color,background-color,color,opacity] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-byd-red disabled:cursor-not-allowed disabled:opacity-55",
+                autoRollState !== "stopped"
+                  ? "border-byd-red bg-byd-red text-white"
+                  : lightScene
+                    ? "border-black/25 bg-white/70 text-[#202326] hover:border-byd-red"
+                    : "border-white/30 bg-black/25 text-white hover:border-byd-red",
+              ].join(" ")}
+            >
+              <span>{ka ? "ავტომატური მოძრაობა" : "Auto roll"}</span>
+              <span aria-hidden="true" className="h-3 w-px bg-current opacity-35" />
+              <span>
+                {autoRollState === "running"
+                  ? ka
+                    ? "შეჩერება"
+                    : "Stop"
+                  : autoRollState === "stopping"
+                    ? ka
+                      ? "ჩერდება…"
+                      : "Stopping…"
+                  : ka
+                    ? "დაწყება"
+                    : "Start"}
+              </span>
+              {autoRollState !== "stopped" ? (
+                <svg
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path d="M4 3h3v10H4zM9 3h3v10H9z" />
+                </svg>
+              ) : (
+                <svg
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path d="M4.5 2.5 13 8l-8.5 5.5z" />
+                </svg>
+              )}
+            </button>
+            {autoStatus ? (
+              <p
+                id="auto-roll-status"
+                aria-live="polite"
+                className={`text-right text-[10px] leading-4 ${
+                  lightScene ? "text-black/65" : "text-white/65"
+                }`}
+              >
+                {autoStatus}
+              </p>
+            ) : null}
+          </div>
           <p className={`select-none font-mono text-[10px] tracking-[0.16em] ${
             lightScene ? "text-black/45" : "text-white/35"
           }`}>
@@ -862,6 +1159,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
               ka={ka}
               index={transition.from}
               position="outgoing"
+              actionable={false}
               carRef={outgoingCarRef}
               frontWheelRef={outgoingFrontWheelRef}
               rearWheelRef={outgoingRearWheelRef}
@@ -872,6 +1170,7 @@ function OneLineShowcase({ locale }: { locale: string }) {
               ka={ka}
               index={transition.to}
               position="incoming"
+              actionable={false}
               carRef={incomingCarRef}
               frontWheelRef={incomingFrontWheelRef}
               rearWheelRef={incomingRearWheelRef}
@@ -884,6 +1183,11 @@ function OneLineShowcase({ locale }: { locale: string }) {
             ka={ka}
             index={settledIndex}
             position={initialEntryComplete ? "settled" : "incoming"}
+            actionable={
+              initialEntryComplete &&
+              autoRollState === "stopped" &&
+              transition === null
+            }
             carRef={incomingCarRef}
             frontWheelRef={incomingFrontWheelRef}
             rearWheelRef={incomingRearWheelRef}
@@ -895,9 +1199,10 @@ function OneLineShowcase({ locale }: { locale: string }) {
         type="button"
         onClick={showNext}
         aria-label={ka ? "შემდეგი პროდუქტი" : "Next product"}
-        disabled={isAnimating}
+        aria-describedby={nextDisabled ? "showcase-next-disabled-reason" : undefined}
+        disabled={nextDisabled}
         className={`absolute right-4 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center border border-white/30 bg-black/20 text-white backdrop-blur-sm transition-[border-color,background-color,opacity] duration-200 md:right-8 md:h-16 md:w-16 ${
-          isAnimating
+          nextDisabled
             ? "cursor-not-allowed opacity-35"
             : "hover:border-white/65 hover:bg-black/35 active:scale-95"
         }`}
@@ -912,6 +1217,11 @@ function OneLineShowcase({ locale }: { locale: string }) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </button>
+      <p id="showcase-next-disabled-reason" className="sr-only">
+        {ka
+          ? "შემდეგი პროდუქტი ხელმისაწვდომი გახდება მიმდინარე მოძრაობის დასრულების შემდეგ."
+          : "The next product becomes available after the current movement finishes."}
+      </p>
     </section>
   );
 }

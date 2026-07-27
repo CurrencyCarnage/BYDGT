@@ -593,7 +593,7 @@ function ModelDropdown({
               }`}
             >
               <svg
-                className={`text-[#8A9094] ${compact ? "h-3.5 w-3.5" : "h-5 w-5"}`}
+                className={`text-[#62676A] ${compact ? "h-3.5 w-3.5" : "h-5 w-5"}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -1076,7 +1076,7 @@ export default function CompareGrid({
                   >
                     <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl border border-dashed border-[#C7CDD0] bg-[#F0F2F3] transition-colors duration-200 group-hover:border-byd-red/45 group-hover:bg-byd-red/[0.04] md:mb-4 md:h-16 md:w-16 md:rounded-2xl">
                       <svg
-                        className="h-5 w-5 text-[#8A9094] transition-colors duration-200 group-hover:text-byd-red md:h-7 md:w-7"
+                        className="h-5 w-5 text-[#62676A] transition-colors duration-200 group-hover:text-byd-red md:h-7 md:w-7"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -1164,7 +1164,7 @@ export default function CompareGrid({
                                     ci < 2 ? "border-r border-[#E6E9EA]" : ""
                                   } ${
                                     value === null
-                                      ? "text-[11px] text-[#B6BDC1] md:text-sm"
+                                      ? "text-[11px] text-[#62676A] md:text-sm"
                                       : isBest
                                         ? "text-[13px] font-bold text-byd-red md:text-base"
                                         : "text-[11px] font-semibold text-[#252728] md:text-sm"
@@ -1216,7 +1216,7 @@ export default function CompareGrid({
                         </Link>
                       </div>
                     ) : (
-                      <span className="text-[11px] text-[#B6BDC1]">—</span>
+                      <span className="text-[11px] text-[#62676A]">—</span>
                     )}
                   </div>
                 ))}

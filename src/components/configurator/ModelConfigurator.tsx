@@ -90,7 +90,7 @@ export default function ModelConfigurator({ model, selectedVariantId, onVariantC
 
           {variants.length > 0 && (
           <div className="mb-8 content-surface-soft px-4 py-5 sm:px-5 lg:px-6">
-          <p className="configurator-section-label mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#686D71]">
+          <p className="configurator-section-label mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--theme-text-muted)]">
             {t("selectVariant")}
           </p>
           <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]">
@@ -133,7 +133,7 @@ export default function ModelConfigurator({ model, selectedVariantId, onVariantC
                   <p className="configurator-option-title pr-12 text-sm font-semibold text-[#252728]">
                     {getLocalizedValue(details.name, locale)}
                   </p>
-                  <p className="configurator-option-meta mt-2 text-[11px] text-[#686D71]">
+                  <p className="configurator-option-meta mt-2 text-[11px] text-[var(--theme-text-muted)]">
                     {model.priceStatus === "contact"
                       ? (locale === "ka" ? "Contact for pricing" : "Contact for pricing")
                       : variant.priceModifier === 0
@@ -151,7 +151,7 @@ export default function ModelConfigurator({ model, selectedVariantId, onVariantC
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="border-l border-byd-red/50 pl-4">
-                <p className="configurator-summary-label text-[10px] uppercase tracking-[0.18em] text-[#686D71]">
+                <p className="configurator-summary-label text-[10px] uppercase tracking-[0.18em] text-[var(--theme-text-muted)]">
                   {t("selectColor")}
                 </p>
                 <p className="configurator-summary-value mt-2 text-base font-semibold text-[#252728]">
@@ -159,7 +159,7 @@ export default function ModelConfigurator({ model, selectedVariantId, onVariantC
                 </p>
               </div>
               <div className="border-l border-[#C7CDD0] pl-4">
-                <p className="configurator-summary-label text-[10px] uppercase tracking-[0.18em] text-[#686D71]">
+                <p className="configurator-summary-label text-[10px] uppercase tracking-[0.18em] text-[var(--theme-text-muted)]">
                   {t("selectVariant")}
                 </p>
                 <p className="configurator-summary-value mt-2 text-base font-semibold text-[#252728]">
@@ -169,7 +169,7 @@ export default function ModelConfigurator({ model, selectedVariantId, onVariantC
             </div>
 
             <div className="xl:text-right">
-              <span className="configurator-summary-label text-[#686D71] font-medium">
+              <span className="configurator-summary-label font-medium text-[var(--theme-text-muted)]">
                 {t("totalPrice")}
               </span>
               <p className="configurator-total-price mt-2 text-4xl font-semibold text-[#252728]">

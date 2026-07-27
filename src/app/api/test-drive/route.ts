@@ -3,6 +3,8 @@ import { Resend } from "resend";
 import { TestDriveBooking, SHOWROOM, getOfficialTrimLabel, testDriveModels } from "@/lib/test-drive";
 import { buildAdminTestDriveEmail, buildCustomerTestDriveEmail } from "@/lib/email";
 import { saveBooking } from "@/lib/bookings";
+import { getTodayIsoInTbilisi, validateIsoDate } from "@/lib/date";
+import { normalizeE164Phone } from "@/lib/phone";
 
 function generateId() {
   return `td-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -59,6 +61,25 @@ async function sendEmails(booking: TestDriveBooking) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    const messages = body.language === "ka"
+      ? {
+        missing: "სავალდებულო ველი აკლია",
+        phone: "შეიყვანეთ სწორი ტელეფონის ნომერი",
+        date: "აირჩიეთ დღევანდელი ან მომავალი სწორი თარიღი",
+        agreement: "ყველა თანხმობის დადასტურება სავალდებულოა",
+        product: "პროდუქტი არასწორია",
+        version: "ვერსია არასწორია",
+        trim: "კომპლექტაცია არასწორია",
+      }
+      : {
+        missing: "Missing required field",
+        phone: "Enter a valid phone number",
+        date: "Choose a valid current or future date",
+        agreement: "All agreement confirmations are required",
+        product: "Invalid product",
+        version: "Invalid version",
+        trim: "Invalid trim",
+      };
 
     // ── Validate required fields ────────────────────────────────
     const required = [
@@ -74,10 +95,19 @@ export async function POST(req: NextRequest) {
     for (const field of required) {
       if (!body[field] || typeof body[field] !== "string" || !body[field].trim()) {
         return NextResponse.json(
-          { error: `Missing required field: ${field}` },
+          { error: `${messages.missing}: ${field}` },
           { status: 400 }
         );
       }
+    }
+
+    const normalizedPhone = normalizeE164Phone(body.phone);
+    if (!normalizedPhone) {
+      return NextResponse.json({ error: messages.phone }, { status: 400 });
+    }
+
+    if (!validateIsoDate(body.preferredDate, getTodayIsoInTbilisi())) {
+      return NextResponse.json({ error: messages.date }, { status: 400 });
     }
 
     // ── Validate agreement ──────────────────────────────────────
@@ -90,21 +120,21 @@ export async function POST(req: NextRequest) {
       !agreement.safetyAcknowledgementConfirmed
     ) {
       return NextResponse.json(
-        { error: "All agreement confirmations are required" },
+        { error: messages.agreement },
         { status: 400 }
       );
     }
 
     // ── Resolve model / version ─────────────────────────────────
     const family = testDriveModels.find((m) => m.id === body.modelFamilyId);
-    if (!family) return NextResponse.json({ error: "Invalid product" }, { status: 400 });
+    if (!family) return NextResponse.json({ error: messages.product }, { status: 400 });
 
     const version = family.versions.find((v) => v.id === body.versionId);
-    if (!version) return NextResponse.json({ error: "Invalid version" }, { status: 400 });
+    if (!version) return NextResponse.json({ error: messages.version }, { status: 400 });
     const trimId = typeof body.trimId === "string" && body.trimId.trim() ? body.trimId.trim() : undefined;
     const trimLabel = trimId ? getOfficialTrimLabel(version.id, trimId) : undefined;
     if (trimId && !trimLabel) {
-      return NextResponse.json({ error: "Invalid trim" }, { status: 400 });
+      return NextResponse.json({ error: messages.trim }, { status: 400 });
     }
 
     // ── Build booking ───────────────────────────────────────────
@@ -118,7 +148,8 @@ export async function POST(req: NextRequest) {
       id: generateId(),
       createdAt: now,
       fullName:  body.fullName.trim(),
-      phone:     body.phone.trim(),
+      phone:     normalizedPhone.e164,
+      phoneCountry: normalizedPhone.country,
       email:     body.email.trim(),
       modelFamilyId:   family.id,
       modelFamilyName: family.name,

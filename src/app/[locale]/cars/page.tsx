@@ -35,7 +35,7 @@ export default async function HomePage() {
                 <div className="text-4xl md:text-5xl font-semibold text-[#252728] mb-2">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </div>
-                <p className="text-[11px] text-[#686D71] uppercase tracking-[0.18em] font-medium">
+                <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--theme-text-muted)]">
                   {stat.label}
                 </p>
               </ScrollReveal>

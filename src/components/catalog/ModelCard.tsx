@@ -62,7 +62,7 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
               quality={90}
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-[#686D71]/40">
+            <div className="absolute inset-0 flex items-center justify-center text-[var(--theme-text-muted)] opacity-40">
               <svg className="h-16 w-16 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M5 16h14l-1.5-5h-11L5 16Zm2 0v2m10-2v2" />
               </svg>
@@ -85,7 +85,7 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
               </h3>
             </div>
             <div className="flex-shrink-0 text-right">
-              <span className="block text-[9px] font-medium uppercase tracking-[0.14em] text-[#8A9094]">
+              <span className="block text-[9px] font-medium uppercase tracking-[0.14em] text-[var(--theme-text-muted)]">
                 {locale === "ka" ? "დან" : "From"}
               </span>
               <p className="mt-1 text-xl font-bold leading-none text-byd-red md:text-2xl">
@@ -94,30 +94,30 @@ export default function ModelCard({ model, locale }: ModelCardProps) {
             </div>
           </div>
 
-          <p className="mt-3 line-clamp-2 min-h-[2.6rem] text-sm font-light leading-relaxed text-[#686D71]">
+          <p className="mt-3 line-clamp-2 min-h-[2.6rem] text-sm font-normal leading-relaxed text-[var(--theme-text-secondary)]">
             {tagline}
           </p>
 
           <div className="relative z-10 mt-4 grid grid-cols-3 gap-2">
             <div className="model-card-spec border border-[#E1E4E6] bg-[#F4F6F7] p-3 text-center shadow-[0_8px_18px_rgba(24,28,32,0.06)]">
               <StatIcon type="power" />
-              <p className="text-[10px] uppercase tracking-[0.12em] text-[#8A9094]">{locale === "ka" ? "სიმძლავრე" : "Power"}</p>
+              <p className="text-[10px] uppercase tracking-[0.12em] text-[var(--theme-text-muted)]">{locale === "ka" ? "სიმძლავრე" : "Power"}</p>
               <span className="mt-1 block text-sm font-semibold text-[#252728]">{powerValue ?? "—"} {powerValue === undefined ? "" : powerUnit}</span>
             </div>
             <div className="model-card-spec border border-[#E1E4E6] bg-[#F4F6F7] p-3 text-center shadow-[0_8px_18px_rgba(24,28,32,0.06)]">
               <StatIcon type="range" />
-              <p className="text-[10px] uppercase tracking-[0.12em] text-[#8A9094]">{model.specs.range_label ?? (locale === "ka" ? "მანძილი" : "Range")}</p>
+              <p className="text-[10px] uppercase tracking-[0.12em] text-[var(--theme-text-muted)]">{model.specs.range_label ?? (locale === "ka" ? "მანძილი" : "Range")}</p>
               <span className="mt-1 block text-sm font-semibold text-[#252728]">{model.specs.range_km} km</span>
             </div>
             <div className="model-card-spec border border-[#E1E4E6] bg-[#F4F6F7] p-3 text-center shadow-[0_8px_18px_rgba(24,28,32,0.06)]">
               <StatIcon type="speed" />
-              <p className="text-[10px] uppercase tracking-[0.12em] text-[#8A9094]">0–100</p>
+              <p className="text-[10px] uppercase tracking-[0.12em] text-[var(--theme-text-muted)]">0–100</p>
               <span className="mt-1 block text-sm font-semibold text-[#252728]">{model.specs.acceleration_0_100}s</span>
             </div>
           </div>
 
           <div className="mt-5 flex items-center justify-between border-t border-[#E1E4E6] pt-4">
-            <span className="text-[11px] font-medium text-[#8A9094]">
+            <span className="text-[11px] font-medium text-[var(--theme-text-muted)]">
               {officialVariants.length} {locale === "ka" ? "კომპლექტაცია" : "trims available"}
             </span>
             <span className="model-card-action inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-[#252728] transition-colors group-hover:text-byd-red">

@@ -2,15 +2,22 @@
 
 import { useState } from "react";
 import { useLocale } from "next-intl";
+import PhoneField from "./PhoneField";
 
 export default function ContactForm({ initialSubject = "" }: { initialSubject?: string }) {
   const locale = useLocale();
   const [form, setForm] = useState({ name: "", phone: "", email: "", subject: initialSubject, message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [phoneValid, setPhoneValid] = useState(true);
+  const [phoneError, setPhoneError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!phoneValid) {
+      setPhoneError(true);
+      return;
+    }
     setLoading(true);
     await new Promise((r) => setTimeout(r, 1000));
     setLoading(false);
@@ -30,7 +37,7 @@ export default function ContactForm({ initialSubject = "" }: { initialSubject?: 
         <p className="text-[#252728] font-semibold mb-1" style={{ fontFamily: "var(--font-montserrat)" }}>
           {locale === "ka" ? "გამოგზავნილია!" : "Message Sent!"}
         </p>
-        <p className="text-[#686D71] text-sm font-light" style={{ fontFamily: "var(--font-montserrat)" }}>
+        <p className="text-[var(--theme-text-secondary)] text-sm font-light" style={{ fontFamily: "var(--font-montserrat)" }}>
           {locale === "ka" ? "მალე დაგიკავშირდებით" : "We will get back to you shortly"}
         </p>
       </div>
@@ -41,23 +48,29 @@ export default function ContactForm({ initialSubject = "" }: { initialSubject?: 
     <form onSubmit={handleSubmit} className="content-surface p-6 md:p-8 space-y-5 h-full flex flex-col">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+          <label className="block text-xs text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
             {locale === "ka" ? "სახელი" : "Name"} <span className="text-byd-red">*</span>
           </label>
           <input type="text" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
             placeholder={locale === "ka" ? "გიორგი" : "John"} className={inputClass} style={{ fontFamily: "var(--font-montserrat)" }} />
         </div>
         <div>
-          <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+          <label className="block text-xs text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
             {locale === "ka" ? "ტელეფონი" : "Phone"}
           </label>
-          <input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
-            placeholder="+995 5XX XXX XXX" className={inputClass} style={{ fontFamily: "var(--font-montserrat)" }} />
+          <PhoneField value={form.phone} onChange={(value) => setForm({ ...form, phone: value })}
+            onValidityChange={(valid) => { setPhoneValid(valid); if (valid) setPhoneError(false); }} aria-label={locale === "ka" ? "ტელეფონი" : "Phone"}
+            className="form-field-light" />
+          {phoneError && (
+            <p role="alert" className="mt-1.5 text-xs text-byd-red">
+              {locale === "ka" ? "შეიყვანეთ სწორი ტელეფონის ნომერი" : "Enter a valid phone number"}
+            </p>
+          )}
         </div>
       </div>
 
       <div>
-        <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+        <label className="block text-xs text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
           {locale === "ka" ? "ელ. ფოსტა" : "Email"} <span className="text-byd-red">*</span>
         </label>
         <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -65,7 +78,7 @@ export default function ContactForm({ initialSubject = "" }: { initialSubject?: 
       </div>
 
       <div>
-        <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+        <label className="block text-xs text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
           {locale === "ka" ? "თემა" : "Subject"}
         </label>
         <input type="text" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })}
@@ -73,7 +86,7 @@ export default function ContactForm({ initialSubject = "" }: { initialSubject?: 
       </div>
 
       <div className="flex-1 flex flex-col">
-        <label className="block text-xs text-[#686D71] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+        <label className="block text-xs text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
           {locale === "ka" ? "შეტყობინება" : "Message"} <span className="text-byd-red">*</span>
         </label>
         <textarea rows={5} required value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}

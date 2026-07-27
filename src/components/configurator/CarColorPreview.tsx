@@ -29,7 +29,7 @@ export default function CarColorPreview({
   return (
     <div className="mb-8 content-surface-soft px-4 py-5 sm:px-5 lg:px-6">
       <div className="mb-5">
-        <p className="configurator-section-label text-[11px] font-semibold uppercase tracking-[0.2em] text-[#686D71]">
+        <p className="configurator-section-label text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--theme-text-muted)]">
           {selectLabel}
         </p>
       </div>
@@ -93,7 +93,7 @@ export default function CarColorPreview({
                   <p className="configurator-option-title truncate text-sm font-semibold text-[#252728]">
                     {getLocalizedValue(color.name, locale)}
                   </p>
-                  <p className="configurator-option-meta mt-1 text-[11px] text-[#686D71]">
+                  <p className="configurator-option-meta mt-1 text-[11px] text-[var(--theme-text-muted)]">
                     {color.priceModifier === 0
                       ? includedLabel
                       : `+${formatPrice(color.priceModifier)}`}

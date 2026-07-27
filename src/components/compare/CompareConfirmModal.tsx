@@ -302,7 +302,7 @@ export default function CompareConfirmModal({
                     >
                       <div className="flex w-16 h-10 shrink-0 items-center justify-center rounded bg-[#F0F2F3]">
                         <svg
-                          className="h-4 w-4 text-[#8A9094]"
+                          className="h-4 w-4 text-[#62676A]"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"

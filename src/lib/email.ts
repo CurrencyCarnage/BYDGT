@@ -3,6 +3,7 @@
 // once a mail provider (Resend / Nodemailer) is wired up.
 
 import { TestDriveBooking } from "./test-drive";
+import { formatIsoDateForDisplay } from "./date";
 
 const ADMIN_EMAIL = "currencycarnage@gmail.com";
 
@@ -22,7 +23,7 @@ Email:           ${b.email}
 Product:         ${b.modelFamilyName}
 Version:         ${b.versionLabel}
 Trim:            ${b.trimLabel || "—"}
-Preferred Date:  ${b.preferredDate}
+Preferred Date:  ${formatIsoDateForDisplay(b.preferredDate)}
 Preferred Time:  ${b.preferredTimeSlot}
 Message:         ${b.message || "—"}
 Language:        ${b.language.toUpperCase()}
@@ -64,7 +65,7 @@ export function buildCustomerTestDriveEmail(
 პროდუქტი:        ${b.modelFamilyName}
 ვერსია:          ${b.versionLabel}
 კომპლექტაცია:    ${b.trimLabel || "—"}
-სასურველი თარიღი: ${b.preferredDate}
+სასურველი თარიღი: ${formatIsoDateForDisplay(b.preferredDate)}
 სასურველი დრო:   ${b.preferredTimeSlot}
 
 შოურუმი
@@ -88,7 +89,7 @@ Your request
 Product:         ${b.modelFamilyName}
 Version:         ${b.versionLabel}
 Trim:            ${b.trimLabel || "—"}
-Preferred date:  ${b.preferredDate}
+Preferred date:  ${formatIsoDateForDisplay(b.preferredDate)}
 Preferred time:  ${b.preferredTimeSlot}
 
 Showroom

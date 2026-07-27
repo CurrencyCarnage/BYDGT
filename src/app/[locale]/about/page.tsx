@@ -282,7 +282,7 @@ export default async function AboutPage() {
                 </p>
               </div>
               <p
-                className="text-[#4E5356] text-lg leading-relaxed font-light"
+                className="text-lg font-normal leading-relaxed text-[var(--theme-text-secondary)]"
                 style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 {c.introText}
@@ -315,7 +315,7 @@ export default async function AboutPage() {
                     {c.globalLabel}
                   </p>
                   <p
-                    className="text-[#4E5356] leading-relaxed font-light"
+                    className="font-normal leading-relaxed text-[var(--theme-text-secondary)]"
                     style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {c.globalText}

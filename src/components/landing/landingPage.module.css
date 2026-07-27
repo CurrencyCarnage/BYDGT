@@ -219,8 +219,27 @@
 .panelCta:hover .ctaArrow { transform: translateX(0.25rem); border-color: #fff; background: rgba(215, 12, 25, 0.9); }
 
 @media (min-width: 768px) {
-  .panel[data-panel="commercial"] .panelCta { align-self: center; }
-  .panel[data-panel="services"] .panelCta { align-self: flex-end; }
+  .panelContent {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+
+  .panelToggle { grid-row: 1; }
+
+  .panelDetailsGrid {
+    grid-row: 2;
+    min-height: 0;
+  }
+
+  .panelCta {
+    grid-row: 3;
+    margin-top: 1rem;
+    align-self: end;
+    justify-self: start;
+  }
+
+  .panel[data-panel="commercial"] .panelCta { justify-self: center; }
+  .panel[data-panel="services"] .panelCta { justify-self: end; }
 }
 
 .finder {
@@ -368,7 +387,17 @@
 }
 
 @media (min-width: 768px) {
-  .panelActive[data-panel="services"] .panelDetailsGrid { flex-shrink: 0; }
+  .panelActive[data-panel="services"] .panelDetailsGrid {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .panelActive[data-panel="services"] .panelDetailsInner {
+    min-height: 0;
+    padding-right: 0.25rem;
+    overflow: visible;
+  }
 
   .panelActive[data-panel="services"] .finder,
   :global(html.light) .panelActive[data-panel="services"] .finder {
@@ -415,7 +444,6 @@
 }
 
 @media (min-width: 768px) and (max-height: 900px) {
-  .panelActive[data-panel="services"] { min-height: 44rem; }
   .panelActive[data-panel="services"] .panelContent { padding-block: 1.25rem 1rem; }
   .panelActive[data-panel="services"] .panelMeta { margin-bottom: 0.55rem; }
   .panelActive[data-panel="services"] .panelDescription { margin-top: 0.65rem; line-height: 1.35; }
@@ -427,8 +455,6 @@
   .panelActive[data-panel="services"] .finderSecondary { min-height: 2.45rem; }
   .panelActive[data-panel="services"] .finderSubmit,
   .panelActive[data-panel="services"] .finderSecondary { margin-top: 0.4rem; }
-  .panelActive[data-panel="services"] .panelCta { min-height: 2.65rem; margin-top: auto; }
-  .panelActive[data-panel="services"] .ctaArrow { width: 2.65rem; height: 2.65rem; }
 }
 
 @media (max-width: 767px) {

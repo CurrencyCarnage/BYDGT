@@ -9,6 +9,16 @@ function firstValue(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
+const serviceCategories = new Set([
+  "serviceParts", "fluids", "filters", "brakes", "exterior", "interior",
+  "electrical", "charging", "protection", "comfort", "other",
+]);
+
+function categoryValues(value: string | string[] | undefined) {
+  const values = Array.isArray(value) ? value : value ? [value] : [];
+  return Array.from(new Set(values.filter((category) => serviceCategories.has(category))));
+}
+
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
   const t = await getTranslations({ locale: params.locale, namespace: "landing.servicesPage.meta" });
   return { title: t("title"), description: t("description") };
@@ -17,6 +27,6 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 export default async function ServicesPage({ searchParams }: { searchParams: ServicesSearchParams }) {
   const model = firstValue(searchParams.model);
   const year = firstValue(searchParams.year);
-  const category = firstValue(searchParams.category);
-  return <ServicesHub initialSelection={{ model, year, category }} />;
+  const categories = categoryValues(searchParams.category);
+  return <ServicesHub initialSelection={{ model, year, categories }} />;
 }

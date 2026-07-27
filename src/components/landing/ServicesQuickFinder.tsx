@@ -13,10 +13,11 @@ type FinderErrors = Partial<Record<FinderField, string>>;
 
 export default function ServicesQuickFinder() {
   const t = useTranslations("landing.services.form");
+  const tSelect = useTranslations("formControls.select");
   const router = useRouter();
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
-  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState<string[]>([]);
   const [errors, setErrors] = useState<FinderErrors>({});
 
   const clearError = (field: FinderField) => {
@@ -33,7 +34,7 @@ export default function ServicesQuickFinder() {
     const nextErrors: FinderErrors = {};
     if (!model) nextErrors.model = t("errorModel");
     if (!year) nextErrors.year = t("errorYear");
-    if (!category) nextErrors.category = t("errorCategory");
+    if (!categories.length) nextErrors.category = t("errorCategory");
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
       const firstInvalidId = !model
@@ -45,7 +46,8 @@ export default function ServicesQuickFinder() {
       return;
     }
 
-    const query = new URLSearchParams({ model, year, category });
+    const query = new URLSearchParams({ model, year });
+    categories.forEach((category) => query.append("category", category));
     router.push(`/services?${query.toString()}`);
   };
 
@@ -84,10 +86,11 @@ export default function ServicesQuickFinder() {
           <label htmlFor="landing-service-category">{t("categoryLabel")}</label>
           <CustomSelect
             id="landing-service-category"
-            value={category}
-            onChange={(value) => { setCategory(value); clearError("category"); }}
-            placeholder={t("categoryPlaceholder")}
-            options={[{ value: "", label: t("categoryPlaceholder") }, ...serviceCategories.map((item) => ({ value: item, label: t(`categories.${item}`) }))]}
+            multiple
+            value={categories}
+            onChange={(value) => { setCategories(value); clearError("category"); }}
+            placeholder={tSelect("multiplePlaceholder")}
+            options={serviceCategories.map((item) => ({ value: item, label: t(`categories.${item}`) }))}
             aria-invalid={Boolean(errors.category)}
             aria-describedby={errors.category ? "landing-service-category-error" : undefined}
           />

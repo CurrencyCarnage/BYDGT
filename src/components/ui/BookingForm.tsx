@@ -5,6 +5,9 @@ import { useLocale } from "next-intl";
 import { getOfficialTrimLabel, testDriveModels, TIME_SLOTS } from "@/lib/test-drive";
 import TestDriveModal, { AgreementFlags } from "./TestDriveModal";
 import CustomSelect from "./CustomSelect";
+import DateField from "./DateField";
+import PhoneField from "./PhoneField";
+import { getTodayIsoInTbilisi } from "@/lib/date";
 
 const labels = {
   en: {
@@ -283,14 +286,12 @@ export default function BookingForm({
             >
               {t.phone} <span className="text-byd-red">*</span>
             </label>
-            <input
-              type="tel"
+            <PhoneField
               required
               value={form.phone}
-              onChange={(e) => set("phone", e.target.value)}
-              placeholder="+995 5XX XXX XXX"
-              className={inputClass}
-              style={{ fontFamily: "var(--font-montserrat)" }}
+              onChange={(value) => set("phone", value)}
+              aria-label={t.phone}
+              className="form-field-light"
             />
           </div>
         </div>
@@ -385,14 +386,13 @@ export default function BookingForm({
             >
               {t.date} <span className="text-byd-red">*</span>
             </label>
-            <input
-              type="date"
+            <DateField
               required
               value={form.preferredDate}
-              min={new Date().toISOString().split("T")[0]}
-              onChange={(e) => set("preferredDate", e.target.value)}
+              min={getTodayIsoInTbilisi()}
+              onChange={(value) => set("preferredDate", value)}
+              aria-label={t.date}
               className={inputClass}
-              style={{ fontFamily: "var(--font-montserrat)" }}
             />
           </div>
           <div>
