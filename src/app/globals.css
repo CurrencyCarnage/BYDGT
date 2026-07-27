@@ -2761,3 +2761,26 @@
     animation: none;
   }
 }
+
+/* The Services-page Products dropdown remains a dark contrast island even
+   when the surrounding header uses light-mode caption colors. */
+html.light nav [data-products-section-menu],
+nav.header-on-light-surface [data-products-section-menu] {
+  background: rgba(17, 18, 19, 0.96) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #FFFFFF !important;
+}
+
+html.light nav [data-products-section-menu][role="menu"] a[role="menuitem"][class*="text-white/"],
+nav.header-on-light-surface [data-products-section-menu][role="menu"] a[role="menuitem"][class*="text-white/"] {
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+html.light nav [data-products-section-menu][role="menu"] a[role="menuitem"][class*="text-white/"]:hover,
+html.light nav [data-products-section-menu][role="menu"] a[role="menuitem"][class*="text-white/"]:focus-visible,
+nav.header-on-light-surface [data-products-section-menu][role="menu"] a[role="menuitem"][class*="text-white/"]:hover,
+nav.header-on-light-surface [data-products-section-menu][role="menu"] a[role="menuitem"][class*="text-white/"]:focus-visible {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
+}

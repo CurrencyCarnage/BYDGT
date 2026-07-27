@@ -546,6 +546,7 @@ export default function Navbar() {
               {megaOpen && (isServicesSection ? (
                 <div
                   className="absolute left-1/2 top-full z-50 mt-4 w-56 -translate-x-1/2 border border-white/15 bg-[#111213]/95 p-2 shadow-2xl backdrop-blur-xl"
+                  data-products-section-menu
                   role="menu"
                   aria-label={tServicesNav("aria")}
                 >

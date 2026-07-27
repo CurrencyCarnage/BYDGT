@@ -1069,7 +1069,7 @@ function OneLineShowcase({
       style={{ background: LINE_BACKGROUNDS[displayedIndex] }}
     >
       <div className="relative z-20 section-container flex min-h-[inherit] flex-col px-4 pb-0 pt-6 md:pt-8">
-        <div className="flex items-start justify-end gap-3">
+        <div className="flex items-start justify-end">
           <div className="flex max-w-[15rem] flex-col items-end gap-1.5">
             <button
               type="button"
@@ -1133,12 +1133,6 @@ function OneLineShowcase({
               </p>
             ) : null}
           </div>
-          <p className={`select-none font-mono text-[10px] tracking-[0.16em] ${
-            lightScene ? "text-black/45" : "text-white/35"
-          }`}>
-            {String(displayedIndex + 1).padStart(2, "0")}&thinsp;/&thinsp;
-            {String(MODELS.length).padStart(2, "0")}
-          </p>
         </div>
         <h3
           className={`mx-auto mt-3 max-w-[11ch] bg-transparent text-center text-[clamp(2.2rem,6vw,4.75rem)] font-semibold leading-[0.9] select-none ${
@@ -1146,7 +1140,17 @@ function OneLineShowcase({
           }`}
           style={{ letterSpacing: "-0.045em" }}
         >
-          {displayedModel.name}
+          <Link
+            href={displayedModel.href}
+            aria-label={
+              ka
+                ? `${displayedModel.name}-ის ნახვა`
+                : `View ${displayedModel.name}`
+            }
+            className="transition-opacity duration-200 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
+          >
+            {displayedModel.name}
+          </Link>
         </h3>
       </div>
 
@@ -1170,7 +1174,7 @@ function OneLineShowcase({
               ka={ka}
               index={transition.to}
               position="incoming"
-              actionable={false}
+              actionable
               carRef={incomingCarRef}
               frontWheelRef={incomingFrontWheelRef}
               rearWheelRef={incomingRearWheelRef}
@@ -1183,11 +1187,7 @@ function OneLineShowcase({
             ka={ka}
             index={settledIndex}
             position={initialEntryComplete ? "settled" : "incoming"}
-            actionable={
-              initialEntryComplete &&
-              autoRollState === "stopped" &&
-              transition === null
-            }
+            actionable={initialEntryComplete}
             carRef={incomingCarRef}
             frontWheelRef={incomingFrontWheelRef}
             rearWheelRef={incomingRearWheelRef}

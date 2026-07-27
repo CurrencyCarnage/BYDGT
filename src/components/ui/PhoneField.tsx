@@ -120,9 +120,9 @@ export default function PhoneField({
           options={countries.map((item) => ({
             value: item.country,
             label: `${item.name} — ${item.country} +${item.callingCode}`,
-            shortLabel: `${item.country} +${item.callingCode}`,
+            shortLabel: `+${item.callingCode}`,
           }))}
-          className="w-[9.25rem] shrink-0"
+          className="w-[6.5rem] shrink-0"
           buttonClassName="!h-full !min-h-11 !border-0 !border-r !border-[var(--theme-border-subtle)] !bg-transparent !px-3 !py-2 !text-[var(--theme-text-primary)] focus-visible:!outline-byd-red"
         />
         <input

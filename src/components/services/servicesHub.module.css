@@ -92,11 +92,21 @@
   color: #FFFFFF;
 }
 
-/* Custom listbox triggers retain the existing form-control height. */
+/* Request-form text fields and listbox triggers share one exact control height. */
+.request input,
+.request [data-byd-select-trigger] {
+  box-sizing: border-box;
+  height: 2.75rem;
+  min-height: 2.75rem;
+}
+
 .request [data-byd-select-trigger],
 .finderForm [data-byd-select-trigger] {
-  min-height: 2.55rem;
   font: inherit;
+}
+
+.finderForm [data-byd-select-trigger] {
+  min-height: 2.55rem;
 }
 
 /* Keep form feedback and the submit action on one balanced row without
@@ -123,6 +133,40 @@
 
 .requestActions > .primary {
   flex: 0 0 auto;
+}
+
+.request > .appointmentActions {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  justify-items: center;
+}
+
+.appointmentActions > .requestMessages:empty {
+  display: none;
+}
+
+.appointmentActions > .requestMessages {
+  max-width: 100%;
+  text-align: center;
+}
+
+.appointmentActions > .primary {
+  min-width: min(100%, 16rem);
+  min-height: 3.25rem;
+  padding: .9rem 1.75rem;
+  font-size: .95rem;
+}
+
+.finderForm > .finderAction {
+  width: auto;
+  min-width: 0;
+  min-height: 2.75rem;
+  justify-self: start;
+  padding: .65rem 1rem;
+  font-size: .82rem;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .clearButton {
