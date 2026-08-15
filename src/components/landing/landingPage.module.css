@@ -69,19 +69,30 @@
 
 .panelImage {
   --landing-image-scale: 1.015;
-  --landing-image-offset-y: 0%;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100%;
+  min-height: 100%;
   object-fit: cover;
-  transform: translateY(var(--landing-image-offset-y)) scale(var(--landing-image-scale));
+  transform: scale(var(--landing-image-scale));
   transition: transform 1150ms var(--landing-ease);
 }
 
 .panelActive .panelImage { --landing-image-scale: 1.06; }
 
+/* Both services assets are already framed for this panel. Keep their viewport
+   framing identical in both themes and while the theme is switching. */
+.panel[data-panel="services"] .panelImage {
+  transform: none !important;
+  object-position: center center;
+}
+
 .panelOverlay {
   z-index: 1;
   background:
     linear-gradient(90deg, rgba(4, 9, 15, 0.74) 0%, rgba(4, 9, 15, 0.32) 64%, rgba(4, 9, 15, 0.14) 100%),
-    linear-gradient(180deg, rgba(4, 9, 15, 0.34) 0%, rgba(4, 9, 15, 0.08) 37%, rgba(4, 9, 15, 0.9) 100%);
+    linear-gradient(180deg, rgba(4, 9, 15, 0.34) 0%, rgba(4, 9, 15, 0.08) 37%, transparent 100%);
   transition: opacity 520ms ease;
 }
 
@@ -219,6 +230,16 @@
 .panelCta:hover .ctaArrow { transform: translateX(0.25rem); border-color: #fff; background: rgba(215, 12, 25, 0.9); }
 
 @media (min-width: 768px) {
+  /* The commercial source image includes a dark strip at its lower edge.
+     Crop that baked-in edge from the idle state, where the narrow panel would
+     otherwise show the image's full height. */
+  .panel[data-panel="commercial"] .panelImage {
+    --landing-image-scale: 1.12;
+    transform-origin: center top;
+  }
+
+  .panelActive[data-panel="commercial"] .panelImage { --landing-image-scale: 1.06; }
+
   .panelContent {
     display: grid;
     grid-template-rows: auto minmax(0, 1fr) auto;
@@ -569,14 +590,6 @@
   box-shadow: 0 1.25rem 3.75rem rgba(24, 28, 32, 0.12);
 }
 
-:global(html:not(.light)) .panel[data-panel="commercial"] .panelImage {
-  --landing-image-offset-y: -6.5%;
-}
-
-:global(html.light) .panel[data-panel="services"] .panelImage {
-  --landing-image-offset-y: -3%;
-}
-
 :global(html.light) .finderSubmit:focus-visible,
 :global(html.light) .finderSecondary:focus-visible,
 :global(html.light) .field select:focus-visible {
@@ -649,20 +662,6 @@
 }
 
 @media (max-width: 767px) {
-  :global(html:not(.light)) .panel[data-panel="commercial"] .panelImage {
-    --landing-image-offset-y: 0%;
-  }
-
-  :global(html.light) .panel[data-panel="commercial"] .panelImage {
-    --landing-image-offset-y: 0%;
-    object-position: center;
-  }
-
-  :global(html.light) .panel[data-panel="services"] .panelImage {
-    --landing-image-offset-y: 0%;
-    object-position: center 86%;
-  }
-
   .mobileExpanded[data-panel="services"] .panelOverlay {
     opacity: 0.42;
     background: linear-gradient(180deg, rgba(4, 9, 15, 0.01), rgba(4, 9, 15, 0.18) 70%, rgba(4, 9, 15, 0.38));

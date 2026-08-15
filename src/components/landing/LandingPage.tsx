@@ -10,6 +10,7 @@ import ServicesQuickFinder from "./ServicesQuickFinder";
 import styles from "./landingPage.module.css";
 
 const MOBILE_QUERY = "(max-width: 767px)";
+const SERVICES_ASSET_VERSION = "20260815-2";
 
 function ArrowIcon() {
   return (
@@ -57,8 +58,16 @@ function isLightTheme() {
 }
 
 function ResponsivePanelImage({ panel, priority, isLightMode }: { panel: LandingPanelDefinition; priority: boolean; isLightMode: boolean }) {
+  const desktopSource = isLightMode ? panel.lightDesktopImage : panel.desktopImage;
+  const mobileSource = isLightMode ? panel.lightMobileImage : panel.mobileImage;
+  const versionedDesktopSource = panel.id === "services"
+    ? { ...desktopSource, src: `${desktopSource.src}?v=${SERVICES_ASSET_VERSION}` }
+    : desktopSource;
+  const versionedMobileSource = panel.id === "services"
+    ? { ...mobileSource, src: `${mobileSource.src}?v=${SERVICES_ASSET_VERSION}` }
+    : mobileSource;
   const { props: desktopProps } = getImageProps({
-    src: isLightMode ? panel.lightDesktopImage : panel.desktopImage,
+    src: versionedDesktopSource,
     alt: "",
     fill: true,
     sizes: "(min-width: 1440px) 42vw, (min-width: 768px) 52vw, 100vw",
@@ -66,7 +75,7 @@ function ResponsivePanelImage({ panel, priority, isLightMode }: { panel: Landing
     priority,
   });
   const { props: mobileProps } = getImageProps({
-    src: isLightMode ? panel.lightMobileImage : panel.mobileImage,
+    src: versionedMobileSource,
     alt: "",
     fill: true,
     sizes: "100vw",
@@ -77,7 +86,12 @@ function ResponsivePanelImage({ panel, priority, isLightMode }: { panel: Landing
   return (
     <picture className={styles.panelPicture}>
       <source media={MOBILE_QUERY} srcSet={mobileProps.srcSet} sizes={mobileProps.sizes} />
-      <img {...desktopProps} alt="" className={styles.panelImage} aria-hidden="true" />
+      <img
+        {...desktopProps}
+        alt=""
+        className={styles.panelImage}
+        aria-hidden="true"
+      />
     </picture>
   );
 }
