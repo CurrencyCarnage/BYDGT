@@ -1143,15 +1143,15 @@ export default function CompareGrid({
 
                 return (
                   <section key={group.key} className="overflow-hidden rounded-xl border border-byd-red/70 bg-white shadow-[0_12px_30px_rgba(24,28,32,0.05)]">
-                    <div className="flex items-center gap-3 bg-byd-red px-4 py-3 text-white md:px-6 md:py-4">
-                      <span className="flex h-7 w-7 items-center justify-center border border-white/35 text-[10px] font-bold md:h-8 md:w-8 md:text-xs">0{groupIndex + 1}</span>
-                      <h3 className="text-sm font-bold uppercase tracking-[0.12em] md:text-base">{t(group.title, locale)}</h3>
+                    <div className="compare-group-heading flex items-center gap-3 px-4 py-3 md:px-6 md:py-4">
+                      <span className="compare-group-index flex h-7 w-7 items-center justify-center text-[10px] font-semibold md:h-8 md:w-8 md:text-xs">0{groupIndex + 1}</span>
+                      <h3 className="compare-group-title text-sm uppercase tracking-[0.12em] md:text-base">{t(group.title, locale)}</h3>
                     </div>
                     <div className="divide-y divide-[#E6E9EA]">
                       {rows.map((row) => (
                         <div key={row.key} className="bg-white">
                           <div className="border-b border-[#EEF0F1] bg-[#FAFBFB] px-4 py-2.5 text-center md:px-6">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-byd-red md:text-xs">{t(row.label, locale)}</span>
+                            <span className="compare-row-label inline-flex px-1 text-xs uppercase tracking-[0.12em] md:text-[0.9rem]">{t(row.label, locale)}</span>
                           </div>
                           <div className="grid grid-cols-3">
                             {row.values.map((value, ci) => {
@@ -1204,7 +1204,7 @@ export default function CompareGrid({
                       <div className="grid w-full gap-2">
                         <Link
                           href={`/${locale}/contact?subject=${encodeURIComponent(slot.familyName + " " + slot.label)}`}
-                          className="compare-pricing-cta compare-contact-cta inline-flex min-h-[2.75rem] w-full items-center justify-center gap-1.5 rounded-lg border border-[#C7CDD0] px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-[#252728] transition-colors hover:border-byd-red hover:text-byd-red md:px-3 md:text-[12px]"
+                          className="compare-pricing-cta compare-contact-cta inline-flex min-h-[2.75rem] w-full items-center justify-center gap-1.5 rounded-none border border-[#C7CDD0] px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-[#252728] transition-colors hover:border-byd-red hover:text-byd-red md:px-3 md:text-[12px]"
                         >
                           {labels.pricingValue}
                         </Link>

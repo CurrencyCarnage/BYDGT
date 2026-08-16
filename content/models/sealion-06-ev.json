@@ -12,6 +12,7 @@
     "power_kw": 240,
     "torque_nm": 305,
     "acceleration_0_100": 6.8,
+    "top_speed_kmh": 185,
     "battery_kwh": 69.07,
     "charging_ac_kw": 7
   },

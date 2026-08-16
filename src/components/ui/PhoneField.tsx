@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { parsePhoneNumberFromString, type CountryCode } from "libphonenumber-js";
 
 import CustomSelect from "./CustomSelect";
+import { getPhonePlaceholder } from "@/lib/phone-example";
 import {
   DEFAULT_PHONE_COUNTRY,
   createPhoneValue,
@@ -13,6 +14,7 @@ import {
   hasDisallowedPhoneCharacters,
   normalizePhoneDigits,
   parseInternationalPhone,
+  getMaxNationalDigits,
   validatePhoneValue,
   type PhoneValidationError,
   type PhoneValue,
@@ -99,6 +101,8 @@ export default function PhoneField({
 
   const validate = () =>
     setError(hasDisallowedInput ? "invalid" : validatePhoneValue(phone, required));
+  const placeholder = getPhonePlaceholder(phone.country, t("placeholder"));
+  const maxInputLength = getMaxNationalDigits(phone.country) + 6; // digits + grouping characters
   const errorMessage = error
     ? error === "invalid"
       ? t("invalid", { country: countries.find((item) => item.country === phone.country)?.name ?? phone.country })
@@ -141,7 +145,8 @@ export default function PhoneField({
             }
           }}
           onBlur={validate}
-          placeholder={t("placeholder")}
+          maxLength={maxInputLength}
+          placeholder={placeholder}
           aria-label={ariaLabel ?? t("number")}
           aria-describedby={describedBy}
           aria-invalid={Boolean(error)}

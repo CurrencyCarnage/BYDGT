@@ -16,9 +16,11 @@ import finderDesktop from "@/servicespage/product-finder-desktop.jpg";
 import finderMobile from "@/servicespage/product-finder-mobile.jpg";
 import styles from "./servicesHub.module.css";
 import CustomSelect, { type SelectOption } from "@/components/ui/CustomSelect";
-import DateField from "@/components/ui/DateField";
 import PhoneField from "@/components/ui/PhoneField";
-import { getTodayIsoInTbilisi } from "@/lib/date";
+import DateTimeField from "@/components/ui/DateTimeField";
+import { useAvailability } from "@/components/ui/useAvailability";
+import { TIME_SLOTS } from "@/lib/test-drive";
+import { NAME_MAX_LENGTH, validateName, type NameValidationError } from "@/lib/validation";
 
 type Selection = { model?: string; year?: string; categories?: string[] };
 const categories = ["serviceParts", "fluids", "filters", "brakes", "exterior", "interior", "electrical", "charging", "protection", "comfort", "other"] as const;
@@ -94,7 +96,7 @@ function requestOptions(t: ReturnType<typeof useTranslations>, key: string): Sel
 
 type RequestField = {
   key: string;
-  kind: "select" | "date" | "phone" | "text" | "textarea";
+  kind: "select" | "datetime" | "phone" | "text" | "textarea";
   optional?: boolean;
   wide?: boolean;
 };
@@ -103,11 +105,14 @@ function RequestForm({ t, kind }: { t: ReturnType<typeof useTranslations>; kind:
   const [sent, setSent] = useState(false);
   const [values, setValues] = useState<Record<string, string>>({});
   const [invalid, setInvalid] = useState(false);
+  const [nameError, setNameError] = useState<NameValidationError | null>(null);
+  const availability = useAvailability(TIME_SLOTS);
   const fields: RequestField[] = kind === "appointment"
     ? [
       { key: "model", kind: "select" }, { key: "year", kind: "select" },
-      { key: "serviceType", kind: "select" }, { key: "date", kind: "date" },
+      { key: "serviceType", kind: "select" },
       { key: "name", kind: "text" }, { key: "phone", kind: "phone" },
+      { key: "schedule", kind: "datetime", wide: true },
       { key: "note", kind: "textarea", optional: true, wide: true },
     ]
     : [
@@ -120,12 +125,19 @@ function RequestForm({ t, kind }: { t: ReturnType<typeof useTranslations>; kind:
   const setValue = (key: string, value: string) => {
     setValues((current) => ({ ...current, [key]: value }));
     setInvalid(false);
+    if (key === "name" && nameError) setNameError(null);
   };
-  if (sent) return <div className={styles.success}><p>{t(`${kind}.success`)}</p><button className={styles.textButton} onClick={() => { setSent(false); setValues({}); }}>{t("forms.newRequest")}</button></div>;
-  return <form className={styles.request} noValidate onSubmit={(event: FormEvent) => { event.preventDefault(); if (fields.filter((field) => !field.optional).some((field) => !values[field.key])) return setInvalid(true); setSent(true); }}><h3>{t(`${kind}.formTitle`)}</h3><p>{t(`${kind}.formText`)}</p><div className={styles.requestFields}>{fields.map((field) => {
+  const missingValue = (field: RequestField) =>
+    field.kind === "datetime"
+      ? !values.date || !values.time
+      : !values[field.key];
+  if (sent) return <div className={styles.success}><p>{t(`${kind}.success`)}</p><button className={styles.textButton} onClick={() => { setSent(false); setValues({}); setNameError(null); }}>{t("forms.newRequest")}</button></div>;
+  return <form className={styles.request} noValidate onSubmit={(event: FormEvent) => { event.preventDefault(); const nextNameError = validateName(values.name ?? ""); setNameError(nextNameError); if (nextNameError) return setInvalid(true); if (fields.filter((field) => !field.optional).some(missingValue)) return setInvalid(true); setSent(true); }}><h3>{t(`${kind}.formTitle`)}</h3><p>{t(`${kind}.formText`)}</p><div className={styles.requestFields}>{fields.map((field) => {
     const fieldClass = field.wide ? styles.wideField : undefined;
     const label = t(`fields.${field.key}`);
+    if (field.kind === "datetime") return <div key={field.key} className={`${styles.fieldGroup} ${fieldClass ?? ""}`}><span>{label}</span><DateTimeField date={values.date ?? ""} time={values.time ?? ""} onDateChange={(value) => setValue("date", value)} onTimeChange={(value) => setValue("time", value)} slots={availability.slots} bookedSlots={availability.bookedSlots} min={availability.min} max={availability.max} showError={invalid} /></div>;
+    if (field.key === "name") return <div key={field.key} className={`${styles.fieldGroup} ${fieldClass ?? ""}`}><label>{label}<input type="text" autoComplete="name" maxLength={NAME_MAX_LENGTH} value={values[field.key] ?? ""} onChange={(event) => setValue(field.key, event.target.value)} onBlur={() => setNameError(validateName(values[field.key] ?? ""))} aria-invalid={Boolean(nameError)} /></label>{nameError && <small className={styles.error} role="alert">{t(`forms.name.${nameError}`)}</small>}</div>;
     if (field.kind === "phone") return <div key={field.key} className={`${styles.fieldGroup} ${fieldClass ?? ""}`}><span>{label}</span><PhoneField required value={values[field.key] ?? ""} onChange={(value) => setValue(field.key, value)} aria-label={label} className="border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-alt)]" /></div>;
-    return <label key={field.key} className={fieldClass}>{label}{field.kind === "select" ? <CustomSelect value={values[field.key] ?? ""} onChange={(value) => setValue(field.key, value)} placeholder={t("fields.choose")} options={[{ value: "", label: t("fields.choose") }, ...requestOptions(t, field.key)]} /> : field.kind === "textarea" ? <textarea value={values[field.key] ?? ""} onChange={(event) => setValue(field.key, event.target.value)} /> : field.kind === "date" ? <DateField required value={values[field.key] ?? ""} onChange={(value) => setValue(field.key, value)} min={getTodayIsoInTbilisi()} aria-label={label} /> : <input type="text" value={values[field.key] ?? ""} onChange={(event) => setValue(field.key, event.target.value)} />}</label>;
+    return <label key={field.key} className={fieldClass}>{label}{field.kind === "select" ? <CustomSelect value={values[field.key] ?? ""} onChange={(value) => setValue(field.key, value)} placeholder={t("fields.choose")} options={[{ value: "", label: t("fields.choose") }, ...requestOptions(t, field.key)]} /> : field.kind === "textarea" ? <textarea value={values[field.key] ?? ""} onChange={(event) => setValue(field.key, event.target.value)} /> : <input type="text" value={values[field.key] ?? ""} onChange={(event) => setValue(field.key, event.target.value)} />}</label>;
   })}</div><div className={`${styles.requestActions} ${kind === "appointment" ? styles.appointmentActions : ""}`}><div className={styles.requestMessages}>{invalid && <small className={styles.error}>{t("forms.required")}</small>}{kind === "parts" && <small>{t("parts.helper")}</small>}</div><button className={styles.primary}>{t(`${kind}.submit`)}</button></div></form>;
 }

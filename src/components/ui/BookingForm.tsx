@@ -1,13 +1,23 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { getOfficialTrimLabel, testDriveModels, TIME_SLOTS } from "@/lib/test-drive";
 import TestDriveModal, { AgreementFlags } from "./TestDriveModal";
 import CustomSelect from "./CustomSelect";
-import DateField from "./DateField";
+import ProductPickerField, { type ProductPickerOption } from "./ProductPickerField";
+import DateTimeField from "./DateTimeField";
 import PhoneField from "./PhoneField";
-import { getTodayIsoInTbilisi } from "@/lib/date";
+import { useAvailability } from "./useAvailability";
+import {
+  EMAIL_MAX_LENGTH,
+  NAME_MAX_LENGTH,
+  normalizeName,
+  validateEmail,
+  validateName,
+  type EmailValidationError,
+  type NameValidationError,
+} from "@/lib/validation";
 
 const labels = {
   en: {
@@ -19,20 +29,34 @@ const labels = {
     version: "Version / Powertrain",
     versionHelper: "Select a powertrain variant",
     selectedTrim: "Selected trim",
-    date: "Preferred Date",
-    time: "Preferred Time",
+    schedule: "Preferred Date & Time",
     message: "Notes (optional)",
     submit: "Review & Confirm",
     sending: "Submitting...",
     required: "Required",
     selectModel: "Select a product",
     selectVersion: "Select a version",
-    selectTime: "Select a time slot",
+    clearModel: "Clear selected product",
+    versionLocked: "Choose a product first",
     successTitle: "Request Received!",
     successText:
       "Your test drive request has been received. Our team will contact you to confirm availability.",
     newRequest: "Submit Another Request",
     validationError: "Please fill in all required fields",
+    nameHelper: "First and last name, 2–100 characters",
+    nameErrors: {
+      required: "Enter your full name.",
+      tooShort: "Name must be at least 2 characters.",
+      tooLong: "Name must be 100 characters or fewer.",
+      charset: "Use letters, spaces, hyphens and apostrophes only.",
+      singleWord: "Enter first and last name, separated by a space.",
+    },
+    emailErrors: {
+      required: "Enter your email address.",
+      tooLong: "Email must be 320 characters or fewer.",
+      format: "Enter a valid email address, for example name@example.com.",
+      charset: "This email contains characters that are not allowed.",
+    },
   },
   ka: {
     fullName: "სახელი და გვარი",
@@ -43,20 +67,34 @@ const labels = {
     version: "ვერსია / ძრავის ტიპი",
     versionHelper: "აირჩიეთ ძრავის ვარიანტი",
     selectedTrim: "არჩეული კომპლექტაცია",
-    date: "სასურველი თარიღი",
-    time: "სასურველი დრო",
+    schedule: "სასურველი თარიღი და დრო",
     message: "შენიშვნა (სურვილისამებრ)",
     submit: "გადახედვა და დადასტურება",
     sending: "იგზავნება...",
     required: "სავალდებულო",
     selectModel: "აირჩიეთ პროდუქტი",
     selectVersion: "აირჩიეთ ვერსია",
-    selectTime: "აირჩიეთ დრო",
+    clearModel: "პროდუქტის გასუფთავება",
+    versionLocked: "ჯერ აირჩიეთ პროდუქტი",
     successTitle: "მოთხოვნა მიღებულია!",
     successText:
       "თქვენი ტესტდრაივის მოთხოვნა მიღებულია. ჩვენი გუნდი დაგიკავშირდებათ ხელმისაწვდომობის დასადასტურებლად.",
     newRequest: "ახალი მოთხოვნის გაგზავნა",
     validationError: "გთხოვთ შეავსოთ ყველა სავალდებულო ველი",
+    nameHelper: "სახელი და გვარი, 2–100 სიმბოლო",
+    nameErrors: {
+      required: "შეიყვანეთ სახელი და გვარი.",
+      tooShort: "სახელი უნდა შეიცავდეს მინიმუმ 2 სიმბოლოს.",
+      tooLong: "სახელი არ უნდა აღემატებოდეს 100 სიმბოლოს.",
+      charset: "გამოიყენეთ მხოლოდ ასოები, ხარვეზი, დეფისი და აპოსტროფი.",
+      singleWord: "შეიყვანეთ სახელი და გვარი ხარვეზით გამოყოფილი.",
+    },
+    emailErrors: {
+      required: "შეიყვანეთ ელ. ფოსტა.",
+      tooLong: "ელ. ფოსტა არ უნდა აღემატებოდეს 320 სიმბოლოს.",
+      format: "შეიყვანეთ სწორი ელ. ფოსტა, მაგალითად name@example.com.",
+      charset: "ელ. ფოსტა შეიცავს დაუშვებელ სიმბოლოებს.",
+    },
   },
 };
 
@@ -66,6 +104,12 @@ interface BookingFormProps {
   initialTrimId?: string;
 }
 
+const PRODUCT_IMAGES: Record<string, string> = {
+  "seal-06": "/images/models/seal-06-dmi/hero.jpg",
+  "sealion-06": "/images/models/sealion-06-dmi/hero-smoke-grey.jpg",
+  "yuan-up": "/images/models/yuan-up-ev/hero.jpg",
+};
+
 export default function BookingForm({
   initialModelId,
   initialVersionId,
@@ -74,6 +118,7 @@ export default function BookingForm({
   const locale = useLocale() as "en" | "ka";
   const appliedInitialSelection = useRef(false);
   const t = labels[locale];
+  const availability = useAvailability(TIME_SLOTS);
 
   const [form, setForm] = useState({
     fullName: "",
@@ -91,6 +136,10 @@ export default function BookingForm({
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [error, setError] = useState("");
+  const [nameError, setNameError] = useState<NameValidationError | null>(null);
+  const [emailError, setEmailError] = useState<EmailValidationError | null>(null);
+  const [phoneValid, setPhoneValid] = useState(false);
+  const [showFieldErrors, setShowFieldErrors] = useState(false);
 
   const selectedFamily = testDriveModels.find(
     (m) => m.id === form.modelFamilyId
@@ -142,11 +191,33 @@ export default function BookingForm({
 
   const handleModelChange = (modelId: string) => {
     setError("");
-    setForm((prev) => ({ ...prev, modelFamilyId: modelId, versionId: "", trimId: "" }));
+    const family = testDriveModels.find((model) => model.id === modelId);
+    // A single-powertrain product needs no second choice — pick it automatically.
+    const onlyVersionId = family?.versions.length === 1 ? family.versions[0].id : "";
+    setForm((prev) => ({ ...prev, modelFamilyId: modelId, versionId: onlyVersionId, trimId: "" }));
   };
+
+  const productOptions: ProductPickerOption[] = testDriveModels.map((model) => ({
+    id: model.id,
+    name: model.name,
+    subtitle: model.versions.map((version) => version.label).join(" · "),
+    image: PRODUCT_IMAGES[model.id] ?? "/images/models/seal-06-dmi/hero.jpg",
+  }));
 
   const validateAndOpenModal = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowFieldErrors(true);
+
+    const nextNameError = validateName(form.fullName, { requireFullName: true });
+    const nextEmailError = validateEmail(form.email);
+    setNameError(nextNameError);
+    setEmailError(nextEmailError);
+
+    if (nextNameError || nextEmailError || !phoneValid) {
+      setError(t.validationError);
+      return;
+    }
+
     const required = [
       "fullName",
       "phone",
@@ -176,6 +247,8 @@ export default function BookingForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
+          fullName: normalizeName(form.fullName),
+          email: form.email.trim(),
           language: locale,
           agreement: {
             accepted: true,
@@ -199,6 +272,7 @@ export default function BookingForm({
   };
 
   const inputClass = "form-field-light px-4 py-3 text-sm";
+  const invalidClass = " !border-byd-red";
 
   if (submitted) {
     return (
@@ -233,6 +307,10 @@ export default function BookingForm({
         <button
           onClick={() => {
             setSubmitted(false);
+            setShowFieldErrors(false);
+            setNameError(null);
+            setEmailError(null);
+            setPhoneValid(false);
             setForm({
               fullName: "",
               phone: "",
@@ -258,26 +336,46 @@ export default function BookingForm({
     <>
       <form
         onSubmit={validateAndOpenModal}
+        noValidate
         className="content-surface p-6 md:p-8 space-y-5"
       >
         {/* Name + Phone */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label
+              htmlFor="booking-full-name"
               className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
               style={{ fontFamily: "var(--font-montserrat)" }}
             >
               {t.fullName} <span className="text-byd-red">*</span>
             </label>
             <input
+              id="booking-full-name"
               type="text"
               required
+              autoComplete="name"
+              maxLength={NAME_MAX_LENGTH}
               value={form.fullName}
-              onChange={(e) => set("fullName", e.target.value)}
+              onChange={(e) => {
+                set("fullName", e.target.value);
+                if (nameError) setNameError(null);
+              }}
+              onBlur={() => setNameError(validateName(form.fullName, { requireFullName: true }))}
+              aria-invalid={Boolean(nameError)}
+              aria-describedby={nameError ? "booking-full-name-error" : "booking-full-name-helper"}
               placeholder={locale === "ka" ? "გიორგი ბერიძე" : "John Smith"}
-              className={inputClass}
+              className={inputClass + (nameError ? invalidClass : "")}
               style={{ fontFamily: "var(--font-montserrat)" }}
             />
+            {nameError ? (
+              <p id="booking-full-name-error" role="alert" className="mt-1.5 text-xs text-byd-red">
+                {t.nameErrors[nameError]}
+              </p>
+            ) : (
+              <p id="booking-full-name-helper" className="text-[11px] text-[#7A8080] mt-1.5" style={{ fontFamily: "var(--font-montserrat)" }}>
+                {t.nameHelper}
+              </p>
+            )}
           </div>
           <div>
             <label
@@ -290,6 +388,7 @@ export default function BookingForm({
               required
               value={form.phone}
               onChange={(value) => set("phone", value)}
+              onValidityChange={(valid) => setPhoneValid(valid)}
               aria-label={t.phone}
               className="form-field-light"
             />
@@ -299,20 +398,36 @@ export default function BookingForm({
         {/* Email */}
         <div>
           <label
+            htmlFor="booking-email"
             className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
             style={{ fontFamily: "var(--font-montserrat)" }}
           >
             {t.email} <span className="text-byd-red">*</span>
           </label>
           <input
+            id="booking-email"
             type="email"
             required
+            autoComplete="email"
+            inputMode="email"
+            maxLength={EMAIL_MAX_LENGTH}
             value={form.email}
-            onChange={(e) => set("email", e.target.value)}
+            onChange={(e) => {
+              set("email", e.target.value);
+              if (emailError) setEmailError(null);
+            }}
+            onBlur={() => setEmailError(validateEmail(form.email))}
+            aria-invalid={Boolean(emailError)}
+            aria-describedby={emailError ? "booking-email-error" : undefined}
             placeholder="you@example.com"
-            className={inputClass}
+            className={inputClass + (emailError ? invalidClass : "")}
             style={{ fontFamily: "var(--font-montserrat)" }}
           />
+          {emailError && (
+            <p id="booking-email-error" role="alert" className="mt-1.5 text-xs text-byd-red">
+              {t.emailErrors[emailError]}
+            </p>
+          )}
         </div>
 
         {/* Model + Version */}
@@ -324,15 +439,14 @@ export default function BookingForm({
             >
               {t.model} <span className="text-byd-red">*</span>
             </label>
-            <CustomSelect
-              required
+            <ProductPickerField
               aria-label={t.model}
               value={form.modelFamilyId}
+              options={productOptions}
               onChange={handleModelChange}
+              onClear={() => setForm((prev) => ({ ...prev, modelFamilyId: "", versionId: "", trimId: "" }))}
+              clearLabel={t.clearModel}
               placeholder={t.selectModel}
-              options={[{ value: "", label: t.selectModel }, ...testDriveModels.map((model) => ({ value: model.id, label: model.name }))]}
-              buttonClassName="px-4 py-3"
-              style={{ fontFamily: "var(--font-montserrat)" }}
             />
             <p
               className="text-[11px] text-[#7A8080] mt-1.5"
@@ -357,9 +471,9 @@ export default function BookingForm({
                 setForm((prev) => ({ ...prev, versionId, trimId: "" }));
               }}
               disabled={!selectedFamily}
-              placeholder={t.selectVersion}
-              options={[{ value: "", label: t.selectVersion }, ...versions.map((version) => ({ value: version.id, label: version.label }))]}
-              buttonClassName="px-4 py-3"
+              placeholder={selectedFamily ? t.selectVersion : t.versionLocked}
+              options={versions.map((version) => ({ value: version.id, label: version.label }))}
+              buttonClassName={`byd-version-select px-4 py-3 ${selectedFamily ? "" : "is-locked"}`}
               style={{ fontFamily: "var(--font-montserrat)" }}
             />
             <p
@@ -377,54 +491,40 @@ export default function BookingForm({
           </div>
         </div>
 
-        {/* Date + Time */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div>
-            <label
-              className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {t.date} <span className="text-byd-red">*</span>
-            </label>
-            <DateField
-              required
-              value={form.preferredDate}
-              min={getTodayIsoInTbilisi()}
-              onChange={(value) => set("preferredDate", value)}
-              aria-label={t.date}
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label
-              className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {t.time} <span className="text-byd-red">*</span>
-            </label>
-            <CustomSelect
-              required
-              aria-label={t.time}
-              value={form.preferredTimeSlot}
-              onChange={(timeSlot) => set("preferredTimeSlot", timeSlot)}
-              placeholder={t.selectTime}
-              options={[{ value: "", label: t.selectTime }, ...TIME_SLOTS.map((slot) => ({ value: slot, label: slot }))]}
-              buttonClassName="px-4 py-3"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            />
-          </div>
+        {/* Date + Time — one combined scheduler */}
+        <div>
+          <p
+            className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
+            style={{ fontFamily: "var(--font-montserrat)" }}
+          >
+            {t.schedule} <span className="text-byd-red">*</span>
+          </p>
+          <DateTimeField
+            date={form.preferredDate}
+            time={form.preferredTimeSlot}
+            onDateChange={(value) => set("preferredDate", value)}
+            onTimeChange={(value) => set("preferredTimeSlot", value)}
+            slots={availability.slots}
+            bookedSlots={availability.bookedSlots}
+            min={availability.min}
+            max={availability.max}
+            showError={showFieldErrors}
+          />
         </div>
 
         {/* Message */}
         <div>
           <label
+            htmlFor="booking-message"
             className="block text-xs text-[#686D71] uppercase tracking-wider mb-2"
             style={{ fontFamily: "var(--font-montserrat)" }}
           >
             {t.message}
           </label>
           <textarea
+            id="booking-message"
             rows={3}
+            maxLength={1000}
             value={form.message}
             onChange={(e) => set("message", e.target.value)}
             placeholder={
@@ -440,7 +540,8 @@ export default function BookingForm({
         {/* Error */}
         {error && (
           <p
-            className="text-sm text-red-400"
+            role="alert"
+            className="text-sm text-byd-red"
             style={{ fontFamily: "var(--font-montserrat)" }}
           >
             {error}

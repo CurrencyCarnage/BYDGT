@@ -299,7 +299,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
         "Electrified family SUV with generous space, confident performance, and long-range DM-i efficiency.",
       range: "1,670 km",
       power: "218 hp",
-      price: "From $36,000",
+      price: "$36,000",
     },
     ka: {
       name: "Sealion 06 DM-i",
@@ -307,7 +307,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
       description: "ფართო PHEV SUV — კომფორტი, დინამიკა და DM-i ეფექტიანობა.",
       range: "1,670 კმ",
       power: "218 ც.ძ.",
-      price: "$36,000-დან",
+      price: "$36,000",
     },
   },
   {
@@ -319,7 +319,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
         "Elegant plug-in hybrid sedan with long-range DM-i efficiency and a composed premium silhouette.",
       range: "2,110 km",
       power: "161 hp",
-      price: "From $30,000",
+      price: "$30,000",
     },
     ka: {
       name: "Seal 06 DM-i",
@@ -327,7 +327,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
       description: "ელეგანტური PHEV სედანი — დიდი სავალი და პრემიუმ დიზაინი.",
       range: "2,110 კმ",
       power: "161 ც.ძ.",
-      price: "$30,000-დან",
+      price: "$30,000",
     },
   },
   {
@@ -339,7 +339,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
         "Compact electric crossover with agile city-ready proportions and clean everyday EV practicality.",
       range: "401 km",
       power: "177 hp",
-      price: "From $25,000",
+      price: "$25,000",
     },
     ka: {
       name: "Yuan Up EV",
@@ -348,7 +348,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
         "კომპაქტური ელექტრო ქროსოვერი — ქალაქური მანევრულობა და EV პრაქტიკულობა.",
       range: "401 კმ",
       power: "177 ც.ძ.",
-      price: "$25,000-დან",
+      price: "$25,000",
     },
   },
   {
@@ -360,7 +360,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
         "Smart compact crossover pairing daily efficiency, flexible range, and confident urban-ready packaging.",
       range: "1,000 km",
       power: "212 hp",
-      price: "From $22,000",
+      price: "$22,000",
     },
     ka: {
       name: "Yuan Up DM-i",
@@ -369,7 +369,7 @@ const MODEL_SPECS: Array<ModelSpec | null> = [
         "მოქნილი კომპაქტური ქროსოვერი — ეფექტიანობა და პრაქტიკული სავალი.",
       range: "1,000 კმ",
       power: "212 ც.ძ.",
-      price: "$22,000-დან",
+      price: "$22,000",
     },
   },
 ];

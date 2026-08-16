@@ -825,6 +825,20 @@
     text-shadow: none !important;
   }
 
+  /* The compare header carries a photo background — keep it dark in both themes. */
+  html.light .compare-page-header--media {
+    background-color: #1C1E1F !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  html.light .compare-page-header--media .text-white {
+    color: #FFFFFF !important;
+  }
+
+  html.light .compare-page-header--media [class*="text-white/"] {
+    color: rgba(255, 255, 255, 0.86) !important;
+  }
+
   html.light .booking-media-section .media-copy-overlay .text-white,
   html.light .booking-media-section .media-copy-overlay [class*="text-white/"] {
     color: #FFFFFF !important;
@@ -1238,50 +1252,6 @@
     color: #9AA0A4 !important;
   }
 
-  html:not(.light) .model-trims-section {
-    background: #0E0F10 !important;
-  }
-
-  html:not(.light) .model-trims-section h2 {
-    color: #FFFFFF !important;
-  }
-
-  html:not(.light) .model-trims-section .trim-card {
-    background: #1A1C1D !important;
-    border-color: rgba(255, 255, 255, 0.10) !important;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24) !important;
-  }
-
-  html:not(.light) .model-trims-section .trim-card[data-selected="true"] {
-    border-color: #D70C19 !important;
-    box-shadow: 0 16px 36px rgba(215, 12, 25, 0.14) !important;
-  }
-
-  html:not(.light) .model-trims-section .trim-card h3,
-  html:not(.light) .model-trims-section .trim-card li {
-    color: #F2F4F5 !important;
-  }
-
-  html:not(.light) .model-trims-section .trim-card .bg-\[\#E1E4E6\] {
-    background-color: rgba(255, 255, 255, 0.12) !important;
-  }
-
-  html:not(.light) .model-trims-section .trim-card .text-\[\#8A9094\] {
-    color: #9AA0A4 !important;
-  }
-
-  html:not(.light) .model-trims-section .trim-card button,
-  html:not(.light) .model-trims-section .trim-card a:not(.bg-byd-red) {
-    border-color: rgba(255, 255, 255, 0.22) !important;
-    color: #F2F4F5 !important;
-  }
-
-  html:not(.light) .model-trims-section .trim-card button:hover,
-  html:not(.light) .model-trims-section .trim-card a:not(.bg-byd-red):hover {
-    border-color: #D70C19 !important;
-    color: #D70C19 !important;
-  }
-
   .form-field-light {
     width: 100%;
     background: #0A0B0C;
@@ -1425,94 +1395,580 @@
     color: var(--theme-text-muted);
   }
 
-  /* The official-trim journey remains part of the model page's dark surface. */
-  .model-purchase-experience #trims {
-    background-color: #0D0E0F !important;
+  /* Version / powertrain select — red like the page CTAs, dark red while locked. */
+  .byd-version-select {
+    background-color: #D70C19 !important;
+    border-color: #D70C19 !important;
+    color: #FFFFFF !important;
+    transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .model-purchase-experience #trims > .section-container > div > h2 {
-    color: #FFFFFF;
+  .byd-version-select:hover:not(.is-locked) {
+    background-color: #A80912 !important;
+    border-color: #A80912 !important;
   }
 
-  .model-purchase-experience #trims article {
-    border-color: rgba(232, 234, 235, 0.30);
-    background-color: #181A1B;
+  .byd-version-select * {
+    color: #FFFFFF !important;
   }
 
-  .model-purchase-experience #trims article.border-byd-red {
+  .byd-version-select.is-locked {
+    background-color: #5E1116 !important;
+    border-color: #5E1116 !important;
+    cursor: not-allowed;
+  }
+
+  .byd-version-select.is-locked,
+  .byd-version-select.is-locked * {
+    color: rgba(255, 255, 255, 0.62) !important;
+  }
+
+  /* Comparison group headings — red caption, no solid bar. */
+  .compare-group-heading {
+    border-bottom: 1px solid rgba(215, 12, 25, 0.22);
+    background: transparent;
+  }
+
+  .compare-group-title,
+  .compare-group-index {
+    color: #D70C19;
+  }
+
+  .compare-group-title {
+    font-weight: 600;
+  }
+
+  .compare-group-index {
+    border: 1px solid rgba(215, 12, 25, 0.45);
+  }
+
+  /* Comparison row captions — red with a thin white outline so they read on any row surface. */
+  .compare-row-label {
+    color: #D70C19;
+    font-weight: 600;
+    text-shadow: none;
+  }
+
+  /* ── Combined date + time-slot picker (test drive, service appointment) ── */
+  .byd-datetime {
+    --dt-surface: #202223;
+    --dt-surface-alt: #17191A;
+    --dt-border: rgba(255, 255, 255, 0.14);
+    --dt-border-strong: rgba(255, 255, 255, 0.26);
+    --dt-text: #F2F4F5;
+    --dt-text-muted: rgba(242, 244, 245, 0.56);
+    --dt-hover: rgba(255, 255, 255, 0.08);
+    width: 100%;
+  }
+
+  html.light .byd-datetime {
+    --dt-surface: #FFFFFF;
+    --dt-surface-alt: #F4F5F5;
+    --dt-border: rgba(37, 39, 40, 0.16);
+    --dt-border-strong: rgba(37, 39, 40, 0.32);
+    --dt-text: #252728;
+    --dt-text-muted: rgba(37, 39, 40, 0.58);
+    --dt-hover: rgba(37, 39, 40, 0.06);
+  }
+
+  .byd-datetime-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.875rem;
+    border: 1px solid var(--dt-border);
+    background: var(--dt-surface-alt);
+    color: var(--dt-text);
+  }
+
+  .byd-datetime-summary.is-filled {
+    border-color: rgba(215, 12, 25, 0.55);
+  }
+
+  .byd-datetime-summary.is-invalid {
     border-color: #D70C19;
-    background-color: rgba(215, 12, 25, 0.10);
   }
 
-  .model-purchase-experience #trims article h3,
-  .model-purchase-experience #trims article strong,
-  .model-purchase-experience #trims article button,
-  .model-purchase-experience #trims article a:not(.bg-byd-red) {
+  .byd-datetime-summary-label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dt-text-muted);
+    white-space: nowrap;
+  }
+
+  .byd-datetime-summary-value {
+    flex: 1;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--dt-text);
+  }
+
+  .byd-datetime-panel {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    gap: 0;
+    margin-top: 0.75rem;
+    border: 1px solid var(--dt-border);
+    background: var(--dt-surface);
+  }
+
+
+
+  .byd-datetime-calendar {
+    padding: 0.625rem;
+    min-width: 0;
+  }
+
+  .byd-datetime-monthbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.625rem;
+  }
+
+  .byd-datetime-month {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--dt-text);
+    text-transform: capitalize;
+  }
+
+  .byd-datetime-navbutton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1px solid var(--dt-border);
+    color: var(--dt-text);
+    background: transparent;
+    transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .byd-datetime-navbutton:hover:not(:disabled) {
+    background: var(--dt-hover);
+    border-color: var(--dt-border-strong);
+  }
+
+  .byd-datetime-navbutton:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  .byd-datetime-weekdays,
+  .byd-datetime-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.125rem;
+  }
+
+  .byd-datetime-weekdays span {
+    padding: 0.125rem 0;
+    text-align: center;
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dt-text-muted);
+  }
+
+  .byd-datetime-day {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.125rem;
+    height: 2.125rem;
+    margin: 0 auto;
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--dt-text);
+    background: transparent;
+    transition: background-color 180ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .byd-datetime-day:hover:not(:disabled) {
+    background: var(--dt-hover);
+  }
+
+  .byd-datetime-day:focus-visible {
+    outline: 2px solid #D70C19;
+    outline-offset: 2px;
+  }
+
+  .byd-datetime-day.is-outside {
+    color: var(--dt-text-muted);
+    opacity: 0.45;
+  }
+
+  .byd-datetime-day:disabled {
+    opacity: 0.32;
+    cursor: not-allowed;
+  }
+
+  .byd-datetime-day.is-today:not(.is-selected) {
+    box-shadow: inset 0 0 0 1px var(--dt-border-strong);
+  }
+
+  .byd-datetime-day.is-full:not(:disabled),
+  .byd-datetime-day.is-full {
+    text-decoration: line-through;
+  }
+
+  .byd-datetime-day.is-selected {
+    background: #D70C19;
+    color: #FFFFFF;
+    font-weight: 700;
+    opacity: 1;
+  }
+
+  .byd-datetime-slots {
+    display: flex;
+    flex-direction: column;
+    padding: 0.625rem 0.75rem 0.75rem;
+    border-top: 1px solid var(--dt-border);
+    background: var(--dt-surface-alt);
+  }
+
+
+
+  .byd-datetime-slots-title {
+    margin-bottom: 0.375rem;
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dt-text-muted);
+  }
+
+  .byd-datetime-slots-scroll {
+    /* Every slot visible on two rows — no scrolling. */
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.375rem;
+    overflow: visible;
+  }
+
+  @media (max-width: 47.9375rem) {
+    .byd-datetime-slots-scroll {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .byd-datetime-slot {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    height: 2.125rem;
+    padding: 0 0.375rem;
+    border: 1px solid var(--dt-border);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--dt-text);
+    background: transparent;
+    transition: background-color 180ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 180ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .byd-datetime-slot:hover:not(:disabled) {
+    border-color: #D70C19;
+    color: #D70C19;
+  }
+
+  .byd-datetime-slot:focus-visible {
+    outline: 2px solid #D70C19;
+    outline-offset: 2px;
+  }
+
+  .byd-datetime-slot.is-selected {
+    background: #D70C19;
+    border-color: #D70C19;
     color: #FFFFFF;
   }
 
-  .model-purchase-experience #trims article button {
-    border-color: rgba(232, 234, 235, 0.70);
+  .byd-datetime-slot:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 
-  .model-purchase-experience #trims article a:not(.bg-byd-red) {
-    border-color: rgba(232, 234, 235, 0.42);
+  .byd-datetime-slot.is-taken {
+    text-decoration: line-through;
   }
 
-  html:not(.light) .model-purchase-experience #trims article [class*="text-[#252728]"],
-  html:not(.light) .model-purchase-experience #trims article [class*="text-[#8A9094]"],
-  html:not(.light) .model-purchase-experience #trims article [class*="text-[#686D71]"],
-  html:not(.light) .model-purchase-experience #trims article [class*="text-[#4E5356]"] {
+  .byd-datetime-slot > span:first-child {
+    white-space: nowrap;
+  }
+
+  .byd-datetime-slot-note {
+    font-size: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--dt-text-muted);
+  }
+
+  .byd-datetime-hint,
+  .byd-datetime-error {
+    margin-top: 0.5rem;
+    font-size: 0.6875rem;
+  }
+
+  .byd-datetime-hint {
+    color: var(--dt-text-muted);
+  }
+
+  .byd-datetime-error {
+    color: #D70C19;
+    font-weight: 600;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .byd-datetime-day,
+    .byd-datetime-slot,
+    .byd-datetime-navbutton {
+      transition: none;
+    }
+  }
+
+  /* ── Official trims — one combined selector + spec matrix panel ── */
+  .model-trims-section {
+    background-color: #1C1E1F;
+  }
+
+  .model-trims-heading {
     color: #FFFFFF;
   }
 
-  .model-purchase-experience #trims article [class*="border-[#DDE1E3]"] {
-    border-color: rgba(232, 234, 235, 0.30);
+  .model-trims-panel {
+    border: 1px solid rgba(232, 234, 235, 0.20);
+    background-color: #131516;
   }
 
-  .model-purchase-experience #trims article [class*="bg-[#FBFBFA]"],
-  .model-purchase-experience #trims article [class*="bg-white"] {
+  .model-trims-tab {
+    position: relative;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .model-trims-tab-bar {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: transparent;
+    margin-bottom: 0.85rem;
+    transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .model-trims-tab-active .model-trims-tab-bar {
+    background-color: #D70C19;
+  }
+
+  .model-trims-tab-name {
+    color: rgba(255, 255, 255, 0.74);
+    transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .model-trims-tab:hover .model-trims-tab-name {
+    color: #FFFFFF;
+  }
+
+  .model-trims-tab-caption {
+    color: rgba(232, 234, 235, 0.50);
+  }
+
+  .model-trims-tab-price {
+    color: rgba(255, 255, 255, 0.88);
+    transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .model-trims-tab-active .model-trims-tab-name,
+  .model-trims-tab-active .model-trims-tab-price {
+    color: #D70C19;
+  }
+
+  @media (min-width: 640px) {
+    .model-trims-tab + .model-trims-tab {
+      border-left: 1px solid rgba(232, 234, 235, 0.18);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .model-trims-tab + .model-trims-tab {
+      border-top: 1px solid rgba(232, 234, 235, 0.18);
+      padding-top: 0.75rem;
+    }
+  }
+
+  .model-trims-actions {
+    align-self: center;
+  }
+
+  .model-trims-action {
+    border: 1px solid rgba(232, 234, 235, 0.42);
+    color: #FFFFFF;
+    letter-spacing: 0.04em;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .model-trims-action:hover {
+    border-color: rgba(232, 234, 235, 0.85);
+    background-color: rgba(232, 234, 235, 0.08);
+  }
+
+  .model-trims-action-primary,
+  .model-trims-action-primary:hover {
+    background-color: #D70C19;
+    border-color: #D70C19;
+    color: #FFFFFF;
+  }
+
+  .model-trims-action-primary:hover {
+    background-color: #A80912;
+    border-color: #A80912;
+  }
+
+  .model-trims-divider {
+    height: 1px;
+    background-color: rgba(232, 234, 235, 0.16);
+  }
+
+  .model-trims-card {
+    border: 1px solid rgba(232, 234, 235, 0.20);
     background-color: #181A1B;
   }
 
-  html.light .model-purchase-experience #trims {
-    background-color: #F4F5F5 !important;
+  .model-trims-card-heading {
+    border-bottom: 1px solid rgba(232, 234, 235, 0.16);
   }
 
-  html.light .model-purchase-experience #trims > .section-container > div > h2,
-  html.light .model-purchase-experience #trims article h3,
-  html.light .model-purchase-experience #trims article strong,
-  html.light .model-purchase-experience #trims article button,
-  html.light .model-purchase-experience #trims article a:not(.bg-byd-red) {
+  .model-trims-card-icon {
+    border: 1px solid rgba(232, 234, 235, 0.35);
+    color: #FFFFFF;
+  }
+
+  .model-trims-card-title {
+    color: #FFFFFF;
+  }
+
+  .model-trims-row {
+    border-bottom: 1px solid rgba(232, 234, 235, 0.10);
+  }
+
+  .model-trims-row:last-child {
+    border-bottom: none;
+  }
+
+  .model-trims-row-label {
+    color: rgba(232, 234, 235, 0.50);
+  }
+
+  .model-trims-value {
+    color: rgba(232, 234, 235, 0.62);
+  }
+
+  .model-trims-value-active {
+    color: #D70C19;
+  }
+
+  .model-trims-highlight {
+    color: rgba(232, 234, 235, 0.82);
+  }
+
+  .model-trims-note {
+    color: rgba(232, 234, 235, 0.45);
+  }
+
+  html.light .model-trims-section {
+    background-color: #F4F5F5;
+  }
+
+  html.light .model-trims-heading {
     color: #252728;
   }
 
-  html.light .model-purchase-experience #trims article {
+  html.light .model-trims-panel,
+  html.light .model-trims-card {
     border-color: rgba(37, 39, 40, 0.16);
     background-color: #FFFFFF;
   }
 
-  html.light .model-purchase-experience #trims article.border-byd-red {
-    border-color: #D70C19;
-    background-color: rgba(215, 12, 25, 0.03);
+  html.light .model-trims-card {
+    background-color: #FBFBFA;
   }
 
-  html.light .model-purchase-experience #trims article button,
-  html.light .model-purchase-experience #trims article a:not(.bg-byd-red),
-  html.light .model-purchase-experience #trims article [class*="border-[#DDE1E3]"] {
-    border-color: rgba(37, 39, 40, 0.18);
+  html.light .model-trims-tab-name {
+    color: rgba(37, 39, 40, 0.72);
   }
 
-  html.light .model-purchase-experience #trims article [class*="text-[#8A9094]"],
-  html.light .model-purchase-experience #trims article [class*="text-[#686D71]"],
-  html.light .model-purchase-experience #trims article [class*="text-[#4E5356]"] {
+  html.light .model-trims-tab:hover .model-trims-tab-name,
+  html.light .model-trims-tab-price,
+  html.light .model-trims-card-title {
+    color: #252728;
+  }
+
+  html.light .model-trims-tab-active .model-trims-tab-name,
+  html.light .model-trims-tab-active .model-trims-tab-price,
+  html.light .model-trims-value-active {
+    color: #D70C19;
+  }
+
+  html.light .model-trims-tab-caption,
+  html.light .model-trims-row-label,
+  html.light .model-trims-note {
     color: var(--theme-text-muted);
   }
 
-  html.light .model-purchase-experience #trims article [class*="bg-[#FBFBFA]"],
-  html.light .model-purchase-experience #trims article [class*="bg-white"] {
-    background-color: #FFFFFF;
+  html.light .model-trims-value {
+    color: var(--theme-text-secondary);
   }
+
+  html.light .model-trims-highlight {
+    color: #4E5356;
+  }
+
+  html.light .model-trims-action {
+    border-color: rgba(37, 39, 40, 0.20);
+    color: #252728;
+  }
+
+  html.light .model-trims-action:hover {
+    border-color: rgba(37, 39, 40, 0.45);
+    background-color: #F0F2F3;
+  }
+
+  html.light .model-trims-action-primary {
+    color: #FFFFFF;
+  }
+
+  html.light .model-trims-tab + .model-trims-tab,
+  html.light .model-trims-card-heading,
+  html.light .model-trims-row {
+    border-color: rgba(37, 39, 40, 0.14);
+  }
+
+  html.light .model-trims-card-icon {
+    border-color: rgba(37, 39, 40, 0.25);
+    color: #252728;
+  }
+
+  html.light .model-trims-divider {
+    background-color: rgba(37, 39, 40, 0.14);
+  }
+
 
   /* Model pages are dark journeys by default, including the header over trim upgrades. */
   html:not(.light) body:has(.model-purchase-experience) nav[data-light-page="true"] {

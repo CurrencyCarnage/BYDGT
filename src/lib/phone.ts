@@ -8,6 +8,8 @@ import {
 } from "libphonenumber-js";
 
 export const DEFAULT_PHONE_COUNTRY: CountryCode = "GE";
+/** E.164 allows at most 15 digits including the country calling code. */
+export const MAX_PHONE_DIGITS = 15;
 
 export type PhoneValue = {
   country: CountryCode;
@@ -45,12 +47,17 @@ export function hasDisallowedPhoneCharacters(value: string) {
   return false;
 }
 
+/** Digits still available for the national number once the calling code is counted. */
+export function getMaxNationalDigits(country: CountryCode) {
+  return Math.max(1, MAX_PHONE_DIGITS - getCountryCallingCode(country).length);
+}
+
 export function createPhoneValue(
   country: CountryCode = DEFAULT_PHONE_COUNTRY,
   nationalNumber = "",
 ): PhoneValue {
-  const digits = normalizePhoneDigits(nationalNumber);
   const callingCode = getCountryCallingCode(country);
+  const digits = normalizePhoneDigits(nationalNumber).slice(0, getMaxNationalDigits(country));
   const parsed = digits
     ? parsePhoneNumberFromString(`+${callingCode}${digits}`, { extract: false })
     : undefined;
@@ -79,6 +86,7 @@ export function validatePhoneValue(
   required = false,
 ): PhoneValidationError | null {
   if (!value.nationalNumber) return required ? "required" : null;
+  if (value.callingCode.length + value.nationalNumber.length > MAX_PHONE_DIGITS) return "tooLong";
   const lengthError = validatePhoneNumberLength(value.nationalNumber, value.country);
   if (lengthError === "TOO_SHORT") return "tooShort";
   if (lengthError === "TOO_LONG") return "tooLong";
@@ -90,6 +98,7 @@ export function normalizeE164Phone(value: unknown) {
   if (typeof value !== "string") return null;
   const parsed = parsePhoneNumberFromString(value, { extract: false });
   if (!parsed?.isValid()) return null;
+  if (parsed.number.replace(/\D/g, "").length > MAX_PHONE_DIGITS) return null;
   return {
     e164: parsed.number,
     country: parsed.country,

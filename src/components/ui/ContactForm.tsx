@@ -3,6 +3,50 @@
 import { useState } from "react";
 import { useLocale } from "next-intl";
 import PhoneField from "./PhoneField";
+import {
+  EMAIL_MAX_LENGTH,
+  NAME_MAX_LENGTH,
+  normalizeName,
+  validateEmail,
+  validateName,
+  type EmailValidationError,
+  type NameValidationError,
+} from "@/lib/validation";
+
+const fieldCopy = {
+  en: {
+    nameHelper: "2–100 characters",
+    name: {
+      required: "Enter your name.",
+      tooShort: "Name must be at least 2 characters.",
+      tooLong: "Name must be 100 characters or fewer.",
+      charset: "Use letters, spaces, hyphens and apostrophes only.",
+      singleWord: "Enter first and last name, separated by a space.",
+    },
+    email: {
+      required: "Enter your email address.",
+      tooLong: "Email must be 320 characters or fewer.",
+      format: "Enter a valid email address, for example name@example.com.",
+      charset: "This email contains characters that are not allowed.",
+    },
+  },
+  ka: {
+    nameHelper: "2–100 სიმბოლო",
+    name: {
+      required: "შეიყვანეთ სახელი.",
+      tooShort: "სახელი უნდა შეიცავდეს მინიმუმ 2 სიმბოლოს.",
+      tooLong: "სახელი არ უნდა აღემატებოდეს 100 სიმბოლოს.",
+      charset: "გამოიყენეთ მხოლოდ ასოები, ხარვეზი, დეფისი და აპოსტროფი.",
+      singleWord: "შეიყვანეთ სახელი და გვარი ხარვეზით გამოყოფილი.",
+    },
+    email: {
+      required: "შეიყვანეთ ელ. ფოსტა.",
+      tooLong: "ელ. ფოსტა არ უნდა აღემატებოდეს 320 სიმბოლოს.",
+      format: "შეიყვანეთ სწორი ელ. ფოსტა, მაგალითად name@example.com.",
+      charset: "ელ. ფოსტა შეიცავს დაუშვებელ სიმბოლოებს.",
+    },
+  },
+};
 
 export default function ContactForm({ initialSubject = "" }: { initialSubject?: string }) {
   const locale = useLocale();
@@ -11,13 +55,22 @@ export default function ContactForm({ initialSubject = "" }: { initialSubject?: 
   const [loading, setLoading] = useState(false);
   const [phoneValid, setPhoneValid] = useState(true);
   const [phoneError, setPhoneError] = useState(false);
+  const [nameError, setNameError] = useState<NameValidationError | null>(null);
+  const [emailError, setEmailError] = useState<EmailValidationError | null>(null);
+  const copy = locale === "ka" ? fieldCopy.ka : fieldCopy.en;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const nextNameError = validateName(form.name);
+    const nextEmailError = validateEmail(form.email);
+    setNameError(nextNameError);
+    setEmailError(nextEmailError);
+    if (nextNameError || nextEmailError) return;
     if (!phoneValid) {
       setPhoneError(true);
       return;
     }
+    setForm((current) => ({ ...current, name: normalizeName(current.name), email: current.email.trim() }));
     setLoading(true);
     await new Promise((r) => setTimeout(r, 1000));
     setLoading(false);
@@ -45,14 +98,25 @@ export default function ContactForm({ initialSubject = "" }: { initialSubject?: 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="content-surface p-6 md:p-8 space-y-5 h-full flex flex-col">
+    <form onSubmit={handleSubmit} noValidate className="content-surface p-6 md:p-8 space-y-5 h-full flex flex-col">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label className="block text-xs text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+          <label htmlFor="contact-name" className="block text-xs text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
             {locale === "ka" ? "სახელი" : "Name"} <span className="text-byd-red">*</span>
           </label>
-          <input type="text" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-            placeholder={locale === "ka" ? "გიორგი" : "John"} className={inputClass} style={{ fontFamily: "var(--font-montserrat)" }} />
+          <input id="contact-name" type="text" required autoComplete="name" maxLength={NAME_MAX_LENGTH}
+            value={form.name}
+            onChange={(e) => { setForm({ ...form, name: e.target.value }); if (nameError) setNameError(null); }}
+            onBlur={() => setNameError(validateName(form.name))}
+            aria-invalid={Boolean(nameError)}
+            aria-describedby={nameError ? "contact-name-error" : "contact-name-helper"}
+            placeholder={locale === "ka" ? "გიორგი" : "John"}
+            className={inputClass + (nameError ? " !border-byd-red" : "")} style={{ fontFamily: "var(--font-montserrat)" }} />
+          {nameError ? (
+            <p id="contact-name-error" role="alert" className="mt-1.5 text-xs text-byd-red">{copy.name[nameError]}</p>
+          ) : (
+            <p id="contact-name-helper" className="mt-1.5 text-[11px] text-[var(--theme-text-secondary)]">{copy.nameHelper}</p>
+          )}
         </div>
         <div>
           <label className="block text-xs text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
@@ -70,11 +134,19 @@ export default function ContactForm({ initialSubject = "" }: { initialSubject?: 
       </div>
 
       <div>
-        <label className="block text-xs text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
+        <label htmlFor="contact-email" className="block text-xs text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-montserrat)" }}>
           {locale === "ka" ? "ელ. ფოსტა" : "Email"} <span className="text-byd-red">*</span>
         </label>
-        <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-          placeholder="you@example.com" className={inputClass} style={{ fontFamily: "var(--font-montserrat)" }} />
+        <input id="contact-email" type="email" required autoComplete="email" inputMode="email" maxLength={EMAIL_MAX_LENGTH}
+          value={form.email}
+          onChange={(e) => { setForm({ ...form, email: e.target.value }); if (emailError) setEmailError(null); }}
+          onBlur={() => setEmailError(validateEmail(form.email))}
+          aria-invalid={Boolean(emailError)}
+          aria-describedby={emailError ? "contact-email-error" : undefined}
+          placeholder="you@example.com" className={inputClass + (emailError ? " !border-byd-red" : "")} style={{ fontFamily: "var(--font-montserrat)" }} />
+        {emailError && (
+          <p id="contact-email-error" role="alert" className="mt-1.5 text-xs text-byd-red">{copy.email[emailError]}</p>
+        )}
       </div>
 
       <div>

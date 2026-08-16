@@ -1,7 +1,7 @@
 const ISO_DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 const DISPLAY_DATE_PATTERN = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 
-export type DateValidationError = "format" | "invalid" | "past";
+export type DateValidationError = "format" | "invalid" | "past" | "future";
 
 function isoFromParts(year: number, month: number, day: number) {
   return `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
@@ -31,21 +31,24 @@ export function parseDisplayDate(value: string) {
   return isoFromParts(Number(year), Number(month), Number(day));
 }
 
-export function validateDisplayDate(value: string, min?: string): DateValidationError | null {
+export function validateDisplayDate(value: string, min?: string, max?: string): DateValidationError | null {
   if (!DISPLAY_DATE_PATTERN.test(value)) return "format";
   const isoValue = parseDisplayDate(value);
   if (!isoValue) return "invalid";
   if (min && isoValue < min) return "past";
+  if (max && isoValue > max) return "future";
   return null;
 }
 
-export function validateIsoDate(value: unknown, min?: string) {
+export function validateIsoDate(value: unknown, min?: string, max?: string) {
   if (typeof value !== "string") return false;
   const match = ISO_DATE_PATTERN.exec(value);
   if (!match) return false;
   const [, year, month, day] = match;
   if (!isRealCalendarDate(Number(year), Number(month), Number(day))) return false;
-  return !min || value >= min;
+  if (min && value < min) return false;
+  if (max && value > max) return false;
+  return true;
 }
 
 export function getTodayIsoInTbilisi(date = new Date()) {
@@ -57,4 +60,49 @@ export function getTodayIsoInTbilisi(date = new Date()) {
   }).formatToParts(date);
   const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
   return `${values.year}-${values.month}-${values.day}`;
+}
+
+/** Bookings can be requested up to the end of next calendar year. */
+export function getMaxBookingIsoInTbilisi(date = new Date()) {
+  const currentYear = Number(getTodayIsoInTbilisi(date).slice(0, 4));
+  return `${currentYear + 1}-12-31`;
+}
+
+export function addIsoDays(isoValue: string, days: number) {
+  const match = ISO_DATE_PATTERN.exec(isoValue);
+  if (!match) return isoValue;
+  const [, year, month, day] = match;
+  const next = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day) + days));
+  return isoFromParts(next.getUTCFullYear(), next.getUTCMonth() + 1, next.getUTCDate());
+}
+
+/** Calendar grid for a month, Monday-first, padded to whole weeks. */
+export function getMonthMatrix(year: number, month: number) {
+  const firstDay = new Date(Date.UTC(year, month - 1, 1));
+  const offset = (firstDay.getUTCDay() + 6) % 7; // Monday = 0
+  const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  const cells: Array<{ iso: string; day: number; inMonth: boolean }> = [];
+
+  for (let index = 0; index < offset; index += 1) {
+    const date = new Date(Date.UTC(year, month - 1, index - offset + 1));
+    cells.push({
+      iso: isoFromParts(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate()),
+      day: date.getUTCDate(),
+      inMonth: false,
+    });
+  }
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    cells.push({ iso: isoFromParts(year, month, day), day, inMonth: true });
+  }
+  while (cells.length % 7 !== 0) {
+    const last = cells[cells.length - 1];
+    const next = new Date(`${last.iso}T00:00:00Z`);
+    next.setUTCDate(next.getUTCDate() + 1);
+    cells.push({
+      iso: isoFromParts(next.getUTCFullYear(), next.getUTCMonth() + 1, next.getUTCDate()),
+      day: next.getUTCDate(),
+      inMonth: false,
+    });
+  }
+  return cells;
 }

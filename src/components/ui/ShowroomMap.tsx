@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -13,11 +13,24 @@ interface ShowroomMapProps {
   zoom?: number;
   preview?: boolean;
   popupEyebrow?: string;
+  recenterLabel?: string;
 }
 
-export default function ShowroomMap({ lat, lng, label, address, routePath, zoom = 15, preview = false, popupEyebrow = "BYD Tbilisi" }: ShowroomMapProps) {
+export default function ShowroomMap({
+  lat,
+  lng,
+  label,
+  address,
+  routePath,
+  zoom = 15,
+  preview = false,
+  popupEyebrow = "BYD Tbilisi",
+  recenterLabel = "Re-center map",
+}: ShowroomMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const markerRef = useRef<L.Marker | null>(null);
+  const homeViewRef = useRef<{ bounds: L.LatLngBounds | null }>({ bounds: null });
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -96,7 +109,7 @@ export default function ShowroomMap({ lat, lng, label, address, routePath, zoom 
       popupAnchor: [0, -54],
     });
 
-    L.marker([lat, lng], { icon: pinIcon })
+    const marker = L.marker([lat, lng], { icon: pinIcon })
       .addTo(map)
       .bindPopup(
         `<div style="
@@ -138,10 +151,15 @@ export default function ShowroomMap({ lat, lng, label, address, routePath, zoom 
       )
       .openPopup();
 
+    markerRef.current = marker;
+
     if (hasRoute) {
       const bounds = L.latLngBounds(resolvedRoute);
       bounds.extend([lat, lng]);
+      homeViewRef.current.bounds = bounds;
       map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+    } else {
+      homeViewRef.current.bounds = null;
     }
 
     L.control.zoom({ position: "bottomright" }).addTo(map);
@@ -150,8 +168,38 @@ export default function ShowroomMap({ lat, lng, label, address, routePath, zoom 
     return () => {
       map.remove();
       mapRef.current = null;
+      markerRef.current = null;
     };
   }, [lat, lng, label, address, routePath, zoom, preview, popupEyebrow]);
 
-  return <div ref={containerRef} className="w-full h-full" />;
+  const recenter = useCallback(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const bounds = homeViewRef.current.bounds;
+    if (bounds) {
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14, animate: true });
+    } else {
+      map.setView([lat, lng], zoom, { animate: true });
+    }
+    markerRef.current?.openPopup();
+  }, [lat, lng, zoom]);
+
+  return (
+    <div className="relative w-full h-full">
+      <div ref={containerRef} className="w-full h-full" />
+      <button
+        type="button"
+        onClick={recenter}
+        aria-label={recenterLabel}
+        title={recenterLabel}
+        className="absolute bottom-[5.5rem] right-2.5 z-[500] flex h-11 w-11 items-center justify-center border border-[#DDE1E3] bg-white text-[#252728] shadow-[0_6px_18px_rgba(24,28,32,0.18)] transition-colors duration-200 hover:border-byd-red hover:text-byd-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-byd-red"
+      >
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+          <circle cx="12" cy="12" r="3.2" />
+          <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3" strokeLinecap="round" />
+          <circle cx="12" cy="12" r="7.5" opacity="0.55" />
+        </svg>
+      </button>
+    </div>
+  );
 }

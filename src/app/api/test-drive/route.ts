@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
-import { TestDriveBooking, SHOWROOM, getOfficialTrimLabel, testDriveModels } from "@/lib/test-drive";
+import { TestDriveBooking, SHOWROOM, getOfficialTrimLabel, testDriveModels, TIME_SLOTS } from "@/lib/test-drive";
 import { buildAdminTestDriveEmail, buildCustomerTestDriveEmail } from "@/lib/email";
-import { saveBooking } from "@/lib/bookings";
-import { getTodayIsoInTbilisi, validateIsoDate } from "@/lib/date";
+import { isSlotTaken, saveBooking } from "@/lib/bookings";
+import { getMaxBookingIsoInTbilisi, getTodayIsoInTbilisi, validateIsoDate } from "@/lib/date";
 import { normalizeE164Phone } from "@/lib/phone";
+import { normalizeName, validateEmail, validateName } from "@/lib/validation";
 
 function generateId() {
   return `td-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -70,6 +71,10 @@ export async function POST(req: NextRequest) {
         product: "პროდუქტი არასწორია",
         version: "ვერსია არასწორია",
         trim: "კომპლექტაცია არასწორია",
+        name: "შეიყვანეთ სახელი და გვარი (2–100 სიმბოლო, მხოლოდ ასოები)",
+        email: "შეიყვანეთ სწორი ელ. ფოსტა",
+        timeSlot: "აირჩიეთ სწორი დროის ინტერვალი",
+        slotTaken: "ეს დრო უკვე დაკავებულია — აირჩიეთ სხვა",
       }
       : {
         missing: "Missing required field",
@@ -79,6 +84,10 @@ export async function POST(req: NextRequest) {
         product: "Invalid product",
         version: "Invalid version",
         trim: "Invalid trim",
+        name: "Enter a full name (2–100 characters, letters only)",
+        email: "Enter a valid email address",
+        timeSlot: "Choose a valid time slot",
+        slotTaken: "That time slot is already booked — please choose another",
       };
 
     // ── Validate required fields ────────────────────────────────
@@ -101,13 +110,31 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    const fullName = normalizeName(String(body.fullName));
+    if (validateName(fullName, { requireFullName: true })) {
+      return NextResponse.json({ error: messages.name }, { status: 400 });
+    }
+
+    const email = String(body.email).trim();
+    if (validateEmail(email)) {
+      return NextResponse.json({ error: messages.email }, { status: 400 });
+    }
+
     const normalizedPhone = normalizeE164Phone(body.phone);
     if (!normalizedPhone) {
       return NextResponse.json({ error: messages.phone }, { status: 400 });
     }
 
-    if (!validateIsoDate(body.preferredDate, getTodayIsoInTbilisi())) {
+    if (!validateIsoDate(body.preferredDate, getTodayIsoInTbilisi(), getMaxBookingIsoInTbilisi())) {
       return NextResponse.json({ error: messages.date }, { status: 400 });
+    }
+
+    if (!TIME_SLOTS.includes(body.preferredTimeSlot)) {
+      return NextResponse.json({ error: messages.timeSlot }, { status: 400 });
+    }
+
+    if (await isSlotTaken(body.preferredDate, body.preferredTimeSlot)) {
+      return NextResponse.json({ error: messages.slotTaken }, { status: 409 });
     }
 
     // ── Validate agreement ──────────────────────────────────────
@@ -147,10 +174,10 @@ export async function POST(req: NextRequest) {
     const booking: TestDriveBooking = {
       id: generateId(),
       createdAt: now,
-      fullName:  body.fullName.trim(),
+      fullName,
       phone:     normalizedPhone.e164,
       phoneCountry: normalizedPhone.country,
-      email:     body.email.trim(),
+      email,
       modelFamilyId:   family.id,
       modelFamilyName: family.name,
       versionId:    version.id,

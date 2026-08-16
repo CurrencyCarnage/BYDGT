@@ -12,7 +12,8 @@
       "openCalendar": "Open calendar",
       "format": "Enter the date as DD/MM/YYYY.",
       "invalid": "Enter a valid calendar date.",
-      "past": "Choose today or a future date."
+      "past": "Choose today or a future date.",
+      "future": "Choose a date within the next year."
     },
     "phone": {
       "countryCode": "Country code",
@@ -24,6 +25,20 @@
       "tooShort": "This number is too short.",
       "tooLong": "This number is too long.",
       "invalid": "Enter a valid number for {country}."
+    },
+    "dateTime": {
+      "summaryLabel": "Selected",
+      "empty": "No date selected yet",
+      "dateLabel": "Preferred date",
+      "timeLabel": "Time slot",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "fullyBooked": "Fully booked",
+      "slotTaken": "Already booked",
+      "slotTakenShort": "Booked",
+      "pickDateFirst": "Choose a date to see available times.",
+      "dateRequired": "Choose a preferred date.",
+      "timeRequired": "Choose a time slot."
     }
   },
   "common": {
@@ -226,21 +241,313 @@
       }
     },
     "servicesPage": {
-      "meta": { "title": "BYD Service, Spare Parts & Accessories in Georgia | BYD Tbilisi", "description": "Book BYD service, request genuine spare parts, explore accessories, and find relevant service products through BYD Tbilisi · GT Group." },
-      "images": { "hero": "BYD vehicle inside a modern service facility", "service": "BYD vehicle undergoing professional service inspection", "parts": "Automotive spare parts arranged in a clean service environment", "accessories": "Practical accessories presented with a BYD passenger vehicle", "finder": "BYD service environment with vehicle products and equipment" },
-      "hero": { "eyebrow": "Official BYD Care", "title": "Service, parts and support for your BYD", "body": "Book professional maintenance, request genuine spare parts, explore accessories, or find products suited to your vehicle in one trusted destination.", "primary": "Book Car Service", "secondary": "Find Parts & Products", "caption": "Official support by BYD Tbilisi · GT Group", "trust": { "service": "Professional service support", "components": "Genuine BYD components", "fluids": "Product-specific fluids and consumables", "compatibility": "Compatibility verification" } },
-      "nav": { "aria": "Services page sections", "service": "Service", "spare-parts": "Spare Parts", "accessories": "Accessories", "product-finder": "Product Finder" },
-      "official": { "eyebrow": "01 · Official Service", "title": "Professional care throughout your BYD ownership", "body": "From routine inspections to diagnostics and technical maintenance, the BYD Tbilisi service team provides product-specific support using approved procedures, specialist equipment, and genuine components.", "items": { "maintenance": { "title": "Scheduled Maintenance", "body": "Routine inspections and maintenance based on your vehicle, mileage, and usage." }, "diagnostics": { "title": "Diagnostics", "body": "Electrical, software, battery-system, and general vehicle diagnostics." }, "repair": { "title": "Repair & Technical Support", "body": "Professional assessment and repair support for eligible BYD passenger vehicles." }, "fluids": { "title": "Fluids, Oils & Consumables", "body": "Product-specific oils, coolants, filters, brake components, and other service consumables." } } },
-      "appointment": { "formTitle": "Request a service appointment", "formText": "Send your preferred details and our team will contact you to confirm the appointment.", "submit": "Request Appointment", "success": "Your request has been received. A BYD Tbilisi representative will contact you to confirm the appointment." },
-      "parts": { "eyebrow": "02 · Genuine Spare Parts", "title": "The correct part for the correct BYD product", "body": "Request genuine BYD spare parts using your vehicle information. Our team will verify compatibility before confirming availability, pricing, and collection or installation options.", "assurance": { "genuine": "Genuine BYD components", "compatibility": "Compatibility checked by the service team", "vin": "Support using VIN or product details", "installation": "Installation can be requested", "availability": "Availability confirmed by a representative" }, "categories": { "filters": "Filters and maintenance parts", "brakes": "Brake components", "suspension": "Suspension and steering", "exterior": "Exterior body parts", "electrical": "Lighting and electrical", "interior": "Interior components", "battery": "Battery-system enquiry", "other": "Other / Not sure" }, "formTitle": "Request a spare part", "formText": "Tell us what you need and our team will review your request.", "submit": "Request Spare Part", "success": "Your spare-part request has been received. A representative will confirm the next steps.", "helper": "Submitting this form does not reserve a part. Compatibility, availability, and price will be confirmed by the BYD Tbilisi team." },
-      "accessories": { "eyebrow": "03 · Accessories", "title": "Make your BYD work better for everyday life", "body": "Explore practical, protective, and comfort-focused accessories selected for BYD passenger vehicles. Product compatibility and availability are confirmed before order.", "primary": "Request an Accessory", "secondary": "Use Product Finder", "cards": { "protection": { "title": "Protection", "body": "Help protect high-use areas from everyday wear, weather, and cargo.", "examples": "All-weather mats · boot liners · protective films" }, "storage": { "title": "Storage & Practicality", "body": "Keep the cabin and luggage area organized for commuting and longer trips.", "examples": "Luggage organizers · cargo nets · device holders" }, "comfort": { "title": "Comfort", "body": "Add practical comfort and convenience without compromising fit.", "examples": "Sunshades · cabin organizers · seat protection" }, "exterior": { "title": "Exterior & Style", "body": "Personalize selected details while preserving a product-appropriate appearance.", "examples": "Exterior trim · wheel accessories · lifestyle items" }, "charging": { "title": "Charging & Mobility", "body": "Organize and support everyday charging with appropriate accessories.", "examples": "Charging cables · cable bags · mobility accessories" } } },
-      "finder": { "eyebrow": "04 · Product Finder", "title": "Find products suited to your BYD", "body": "Select your vehicle and the type of item you need. The finder will narrow service-product groups, fluids, spare parts, and accessories.", "primary": "Find Products", "secondary": "Book Service", "clear": "Clear filters", "empty": "Select your BYD product, product year, and category to view relevant product groups.", "compatibility": "Compatibility must be confirmed using the selected product, year, and vehicle details.", "request": "Request Details", "categories": { "serviceParts": "Service Parts", "fluids": "Oils & Fluids", "filters": "Filters & Consumables", "brakes": "Brakes", "exterior": "Exterior Parts", "interior": "Interior Parts", "electrical": "Electrical", "charging": "Charging Accessories", "protection": "Protection Accessories", "comfort": "Comfort & Storage", "other": "Other" } },
-      "results": { "maintenance": { "category": "Service Parts", "title": "Scheduled Maintenance Filter Set", "body": "A service-product group for routine maintenance planning.", "installation": "Professional installation can be requested." }, "cabin": { "category": "Filters & Consumables", "title": "Cabin Air Filter", "body": "Cabin air filtration group for service enquiries.", "installation": "Professional installation can be requested." }, "brakeFluid": { "category": "Oils & Fluids", "title": "Brake Fluid", "body": "Product-specific brake fluid enquiry group.", "installation": "Professional installation can be requested." }, "coolant": { "category": "Oils & Fluids", "title": "Cooling System Fluid", "body": "Cooling-system consumables for compatibility review.", "installation": "Professional installation can be requested." }, "brakePads": { "category": "Brakes", "title": "Front Brake Pad Set", "body": "Brake component group for inspection and replacement enquiries.", "installation": "Professional installation can be requested." }, "wipers": { "category": "Exterior Parts", "title": "Wiper Blade Set", "body": "Exterior maintenance accessory group.", "installation": "Installation guidance is available on request." }, "chargingCable": { "category": "Charging Accessories", "title": "Charging Cable", "body": "Charging accessory group for supported products.", "installation": "Installation guidance is available on request." }, "cableBag": { "category": "Charging Accessories", "title": "Charging Cable Storage Bag", "body": "Practical storage accessory for everyday charging.", "installation": "Installation guidance is available on request." }, "mats": { "category": "Protection Accessories", "title": "All-Weather Floor Mat Set", "body": "Cabin-protection accessory group.", "installation": "Installation guidance is available on request." }, "liner": { "category": "Protection Accessories", "title": "Cargo Area Liner", "body": "Cargo-area protection accessory group.", "installation": "Installation guidance is available on request." }, "organizer": { "category": "Comfort & Storage", "title": "Luggage Organizer", "body": "Storage and practicality accessory group.", "installation": "Installation guidance is available on request." }, "manual": { "category": "Other", "title": "Manual Compatibility Request", "body": "Send your vehicle details for a compatibility review.", "installation": "Professional installation can be requested." } },
-      "assurance": { "official": { "title": "Official Support", "body": "Local assistance from BYD Tbilisi · GT Group" }, "check": { "title": "Compatibility Check", "body": "Vehicle details are reviewed before products or parts are confirmed" }, "genuine": { "title": "Genuine Components", "body": "Genuine BYD components supplied where specified" }, "installation": { "title": "Service Installation", "body": "Request professional installation with eligible items" } },
-      "faq": { "eyebrow": "Support answers", "title": "Frequently asked questions", "items": { "fit": { "question": "How do I know which part fits my BYD?", "answer": "Select your product and year in the Product Finder or submit your VIN. The service team will verify compatibility before confirming the request." }, "online": { "question": "Can I buy parts directly online?", "answer": "The website currently accepts enquiries rather than online purchases. A representative will confirm compatibility, availability, price, and next steps." }, "installation": { "question": "Can I request installation with a spare part?", "answer": "Yes. Choose the installation option and the team will discuss the appropriate service appointment." }, "service": { "question": "Do you service every BYD product?", "answer": "The team will confirm service support based on the product, market specification, and required work." }, "stock": { "question": "Are accessories always in stock?", "answer": "Availability varies. Submit an enquiry and the team will confirm current availability or ordering options." }, "vin": { "question": "Do I need my VIN?", "answer": "A VIN is not mandatory for the initial request, but it can significantly improve compatibility verification." } } },
-      "final": { "title": "Need help choosing the right service or product?", "body": "Send us your BYD details and the BYD Tbilisi team will guide you to the appropriate service, spare part, fluid, or accessory.", "primary": "Contact BYD Service", "secondary": "Chat on WhatsApp" },
-      "fields": { "choose": "Select an option", "model": "BYD product", "year": "Product year", "category": "Category", "keyword": "Keyword or product description", "serviceType": "Service type", "date": "Preferred date", "name": "Full name", "phone": "Phone number", "note": "Optional note", "vin": "VIN — optional", "partCategory": "Part category", "description": "Part name or description", "installation": "Installation required?" },
-      "forms": { "required": "Please complete the required fields.", "newRequest": "Send another request", "options": { "one": "Scheduled maintenance", "two": "Diagnostics", "three": "Yes", "other": "Other / Not sure" } }
+      "meta": {
+        "title": "BYD Service, Spare Parts & Accessories in Georgia | BYD Tbilisi",
+        "description": "Book BYD service, request genuine spare parts, explore accessories, and find relevant service products through BYD Tbilisi · GT Group."
+      },
+      "images": {
+        "hero": "BYD vehicle inside a modern service facility",
+        "service": "BYD vehicle undergoing professional service inspection",
+        "parts": "Automotive spare parts arranged in a clean service environment",
+        "accessories": "Practical accessories presented with a BYD passenger vehicle",
+        "finder": "BYD service environment with vehicle products and equipment"
+      },
+      "hero": {
+        "eyebrow": "Official BYD Care",
+        "title": "Service, parts and support for your BYD",
+        "body": "Book professional maintenance, request genuine spare parts, explore accessories, or find products suited to your vehicle in one trusted destination.",
+        "primary": "Book Car Service",
+        "secondary": "Find Parts & Products",
+        "caption": "Official support by BYD Tbilisi · GT Group",
+        "trust": {
+          "service": "Professional service support",
+          "components": "Genuine BYD components",
+          "fluids": "Product-specific fluids and consumables",
+          "compatibility": "Compatibility verification"
+        }
+      },
+      "nav": {
+        "aria": "Services page sections",
+        "service": "Service",
+        "spare-parts": "Spare Parts",
+        "accessories": "Accessories",
+        "product-finder": "Product Finder"
+      },
+      "official": {
+        "eyebrow": "01 · Official Service",
+        "title": "Professional care throughout your BYD ownership",
+        "body": "From routine inspections to diagnostics and technical maintenance, the BYD Tbilisi service team provides product-specific support using approved procedures, specialist equipment, and genuine components.",
+        "items": {
+          "maintenance": {
+            "title": "Scheduled Maintenance",
+            "body": "Routine inspections and maintenance based on your vehicle, mileage, and usage."
+          },
+          "diagnostics": {
+            "title": "Diagnostics",
+            "body": "Electrical, software, battery-system, and general vehicle diagnostics."
+          },
+          "repair": {
+            "title": "Repair & Technical Support",
+            "body": "Professional assessment and repair support for eligible BYD passenger vehicles."
+          },
+          "fluids": {
+            "title": "Fluids, Oils & Consumables",
+            "body": "Product-specific oils, coolants, filters, brake components, and other service consumables."
+          }
+        }
+      },
+      "appointment": {
+        "formTitle": "Request a service appointment",
+        "formText": "Send your preferred details and our team will contact you to confirm the appointment.",
+        "submit": "Request Appointment",
+        "success": "Your request has been received. A BYD Tbilisi representative will contact you to confirm the appointment."
+      },
+      "parts": {
+        "eyebrow": "02 · Genuine Spare Parts",
+        "title": "The correct part for the correct BYD product",
+        "body": "Request genuine BYD spare parts using your vehicle information. Our team will verify compatibility before confirming availability, pricing, and collection or installation options.",
+        "assurance": {
+          "genuine": "Genuine BYD components",
+          "compatibility": "Compatibility checked by the service team",
+          "vin": "Support using VIN or product details",
+          "installation": "Installation can be requested",
+          "availability": "Availability confirmed by a representative"
+        },
+        "categories": {
+          "filters": "Filters and maintenance parts",
+          "brakes": "Brake components",
+          "suspension": "Suspension and steering",
+          "exterior": "Exterior body parts",
+          "electrical": "Lighting and electrical",
+          "interior": "Interior components",
+          "battery": "Battery-system enquiry",
+          "other": "Other / Not sure"
+        },
+        "formTitle": "Request a spare part",
+        "formText": "Tell us what you need and our team will review your request.",
+        "submit": "Request Spare Part",
+        "success": "Your spare-part request has been received. A representative will confirm the next steps.",
+        "helper": "Submitting this form does not reserve a part. Compatibility, availability, and price will be confirmed by the BYD Tbilisi team."
+      },
+      "accessories": {
+        "eyebrow": "03 · Accessories",
+        "title": "Make your BYD work better for everyday life",
+        "body": "Explore practical, protective, and comfort-focused accessories selected for BYD passenger vehicles. Product compatibility and availability are confirmed before order.",
+        "primary": "Request an Accessory",
+        "secondary": "Use Product Finder",
+        "cards": {
+          "protection": {
+            "title": "Protection",
+            "body": "Help protect high-use areas from everyday wear, weather, and cargo.",
+            "examples": "All-weather mats · boot liners · protective films"
+          },
+          "storage": {
+            "title": "Storage & Practicality",
+            "body": "Keep the cabin and luggage area organized for commuting and longer trips.",
+            "examples": "Luggage organizers · cargo nets · device holders"
+          },
+          "comfort": {
+            "title": "Comfort",
+            "body": "Add practical comfort and convenience without compromising fit.",
+            "examples": "Sunshades · cabin organizers · seat protection"
+          },
+          "exterior": {
+            "title": "Exterior & Style",
+            "body": "Personalize selected details while preserving a product-appropriate appearance.",
+            "examples": "Exterior trim · wheel accessories · lifestyle items"
+          },
+          "charging": {
+            "title": "Charging & Mobility",
+            "body": "Organize and support everyday charging with appropriate accessories.",
+            "examples": "Charging cables · cable bags · mobility accessories"
+          }
+        }
+      },
+      "finder": {
+        "eyebrow": "04 · Product Finder",
+        "title": "Find products suited to your BYD",
+        "body": "Select your vehicle and the type of item you need. The finder will narrow service-product groups, fluids, spare parts, and accessories.",
+        "primary": "Find Products",
+        "secondary": "Book Service",
+        "clear": "Clear filters",
+        "empty": "Select your BYD product, product year, and category to view relevant product groups.",
+        "compatibility": "Compatibility must be confirmed using the selected product, year, and vehicle details.",
+        "request": "Request Details",
+        "categories": {
+          "serviceParts": "Service Parts",
+          "fluids": "Oils & Fluids",
+          "filters": "Filters & Consumables",
+          "brakes": "Brakes",
+          "exterior": "Exterior Parts",
+          "interior": "Interior Parts",
+          "electrical": "Electrical",
+          "charging": "Charging Accessories",
+          "protection": "Protection Accessories",
+          "comfort": "Comfort & Storage",
+          "other": "Other"
+        }
+      },
+      "results": {
+        "maintenance": {
+          "category": "Service Parts",
+          "title": "Scheduled Maintenance Filter Set",
+          "body": "A service-product group for routine maintenance planning.",
+          "installation": "Professional installation can be requested."
+        },
+        "cabin": {
+          "category": "Filters & Consumables",
+          "title": "Cabin Air Filter",
+          "body": "Cabin air filtration group for service enquiries.",
+          "installation": "Professional installation can be requested."
+        },
+        "brakeFluid": {
+          "category": "Oils & Fluids",
+          "title": "Brake Fluid",
+          "body": "Product-specific brake fluid enquiry group.",
+          "installation": "Professional installation can be requested."
+        },
+        "coolant": {
+          "category": "Oils & Fluids",
+          "title": "Cooling System Fluid",
+          "body": "Cooling-system consumables for compatibility review.",
+          "installation": "Professional installation can be requested."
+        },
+        "brakePads": {
+          "category": "Brakes",
+          "title": "Front Brake Pad Set",
+          "body": "Brake component group for inspection and replacement enquiries.",
+          "installation": "Professional installation can be requested."
+        },
+        "wipers": {
+          "category": "Exterior Parts",
+          "title": "Wiper Blade Set",
+          "body": "Exterior maintenance accessory group.",
+          "installation": "Installation guidance is available on request."
+        },
+        "chargingCable": {
+          "category": "Charging Accessories",
+          "title": "Charging Cable",
+          "body": "Charging accessory group for supported products.",
+          "installation": "Installation guidance is available on request."
+        },
+        "cableBag": {
+          "category": "Charging Accessories",
+          "title": "Charging Cable Storage Bag",
+          "body": "Practical storage accessory for everyday charging.",
+          "installation": "Installation guidance is available on request."
+        },
+        "mats": {
+          "category": "Protection Accessories",
+          "title": "All-Weather Floor Mat Set",
+          "body": "Cabin-protection accessory group.",
+          "installation": "Installation guidance is available on request."
+        },
+        "liner": {
+          "category": "Protection Accessories",
+          "title": "Cargo Area Liner",
+          "body": "Cargo-area protection accessory group.",
+          "installation": "Installation guidance is available on request."
+        },
+        "organizer": {
+          "category": "Comfort & Storage",
+          "title": "Luggage Organizer",
+          "body": "Storage and practicality accessory group.",
+          "installation": "Installation guidance is available on request."
+        },
+        "manual": {
+          "category": "Other",
+          "title": "Manual Compatibility Request",
+          "body": "Send your vehicle details for a compatibility review.",
+          "installation": "Professional installation can be requested."
+        }
+      },
+      "assurance": {
+        "official": {
+          "title": "Official Support",
+          "body": "Local assistance from BYD Tbilisi · GT Group"
+        },
+        "check": {
+          "title": "Compatibility Check",
+          "body": "Vehicle details are reviewed before products or parts are confirmed"
+        },
+        "genuine": {
+          "title": "Genuine Components",
+          "body": "Genuine BYD components supplied where specified"
+        },
+        "installation": {
+          "title": "Service Installation",
+          "body": "Request professional installation with eligible items"
+        }
+      },
+      "faq": {
+        "eyebrow": "Support answers",
+        "title": "Frequently asked questions",
+        "items": {
+          "fit": {
+            "question": "How do I know which part fits my BYD?",
+            "answer": "Select your product and year in the Product Finder or submit your VIN. The service team will verify compatibility before confirming the request."
+          },
+          "online": {
+            "question": "Can I buy parts directly online?",
+            "answer": "The website currently accepts enquiries rather than online purchases. A representative will confirm compatibility, availability, price, and next steps."
+          },
+          "installation": {
+            "question": "Can I request installation with a spare part?",
+            "answer": "Yes. Choose the installation option and the team will discuss the appropriate service appointment."
+          },
+          "service": {
+            "question": "Do you service every BYD product?",
+            "answer": "The team will confirm service support based on the product, market specification, and required work."
+          },
+          "stock": {
+            "question": "Are accessories always in stock?",
+            "answer": "Availability varies. Submit an enquiry and the team will confirm current availability or ordering options."
+          },
+          "vin": {
+            "question": "Do I need my VIN?",
+            "answer": "A VIN is not mandatory for the initial request, but it can significantly improve compatibility verification."
+          }
+        }
+      },
+      "final": {
+        "title": "Need help choosing the right service or product?",
+        "body": "Send us your BYD details and the BYD Tbilisi team will guide you to the appropriate service, spare part, fluid, or accessory.",
+        "primary": "Contact BYD Service",
+        "secondary": "Chat on WhatsApp"
+      },
+      "fields": {
+        "choose": "Select an option",
+        "model": "BYD product",
+        "year": "Product year",
+        "category": "Category",
+        "keyword": "Keyword or product description",
+        "serviceType": "Service type",
+        "name": "Full name",
+        "phone": "Phone number",
+        "note": "Optional note",
+        "vin": "VIN — optional",
+        "partCategory": "Part category",
+        "description": "Part name or description",
+        "installation": "Installation required?",
+        "schedule": "Preferred date & time"
+      },
+      "forms": {
+        "required": "Please complete the required fields.",
+        "newRequest": "Send another request",
+        "options": {
+          "one": "Scheduled maintenance",
+          "two": "Diagnostics",
+          "three": "Yes",
+          "other": "Other / Not sure"
+        },
+        "name": {
+          "required": "Enter your full name.",
+          "tooShort": "Name must be at least 2 characters.",
+          "tooLong": "Name must be 100 characters or fewer.",
+          "charset": "Use letters, spaces, hyphens and apostrophes only.",
+          "singleWord": "Enter first and last name, separated by a space."
+        }
+      }
     }
   }
 }

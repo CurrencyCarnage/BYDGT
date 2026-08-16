@@ -183,39 +183,6 @@ export default async function BookingPage({
       ══════════════════════════════════════════════════════════ */}
       <section className="section-container pt-10 pb-14 md:pb-20">
 
-        {/* Contained banner — rounded card, breathing room from hero */}
-        <ScrollReveal>
-          <div className="relative h-44 md:h-52 overflow-hidden mb-10 border border-[#DDE1E3]">
-            <Image
-              src="/images/testdrive/img1.jpg"
-              alt="BYD Test Drive"
-              fill
-              className="object-cover object-center"
-              quality={88}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#252728]/90 via-[#252728]/55 to-[#252728]/10" />
-            <div className="absolute inset-0 flex items-center px-7 md:px-10">
-              <div className="media-copy-overlay p-4 md:p-5">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="w-5 h-px bg-byd-red" />
-                  <p className="text-xs text-byd-red uppercase tracking-[0.25em] font-semibold"
-                    style={{ fontFamily: "var(--font-montserrat)" }}>
-                    {t.tag}
-                  </p>
-                </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-white"
-                  style={{ fontFamily: "var(--font-montserrat)", letterSpacing: "-0.025em" }}>
-                  {t.formTitle}
-                </h2>
-                <p className="text-sm text-white/86 mt-1.5 font-normal max-w-sm"
-                  style={{ fontFamily: "var(--font-montserrat)" }}>
-                  {t.subtitle}
-                </p>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
-
         {/* ── Requirements strip ────────────────────────────── */}
         <ScrollReveal delay={0.04}>
           <div className="content-surface overflow-hidden mb-8">
