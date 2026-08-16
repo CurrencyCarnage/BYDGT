@@ -6,52 +6,15 @@ import { Link, usePathname, useRouter } from "@/i18n/routing";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import type { CarModel } from "@/lib/types";
 
 /* ─────────────────────────────────────────────────────────────────
-   Models mega-menu data
+   Models mega-menu
 ───────────────────────────────────────────────────────────────── */
-const MEGA_MODELS = [
-  {
-    id:        "sealion-06-dmi",
-    href:      "/catalog/sealion-06-dmi",
-    name:      "Sealion 06 DM-i",
-    type:      "PHEV" as const,
-    tagline:   "Smart PHEV SUV",
-    taglineKa: "ჭკვიანი ჰიბრიდული SUV",
-    thumbnail: "/images/homepage/byd-sealion-thumbnail.jpg",
-    hoverImage: "/images/homepage/byd-sealion-sideview.jpg",
-  },
-  {
-    id:        "seal-06-dmi",
-    href:      "/catalog/seal-06-dmi",
-    name:      "Seal 06 DM-i",
-    type:      "PHEV" as const,
-    tagline:   "Sport PHEV Sedan",
-    taglineKa: "სპორტული PHEV სედანი",
-    thumbnail: "/images/homepage/byd-seal-thumbnail.jpg",
-    hoverImage: "/images/homepage/byd-seal-sideview.jpg",
-  },
-  {
-    id:        "yuan-up-ev",
-    href:      "/catalog/yuan-up-ev",
-    name:      "Yuan Up EV",
-    type:      "EV" as const,
-    tagline:   "Compact Electric SUV",
-    taglineKa: "კომპაქტური ელექტრო SUV",
-    thumbnail: "/images/homepage/byd-yuanup1-thumbnail.jpg",
-    hoverImage: "/images/homepage/byd-yuanup1-sideview.jpg",
-  },
-  {
-    id:        "yuan-up-dmi",
-    href:      "/catalog/yuan-up-dmi",
-    name:      "Yuan Up DM-i",
-    type:      "PHEV" as const,
-    tagline:   "Efficient PHEV SUV",
-    taglineKa: "ეფექტური PHEV SUV",
-    thumbnail: "/images/homepage/byd-yuanup2-thumbnail.jpg",
-    hoverImage: "/images/homepage/byd-yuanup2-sideview.jpg",
-  },
-];
+type ProductMenuModel = Pick<CarModel, "id" | "name" | "tagline" | "type"> & {
+  images: Pick<CarModel["images"], "hero" | "gallery">;
+};
+type Drivetrain = CarModel["type"];
 
 const MEGA_MODELS_PER_PAGE = 4;
 const COMMERCIAL_CONTACT_HREF = "/contact?subject=Commercial%20Vehicles";
@@ -77,21 +40,122 @@ const COMMERCIAL_DIRECTIONS = [
   },
 ];
 
+function DrivetrainFilter({
+  value,
+  onChange,
+  locale,
+}: {
+  value: Drivetrain;
+  onChange: (type: Drivetrain) => void;
+  locale: string;
+}) {
+  return (
+    <div
+      className="flex items-center justify-center gap-1 border-b border-[var(--theme-border-subtle)] bg-[var(--theme-surface-alt)] px-4 py-3"
+      role="group"
+      aria-label={locale === "ka" ? "ძრავის ტიპის ფილტრი" : "Drivetrain filter"}
+    >
+      {(["EV", "PHEV"] as const).map((type) => {
+        const selected = value === type;
+        return (
+          <button
+            key={type}
+            type="button"
+            aria-pressed={selected}
+            onClick={() => onChange(type)}
+            className={`min-h-9 min-w-20 border-0 px-4 text-[13px] font-bold uppercase tracking-[0.16em] transition-colors duration-200 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--theme-text-muted)] ${
+              selected
+                ? type === "EV"
+                  ? "bg-[#78B254] text-[#111213]"
+                  : "bg-byd-red text-white"
+                : "bg-transparent text-[var(--theme-text-muted)] hover:bg-black/[0.06] hover:text-[var(--theme-text-primary)]"
+            }`}
+          >
+            {type}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function ProductMenuImage({
+  model,
+  name,
+  mobile = false,
+}: {
+  model: ProductMenuModel;
+  name: string;
+  mobile?: boolean;
+}) {
+  const hero = model.images.hero?.trim();
+  const hoverImage = model.images.gallery.find((image) => image?.trim())?.trim();
+  const [heroFailed, setHeroFailed] = useState(!hero);
+  const [hoverFailed, setHoverFailed] = useState(!hoverImage);
+
+  useEffect(() => {
+    setHeroFailed(!hero);
+    setHoverFailed(!hoverImage);
+  }, [hero, hoverImage]);
+
+  if (heroFailed || !hero) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#2B2E30] to-[#191B1C] text-white/20">
+        <svg className={mobile ? "h-7 w-7" : "h-14 w-14"} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M5 16h14l-1.5-5h-11L5 16Zm2 0v2m10-2v2" />
+        </svg>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Image
+        src={hero}
+        alt={name}
+        fill
+        sizes={mobile ? "56px" : "(max-width: 1279px) 50vw, 25vw"}
+        className={mobile
+          ? "object-cover"
+          : `object-cover object-center transition-all duration-500 ${hoverImage && !hoverFailed ? "group-hover:opacity-0 group-hover:scale-105" : "group-hover:scale-105"}`}
+        quality={mobile ? 70 : 84}
+        onError={() => setHeroFailed(true)}
+      />
+      {!mobile && hoverImage && !hoverFailed && (
+        <Image
+          src={hoverImage}
+          alt={`${name} preview`}
+          fill
+          sizes="(max-width: 1279px) 50vw, 25vw"
+          className="object-cover object-center opacity-0 scale-105 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
+          quality={90}
+          loading="lazy"
+          onError={() => setHoverFailed(true)}
+        />
+      )}
+    </>
+  );
+}
+
 /* ─────────────────────────────────────────────────────────────────
    Desktop mega-menu panel
 ───────────────────────────────────────────────────────────────── */
 function MegaMenu({
   locale,
   onClose,
+  models,
 }: {
   locale: string;
   onClose: () => void;
+  models: ProductMenuModel[];
 }) {
   const ka = locale === "ka";
   const category = "passenger";
+  const [drivetrain, setDrivetrain] = useState<Drivetrain>("EV");
   const [modelPage, setModelPage] = useState(0);
-  const pageCount = Math.ceil(MEGA_MODELS.length / MEGA_MODELS_PER_PAGE);
-  const visibleModels = MEGA_MODELS.slice(
+  const filteredModels = models.filter((model) => model.type === drivetrain);
+  const pageCount = Math.ceil(filteredModels.length / MEGA_MODELS_PER_PAGE);
+  const visibleModels = filteredModels.slice(
     modelPage * MEGA_MODELS_PER_PAGE,
     (modelPage + 1) * MEGA_MODELS_PER_PAGE
   );
@@ -100,6 +164,11 @@ function MegaMenu({
   const showNextModels = () => {
     if (!canShowNextModels) return;
     setModelPage((page) => Math.min(page + 1, pageCount - 1));
+  };
+
+  const selectDrivetrain = (type: Drivetrain) => {
+    setDrivetrain(type);
+    setModelPage(0);
   };
 
   return (
@@ -126,6 +195,7 @@ function MegaMenu({
           {/* 2 × 2 model grid */}
           {category === "passenger" ? (
             <>
+          <DrivetrainFilter value={drivetrain} onChange={selectDrivetrain} locale={locale} />
           <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/[0.04] p-px">
             {visibleModels.map((model, i) => (
               <motion.div
@@ -135,7 +205,7 @@ function MegaMenu({
                 transition={{ delay: i * 0.04, duration: 0.22, ease: "easeOut" }}
               >
                 <Link
-                  href={model.href}
+                  href={`/catalog/${model.id}`}
                   onClick={onClose}
                   className="mega-menu-card group flex flex-col bg-[#1A1C1D] hover:bg-[#222425] transition-colors duration-180 overflow-hidden"
                   style={{ borderLeft: "2px solid transparent" }}
@@ -148,25 +218,7 @@ function MegaMenu({
                 >
                   {/* Thumbnail */}
                   <div className="mega-menu-card-thumb relative w-full overflow-hidden bg-[#252728]" style={{ height: '11.75rem' }}>
-                    <Image
-                      src={model.thumbnail}
-                      alt={model.name}
-                      fill
-                      sizes="(max-width: 1279px) 50vw, 25vw"
-                      className="object-cover object-center transition-all duration-500 group-hover:opacity-0 group-hover:scale-105"
-                      quality={84}
-
-                    />
-                    <Image
-                      src={model.hoverImage}
-                      alt={`${model.name} preview`}
-                      fill
-                      sizes="(max-width: 1279px) 50vw, 25vw"
-                      className="object-cover object-center opacity-0 scale-105 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
-                      quality={90}
-
-                      loading="lazy"
-                    />
+                    <ProductMenuImage model={model} name={ka ? model.name.ka : model.name.en} />
                   </div>
 
                   {/* Info */}
@@ -179,15 +231,20 @@ function MegaMenu({
                       {model.type}
                     </span>
                     <p className="text-[15px] font-semibold text-white mt-1 leading-tight group-hover:text-white transition-colors">
-                      {model.name}
+                      {ka ? model.name.ka : model.name.en}
                     </p>
                     <p className="text-[11px] text-white/40 mt-1 leading-snug font-light">
-                      {ka ? model.taglineKa : model.tagline}
+                      {ka ? model.tagline.ka : model.tagline.en}
                     </p>
                   </div>
                 </Link>
               </motion.div>
             ))}
+            {visibleModels.length === 0 && (
+              <div className="col-span-full flex min-h-[16rem] items-center justify-center px-6 text-center text-sm text-white/40">
+                {ka ? "ამ ტიპის პროდუქტი ამჟამად არ არის ხელმისაწვდომი." : "No products of this type are currently available."}
+              </div>
+            )}
           </div>
 
           {/* Footer: view all */}
@@ -326,10 +383,11 @@ function MegaMenu({
 /* ─────────────────────────────────────────────────────────────────
    Navbar
 ───────────────────────────────────────────────────────────────── */
-export default function Navbar() {
+export default function Navbar({ models }: { models: ProductMenuModel[] }) {
   const [mobileOpen, setMobileOpen]       = useState(false);
   const [megaOpen, setMegaOpen]           = useState(false);
   const [mobileModels, setMobileModels]   = useState(false);
+  const [mobileDrivetrain, setMobileDrivetrain] = useState<Drivetrain>("EV");
   const [scrolled, setScrolled]           = useState(false);
   const [overLightSurface, setOverLightSurface] = useState(false);
   const [theme, setTheme]                 = useState<"dark" | "light">("dark");
@@ -469,6 +527,7 @@ export default function Navbar() {
     { id: "product-finder", href: "/services#product-finder" },
   ] as const;
   const mobileModelCategory = "passenger";
+  const filteredMobileModels = models.filter((model) => model.type === mobileDrivetrain);
   const homeLink = sectionHomeHref
     ? { href: sectionHomeHref, label: t("home"), activePath: sectionHomeHref }
     : null;
@@ -599,7 +658,7 @@ export default function Navbar() {
                 </div>
               ) : (
                 <div onMouseEnter={openMega} onMouseLeave={() => scheduleMegaClose(200)}>
-                  <MegaMenu locale={locale} onClose={closeMegaImmediate} />
+                  <MegaMenu locale={locale} onClose={closeMegaImmediate} models={models} />
                 </div>
               ))}
             </AnimatePresence>
@@ -744,7 +803,7 @@ export default function Navbar() {
               {/* Service sections or product sub-items */}
               <div
                 className="overflow-hidden transition-all duration-300"
-                style={{ maxHeight: mobileModels ? "520px" : "0px" }}
+                style={{ maxHeight: mobileModels ? "720px" : "0px" }}
               >
                 <div className="pb-3 pl-2 space-y-1">
                   {isServicesSection ? (
@@ -760,27 +819,27 @@ export default function Navbar() {
                     ))
                   ) : mobileModelCategory === "passenger" ? (
                     <>
-                  {MEGA_MODELS.map((model) => (
+                  <div className="pr-2">
+                    <DrivetrainFilter
+                      value={mobileDrivetrain}
+                      onChange={setMobileDrivetrain}
+                      locale={locale}
+                    />
+                  </div>
+                  {filteredMobileModels.map((model) => (
                     <Link
                       key={model.id}
-                      href={model.href}
+                      href={`/catalog/${model.id}`}
                       onClick={() => { setMobileOpen(false); setMobileModels(false); }}
                       className="flex items-center gap-3 py-2 px-3 hover:bg-white/[0.04] transition-colors duration-150 group"
                     >
                       {/* Mini thumbnail */}
                       <div className="relative w-14 h-10 flex-shrink-0 bg-[#252728] overflow-hidden">
-                        <Image
-                          src={model.thumbnail}
-                          alt={model.name}
-                          fill
-                          sizes="56px"
-                          className="object-cover"
-                          quality={70}
-                        />
+                        <ProductMenuImage model={model} name={ka ? model.name.ka : model.name.en} mobile />
                       </div>
                       <div>
                         <p className="text-[13px] font-semibold text-white/75 group-hover:text-white transition-colors">
-                          {model.name}
+                          {ka ? model.name.ka : model.name.en}
                         </p>
                         <span className={`text-[9px] font-semibold uppercase tracking-[0.12em] ${
                           model.type === "EV" ? "text-[#78B254]" : "text-byd-red"
@@ -790,6 +849,11 @@ export default function Navbar() {
                       </div>
                     </Link>
                   ))}
+                  {filteredMobileModels.length === 0 && (
+                    <p className="px-3 py-5 text-sm text-white/40">
+                      {ka ? "ამ ტიპის პროდუქტი ამჟამად არ არის ხელმისაწვდომი." : "No products of this type are currently available."}
+                    </p>
+                  )}
                   <Link
                     href="/catalog"
                     onClick={() => { setMobileOpen(false); setMobileModels(false); }}
