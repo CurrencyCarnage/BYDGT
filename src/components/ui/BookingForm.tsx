@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { getOfficialTrimLabel, testDriveModels, TIME_SLOTS } from "@/lib/test-drive";
 import TestDriveModal, { AgreementFlags } from "./TestDriveModal";
-import CustomSelect from "./CustomSelect";
 import ProductPickerField, { type ProductPickerOption } from "./ProductPickerField";
 import DateTimeField from "./DateTimeField";
 import PhoneField from "./PhoneField";
@@ -462,20 +461,35 @@ export default function BookingForm({
             >
               {t.version} <span className="text-byd-red">*</span>
             </label>
-            <CustomSelect
-              required
+            <div
+              role="radiogroup"
               aria-label={t.version}
-              value={form.versionId}
-              onChange={(versionId) => {
-                setError("");
-                setForm((prev) => ({ ...prev, versionId, trimId: "" }));
-              }}
-              disabled={!selectedFamily}
-              placeholder={selectedFamily ? t.selectVersion : t.versionLocked}
-              options={versions.map((version) => ({ value: version.id, label: version.label }))}
-              buttonClassName={`byd-version-select px-4 py-3 ${selectedFamily ? "" : "is-locked"}`}
+              className={`byd-version-toggle ${selectedFamily ? "" : "is-locked"}`}
               style={{ fontFamily: "var(--font-montserrat)" }}
-            />
+            >
+              {selectedFamily ? (
+                versions.map((version) => {
+                  const isSelected = form.versionId === version.id;
+                  return (
+                    <button
+                      key={version.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={isSelected}
+                      onClick={() => {
+                        setError("");
+                        setForm((prev) => ({ ...prev, versionId: version.id, trimId: "" }));
+                      }}
+                      className={`byd-version-option ${isSelected ? "is-selected" : ""}`}
+                    >
+                      {version.label}
+                    </button>
+                  );
+                })
+              ) : (
+                <span className="byd-version-placeholder">{t.versionLocked}</span>
+              )}
+            </div>
             <p
               className="text-[11px] text-[#7A8080] mt-1.5"
               style={{ fontFamily: "var(--font-montserrat)" }}

@@ -1395,33 +1395,63 @@
     color: var(--theme-text-muted);
   }
 
-  /* Version / powertrain select — red like the page CTAs, dark red while locked. */
-  .byd-version-select {
-    background-color: #D70C19 !important;
-    border-color: #D70C19 !important;
-    color: #FFFFFF !important;
+  /* Version / powertrain — segmented toggle, red like the page CTAs. */
+  .byd-version-toggle {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: 3rem;
+  }
+
+  .byd-version-option {
+    flex: 1 1 0;
+    min-height: 3rem;
+    padding: 0 0.75rem;
+    border: 1px solid #D70C19;
+    background: transparent;
+    color: #D70C19;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
     transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 200ms cubic-bezier(0.4, 0, 0.2, 1),
       border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .byd-version-select:hover:not(.is-locked) {
-    background-color: #A80912 !important;
-    border-color: #A80912 !important;
+  .byd-version-option:hover:not(.is-selected) {
+    background: rgba(215, 12, 25, 0.12);
   }
 
-  .byd-version-select * {
-    color: #FFFFFF !important;
+  .byd-version-option:focus-visible {
+    outline: 2px solid #D70C19;
+    outline-offset: 2px;
   }
 
-  .byd-version-select.is-locked {
-    background-color: #5E1116 !important;
-    border-color: #5E1116 !important;
+  .byd-version-option.is-selected {
+    background: #D70C19;
+    border-color: #D70C19;
+    color: #FFFFFF;
+  }
+
+  .byd-version-toggle.is-locked {
+    display: flex;
+    align-items: center;
+  }
+
+  .byd-version-placeholder {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    min-height: 3rem;
+    padding: 0 1rem;
+    border: 1px solid #5E1116;
+    background: #5E1116;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.8125rem;
+    font-weight: 600;
     cursor: not-allowed;
-  }
-
-  .byd-version-select.is-locked,
-  .byd-version-select.is-locked * {
-    color: rgba(255, 255, 255, 0.62) !important;
   }
 
   /* Comparison group headings — red caption, no solid bar. */
@@ -1453,7 +1483,7 @@
   /* ── Combined date + time-slot picker (test drive, service appointment) ── */
   .byd-datetime {
     --dt-surface: #202223;
-    --dt-surface-alt: #17191A;
+    --dt-surface-alt: #1B1D1E;
     --dt-border: rgba(255, 255, 255, 0.14);
     --dt-border-strong: rgba(255, 255, 255, 0.26);
     --dt-text: #F2F4F5;
@@ -1464,7 +1494,7 @@
 
   html.light .byd-datetime {
     --dt-surface: #FFFFFF;
-    --dt-surface-alt: #F4F5F5;
+    --dt-surface-alt: #FBFBFA;
     --dt-border: rgba(37, 39, 40, 0.16);
     --dt-border-strong: rgba(37, 39, 40, 0.32);
     --dt-text: #252728;
@@ -1507,21 +1537,29 @@
     color: var(--dt-text);
   }
 
+  /* Two separate cards side by side — calendar left, slots right. */
   .byd-datetime-panel {
-    display: block;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0.75rem;
     width: 100%;
-    max-width: 100%;
-    gap: 0;
     margin-top: 0.75rem;
-    border: 1px solid var(--dt-border);
-    background: var(--dt-surface);
+    border: 0;
+    background: transparent;
   }
 
-
+  @media (max-width: 39.9375rem) {
+    .byd-datetime-panel {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
 
   .byd-datetime-calendar {
-    padding: 0.625rem;
     min-width: 0;
+    padding: 0.875rem;
+    border: 1px solid var(--dt-border);
+    background: var(--dt-surface);
   }
 
   .byd-datetime-monthbar {
@@ -1529,11 +1567,11 @@
     align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
-    margin-bottom: 0.625rem;
+    margin-bottom: 0.75rem;
   }
 
   .byd-datetime-month {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 700;
     color: var(--dt-text);
     text-transform: capitalize;
@@ -1543,8 +1581,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 2rem;
+    height: 2rem;
     border: 1px solid var(--dt-border);
     color: var(--dt-text);
     background: transparent;
@@ -1571,9 +1609,9 @@
   }
 
   .byd-datetime-weekdays span {
-    padding: 0.125rem 0;
+    padding: 0.25rem 0;
     text-align: center;
-    font-size: 0.5625rem;
+    font-size: 0.625rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -1589,7 +1627,7 @@
     height: 2.125rem;
     margin: 0 auto;
     border-radius: 999px;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: var(--dt-text);
     background: transparent;
@@ -1620,7 +1658,6 @@
     box-shadow: inset 0 0 0 1px var(--dt-border-strong);
   }
 
-  .byd-datetime-day.is-full:not(:disabled),
   .byd-datetime-day.is-full {
     text-decoration: line-through;
   }
@@ -1635,16 +1672,15 @@
   .byd-datetime-slots {
     display: flex;
     flex-direction: column;
-    padding: 0.625rem 0.75rem 0.75rem;
-    border-top: 1px solid var(--dt-border);
-    background: var(--dt-surface-alt);
+    min-width: 0;
+    padding: 0.875rem;
+    border: 1px solid var(--dt-border);
+    background: var(--dt-surface);
   }
 
-
-
   .byd-datetime-slots-title {
-    margin-bottom: 0.375rem;
-    font-size: 0.5625rem;
+    margin-bottom: 0.625rem;
+    font-size: 0.625rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -1652,17 +1688,11 @@
   }
 
   .byd-datetime-slots-scroll {
-    /* Every slot visible on two rows — no scrolling. */
+    /* Every slot visible — two columns, no scrolling. */
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.375rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
     overflow: visible;
-  }
-
-  @media (max-width: 47.9375rem) {
-    .byd-datetime-slots-scroll {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
   }
 
   .byd-datetime-slot {
@@ -1671,16 +1701,20 @@
     align-items: center;
     justify-content: center;
     gap: 0.375rem;
-    height: 2.125rem;
-    padding: 0 0.375rem;
+    min-height: 2.5rem;
+    padding: 0 0.5rem;
     border: 1px solid var(--dt-border);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--dt-text);
     background: transparent;
     transition: background-color 180ms cubic-bezier(0.4, 0, 0.2, 1),
       border-color 180ms cubic-bezier(0.4, 0, 0.2, 1),
       color 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .byd-datetime-slot > span:first-child {
+    white-space: nowrap;
   }
 
   .byd-datetime-slot:hover:not(:disabled) {
@@ -1708,10 +1742,6 @@
     text-decoration: line-through;
   }
 
-  .byd-datetime-slot > span:first-child {
-    white-space: nowrap;
-  }
-
   .byd-datetime-slot-note {
     font-size: 0.5rem;
     font-weight: 600;
@@ -1723,7 +1753,7 @@
 
   .byd-datetime-hint,
   .byd-datetime-error {
-    margin-top: 0.5rem;
+    margin-top: 0.625rem;
     font-size: 0.6875rem;
   }
 
