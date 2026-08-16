@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* ─────────────────────────────────────────────────────────────────
@@ -339,6 +340,7 @@ export default function Navbar() {
   const tServicesNav = useTranslations("landing.servicesPage.nav");
   const locale  = useLocale();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router   = useRouter();
 
   useEffect(() => {
@@ -431,12 +433,17 @@ export default function Navbar() {
   const ka = locale === "ka";
   const isGateway = pathname === "/";
   const isHomepage = isGateway || pathname === "/cars";
+  const isPassengerContextPage =
+    (pathname === "/about" || pathname === "/contact") &&
+    searchParams.get("section") === "passenger";
 
   const useLightSurfaceHeader =
     overLightSurface || (theme === "light" && (isGateway || !isHomepage));
 
   const sectionHomeHref =
-    pathname === "/commercial" || pathname.startsWith("/commercial/")
+    isPassengerContextPage
+      ? "/cars"
+      : pathname === "/commercial" || pathname.startsWith("/commercial/")
       ? "/commercial"
       : pathname === "/services" || pathname.startsWith("/services/")
         ? "/services"
@@ -456,12 +463,23 @@ export default function Navbar() {
     { id: "product-finder", href: "/services#product-finder" },
   ] as const;
   const mobileModelCategory = "passenger";
-  const homeLink = sectionHomeHref ? { href: sectionHomeHref, label: t("home") } : null;
-  const aboutLink = { href: "/about", label: t("about") };
-  const compareLink = { href: "/compare", label: t("compare") };
-  const contactLink = { href: "/contact", label: t("contact") };
+  const homeLink = sectionHomeHref
+    ? { href: sectionHomeHref, label: t("home"), activePath: sectionHomeHref }
+    : null;
+  const aboutLink = {
+    href: sectionHomeHref === "/cars" ? "/about?section=passenger" : "/about",
+    label: t("about"),
+    activePath: "/about",
+  };
+  const compareLink = { href: "/compare", label: t("compare"), activePath: "/compare" };
+  const contactLink = {
+    href: sectionHomeHref === "/cars" ? "/contact?section=passenger" : "/contact",
+    label: t("contact"),
+    activePath: "/contact",
+  };
   const leadingNavLinks = homeLink ? [homeLink, aboutLink] : [aboutLink];
   const trailingNavLinks = hasSelectedSection && !isServicesSection ? [compareLink, contactLink] : [contactLink];
+  const isNavLinkActive = (link: { activePath: string }) => pathname === link.activePath;
 
   return (
     <nav
@@ -508,7 +526,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`nav-link text-sm${pathname === link.href ? " active" : ""}`}
+              className={`nav-link text-sm${isNavLinkActive(link) ? " active" : ""}`}
             >
               {link.label}
             </Link>
@@ -576,7 +594,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`nav-link text-sm${pathname === link.href ? " active" : ""}`}
+              className={`nav-link text-sm${isNavLinkActive(link) ? " active" : ""}`}
             >
               {link.label}
             </Link>
@@ -675,11 +693,11 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center justify-between py-3.5 text-sm border-b border-white/[0.05] transition-colors duration-200 ${
-                  pathname === link.href ? "text-white font-semibold" : "text-white/50 hover:text-white"
+                  isNavLinkActive(link) ? "text-white font-semibold" : "text-white/50 hover:text-white"
                 }`}
               >
                 <span>{link.label}</span>
-                {pathname === link.href && <span className="w-1.5 h-1.5 bg-byd-red" />}
+                {isNavLinkActive(link) && <span className="w-1.5 h-1.5 bg-byd-red" />}
               </Link>
             ))}
 
@@ -797,11 +815,11 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center justify-between py-3.5 text-sm border-b border-white/[0.05] last:border-0 transition-colors duration-200 ${
-                  pathname === link.href ? "text-white font-semibold" : "text-white/50 hover:text-white"
+                  isNavLinkActive(link) ? "text-white font-semibold" : "text-white/50 hover:text-white"
                 }`}
               >
                 <span>{link.label}</span>
-                {pathname === link.href && <span className="w-1.5 h-1.5 bg-byd-red" />}
+                {isNavLinkActive(link) && <span className="w-1.5 h-1.5 bg-byd-red" />}
               </Link>
             ))}
 
