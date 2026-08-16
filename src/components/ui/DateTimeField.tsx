@@ -95,8 +95,19 @@ export default function DateTimeField({
 
   const selectDate = (iso: string) => {
     if (!isDateSelectable(iso)) return;
+    // Clicking the selected day clears it — the time goes with it, since a
+    // slot without a date means nothing.
+    if (iso === date) {
+      onDateChange("");
+      if (time) onTimeChange("");
+      return;
+    }
     onDateChange(iso);
     if (time && (bookedSlots[iso] ?? []).includes(time)) onTimeChange("");
+  };
+
+  const selectTime = (slot: string) => {
+    onTimeChange(slot === time ? "" : slot);
   };
 
   const summary = date
@@ -175,7 +186,7 @@ export default function DateTimeField({
                   disabled={!selectable || full}
                   aria-pressed={isSelected}
                   aria-label={`${dayFormatter.format(new Date(`${cell.iso}T00:00:00Z`))}${full ? ` — ${t("fullyBooked")}` : ""}`}
-                  title={full ? t("fullyBooked") : undefined}
+                  title={full ? t("fullyBooked") : isSelected ? t("clearSelection") : undefined}
                   className={[
                     "byd-datetime-day",
                     cell.inMonth ? "" : "is-outside",
@@ -202,11 +213,11 @@ export default function DateTimeField({
                 <button
                   key={slot}
                   type="button"
-                  onClick={() => !disabled && onTimeChange(slot)}
+                  onClick={() => !disabled && selectTime(slot)}
                   disabled={disabled}
                   aria-pressed={slot === time}
                   aria-label={taken ? `${slot} — ${t("slotTaken")}` : slot}
-                  title={taken ? t("slotTaken") : undefined}
+                  title={taken ? t("slotTaken") : slot === time ? t("clearSelection") : undefined}
                   className={[
                     "byd-datetime-slot",
                     slot === time ? "is-selected" : "",

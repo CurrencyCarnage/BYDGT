@@ -41,11 +41,19 @@ export default function ProductPickerField({
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
+    /* Mousedown misses keyboard exits — close when focus leaves as well. */
+    const handleFocusOut = (event: FocusEvent) => {
+      const next = event.relatedTarget as Node | null;
+      if (!next || rootRef.current?.contains(next)) return;
+      setOpen(false);
+    };
     document.addEventListener("mousedown", handleOutsideClick);
     document.addEventListener("keydown", handleEscape);
+    document.addEventListener("focusout", handleFocusOut);
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
       document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("focusout", handleFocusOut);
     };
   }, []);
 

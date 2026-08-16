@@ -205,6 +205,24 @@ const CustomSelect = forwardRef<HTMLButtonElement, CustomSelectProps>(function C
     return () => document.removeEventListener("pointerdown", closeWhenOutside);
   }, [open]);
 
+  /* Pointerdown alone leaves the menu hanging open when focus moves away by
+     keyboard, or into another control that swallows the event. Close as soon
+     as focus lands anywhere outside the trigger and the (portalled) menu.
+     Only an explicit relatedTarget counts — a null one means focus fell to
+     the body, which happens on harmless clicks inside the menu chrome. */
+  useEffect(() => {
+    if (!open) return;
+    const isInside = (node: Node | null) =>
+      Boolean(node && (rootRef.current?.contains(node) || menuRef.current?.contains(node)));
+    const closeWhenFocusLeaves = (event: FocusEvent) => {
+      const next = event.relatedTarget as Node | null;
+      if (!next || isInside(next)) return;
+      setOpen(false);
+    };
+    document.addEventListener("focusout", closeWhenFocusLeaves);
+    return () => document.removeEventListener("focusout", closeWhenFocusLeaves);
+  }, [open]);
+
   useEffect(() => {
     if (!open) {
       focusedForOpenRef.current = false;
@@ -251,7 +269,9 @@ const CustomSelect = forwardRef<HTMLButtonElement, CustomSelectProps>(function C
       );
       return;
     }
-    props.onChange(option.value);
+    // Re-picking the current option clears it, so a single select can be
+    // returned to its empty state without a separate reset control.
+    props.onChange(props.value === option.value ? "" : option.value);
     setOpen(false);
     triggerRef.current?.focus();
   };
@@ -335,7 +355,7 @@ const CustomSelect = forwardRef<HTMLButtonElement, CustomSelectProps>(function C
         width: menuPosition.width,
         maxHeight: menuPosition.maxHeight,
       }}
-      className={`z-[80] flex overflow-hidden border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-alt)] shadow-[var(--theme-menu-shadow)] ${
+      className={`byd-select-menu z-[80] flex overflow-hidden border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-alt)] shadow-[var(--theme-menu-shadow)] ${
         menuPosition.bottomSheet || searchable ? "flex-col" : ""
       }`}
     >

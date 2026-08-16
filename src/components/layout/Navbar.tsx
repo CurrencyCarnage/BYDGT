@@ -1,12 +1,55 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { CarModel } from "@/lib/types";
+
+/* ─────────────────────────────────────────────────────────────────
+   Language-stable label widths
+
+   EN and KA labels differ enough in width that the navbar reflows on
+   every language switch. Each label renders its opposite-language twin
+   as a hidden sibling in the same grid cell, so the slot is always as
+   wide as the longer of the two and nothing moves.
+
+   These strings are sizing hints only — the visible text still comes
+   from the message files. If one drifts, the slot is a few pixels off;
+   it can never show the wrong text.
+   ───────────────────────────────────────────────────────────────── */
+const NAV_LABEL_SIZERS = {
+  home: { en: "Home", ka: "მთავარი" },
+  about: { en: "About Us", ka: "ჩვენს შესახებ" },
+  news: { en: "News", ka: "სიახლეები" },
+  catalog: { en: "Products", ka: "პროდუქტები" },
+  compare: { en: "Compare", ka: "შედარება" },
+  contact: { en: "Contact", ka: "კონტაქტი" },
+  bookTestDrive: { en: "BOOK TEST DRIVE", ka: "ტესტ დრაივი" },
+  bookService: { en: "BOOK A SERVICE", ka: "სერვისის ჯავშანი" },
+} as const;
+
+function NavLabel({
+  labelKey,
+  ka,
+  children,
+}: {
+  labelKey: keyof typeof NAV_LABEL_SIZERS;
+  ka: boolean;
+  children: ReactNode;
+}) {
+  const sizer = NAV_LABEL_SIZERS[labelKey];
+  return (
+    <span className="navbar-label">
+      <span>{children}</span>
+      <span className="navbar-label-ghost" aria-hidden="true">
+        {ka ? sizer.en : sizer.ka}
+      </span>
+    </span>
+  );
+}
 
 /* ─────────────────────────────────────────────────────────────────
    Models mega-menu
@@ -134,6 +177,179 @@ function ProductMenuImage({
         />
       )}
     </>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Services mega-menu
+
+   Same panel geometry as the product mega-menu — full-bleed, four cards
+   on one row, gap-px hairlines, matching card chrome — with a line icon
+   standing in for the product photography.
+───────────────────────────────────────────────────────────────── */
+const SERVICE_MENU_ICONS: Record<string, ReactNode> = {
+  /* Wrench — workshop / servicing */
+  service: (
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M14.7 6.3a4.5 4.5 0 0 0 5.9 5.9l-8.4 8.4a2.6 2.6 0 0 1-3.7-3.7l8.4-8.4Zm0 0L18 3m-8.6 9.3L4.5 7.4A3.2 3.2 0 0 1 7.4 4.5l4.9 4.9"
+    />
+  ),
+  /* Cog — genuine spare parts */
+  "spare-parts": (
+    <>
+      <circle cx="12" cy="12" r="3.1" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.8 1.8M7.2 16.8l-1.8 1.8M18.6 18.6l-1.8-1.8M7.2 7.2 5.4 5.4"
+      />
+    </>
+  ),
+  /* Layered box — accessories */
+  accessories: (
+    <>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 2.9 21 7.4v9.2L12 21.1 3 16.6V7.4l9-4.5Z"
+      />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.4l9 4.5 9-4.5M12 11.9v9.2" />
+    </>
+  ),
+  /* Magnifier over a list — product finder */
+  "product-finder": (
+    <>
+      <circle cx="11" cy="11" r="6.4" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="m20.4 20.4-4.9-4.9M8.6 10.4h4.8M8.6 13h3.2" />
+    </>
+  ),
+};
+
+function ServicesMegaMenu({
+  locale,
+  onClose,
+  links,
+  t,
+}: {
+  locale: string;
+  onClose: () => void;
+  links: readonly { id: string; href: string }[];
+  t: (key: string) => string;
+}) {
+  const ka = locale === "ka";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed left-0 right-0 z-50 px-3 md:px-5"
+      style={{ top: "5rem" }}
+    >
+      {/* Invisible bridge covers the gap between nav bottom and panel top */}
+      <div className="h-2 w-full" />
+
+      <div className="mx-auto flex max-w-[96.5rem] items-stretch gap-2" data-mega-menu>
+        <div
+          className="mega-menu-panel min-w-0 flex-1 overflow-hidden"
+          style={{
+            background: "var(--theme-menu-bg)",
+            border: "1px solid var(--theme-border-subtle)",
+            boxShadow: "var(--theme-menu-shadow)",
+          }}
+        >
+          <div
+            className="grid grid-cols-1 gap-px bg-white/[0.04] p-px md:grid-cols-4"
+            role="menu"
+            aria-label={t("aria")}
+          >
+            {links.map((link, i) => (
+              <motion.div
+                key={link.id}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.22, ease: "easeOut" }}
+              >
+                <Link
+                  href={link.href}
+                  onClick={onClose}
+                  role="menuitem"
+                  className="mega-menu-card group flex flex-col overflow-hidden bg-[#1A1C1D] transition-colors duration-180 hover:bg-[#222425] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-byd-red/70"
+                  style={{ borderLeft: "2px solid transparent" }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderLeftColor = "#D70C19";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderLeftColor = "transparent";
+                  }}
+                >
+                  {/* Icon plate — occupies the product menu's thumbnail slot */}
+                  <div
+                    className="mega-menu-card-thumb relative flex w-full items-center justify-center overflow-hidden bg-[#252728]"
+                    style={{ height: "11.75rem" }}
+                  >
+                    <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full bg-byd-red/[0.10] blur-3xl" />
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-byd-red/60 to-transparent opacity-70" />
+                    <svg
+                      className="relative h-16 w-16 text-white/70 transition-all duration-300 group-hover:scale-105 group-hover:text-byd-red"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={1.35}
+                      aria-hidden="true"
+                    >
+                      {SERVICE_MENU_ICONS[link.id]}
+                    </svg>
+                  </div>
+
+                  {/* Info */}
+                  <div className="w-full flex-1 px-5 py-4">
+                    <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-byd-red">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <p className="mt-1 text-[15px] font-semibold leading-tight text-white">
+                      {t(link.id)}
+                    </p>
+                    <p className="mt-1 text-[11px] font-light leading-snug text-white/40">
+                      {t(`menuDescription.${link.id}`)}
+                    </p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Footer: view all */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.18, duration: 0.2 }}
+            className="border-t border-white/[0.06]"
+          >
+            <Link
+              href="/services"
+              onClick={onClose}
+              className="group flex items-center justify-center gap-2 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40 transition-colors duration-200 hover:text-white/80"
+            >
+              {ka ? "ყველა სერვისის ნახვა" : "View all services"}
+              <svg
+                className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -514,6 +730,26 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
           : null;
   const hasSelectedSection = sectionHomeHref !== null;
   const isServicesSection = pathname === "/services" || pathname.startsWith("/services/");
+  const isCommercialSection =
+    pathname === "/commercial" || pathname.startsWith("/commercial/");
+  /* Commercial has no product mega-menu and nothing to compare against yet. */
+  const showProductsMenu = hasSelectedSection && !isCommercialSection;
+  const showCompareLink = hasSelectedSection && !isServicesSection && !isCommercialSection;
+
+  /* Carry the product the visitor is currently viewing into the booking form,
+     so Product / Version arrive pre-selected. */
+  const catalogModelId = pathname.match(/^\/catalog\/([^/]+)/)?.[1];
+  const testDriveHref = catalogModelId
+    ? `/booking?version=${encodeURIComponent(catalogModelId)}`
+    : "/booking";
+
+  /* Inside Services the primary CTA books a service visit, not a test drive. */
+  const primaryCtaHref = isServicesSection ? "/services/service" : testDriveHref;
+  const primaryCtaLabel = isServicesSection ? (
+    <NavLabel labelKey="bookService" ka={ka}>{tCommon("bookService")}</NavLabel>
+  ) : (
+    <NavLabel labelKey="bookTestDrive" ka={ka}>{tCommon("bookTestDrive")}</NavLabel>
+  );
   const isCompanyInfoPage =
     pathname === "/about" ||
     pathname === "/contact" ||
@@ -521,26 +757,38 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
     pathname.startsWith("/news/");
   const showCompanyInfoNav = isGateway || (!hasSelectedSection && isCompanyInfoPage);
   const serviceSectionLinks = [
-    { id: "service", href: "/services#service" },
-    { id: "spare-parts", href: "/services#spare-parts" },
-    { id: "accessories", href: "/services#accessories" },
-    { id: "product-finder", href: "/services#product-finder" },
+    { id: "service", href: "/services/service" },
+    { id: "spare-parts", href: "/services/spare-parts" },
+    { id: "accessories", href: "/services/accessories" },
+    { id: "product-finder", href: "/services/product-finder" },
   ] as const;
   const mobileModelCategory = "passenger";
   const filteredMobileModels = models.filter((model) => model.type === mobileDrivetrain);
   const homeLink = sectionHomeHref
-    ? { href: sectionHomeHref, label: t("home"), activePath: sectionHomeHref }
+    ? {
+        href: sectionHomeHref,
+        label: <NavLabel labelKey="home" ka={ka}>{t("home")}</NavLabel>,
+        activePath: sectionHomeHref,
+      }
     : null;
   const aboutLink = {
     href: sectionHomeHref === "/cars" ? "/about?section=passenger" : "/about",
-    label: t("about"),
+    label: <NavLabel labelKey="about" ka={ka}>{t("about")}</NavLabel>,
     activePath: "/about",
   };
-  const compareLink = { href: "/compare", label: t("compare"), activePath: "/compare" };
-  const newsLink = { href: "/news", label: t("news"), activePath: "/news" };
+  const compareLink = {
+    href: "/compare",
+    label: <NavLabel labelKey="compare" ka={ka}>{t("compare")}</NavLabel>,
+    activePath: "/compare",
+  };
+  const newsLink = {
+    href: "/news",
+    label: <NavLabel labelKey="news" ka={ka}>{t("news")}</NavLabel>,
+    activePath: "/news",
+  };
   const contactLink = {
     href: sectionHomeHref === "/cars" ? "/contact?section=passenger" : "/contact",
-    label: t("contact"),
+    label: <NavLabel labelKey="contact" ka={ka}>{t("contact")}</NavLabel>,
     activePath: "/contact",
   };
   const leadingNavLinks = homeLink
@@ -550,7 +798,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
       : [aboutLink];
   const trailingNavLinks = showCompanyInfoNav
     ? []
-    : hasSelectedSection && !isServicesSection
+    : showCompareLink
       ? [compareLink, contactLink]
       : [contactLink];
   const isNavLinkActive = (link: { activePath: string }) =>
@@ -609,7 +857,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
           ))}
 
           {/* ── Products trigger (section links in Services; product mega-menu elsewhere) ── */}
-          {hasSelectedSection && (
+          {showProductsMenu && (
           <div
             className="relative"
             onMouseEnter={openMega}
@@ -622,7 +870,9 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
               aria-expanded={megaOpen}
               aria-haspopup="true"
             >
-              {ka ? "პროდუქტები" : "Products"}
+              <NavLabel labelKey="catalog" ka={ka}>
+                {ka ? "პროდუქტები" : "Products"}
+              </NavLabel>
               <motion.svg
                 className="w-3 h-3 text-white/40 mt-px"
                 fill="none"
@@ -638,23 +888,13 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
 
             <AnimatePresence>
               {megaOpen && (isServicesSection ? (
-                <div
-                  className="absolute left-1/2 top-full z-50 mt-4 w-56 -translate-x-1/2 border border-white/15 bg-[#111213]/95 p-2 shadow-2xl backdrop-blur-xl"
-                  data-products-section-menu
-                  role="menu"
-                  aria-label={tServicesNav("aria")}
-                >
-                  {serviceSectionLinks.map((link) => (
-                    <Link
-                      key={link.id}
-                      href={link.href}
-                      onClick={closeMegaImmediate}
-                      className="block px-3 py-3 text-sm text-white/70 transition-colors duration-200 hover:bg-white/[0.08] hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-byd-red/70"
-                      role="menuitem"
-                    >
-                      {tServicesNav(link.id)}
-                    </Link>
-                  ))}
+                <div onMouseEnter={openMega} onMouseLeave={() => scheduleMegaClose(200)}>
+                  <ServicesMegaMenu
+                    locale={locale}
+                    onClose={closeMegaImmediate}
+                    links={serviceSectionLinks}
+                    t={tServicesNav}
+                  />
                 </div>
               ) : (
                 <div onMouseEnter={openMega} onMouseLeave={() => scheduleMegaClose(200)}>
@@ -731,12 +971,12 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
 
           {!isGateway && (
             <Link
-              href="/booking"
+              href={primaryCtaHref}
               className={`navbar-book-test-drive items-center gap-2 px-5 py-2.5 bg-byd-red text-[13px] font-bold tracking-[0.1em] uppercase transition-colors duration-200 ${
                 showCompanyInfoNav ? "hidden xl:inline-flex" : "hidden sm:inline-flex"
               }`}
             >
-              {tCommon("bookTestDrive")}
+              {primaryCtaLabel}
             </Link>
           )}
 
@@ -780,7 +1020,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
             ))}
 
             {/* Models accordion */}
-            {hasSelectedSection && (
+            {showProductsMenu && (
             <div className="border-b border-white/[0.05]">
               <button
                 onClick={() => setMobileModels(!mobileModels)}
@@ -937,11 +1177,11 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
               </button>
               {!isGateway && (
                 <Link
-                  href="/booking"
+                  href={primaryCtaHref}
                   onClick={() => setMobileOpen(false)}
                   className="navbar-book-test-drive inline-flex min-h-11 items-center justify-center bg-byd-red px-4 text-xs font-bold uppercase tracking-[0.1em] transition-colors duration-200"
                 >
-                  {tCommon("bookTestDrive")}
+                  {primaryCtaLabel}
                 </Link>
               )}
             </div>

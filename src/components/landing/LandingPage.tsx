@@ -98,11 +98,16 @@ function ResponsivePanelImage({ panel, priority, isLightMode }: { panel: Landing
 
 function TrustIcon({ index }: { index: number }) {
   const paths = [
+    // 01 — official dealer (shield + check)
     "M12 3 4.5 6v5.5c0 4.6 3.1 7.7 7.5 9.5 4.4-1.8 7.5-4.9 7.5-9.5V6L12 3Zm-3 9 2 2 4-5",
-    "M12 2.5 15 6l4.5.5-.5 4.5 2.5 3.7-3.7 2.5-.8 4.3-5-1.5-5 1.5-.8-4.3-3.7-2.5L5 11l-.5-4.5L9 6l3-3.5Z",
-    "M4 13v-2a8 8 0 0 1 16 0v2M4 13H2v5h4v-5H4Zm16 0h2v5h-4v-5h2Zm0 5c0 2-1.5 3-4 3",
-    "M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm0-6v2m0 15v2M4.6 4.6 6 6m12 12 1.4 1.4M2.5 12h2m15 0h2M4.6 19.4 6 18M18 6l1.4-1.4",
+    // 02 — full vehicle warranty (car)
+    "m4 14 1.6-4.2A3 3 0 0 1 8.4 8h7.2a3 3 0 0 1 2.8 1.8L20 14m-16 0h16v5H4v-5Zm3 0h.01M17 14h.01",
+    // 03 — battery warranty
+    "M3 8.5h12.5a1.5 1.5 0 0 1 1.5 1.5v4a1.5 1.5 0 0 1-1.5 1.5H3A1.5 1.5 0 0 1 1.5 14v-4A1.5 1.5 0 0 1 3 8.5Zm16.5 2v3M5 11v2m3.5-2v2m3.5-2v2",
+    // 04 — electric motor
     "m13 2-8 12h7l-1 8 8-12h-7l1-8Z",
+    // 05 — electronic control system (chip)
+    "M8 8h8v8H8V8Zm1.5-5v2.5m5-2.5v2.5m-5 12V21m5-2.5V21M3 9.5h2.5m-2.5 5h2.5M18.5 9.5H21m-2.5 5H21",
   ];
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d={paths[index]} /></svg>;
 }
@@ -295,7 +300,7 @@ export default function LandingPage() {
         </div>
 
         <div className={styles.trustStrip} aria-label={t("trust.ariaLabel")}>
-          {["dealer", "warranty", "support", "parts", "future"].map((item, index) => (
+          {["dealer", "vehicle", "battery", "motor", "electronics"].map((item, index) => (
             <div className={styles.trustItem} key={item}>
               <span className={styles.trustIcon}><TrustIcon index={index} /></span>
               <span>{t(`trust.${item}`)}</span>

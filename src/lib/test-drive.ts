@@ -44,6 +44,18 @@ export function getOfficialTrimLabel(versionId: string, trimId: string) {
   return officialTrimLabels[versionId]?.[trimId];
 }
 
+export interface TestDriveTrim {
+  id: string;
+  label: string;
+}
+
+/** Trims offered for a powertrain version, in declaration order. */
+export function getTrimsForVersion(versionId: string): TestDriveTrim[] {
+  const trims = officialTrimLabels[versionId];
+  if (!trims) return [];
+  return Object.entries(trims).map(([id, label]) => ({ id, label }));
+}
+
 export const SHOWROOM = {
   name: "BYD Tbilisi" as const,
   address: "Aghmashenebeli Ave 216, Tbilisi, Georgia" as const,
@@ -143,6 +155,7 @@ export const TEST_DRIVE_ROUTE: [number, number][] = [
 ];
 
 export const TIME_SLOTS = [
+  "09:00 - 10:00",
   "10:00 - 11:00",
   "11:00 - 12:00",
   "12:00 - 13:00",
@@ -151,6 +164,7 @@ export const TIME_SLOTS = [
   "15:00 - 16:00",
   "16:00 - 17:00",
   "17:00 - 18:00",
+  "18:00 - 19:00",
 ];
 
 export interface TestDriveBooking {

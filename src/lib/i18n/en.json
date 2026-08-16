@@ -27,6 +27,7 @@
       "invalid": "Enter a valid number for {country}."
     },
     "dateTime": {
+      "clearSelection": "Click again to clear",
       "summaryLabel": "Selected",
       "empty": "No date selected yet",
       "dateLabel": "Preferred date",
@@ -48,6 +49,7 @@
     "learnMore": "Learn More",
     "viewAll": "View All Products",
     "bookTestDrive": "BOOK TEST DRIVE",
+    "bookService": "BOOK A SERVICE",
     "contactUs": "Contact Us",
     "whatsapp": "WhatsApp",
     "startingFrom": "Starting from",
@@ -214,11 +216,11 @@
     },
     "trust": {
       "ariaLabel": "Why choose BYD GT Group",
-      "dealer": "Exclusive BYD Dealer",
-      "warranty": "Up to 6 Years Warranty",
-      "support": "Expert Support",
-      "parts": "Genuine Parts & Service",
-      "future": "100% Electric. Better Future."
+      "dealer": "The only official dealer",
+      "vehicle": "Full vehicle warranty — 6 years or 150,000 km",
+      "battery": "Battery warranty — 8 years or 150,000 km",
+      "motor": "Electric motor warranty — 8 years or 150,000 km",
+      "electronics": "Electronic control system — 8 years or 150,000 km"
     },
     "destination": {
       "back": "Back to gateway",
@@ -256,7 +258,7 @@
         "eyebrow": "Official BYD Care",
         "title": "Service, parts and support for your BYD",
         "body": "Book professional maintenance, request genuine spare parts, explore accessories, or find products suited to your vehicle in one trusted destination.",
-        "primary": "Book Car Service",
+        "primary": "BOOK CAR SERVICE",
         "secondary": "Find Parts & Products",
         "caption": "Official support by BYD Tbilisi · GT Group",
         "trust": {
@@ -271,6 +273,12 @@
         "service": "Service",
         "spare-parts": "Spare Parts",
         "accessories": "Accessories",
+        "menuDescription": {
+          "service": "Scheduled maintenance and repairs by BYD-trained technicians.",
+          "spare-parts": "Genuine parts matched to your VIN and market specification.",
+          "accessories": "Protection, storage, comfort and exterior add-ons.",
+          "product-finder": "Filter by model, year and category to find the right part."
+        },
         "product-finder": "Product Finder"
       },
       "official": {
@@ -549,5 +557,182 @@
         }
       }
     }
+  },
+  "servicePages": {
+    "common": {
+      "backToServices": "All services",
+      "secondaryCta": "Talk to us",
+      "whatsapp": "WhatsApp",
+      "moreTitle": "Other services"
+    },
+    "service": {
+      "eyebrow": "Official Service",
+      "title": "Maintenance by BYD-trained technicians",
+      "lead": "Scheduled servicing, diagnostics and repair for every BYD sold in Georgia, carried out to the manufacturer's specification at our Tbilisi workshop.",
+      "primaryCta": "Book a service",
+      "imageAlt": "BYD vehicle on a lift inside the official service workshop",
+      "featureImageAlt": "Service technician working on a BYD vehicle",
+      "bodyTitle": "Work recorded against your VIN",
+      "body": "Every visit is logged against the vehicle, so service history stays complete and warranty cover stays intact. The team confirms the required work before anything begins.",
+      "highlights": {
+        "a": {
+          "title": "Factory procedures",
+          "body": "Technicians trained on BYD platforms, following the published service schedule."
+        },
+        "b": {
+          "title": "Diagnostics first",
+          "body": "Fault codes and battery health checked before any part is quoted or replaced."
+        },
+        "c": {
+          "title": "Warranty preserved",
+          "body": "Work carried out at the official dealer keeps the manufacturer warranty valid."
+        }
+      },
+      "points": {
+        "a": "Scheduled maintenance at the published intervals",
+        "b": "High-voltage battery and drivetrain diagnostics",
+        "c": "Written estimate before work is authorised"
+      },
+      "ctaTitle": "Ready to book your vehicle in?",
+      "ctaBody": "Send the model and VIN and the team will confirm the first available slot.",
+      "meta": {
+        "title": "Official BYD Service in Georgia | BYD Tbilisi",
+        "description": "Scheduled maintenance, diagnostics and repair for BYD vehicles by trained technicians at BYD Tbilisi · GT Group."
+      }
+    },
+    "spare-parts": {
+      "eyebrow": "Genuine Spare Parts",
+      "title": "Parts matched to your vehicle",
+      "lead": "Genuine BYD components ordered against your VIN and market specification, so the fit and the electronics behave exactly as the factory intended.",
+      "primaryCta": "Request a part",
+      "imageAlt": "Genuine BYD spare parts on a workshop bench",
+      "featureImageAlt": "Parts specialist checking component compatibility",
+      "bodyTitle": "Compatibility confirmed before ordering",
+      "body": "Send the VIN and the part you need. The team checks it against the build specification and confirms availability and lead time before anything is ordered.",
+      "highlights": {
+        "a": {
+          "title": "VIN-checked",
+          "body": "Every part verified against the vehicle's build record, not just the model name."
+        },
+        "b": {
+          "title": "Genuine only",
+          "body": "Components sourced through official BYD supply, with the warranty that carries."
+        },
+        "c": {
+          "title": "Clear lead times",
+          "body": "Stock and delivery estimates confirmed in writing before you commit."
+        }
+      },
+      "points": {
+        "a": "Filters, brakes, suspension and electrical components",
+        "b": "Battery and charging hardware",
+        "c": "Body panels and exterior trim to order"
+      },
+      "ctaTitle": "Need a specific part?",
+      "ctaBody": "Send your VIN and a description, and the team will confirm the exact component.",
+      "meta": {
+        "title": "Genuine BYD Spare Parts in Georgia | BYD Tbilisi",
+        "description": "Genuine BYD spare parts checked against your VIN and market specification, supplied by BYD Tbilisi · GT Group."
+      }
+    },
+    "accessories": {
+      "eyebrow": "Accessories",
+      "title": "Built for your BYD, not adapted to it",
+      "lead": "Protection, storage, comfort and exterior accessories designed around the specific model, so nothing rattles, blocks a sensor or voids a warranty.",
+      "primaryCta": "Enquire about accessories",
+      "imageAlt": "BYD accessories displayed in the showroom",
+      "featureImageAlt": "Interior accessories fitted to a BYD cabin",
+      "bodyTitle": "Fitted by the same workshop",
+      "body": "Accessories can be supplied alone or fitted during a service visit. Anything that touches the electrical system is installed by the workshop rather than left to the owner.",
+      "highlights": {
+        "a": {
+          "title": "Model-specific",
+          "body": "Selected for the exact model and body style, not a universal fit."
+        },
+        "b": {
+          "title": "Fitting available",
+          "body": "Installation handled at the service centre, in one visit where possible."
+        },
+        "c": {
+          "title": "Warranty safe",
+          "body": "Approved accessories that do not affect the vehicle's cover."
+        }
+      },
+      "points": {
+        "a": "Floor mats, boot liners and interior protection",
+        "b": "Storage, organisers and charging cable bags",
+        "c": "Exterior styling and weather protection"
+      },
+      "ctaTitle": "Looking for something specific?",
+      "ctaBody": "Tell the team your model and what you need, and they will confirm what is available.",
+      "meta": {
+        "title": "BYD Accessories in Georgia | BYD Tbilisi",
+        "description": "Model-specific BYD accessories for protection, storage, comfort and exterior styling, supplied and fitted by BYD Tbilisi · GT Group."
+      }
+    },
+    "product-finder": {
+      "eyebrow": "Product Finder",
+      "title": "Find the right product for your vehicle",
+      "lead": "Filter by model, year and category to narrow down service parts, fluids and accessories that suit your BYD, then send the shortlist to the team.",
+      "primaryCta": "Start a search",
+      "imageAlt": "Service products arranged for selection",
+      "featureImageAlt": "Selecting products by model and category",
+      "bodyTitle": "A shortlist, then a human check",
+      "body": "The finder narrows the catalogue to what is plausible for your vehicle. Final compatibility is always confirmed by the parts team against your VIN before anything is ordered.",
+      "highlights": {
+        "a": {
+          "title": "Filter by vehicle",
+          "body": "Model and year first, so results start from what actually fits."
+        },
+        "b": {
+          "title": "Grouped by need",
+          "body": "Maintenance, fluids, brakes, charging and protection in clear categories."
+        },
+        "c": {
+          "title": "Checked before order",
+          "body": "The shortlist is a starting point; the team confirms the exact part."
+        }
+      },
+      "points": {
+        "a": "Search by model, year and category",
+        "b": "Results grouped into service product families",
+        "c": "Send a shortlist straight to the parts team"
+      },
+      "ctaTitle": "Not sure what you need?",
+      "ctaBody": "Describe the symptom or the job, and the team will point you to the right products.",
+      "meta": {
+        "title": "BYD Product Finder | BYD Tbilisi",
+        "description": "Find BYD service parts, fluids and accessories by model, year and category with BYD Tbilisi · GT Group."
+      }
+    }
+  },
+  "serviceShop": {
+    "all": "All",
+    "filterLabel": "Filter by category",
+    "resultCount": "{count} products",
+    "inStock": "In stock",
+    "toOrder": "To order",
+    "viewDetails": "Details",
+    "empty": "No products in this category yet.",
+    "breadcrumb": "Breadcrumb",
+    "services": "Services",
+    "shop": {
+      "spare-parts": "Spare Parts",
+      "accessories": "Accessories"
+    },
+    "imagePending": "Image to follow",
+    "priceOnRequest": "Price on request",
+    "specifications": "Specifications",
+    "about": "About this product",
+    "fitment": "Listed for",
+    "related": "Related products",
+    "contactCta": "Enquire about this product",
+    "callUs": "Contact the team",
+    "enquiryNote": "Products are supplied through the parts team rather than online checkout. Send your VIN with the enquiry and compatibility is confirmed before anything is ordered.",
+    "enquirySubject": "Product enquiry",
+    "enquiryProduct": "Product",
+    "enquirySku": "Reference",
+    "enquiryOptions": "Selected options",
+    "enquiryVinPrompt": "My VIN is:"
   }
 }
