@@ -48,10 +48,20 @@
   "nav": {
     "home": "Home",
     "about": "About Us",
+    "news": "News",
     "catalog": "Products",
     "compare": "Compare",
     "booking": "Test Drive",
     "contact": "Contact"
+  },
+  "news": {
+    "eyebrow": "BYD Tbilisi",
+    "title": "News",
+    "intro": "Updates, stories, and announcements from BYD Tbilisi.",
+    "empty": "There are no published stories yet. Please check back soon.",
+    "readArticle": "Read article",
+    "back": "Back to News",
+    "gallery": "Gallery"
   },
   "home": {
     "heroTitle": "The Future of Driving Starts Here",

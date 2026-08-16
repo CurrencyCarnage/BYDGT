@@ -456,6 +456,12 @@ export default function Navbar() {
           : null;
   const hasSelectedSection = sectionHomeHref !== null;
   const isServicesSection = pathname === "/services" || pathname.startsWith("/services/");
+  const isCompanyInfoPage =
+    pathname === "/about" ||
+    pathname === "/contact" ||
+    pathname === "/news" ||
+    pathname.startsWith("/news/");
+  const showCompanyInfoNav = isGateway || (!hasSelectedSection && isCompanyInfoPage);
   const serviceSectionLinks = [
     { id: "service", href: "/services#service" },
     { id: "spare-parts", href: "/services#spare-parts" },
@@ -472,14 +478,25 @@ export default function Navbar() {
     activePath: "/about",
   };
   const compareLink = { href: "/compare", label: t("compare"), activePath: "/compare" };
+  const newsLink = { href: "/news", label: t("news"), activePath: "/news" };
   const contactLink = {
     href: sectionHomeHref === "/cars" ? "/contact?section=passenger" : "/contact",
     label: t("contact"),
     activePath: "/contact",
   };
-  const leadingNavLinks = homeLink ? [homeLink, aboutLink] : [aboutLink];
-  const trailingNavLinks = hasSelectedSection && !isServicesSection ? [compareLink, contactLink] : [contactLink];
-  const isNavLinkActive = (link: { activePath: string }) => pathname === link.activePath;
+  const leadingNavLinks = homeLink
+    ? [homeLink, aboutLink]
+    : showCompanyInfoNav
+      ? [aboutLink, newsLink, contactLink]
+      : [aboutLink];
+  const trailingNavLinks = showCompanyInfoNav
+    ? []
+    : hasSelectedSection && !isServicesSection
+      ? [compareLink, contactLink]
+      : [contactLink];
+  const isNavLinkActive = (link: { activePath: string }) =>
+    pathname === link.activePath ||
+    (link.activePath === "/news" && pathname.startsWith("/news/"));
 
   return (
     <nav
@@ -507,7 +524,7 @@ export default function Navbar() {
             priority
             className="block h-[15px] w-auto flex-shrink-0 group-hover:opacity-80 transition-opacity duration-200"
           />
-          <div className="hidden sm:flex h-full items-center gap-2 text-white/55 group-hover:text-white/75 transition-colors duration-200">
+          <div className={`${showCompanyInfoNav ? "hidden lg:flex" : "hidden sm:flex"} h-full items-center gap-2 text-white/55 group-hover:text-white/75 transition-colors duration-200`}>
             <span className="text-[15px] font-semibold tracking-[0.04em] leading-none">
               {ka ? "თბილისი" : "Tbilisi"}
             </span>
@@ -518,7 +535,7 @@ export default function Navbar() {
 
         {/* ── Desktop nav ──────────────────────────────────────── */}
         <div className={`hidden md:flex items-center gap-7 ${
-          isGateway ? "absolute left-1/2 -translate-x-1/2" : "flex-1 justify-center"
+          showCompanyInfoNav ? "absolute left-1/2 -translate-x-1/2" : "flex-1 justify-center"
         }`}>
 
           {/* Home, About */}
@@ -656,7 +673,9 @@ export default function Navbar() {
           {!isGateway && (
             <Link
               href="/booking"
-              className="navbar-book-test-drive hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-byd-red text-[13px] font-bold tracking-[0.1em] uppercase transition-colors duration-200"
+              className={`navbar-book-test-drive items-center gap-2 px-5 py-2.5 bg-byd-red text-[13px] font-bold tracking-[0.1em] uppercase transition-colors duration-200 ${
+                showCompanyInfoNav ? "hidden xl:inline-flex" : "hidden sm:inline-flex"
+              }`}
             >
               {tCommon("bookTestDrive")}
             </Link>

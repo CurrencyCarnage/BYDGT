@@ -3,6 +3,24 @@ export interface LocalizedString {
   ka: string;
 }
 
+export interface NewsImage {
+  url: string;
+  alt: LocalizedString;
+}
+
+export interface NewsPost {
+  slug: string;
+  title: LocalizedString;
+  excerpt: LocalizedString;
+  body: LocalizedString;
+  coverImage: NewsImage | null;
+  gallery: NewsImage[];
+  published: boolean;
+  publishedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface ColorOption {
   id: string;
   name: LocalizedString;
