@@ -2898,6 +2898,11 @@
     color: #FFFFFF;
   }
 
+  /* Keep comparison row captions distinct from values in dark mode. */
+  html:not(.light) .compare-module .compare-matrix-surface .compare-row-label {
+    color: #FF4D59;
+  }
+
   html:not(.light) .compare-module .compare-matrix-surface .text-byd-red,
   html:not(.light) .compare-module .compare-matrix-surface .text-byd-red span {
     color: #D70C19 !important;
