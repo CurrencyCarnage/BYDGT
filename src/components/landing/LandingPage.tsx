@@ -98,16 +98,12 @@ function ResponsivePanelImage({ panel, priority, isLightMode }: { panel: Landing
 
 function TrustIcon({ index }: { index: number }) {
   const paths = [
-    // 01 — official dealer (shield + check)
+    // 01 — the only official dealer (certified badge)
+    "M12 2.6 14 4.8l2.9-.2.6 2.9 2.6 1.4-1.2 2.7 1.2 2.7-2.6 1.4-.6 2.9-2.9-.2-2 2.2-2-2.2-2.9.2-.6-2.9L4 14.3l1.2-2.7L4 8.9l2.5-1.4.6-2.9 2.9.2L12 2.6Zm-2.4 9.2 1.9 1.9 3.5-3.7",
+    // 02 — warranty (shield + check)
     "M12 3 4.5 6v5.5c0 4.6 3.1 7.7 7.5 9.5 4.4-1.8 7.5-4.9 7.5-9.5V6L12 3Zm-3 9 2 2 4-5",
-    // 02 — full vehicle warranty (car)
-    "m4 14 1.6-4.2A3 3 0 0 1 8.4 8h7.2a3 3 0 0 1 2.8 1.8L20 14m-16 0h16v5H4v-5Zm3 0h.01M17 14h.01",
-    // 03 — battery warranty
-    "M3 8.5h12.5a1.5 1.5 0 0 1 1.5 1.5v4a1.5 1.5 0 0 1-1.5 1.5H3A1.5 1.5 0 0 1 1.5 14v-4A1.5 1.5 0 0 1 3 8.5Zm16.5 2v3M5 11v2m3.5-2v2m3.5-2v2",
-    // 04 — electric motor
-    "m13 2-8 12h7l-1 8 8-12h-7l1-8Z",
-    // 05 — electronic control system (chip)
-    "M8 8h8v8H8V8Zm1.5-5v2.5m5-2.5v2.5m-5 12V21m5-2.5V21M3 9.5h2.5m-2.5 5h2.5M18.5 9.5H21m-2.5 5H21",
+    // 03 — genuine spare parts and service (wrench)
+    "M15.2 7.1a3.8 3.8 0 0 0 4.9 4.9l-7 7a2.4 2.4 0 1 1-3.4-3.4l7-7Zm0 0 2.6-2.6M8.9 12 3.8 6.9a2.9 2.9 0 0 1 3.8-3.8l4.9 4.9",
   ];
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d={paths[index]} /></svg>;
 }
@@ -300,12 +296,35 @@ export default function LandingPage() {
         </div>
 
         <div className={styles.trustStrip} aria-label={t("trust.ariaLabel")}>
-          {["dealer", "vehicle", "battery", "motor", "electronics"].map((item, index) => (
-            <div className={styles.trustItem} key={item}>
-              <span className={styles.trustIcon}><TrustIcon index={index} /></span>
-              <span>{t(`trust.${item}`)}</span>
+          <div className={styles.trustItem}>
+            <span className={styles.trustIcon}><TrustIcon index={0} /></span>
+            <span>{t("trust.dealer")}</span>
+          </div>
+
+          <div className={`${styles.trustItem} ${styles.trustExpandable}`} tabIndex={0} aria-describedby="trust-warranty-details">
+            <span className={styles.trustLabelRow}>
+              <span className={styles.trustIcon}><TrustIcon index={1} /></span>
+              <span>{t("trust.warranty")}</span>
+              <span className={styles.trustChevron} aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" /></svg>
+              </span>
+            </span>
+            <div className={styles.trustPopover} id="trust-warranty-details" role="tooltip">
+              <dl className={styles.trustDetails}>
+                {["vehicle", "battery", "drivetrain"].map((detail) => (
+                  <div className={styles.trustDetailRow} key={detail}>
+                    <dt>{t(`trust.warrantyDetails.${detail}.label`)}</dt>
+                    <dd>{t(`trust.warrantyDetails.${detail}.value`)}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-          ))}
+          </div>
+
+          <div className={styles.trustItem}>
+            <span className={styles.trustIcon}><TrustIcon index={2} /></span>
+            <span>{t("trust.parts")}</span>
+          </div>
         </div>
       </div>
     </section>

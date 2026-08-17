@@ -36,11 +36,11 @@ export default function Footer() {
               />
             </Link>
             <p className="text-[10px] text-white/30 mb-1 tracking-[0.2em] uppercase font-semibold">
-              {locale === "ka" ? "თბილისი" : "Tbilisi"} · GT Group
+              GT Group
             </p>
             <p className="text-xs text-white/35 mb-3 tracking-wide font-light">
               {locale === "ka"
-                ? "BYD-ის ექსკლუზიური ავტორიზებული დილერი საქართველოში"
+                ? "BYD-ს ბრენდის ერთადერთი ოფიციალური წარმომადგენელი\n"
                 : "Exclusive Authorised BYD Dealer in Georgia"}
             </p>
             <p className="max-w-sm text-sm leading-6 text-white/45 font-light md:max-w-xs">

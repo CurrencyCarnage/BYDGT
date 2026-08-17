@@ -1,4 +1,5 @@
 import { getLocale } from "next-intl/server";
+import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const content = {
@@ -101,35 +102,35 @@ const content = {
 const aboutContent = {
   ...content,
   en: {
-    heroTitle: "About GT Group",
+    heroTitle: "About Us",
     heroSubtitle:
-      "Building trusted partnerships, delivering international brands, and supporting mobility and industry in Georgia since 1999.",
-    introTitle: "Since 1999",
+      "GT Group has operated successfully in the Georgian market for more than 20 years.",
+    introTitle: "GT Group",
     introText:
-      "GT Group is a diversified Georgian private holding with extensive experience in automotive distribution, specialised machinery, technical service, and international brand representation. Since beginning operations in 1999, the company has continuously expanded its capabilities while remaining focused on quality, long-term partnerships, and customer satisfaction. Today, GT Group connects Georgian customers and businesses with established global manufacturers across passenger and commercial vehicles, construction and agricultural machinery, municipal equipment, lubricants, marine transport, and viticulture solutions.",
-    globalLabel: "Local Expertise, Global Standards",
+      "Today, the company maintains a leading position in the import and servicing of commercial, agricultural, construction, and marine equipment, as well as passenger vehicles. GT Group continues to expand its areas of operation and offers products and services that meet international standards through brands including Castrol, Ford Trucks, IVECO, New Holland, and others.",
+    globalLabel: "BYD in Georgia",
     globalText:
-      "GT Group's growth has been built on close cooperation with leading international manufacturers and on the ability to deliver more than a product. The company supports customers throughout the ownership lifecycle with professional consultation, technical expertise, maintenance, and after-sales service. This experience provides the foundation for GT Group's partnership with BYD and for the introduction of authorised electric and plug-in hybrid mobility solutions to customers in Georgia.",
+      "Since 2026, GT Group has been BYD's sole official dealer in Georgia — the only authorised representative in the country of the world's largest new energy vehicle (NEV) manufacturer and global market leader. Through this partnership, GT Group is establishing a sales and service experience aligned with international standards, giving BYD owners access to a full official warranty, genuine spare parts, and high-quality after-sales service.",
     innovationLabel: "Our Strengths",
     innovationTitle: "Experience Built Across Mobility and Industry",
     innovationText:
       "GT Group combines local market knowledge with long-term experience in international distribution, technical service, and complex customer support. Its diversified structure allows the company to serve private customers, businesses, public organisations, and major infrastructure projects across Georgia.",
     features: [
       {
-        title: "Operating in Georgia Since 1999",
-        desc: "More than two decades of continuous operation have given GT Group deep knowledge of the Georgian market, customer expectations, and the operational standards required to represent major international brands responsibly.",
+        title: "Sole Authorised Representative",
+        desc: "GT Group is BYD's sole authorised dealer in Georgia, delivering an international-standard experience in full compliance with the brand's requirements.",
       },
       {
-        title: "Multiple Business Directions",
-        desc: "GT Group operates across passenger and commercial vehicles, construction and agricultural machinery, municipal equipment, lubricants, marine transport, viticulture solutions, and related technical services.",
+        title: "Official Warranty and Service",
+        desc: "Every vehicle owner benefits from an official warranty, genuine spare parts, and continuous support from a qualified technical team.",
       },
       {
-        title: "Sales, Service, and After-Sales Support",
-        desc: "GT Group's role extends beyond vehicle and equipment sales. The company provides technical consultation, diagnostics, maintenance, repair, and continuing customer support through specialised teams and service infrastructure.",
+        title: "Global Market Leader",
+        desc: "BYD's portfolio combines the Blade Battery safety standard, an ultra-modern digital interface, and fast-charging technology — helping the brand maintain its leadership in the global new energy vehicle market.",
       },
       {
-        title: "Global Brands, Local Responsibility",
-        desc: "By working with recognised manufacturers across several industries, GT Group brings global technologies and operating standards to Georgia while providing customers with accessible local expertise and support.",
+        title: "20+ Years of Experience",
+        desc: "GT Group has operated successfully in the Georgian market for more than two decades, offering products and services aligned with international standards.",
       },
     ],
     safetyLabel: "Service & Quality",
@@ -147,7 +148,7 @@ const aboutContent = {
     marketText:
       "Beginning in 2026, GT Group became the exclusive authorised BYD dealer in Georgia. The partnership brings together BYD's electric and plug-in hybrid vehicle technology with GT Group's local market experience, established automotive operations, and long-term commitment to customer service. Georgian customers can now discover BYD through an authorised local partner focused on transparent sales, professional consultation, warranty support, qualified service, technical assistance, and original spare parts.",
     stats: [
-      { value: "25+", label: "Years of Experience" },
+      { value: "20+", label: "Years of Experience" },
       { value: "1999", label: "Operating Since" },
     ],
     sustainLabel: "Future Mobility",
@@ -160,35 +161,35 @@ const aboutContent = {
       "For GT Group, representing BYD is not only about introducing new vehicles. It is about giving Georgian customers access to advanced mobility through trusted local service, professional support, and a long-term partnership.",
   },
   ka: {
-    heroTitle: "GT ჯგუფის შესახებ",
+    heroTitle: "ჩვენ შესახებ",
     heroSubtitle:
-      "სანდო პარტნიორობების შექმნა, საერთაშორისო ბრენდების წარმოდგენა და საქართველოში მობილობისა და ინდუსტრიის მხარდაჭერა 1999 წლიდან.",
-    introTitle: "1999 წლიდან",
+      "„ჯი-თი გრუპი“ 20 წელზე მეტია წარმატებით ოპერირებს საქართველოს ბაზარზე.",
+    introTitle: "ჯი-თი გრუპი",
     introText:
-      "GT ჯგუფი მრავალპროფილიანი ქართული კერძო ჰოლდინგია, რომელსაც აქვს დიდი გამოცდილება საავტომობილო დისტრიბუციაში, სპეციალიზებულ ტექნიკაში, ტექნიკურ სერვისსა და საერთაშორისო ბრენდების წარმომადგენლობაში. 1999 წლიდან კომპანია მუდმივად აფართოებს შესაძლებლობებს და ამავე დროს ხარისხზე, გრძელვადიან პარტნიორობებსა და მომხმარებლის კმაყოფილებაზეა ორიენტირებული. დღეს GT ჯგუფი ქართველ მომხმარებლებსა და ბიზნესს აკავშირებს საერთაშორისო მწარმოებლებთან მსუბუქი და კომერციული ავტომობილების, სამშენებლო და სასოფლო-სამეურნეო ტექნიკის, მუნიციპალური აღჭურვილობის, ლუბრიკანტების, საზღვაო ტრანსპორტისა და მევენახეობის გადაწყვეტილებების მიმართულებით.",
-    globalLabel: "ადგილობრივი გამოცდილება, გლობალური სტანდარტები",
+      "დღეს კომპანია ლიდერ პოზიციებს ინარჩუნებს კომერციული, სასოფლო-სამეურნეო, სამშენებლო და საზღვაო ტექნიკის, ასევე მსუბუქი ავტომობილების იმპორტისა და სერვისის მიმართულებით. კომპანია მუდმივად აფართოებს საქმიანობის არეალს და მომხმარებელს სთავაზობს საერთაშორისო სტანდარტების პროდუქციასა და მომსახურებას ისეთი ბრენდებით, როგორიცაა Castrol, Ford Trucks, IVECO, New Holland და სხვები.",
+    globalLabel: "BYD საქართველოში",
     globalText:
-      "GT ჯგუფის ზრდას საფუძვლად უდევს მჭიდრო თანამშრომლობა წამყვან საერთაშორისო მწარმოებლებთან და მომხმარებლისთვის მხოლოდ პროდუქტის მიწოდებაზე მეტის შეთავაზების უნარი. კომპანია მხარს უჭერს მომხმარებელს მფლობელობის მთელი ციკლის განმავლობაში პროფესიული კონსულტაციით, ტექნიკური გამოცდილებით, მოვლითა და გაყიდვის შემდგომი მომსახურებით. ეს გამოცდილება ქმნის საფუძველს GT ჯგუფისა და BYD-ის პარტნიორობისთვის და საქართველოში ავტორიზებული ელექტრო და პლაგ-ინ ჰიბრიდული მობილობის გადაწყვეტილებების დანერგვისთვის.",
+      "2026 წლიდან „ჯი-თი გრუპი“ BYD-ის ერთადერთი ოფიციალური დილერია საქართველოში — განახლებადი ენერგიის ავტომობილების (NEV) უმსხვილესი მწარმოებლისა და მსოფლიო ლიდერის ერთადერთი ავტორიზებული წარმომადგენელი საქართველოში. ამ პარტნიორობით „ჯი-თი გრუპი“ ბაზარზე ამკვიდრებს საერთაშორისო სტანდარტების შესაბამის გაყიდვებისა და სერვისის გამოცდილებას და BYD-ის მფლობელებს სრულ ოფიციალურ გარანტიას, ორიგინალ სათადარიგო ნაწილებსა და მაღალი დონის გაყიდვების შემდგომ მომსახურებაზე წვდომას სთავაზობს.",
     innovationLabel: "ჩვენი ძლიერი მხარეები",
     innovationTitle: "გამოცდილება მობილობასა და ინდუსტრიაში",
     innovationText:
       "GT ჯგუფი აერთიანებს ადგილობრივი ბაზრის ცოდნას საერთაშორისო დისტრიბუციის, ტექნიკური სერვისისა და კომპლექსური მომხმარებლის მხარდაჭერის მრავალწლიან გამოცდილებასთან. მისი მრავალპროფილიანი სტრუქტურა საშუალებას აძლევს კომპანიას მოემსახუროს კერძო მომხმარებლებს, ბიზნესს, საჯარო ორგანიზაციებსა და მსხვილ ინფრასტრუქტურულ პროექტებს საქართველოს მასშტაბით.",
     features: [
       {
-        title: "საქართველოში 1999 წლიდან",
-        desc: "ოც წელზე მეტი უწყვეტი საქმიანობა GT ჯგუფს აძლევს საქართველოს ბაზრის, მომხმარებელთა მოლოდინებისა და საერთაშორისო ბრენდების პასუხისმგებლიანად წარმოდგენისთვის საჭირო საოპერაციო სტანდარტების ღრმა ცოდნას.",
+        title: "ერთადერთი ავტორიზებული წარმომადგენელი",
+        desc: "„ჯი-თი გრუპი“ არის BYD-ის ერთადერთი ავტორიზებული დილერი საქართველოში — საერთაშორისო დონის გამოცდილება ბრენდის სტანდარტების სრული დაცვით.",
       },
       {
-        title: "ბიზნესის მრავალი მიმართულება",
-        desc: "GT ჯგუფი საქმიანობს მსუბუქი და კომერციული ავტომობილების, სამშენებლო და სასოფლო-სამეურნეო ტექნიკის, მუნიციპალური აღჭურვილობის, ლუბრიკანტების, საზღვაო ტრანსპორტის, მევენახეობის გადაწყვეტილებებისა და დაკავშირებული ტექნიკური სერვისების მიმართულებით.",
+        title: "ოფიციალური გარანტია და სერვისი",
+        desc: "ყოველი ავტომობილის მფლობელი უზრუნველყოფილია ოფიციალური გარანტიით, ორიგინალი სათადარიგო ნაწილებითა და კვალიფიციური ტექნიკური გუნდის მუდმივი მხარდაჭერით.",
       },
       {
-        title: "გაყიდვები, სერვისი და შემდგომი მხარდაჭერა",
-        desc: "GT ჯგუფის საქმიანობა ავტომობილებისა და ტექნიკის გაყიდვებს სცდება. სპეციალიზებული გუნდებისა და სერვის ინფრასტრუქტურის მეშვეობით კომპანია უზრუნველყოფს ტექნიკურ კონსულტაციას, დიაგნოსტიკას, მოვლას, შეკეთებასა და მომხმარებლის მუდმივ მხარდაჭერას.",
+        title: "მსოფლიო ბაზრის ლიდერი",
+        desc: "BYD-ის პორტფელი აერთიანებს Blade Battery-ის უსაფრთხოების სტანდარტს, ულტრათანამედროვე ციფრულ ინტერფეისსა და სწრაფი დამუხტვის ტექნოლოგიას — რის გამოც ბრენდი ინარჩუნებს ლიდერობას განახლებადი ენერგიის ავტომობილების მსოფლიო ბაზარზე.",
       },
       {
-        title: "გლობალური ბრენდები, ადგილობრივი პასუხისმგებლობა",
-        desc: "რამდენიმე ინდუსტრიაში აღიარებულ მწარმოებლებთან თანამშრომლობით GT ჯგუფს საქართველოში მოაქვს გლობალური ტექნოლოგიები და საოპერაციო სტანდარტები, მომხმარებლებს კი სთავაზობს ხელმისაწვდომ ადგილობრივ გამოცდილებასა და მხარდაჭერას.",
+        title: "20+ წლიანი გამოცდილება",
+        desc: "„ჯი-თი გრუპი“ ორ ათეულ წელზე მეტია წარმატებით ოპერირებს საქართველოს ბაზარზე და მომხმარებელს საერთაშორისო სტანდარტების პროდუქციასა და მომსახურებას სთავაზობს.",
       },
     ],
     safetyLabel: "სერვისი და ხარისხი",
@@ -206,7 +207,7 @@ const aboutContent = {
     marketText:
       "2026 წლიდან GT ჯგუფი საქართველოში BYD-ის ექსკლუზიური ავტორიზებული დილერი გახდა. პარტნიორობა აერთიანებს BYD-ის ელექტრო და პლაგ-ინ ჰიბრიდული ავტომობილების ტექნოლოგიას GT ჯგუფის ადგილობრივი ბაზრის გამოცდილებასთან, ჩამოყალიბებულ საავტომობილო ოპერაციებთან და მომხმარებლის მომსახურებისადმი გრძელვადიან ერთგულებასთან. საქართველოს მომხმარებლებს ახლა შეუძლიათ BYD გაეცნონ ავტორიზებული ადგილობრივი პარტნიორის მეშვეობით, რომელიც ორიენტირებულია გამჭვირვალე გაყიდვებზე, პროფესიულ კონსულტაციაზე, საგარანტიო მხარდაჭერაზე, კვალიფიციურ სერვისზე, ტექნიკურ დახმარებასა და ორიგინალ სათადარიგო ნაწილებზე.",
     stats: [
-      { value: "25+", label: "წლის გამოცდილება" },
+      { value: "20+", label: "წლის გამოცდილება" },
       { value: "1999", label: "საქმიანობის დასაწყისი" },
     ],
     sustainLabel: "მომავლის მობილობა",
@@ -221,6 +222,84 @@ const aboutContent = {
   },
 };
 
+function FeatureIcon({ index }: { index: number }) {
+  const iconClass = "h-12 w-12";
+
+  if (index === 0) {
+    return (
+      <svg
+        aria-hidden="true"
+        className={iconClass}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.96 11.96 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152A11.96 11.96 0 0 1 12 2.714Z"
+        />
+      </svg>
+    );
+  }
+
+  if (index === 1) {
+    return (
+      <svg
+        aria-hidden="true"
+        className={iconClass}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="m11.42 15.17-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m1.404 3.563 2.496-3.03c.317-.384.74-.626 1.208-.766a4.5 4.5 0 0 0 6.229-5.476l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085"
+        />
+      </svg>
+    );
+  }
+
+  if (index === 2) {
+    return (
+      <svg
+        aria-hidden="true"
+        className={iconClass}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3s-4.5 4.03-4.5 9 2.015 9 4.5 9ZM3.284 9.747A17.92 17.92 0 0 0 12 12c3.162 0 6.133-.815 8.716-2.253M3.284 14.253A17.92 17.92 0 0 1 12 12c3.162 0 6.133.815 8.716 2.253"
+        />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      aria-hidden="true"
+      className={iconClass}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.5}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 6v6l4 2m5-2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+      />
+    </svg>
+  );
+}
+
 export default async function AboutPage() {
   const locale = await getLocale();
   const c = locale === "ka" ? aboutContent.ka : aboutContent.en;
@@ -229,27 +308,21 @@ export default async function AboutPage() {
     <div className="overflow-hidden">
       {/* ── HERO ── */}
       <section
-        className="theme-media-section relative min-h-[75vh] flex items-end pb-20 pt-40"
+        className="theme-media-section relative flex min-h-[68vh] items-end pb-14 pt-36 md:pb-20 md:pt-44"
         style={{
-          backgroundImage: "url('/images/aboutus/byd_about_bg_hq_hero.jpg')",
+          backgroundImage:
+            "url('/images/aboutus/byd_about_bg_global_dark.jpg')",
           backgroundSize: "cover",
-          backgroundPosition: "center top",
+          backgroundPosition: "center",
         }}
       >
-        {/* Dark overlay that intensifies at bottom */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-[#252728]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/55 to-black/15" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
         <div className="relative section-container">
           <ScrollReveal>
-            <p
-              className="text-xs text-byd-red uppercase tracking-[0.25em] mb-4"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {locale === "ka"
-                ? "GT ჯგუფი — BYD საქართველო"
-                : "GT Group — BYD Georgia"}
-            </p>
+            <span className="mb-7 block h-[2px] w-12 bg-byd-red" />
             <h1
-              className="text-4xl md:text-[4rem] font-bold text-white mb-6 max-w-3xl leading-tight"
+              className="mb-6 max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl md:text-[4rem]"
               style={{
                 fontFamily: "var(--font-montserrat)",
                 letterSpacing: "-0.02em",
@@ -258,7 +331,7 @@ export default async function AboutPage() {
               {c.heroTitle}
             </h1>
             <p
-              className="text-white/60 text-lg md:text-xl max-w-2xl font-light leading-relaxed"
+              className="max-w-2xl text-base font-light leading-relaxed text-white/70 md:text-xl"
               style={{ fontFamily: "var(--font-montserrat)" }}
             >
               {c.heroSubtitle}
@@ -267,129 +340,95 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* ── INTRO — WHITE section ── */}
-      <section
-        data-header-theme="light"
-        className="about-intro-section py-section-sm md:py-section-lg bg-white"
-      >
+      {/* ── INTRO — SPLIT STORY ── */}
+      <section className="about-intro-section bg-[#1C1E1F] py-section-sm md:py-section-lg">
         <div className="section-container">
-          <div className="max-w-3xl mx-auto">
-            <ScrollReveal>
-              <div className="flex items-center gap-3 mb-5">
-                <span className="w-8 h-[2px] bg-byd-red flex-shrink-0" />
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-byd-red">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] xl:gap-20">
+            <div>
+              <ScrollReveal>
+                <h2
+                  className="mb-7 text-h3 font-semibold text-white md:text-h2"
+                  style={{
+                    fontFamily: "var(--font-montserrat)",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
                   {c.introTitle}
+                </h2>
+                <p
+                  className="text-base font-light leading-8 text-white/70 md:text-lg"
+                  style={{ fontFamily: "var(--font-montserrat)" }}
+                >
+                  {c.introText}
                 </p>
-              </div>
-              <p
-                className="text-lg font-normal leading-relaxed text-[var(--theme-text-secondary)]"
-                style={{ fontFamily: "var(--font-montserrat)" }}
-              >
-                {c.introText}
-              </p>
-            </ScrollReveal>
+              </ScrollReveal>
 
-            {/* Global presence block */}
-            <ScrollReveal delay={0.15} className="mt-10">
-              <div className="flex items-start gap-4 p-6 bg-[#F5F6F7] border border-[#E0E2E4]">
-                <span className="flex-shrink-0 mt-0.5 text-byd-red">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
-                    />
-                  </svg>
-                </span>
-                <div>
-                  <p
-                    className="text-xs text-byd-red uppercase tracking-widest mb-2"
-                    style={{ fontFamily: "var(--font-montserrat)" }}
-                  >
-                    {c.globalLabel}
-                  </p>
-                  <p
-                    className="font-normal leading-relaxed text-[var(--theme-text-secondary)]"
-                    style={{ fontFamily: "var(--font-montserrat)" }}
-                  >
-                    {c.globalText}
-                  </p>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ── INNOVATION ── */}
-      <section
-        className="theme-media-section relative py-section-sm md:py-section-lg"
-        style={{
-          backgroundImage: "url('/images/aboutus/byd_about_bg_tech_dark.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-[#252728]/95 via-[#252728]/80 to-[#252728]/60" />
-        <div className="relative section-container">
-          <div className="max-w-4xl">
-            <ScrollReveal>
-              <p
-                className="text-xs text-byd-red uppercase tracking-[0.2em] mb-3"
-                style={{ fontFamily: "var(--font-montserrat)" }}
-              >
-                {c.innovationLabel}
-              </p>
-              <h2
-                className="text-h3 md:text-h2 font-bold text-white mb-6"
-                style={{
-                  fontFamily: "var(--font-montserrat)",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {c.innovationTitle}
-              </h2>
-              <p
-                className="text-white/60 text-lg leading-relaxed font-light mb-14"
-                style={{ fontFamily: "var(--font-montserrat)" }}
-              >
-                {c.innovationText}
-              </p>
-            </ScrollReveal>
-
-            {/* Feature cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {c.features.map((feat, i) => (
-                <ScrollReveal key={feat.title} delay={i * 0.1}>
-                  <div className="p-6 bg-[rgba(200,208,220,0.06)] border border-[rgba(200,208,220,0.13)] hover:border-[rgba(200,208,220,0.28)] transition-all duration-300 h-full">
-                    <h3
-                      className="text-sm font-semibold text-white mb-3"
-                      style={{ fontFamily: "var(--font-montserrat)" }}
-                    >
-                      {feat.title}
-                    </h3>
-                    <p
-                      className="text-xs text-white/60 font-light leading-relaxed"
-                      style={{ fontFamily: "var(--font-montserrat)" }}
-                    >
-                      {feat.desc}
-                    </p>
-                  </div>
-                </ScrollReveal>
-              ))}
+              <ScrollReveal delay={0.12} className="mt-9 border-t border-white/10 pt-8">
+                <h3
+                  className="mb-4 text-xl font-semibold text-white"
+                  style={{ fontFamily: "var(--font-montserrat)" }}
+                >
+                  {c.globalLabel}
+                </h3>
+                <p
+                  className="text-base font-light leading-8 text-white/70"
+                  style={{ fontFamily: "var(--font-montserrat)" }}
+                >
+                  {c.globalText}
+                </p>
+              </ScrollReveal>
             </div>
+
+            <ScrollReveal direction="right">
+              <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10">
+                <Image
+                  src="/images/aboutus/byd_about_bg_hq_hero.jpg"
+                  alt={
+                    locale === "ka"
+                      ? "BYD-ის სათავო ოფისი და საწარმოო კომპლექსი"
+                      : "BYD headquarters and manufacturing complex"
+                  }
+                  fill
+                  sizes="(min-width: 1024px) 42vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-white/5" />
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* ── SAFETY ── */}
+      {/* ── FOUR PILLARS ── */}
+      <section className="border-y border-white/[0.06] bg-[#090A0B] py-section-sm md:py-section-lg">
+        <div className="section-container">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+            {c.features.map((feat, i) => (
+              <ScrollReveal key={feat.title} delay={i * 0.08}>
+                <article className="h-full">
+                  <div className="mb-6 flex h-14 items-start justify-center text-byd-red">
+                    <FeatureIcon index={i} />
+                  </div>
+                  <h3
+                    className="mb-3 text-base font-semibold leading-6 text-white"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
+                  >
+                    {feat.title}
+                  </h3>
+                  <p
+                    className="text-sm font-light leading-7 text-white/65"
+                    style={{ fontFamily: "var(--font-montserrat)" }}
+                  >
+                    {feat.desc}
+                  </p>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SERVICE ── */}
       <section
         className="theme-media-section relative py-section-sm md:py-section-lg"
         style={{

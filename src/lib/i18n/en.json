@@ -217,10 +217,13 @@
     "trust": {
       "ariaLabel": "Why choose BYD GT Group",
       "dealer": "The only official dealer",
-      "vehicle": "Full vehicle warranty — 6 years or 150,000 km",
-      "battery": "Battery warranty — 8 years or 150,000 km",
-      "motor": "Electric motor warranty — 8 years or 150,000 km",
-      "electronics": "Electronic control system — 8 years or 150,000 km"
+      "warranty": "Warranty",
+      "parts": "Genuine spare parts and service",
+      "warrantyDetails": {
+        "vehicle": { "label": "Full vehicle", "value": "6 years or 150,000 km" },
+        "battery": { "label": "Battery", "value": "8 years or 150,000 km" },
+        "drivetrain": { "label": "Electric motor and electronic control system", "value": "8 years or 150,000 km" }
+      }
     },
     "destination": {
       "back": "Back to gateway",

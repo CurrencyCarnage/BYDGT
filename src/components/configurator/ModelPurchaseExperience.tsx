@@ -264,7 +264,7 @@ export default function ModelPurchaseExperience({ model, locale }: { model: CarM
                       href={bookingHref}
                       className="model-trims-action model-trims-action-primary inline-flex min-h-11 items-center justify-center px-4 text-center text-xs font-bold uppercase leading-tight"
                     >
-                      {ka ? "ტესტ დრაივი" : "Book test drive"}
+                      {ka ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
                     </Link>
                     <Link
                       href={contactHref}

@@ -319,32 +319,132 @@
 .finderSecondary:hover { border-color: rgba(255, 255, 255, 0.62); background: rgba(255, 255, 255, 0.08); }
 
 .trustStrip {
-  min-height: 5.2rem;
+  min-height: 4.6rem;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: #0b1118;
 }
 
 .trustItem {
-  min-height: 3.2rem;
-  padding: 0.7rem 0.85rem;
+  position: relative;
+  min-height: 2.6rem;
+  padding: 0.6rem 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
+  gap: 0.75rem;
   border-right: 1px solid rgba(255, 255, 255, 0.14);
   color: rgba(255, 255, 255, 0.68);
-  font-size: clamp(0.6rem, 0.72vw, 0.78rem);
-  line-height: 1.32;
+  font-size: clamp(0.66rem, 0.8vw, 0.85rem);
+  line-height: 1.34;
   text-align: center;
   text-wrap: balance;
 }
 
 .trustItem:last-child { border-right: 0; }
-.trustIcon { width: 1.4rem; height: 1.4rem; flex: 0 0 auto; color: rgba(255, 255, 255, 0.82); }
+.trustIcon { width: 1.5rem; height: 1.5rem; flex: 0 0 auto; color: rgba(255, 255, 255, 0.82); }
 .trustIcon svg { width: 100%; height: 100%; }
+
+/* Middle segment: caption only, full warranty breakdown revealed on hover/focus. */
+.trustExpandable { outline-offset: -2px; cursor: default; }
+.trustLabelRow { display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
+
+.trustChevron {
+  width: 0.7rem;
+  height: 0.7rem;
+  flex: 0 0 auto;
+  opacity: 0.5;
+  transition: transform 240ms var(--landing-ease), opacity 200ms ease;
+}
+.trustChevron svg { width: 100%; height: 100%; }
+
+.trustPopover {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.55rem);
+  z-index: 6;
+  width: min(30rem, 84vw);
+  padding: 0.95rem 1.15rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-top: 2px solid var(--landing-red);
+  background: #0f1720;
+  box-shadow: 0 1rem 2.75rem rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 0.4rem);
+  transition: opacity 200ms ease, transform 240ms var(--landing-ease), visibility 240ms;
+  pointer-events: none;
+}
+
+.trustPopover::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0.6rem;
+  height: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-top: 0;
+  border-left: 0;
+  background: #0f1720;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.trustDetails {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  text-align: left;
+}
+
+.trustDetailRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: 1.25rem;
+  row-gap: 0.15rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.trustDetailRow:first-child { padding-top: 0; border-top: 0; }
+.trustDetailRow:last-child { padding-bottom: 0; }
+
+.trustDetails dt {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.005em;
+}
+
+.trustDetails dd {
+  margin: 0;
+  justify-self: end;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.35;
+}
+
+.trustExpandable:hover .trustPopover,
+.trustExpandable:focus-visible .trustPopover,
+.trustExpandable:focus-within .trustPopover {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.trustExpandable:hover .trustChevron,
+.trustExpandable:focus-within .trustChevron { opacity: 0.85; transform: rotate(180deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .trustPopover, .trustChevron { transition: none; }
+}
 
 .destinationPage {
   position: relative;
@@ -662,6 +762,21 @@
 :global(html.light) .trustIcon {
   color: #3e4244;
 }
+
+:global(html.light) .trustPopover {
+  border-color: rgba(37, 39, 40, 0.14);
+  background: #fff;
+  box-shadow: 0 1rem 2.25rem rgba(24, 28, 32, 0.14);
+}
+
+:global(html.light) .trustPopover::after {
+  border-color: rgba(37, 39, 40, 0.14);
+  background: #fff;
+}
+
+:global(html.light) .trustDetailRow { border-color: rgba(37, 39, 40, 0.12); }
+:global(html.light) .trustDetails dt { color: #252728; }
+:global(html.light) .trustDetails dd { color: #6b7073; }
 
 @media (max-width: 767px) {
   .mobileExpanded[data-panel="services"] .panelOverlay {

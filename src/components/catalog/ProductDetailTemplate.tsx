@@ -235,7 +235,7 @@ export default async function ProductDetailTemplate({
             <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-row sm:items-center sm:justify-center sm:gap-4 max-w-sm mx-auto sm:max-w-none">
               <Link
                 href={bookingHref}
-                className="inline-flex items-center justify-center gap-2 border border-white/35 bg-[#A80912] px-5 py-3.5 text-sm font-bold uppercase tracking-[0.06em] text-white shadow-[0_16px_38px_rgba(37,39,40,0.18)] transition-all duration-200 hover:bg-[#7F0710]"
+                className="inline-flex items-center justify-center gap-2 border border-byd-red bg-byd-red px-5 py-3.5 text-sm font-bold uppercase tracking-[0.06em] text-white shadow-[0_16px_38px_rgba(37,39,40,0.18)] transition-all duration-200 hover:border-[#A80912] hover:bg-[#A80912]"
               >
                 {tCommon("bookTestDrive")}
               </Link>

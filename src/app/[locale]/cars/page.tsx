@@ -129,7 +129,7 @@ export default async function HomePage() {
               <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-row">
                 <Link
                   href="/booking"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-byd-red text-white text-sm font-bold tracking-[0.06em] uppercase hover:bg-[#b80a15] transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 border border-byd-red bg-byd-red text-white text-sm font-bold tracking-[0.06em] uppercase hover:border-[#A80912] hover:bg-[#A80912] transition-all duration-200"
                 >
                   {tCommon("bookTestDrive")}
                 </Link>

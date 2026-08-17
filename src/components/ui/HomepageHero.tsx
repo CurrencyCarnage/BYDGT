@@ -710,7 +710,11 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                       <Link
                         href="/catalog"
                         className="btn-primary-red min-h-[46px] justify-center px-4 text-[clamp(0.78rem,3.6vw,0.95rem)] md:px-5 md:text-[0.95rem] sm:justify-start"
-                        style={{ minWidth: "0" }}
+                        style={{
+                          minWidth: "0",
+                          background: "rgba(255,255,255,0.04)",
+                          borderColor: "rgba(255,255,255,0.28)",
+                        }}
                       >
                         {ka ? "პროდუქტები" : "Explore Products"}
                         <svg
@@ -730,11 +734,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                       <Link
                         href="/booking"
                         className="btn-primary-red min-h-[46px] justify-center px-4 text-[clamp(0.78rem,3.6vw,0.95rem)] md:px-5 md:text-[0.95rem] sm:justify-start"
-                        style={{
-                          minWidth: "0",
-                          background: "rgba(255,255,255,0.04)",
-                          borderColor: "rgba(255,255,255,0.28)",
-                        }}
+                        style={{ minWidth: "0" }}
                       >
                         {ka ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
                       </Link>
@@ -787,18 +787,18 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                         <Link
                           href={modelSpec.href}
                           className="btn-primary-red min-h-[42px] w-full justify-center px-4 text-[0.9rem]"
-                          style={{ minWidth: "0" }}
+                          style={{
+                            minWidth: "0",
+                            background: "rgba(255,255,255,0.02)",
+                            borderColor: "rgba(255,255,255,0.24)",
+                          }}
                         >
                           {ka ? "დეტალები" : "View Product"}
                         </Link>
                         <Link
                           href={getBookingHrefFromCatalogHref(modelSpec.href)}
                           className="btn-primary-red min-h-[42px] w-full justify-center px-4 text-[0.9rem]"
-                          style={{
-                            minWidth: "0",
-                            background: "rgba(255,255,255,0.02)",
-                            borderColor: "rgba(255,255,255,0.24)",
-                          }}
+                          style={{ minWidth: "0" }}
                         >
                           {ka ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
                         </Link>
@@ -861,7 +861,11 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                     <Link
                       href={modelSpec.href}
                       className="btn-primary-red justify-center sm:justify-start"
-                      style={{ minWidth: "11.875rem" }}
+                      style={{
+                        minWidth: "11.875rem",
+                        background: "rgba(255,255,255,0.02)",
+                        borderColor: "rgba(255,255,255,0.24)",
+                      }}
                     >
                       {ka ? "დეტალები" : "View Product"}
                       <svg
@@ -881,11 +885,7 @@ export default function HomepageHero({ locale }: HomepageHeroProps) {
                     <Link
                       href={getBookingHrefFromCatalogHref(modelSpec.href)}
                       className="btn-primary-red justify-center sm:justify-start"
-                      style={{
-                        minWidth: "11.875rem",
-                        background: "rgba(255,255,255,0.02)",
-                        borderColor: "rgba(255,255,255,0.24)",
-                      }}
+                      style={{ minWidth: "11.875rem" }}
                     >
                       {ka ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
                     </Link>
