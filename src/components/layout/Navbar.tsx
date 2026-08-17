@@ -750,12 +750,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
   ) : (
     <NavLabel labelKey="bookTestDrive" ka={ka}>{tCommon("bookTestDrive")}</NavLabel>
   );
-  const isCompanyInfoPage =
-    pathname === "/about" ||
-    pathname === "/contact" ||
-    pathname === "/news" ||
-    pathname.startsWith("/news/");
-  const showCompanyInfoNav = isGateway || (!hasSelectedSection && isCompanyInfoPage);
+  const showCompanyInfoNav = isGateway;
   const serviceSectionLinks = [
     { id: "service", href: "/services/service" },
     { id: "spare-parts", href: "/services/spare-parts" },
