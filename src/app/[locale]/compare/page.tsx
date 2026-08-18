@@ -19,10 +19,11 @@ export default async function ComparePage({
 
   return (
     <div className="bg-byd-dark">
-
       {/* ── Header — dark strip ── */}
-      <div className="compare-page-header compare-page-header--media relative overflow-hidden bg-[#0B0C0D] border-b border-white/[0.06]" style={{ paddingTop: "5rem" }}>
-
+      <div
+        className="compare-page-header compare-page-header--media relative overflow-hidden bg-[#0B0C0D] border-b border-white/[0.06]"
+        style={{ paddingTop: "5rem" }}
+      >
         {/* Full frame of the header photo — contained, never cropped */}
         <div
           className="relative w-full min-h-[15rem] sm:min-h-[13rem] md:min-h-0"
@@ -49,7 +50,10 @@ export default async function ComparePage({
                 {locale === "ka" ? "შედარება" : "Compare"}
               </p>
             </div>
-            <h1 className="text-h2 font-semibold text-white mb-4 leading-[1.15]" style={{ letterSpacing: "-0.02em" }}>
+            <h1
+              className="sr-only text-h2 font-semibold text-white mb-4 leading-[1.15] md:not-sr-only"
+              style={{ letterSpacing: "-0.02em" }}
+            >
               {locale === "ka" ? "პროდუქტების შედარება" : "Compare Products"}
             </h1>
             <p className="text-body1 text-white/86 font-normal max-w-xl">
@@ -62,7 +66,6 @@ export default async function ComparePage({
       </div>
 
       <CompareGrid initialModelIds={initialModelIds} />
-
     </div>
   );
 }

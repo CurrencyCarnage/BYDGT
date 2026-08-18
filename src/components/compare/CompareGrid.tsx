@@ -58,43 +58,123 @@ const t = <T extends Bilingual>(value: T, locale: string) =>
   locale === "ka" ? value.ka : value.en;
 
 const SEAL_PAINT: PaintOption[] = [
-  { id: "midnight-black", label: { en: "Midnight Black", ka: "Midnight Black" }, hex: "#1A1A1A" },
-  { id: "arctic-white", label: { en: "Arctic White", ka: "Arctic White" }, hex: "#F1F1F1" },
-  { id: "titanium-silver", label: { en: "Titanium Silver", ka: "Titanium Silver" }, hex: "#A7A7B8" },
-  { id: "sapphire-blue", label: { en: "Sapphire Blue", ka: "Sapphire Blue" }, hex: "#274C8A" },
-  { id: "burgundy-red", label: { en: "Burgundy Red", ka: "Burgundy Red" }, hex: "#7A1F33" },
+  {
+    id: "midnight-black",
+    label: { en: "Midnight Black", ka: "Midnight Black" },
+    hex: "#1A1A1A",
+  },
+  {
+    id: "arctic-white",
+    label: { en: "Arctic White", ka: "Arctic White" },
+    hex: "#F1F1F1",
+  },
+  {
+    id: "titanium-silver",
+    label: { en: "Titanium Silver", ka: "Titanium Silver" },
+    hex: "#A7A7B8",
+  },
+  {
+    id: "sapphire-blue",
+    label: { en: "Sapphire Blue", ka: "Sapphire Blue" },
+    hex: "#274C8A",
+  },
+  {
+    id: "burgundy-red",
+    label: { en: "Burgundy Red", ka: "Burgundy Red" },
+    hex: "#7A1F33",
+  },
 ];
 
 const SEALION_PAINT: PaintOption[] = [
-  { id: "midnight-black", label: { en: "Midnight Black", ka: "Midnight Black" }, hex: "#1A1A1A" },
-  { id: "arctic-white", label: { en: "Arctic White", ka: "Arctic White" }, hex: "#F1F1F1" },
-  { id: "titanium-silver", label: { en: "Titanium Silver", ka: "Titanium Silver" }, hex: "#A7A7B8" },
-  { id: "sapphire-blue", label: { en: "Sapphire Blue", ka: "Sapphire Blue" }, hex: "#274C8A" },
-  { id: "forest-green", label: { en: "Forest Green", ka: "Forest Green" }, hex: "#365E35" },
-  { id: "burgundy-red", label: { en: "Burgundy Red", ka: "Burgundy Red" }, hex: "#7A1F33" },
+  {
+    id: "midnight-black",
+    label: { en: "Midnight Black", ka: "Midnight Black" },
+    hex: "#1A1A1A",
+  },
+  {
+    id: "arctic-white",
+    label: { en: "Arctic White", ka: "Arctic White" },
+    hex: "#F1F1F1",
+  },
+  {
+    id: "titanium-silver",
+    label: { en: "Titanium Silver", ka: "Titanium Silver" },
+    hex: "#A7A7B8",
+  },
+  {
+    id: "sapphire-blue",
+    label: { en: "Sapphire Blue", ka: "Sapphire Blue" },
+    hex: "#274C8A",
+  },
+  {
+    id: "forest-green",
+    label: { en: "Forest Green", ka: "Forest Green" },
+    hex: "#365E35",
+  },
+  {
+    id: "burgundy-red",
+    label: { en: "Burgundy Red", ka: "Burgundy Red" },
+    hex: "#7A1F33",
+  },
 ];
 
 const YUAN_PAINT: PaintOption[] = [
-  { id: "midnight-black", label: { en: "Midnight Black", ka: "Midnight Black" }, hex: "#1A1A1A" },
-  { id: "arctic-white", label: { en: "Arctic White", ka: "Arctic White" }, hex: "#F1F1F1" },
-  { id: "cosmos-grey", label: { en: "Cosmos Grey", ka: "Cosmos Grey" }, hex: "#8A8B98" },
-  { id: "aurora-blue", label: { en: "Aurora Blue", ka: "Aurora Blue" }, hex: "#214D90" },
-  { id: "crimson-red", label: { en: "Crimson Red", ka: "Crimson Red" }, hex: "#8F2232" },
+  {
+    id: "midnight-black",
+    label: { en: "Midnight Black", ka: "Midnight Black" },
+    hex: "#1A1A1A",
+  },
+  {
+    id: "arctic-white",
+    label: { en: "Arctic White", ka: "Arctic White" },
+    hex: "#F1F1F1",
+  },
+  {
+    id: "cosmos-grey",
+    label: { en: "Cosmos Grey", ka: "Cosmos Grey" },
+    hex: "#8A8B98",
+  },
+  {
+    id: "aurora-blue",
+    label: { en: "Aurora Blue", ka: "Aurora Blue" },
+    hex: "#214D90",
+  },
+  {
+    id: "crimson-red",
+    label: { en: "Crimson Red", ka: "Crimson Red" },
+    hex: "#8F2232",
+  },
 ];
 
 const SEAL_WHEELS: WheelOption[] = [
-  { id: "18-comfort", label: { en: '18" Comfort', ka: '18" Comfort' }, design: 0 },
+  {
+    id: "18-comfort",
+    label: { en: '18" Comfort', ka: '18" Comfort' },
+    design: 0,
+  },
   { id: "19-sport", label: { en: '19" Sport', ka: '19" Sport' }, design: 2 },
 ];
 
 const SEALION_WHEELS: WheelOption[] = [
-  { id: "18-comfort", label: { en: '18" Comfort', ka: '18" Comfort' }, design: 0 },
+  {
+    id: "18-comfort",
+    label: { en: '18" Comfort', ka: '18" Comfort' },
+    design: 0,
+  },
   { id: "19-sport", label: { en: '19" Sport', ka: '19" Sport' }, design: 2 },
-  { id: "20-premium", label: { en: '20" Premium', ka: '20" Premium' }, design: 3 },
+  {
+    id: "20-premium",
+    label: { en: '20" Premium', ka: '20" Premium' },
+    design: 3,
+  },
 ];
 
 const YUAN_WHEELS: WheelOption[] = [
-  { id: "17-standard", label: { en: '17" Standard', ka: '17" Standard' }, design: 0 },
+  {
+    id: "17-standard",
+    label: { en: '17" Standard', ka: '17" Standard' },
+    design: 0,
+  },
   { id: "18-sport", label: { en: '18" Sport', ka: '18" Sport' }, design: 1 },
 ];
 
@@ -105,7 +185,11 @@ const SEAL_INTERIOR: InteriorOption[] = [
 
 const SEALION_INTERIOR: InteriorOption[] = [
   { id: "black", label: { en: "Black", ka: "Black" }, hex: "#1D1D1D" },
-  { id: "dark-grey", label: { en: "Dark Grey", ka: "Dark Grey" }, hex: "#434348" },
+  {
+    id: "dark-grey",
+    label: { en: "Dark Grey", ka: "Dark Grey" },
+    hex: "#434348",
+  },
   { id: "beige", label: { en: "Beige", ka: "Beige" }, hex: "#C9AE88" },
 ];
 
@@ -114,16 +198,32 @@ const YUAN_INTERIOR: InteriorOption[] = [
 ];
 
 const SEAL_ACCENTS: AccentOption[] = [
-  { id: "dark-chrome", label: { en: "Dark Chrome", ka: "Dark Chrome" }, hex: "#2C2E32" },
+  {
+    id: "dark-chrome",
+    label: { en: "Dark Chrome", ka: "Dark Chrome" },
+    hex: "#2C2E32",
+  },
 ];
 
 const SEALION_ACCENTS: AccentOption[] = [
-  { id: "dark-chrome", label: { en: "Dark Chrome", ka: "Dark Chrome" }, hex: "#2C2E32" },
-  { id: "silver-chrome", label: { en: "Silver Chrome", ka: "Silver Chrome" }, hex: "#8F939B" },
+  {
+    id: "dark-chrome",
+    label: { en: "Dark Chrome", ka: "Dark Chrome" },
+    hex: "#2C2E32",
+  },
+  {
+    id: "silver-chrome",
+    label: { en: "Silver Chrome", ka: "Silver Chrome" },
+    hex: "#8F939B",
+  },
 ];
 
 const YUAN_ACCENTS: AccentOption[] = [
-  { id: "dark-chrome", label: { en: "Dark Chrome", ka: "Dark Chrome" }, hex: "#2C2E32" },
+  {
+    id: "dark-chrome",
+    label: { en: "Dark Chrome", ka: "Dark Chrome" },
+    hex: "#2C2E32",
+  },
 ];
 
 const FAMILIES: ModelFamily[] = [
@@ -316,11 +416,12 @@ const ALL_VERSIONS: SlotVersion[] = FAMILIES.flatMap((family) =>
 const COMPARE_SELECTION_STORAGE_KEY = "byd-compare-selected-models";
 
 const getCachedSlots = (ids: unknown) => {
-  if (!Array.isArray(ids)) return [null, null, null] as [
-    SlotVersion | null,
-    SlotVersion | null,
-    SlotVersion | null,
-  ];
+  if (!Array.isArray(ids))
+    return [null, null, null] as [
+      SlotVersion | null,
+      SlotVersion | null,
+      SlotVersion | null
+    ];
 
   const usedIds = new Set<string>();
   return [0, 1, 2].map((index) => {
@@ -551,19 +652,21 @@ function ModelDropdown({
         }`}
       >
         {selected ? (
-          <div className={`flex min-w-0 items-center ${compact ? "gap-1.5" : "gap-3"}`}>
+          <div
+            className={`flex min-w-0 items-center ${
+              compact ? "gap-1.5" : "gap-3"
+            }`}
+          >
             <div
               className={`relative shrink-0 overflow-hidden bg-[#ECEFF1] ${
-                compact
-                  ? "h-8 w-9 rounded-md"
-                  : "h-10 w-12 rounded-lg"
+                compact ? "h-8 w-9 rounded-md" : "h-10 w-12 rounded-lg"
               }`}
             >
               <Image
                 src={selected.image}
                 alt={selected.familyName}
                 fill
-              sizes={compact ? "40px" : "48px"}
+                sizes={compact ? "40px" : "48px"}
                 className="object-cover"
                 quality={70}
               />
@@ -584,21 +687,30 @@ function ModelDropdown({
             </div>
           </div>
         ) : (
-          <div className={`flex min-w-0 items-center ${compact ? "gap-1.5" : "gap-3"}`}>
+          <div
+            className={`flex min-w-0 items-center ${
+              compact ? "gap-1.5" : "gap-3"
+            }`}
+          >
             <div
               className={`flex shrink-0 items-center justify-center border border-dashed border-[#C7CDD0] bg-[#F0F2F3] ${
-                compact
-                  ? "h-8 w-9 rounded-md"
-                  : "h-10 w-12 rounded-lg"
+                compact ? "h-8 w-9 rounded-md" : "h-10 w-12 rounded-lg"
               }`}
             >
               <svg
-                className={`text-[#62676A] ${compact ? "h-3.5 w-3.5" : "h-5 w-5"}`}
+                className={`text-[#62676A] ${
+                  compact ? "h-3.5 w-3.5" : "h-5 w-5"
+                }`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M12 4v16m8-8H4"
+                />
               </svg>
             </div>
             {!compact && (
@@ -606,7 +718,11 @@ function ModelDropdown({
             )}
           </div>
         )}
-        <span className={`flex shrink-0 items-center ${compact ? "gap-0.5" : "gap-2"}`}>
+        <span
+          className={`flex shrink-0 items-center ${
+            compact ? "gap-0.5" : "gap-2"
+          }`}
+        >
           {selected && (
             <span
               role="button"
@@ -666,13 +782,19 @@ function ModelDropdown({
       {open && (
         <div className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-2xl border border-[#DDE1E3] bg-white shadow-[0_24px_60px_rgba(24,28,32,0.18)]">
           {FAMILIES.map((family) => (
-            <div key={family.id} className="border-t border-[#EEF0F1] first:border-t-0">
+            <div
+              key={family.id}
+              className="border-t border-[#EEF0F1] first:border-t-0"
+            >
               <p className="px-4 pb-2 pt-3 text-[10px] uppercase tracking-[0.18em] text-[#7A8080]">
                 {family.name}
               </p>
               {family.versions.map((version) => {
-                const option = ALL_VERSIONS.find((item) => item.id === version.id)!;
-                const isSelected = selected !== null && option.id === selected.id;
+                const option = ALL_VERSIONS.find(
+                  (item) => item.id === version.id
+                )!;
+                const isSelected =
+                  selected !== null && option.id === selected.id;
                 const isBlocked = blockedIds.includes(option.id) && !isSelected;
 
                 return (
@@ -688,8 +810,8 @@ function ModelDropdown({
                       isSelected
                         ? "bg-byd-red/[0.08]"
                         : isBlocked
-                          ? "cursor-not-allowed opacity-40"
-                          : "hover:bg-[#F7F8F8]"
+                        ? "cursor-not-allowed opacity-40"
+                        : "hover:bg-[#F7F8F8]"
                     }`}
                   >
                     <div className="relative h-9 w-11 shrink-0 overflow-hidden rounded-md bg-[#ECEFF1]">
@@ -745,7 +867,9 @@ const persistSlots = (newSlots: SlotTuple) => {
       COMPARE_SELECTION_STORAGE_KEY,
       JSON.stringify(slotIds)
     );
-  } catch { /* quota exceeded or SSR — ignore */ }
+  } catch {
+    /* quota exceeded or SSR — ignore */
+  }
 };
 
 export default function CompareGrid({
@@ -760,9 +884,7 @@ export default function CompareGrid({
     "all"
   );
   const [openRequests, setOpenRequests] = useState<[number, number, number]>([
-    0,
-    0,
-    0,
+    0, 0, 0,
   ]);
   const [swapAnimation, setSwapAnimation] = useState<{
     left: number;
@@ -820,23 +942,16 @@ export default function CompareGrid({
   const labels = {
     differs: locale === "ka" ? "განსხვავდება" : "Differs",
     pricing: locale === "ka" ? "ფასი" : "Price",
-    pricingValue:
-      locale === "ka" ? "მოგვმართეთ" : "Contact for pricing",
+    pricingValue: locale === "ka" ? "მოგვმართეთ" : "Contact for pricing",
     testDrive: locale === "ka" ? "ტესტ დრაივი" : "BOOK TEST DRIVE",
     viewCatalog: locale === "ka" ? "კატალოგი" : "View Catalog",
-    selectModel:
-      locale === "ka" ? "აირჩიეთ პროდუქტი" : "Select a product",
-    clearModel:
-      locale === "ka" ? "პროდუქტის წაშლა" : "Remove product",
+    selectModel: locale === "ka" ? "აირჩიეთ პროდუქტი" : "Select a product",
+    clearModel: locale === "ka" ? "პროდუქტის წაშლა" : "Remove product",
     emptySlot:
-      locale === "ka"
-        ? "პროდუქტი არ არის არჩეული"
-        : "No product selected",
+      locale === "ka" ? "პროდუქტი არ არის არჩეული" : "No product selected",
     showAll: locale === "ka" ? "ყველა მონაცემი" : "All specs",
-    showDifferences:
-      locale === "ka" ? "განსხვავებები" : "Differences",
-    specModeLabel:
-      locale === "ka" ? "სპეციფიკაციების ჩვენება" : "Spec display",
+    showDifferences: locale === "ka" ? "განსხვავებები" : "Differences",
+    specModeLabel: locale === "ka" ? "სპეციფიკაციების ჩვენება" : "Spec display",
     swapModels: locale === "ka" ? "სვეტების გაცვლა" : "Swap columns",
   };
 
@@ -844,9 +959,7 @@ export default function CompareGrid({
     value.replace(/\s+/g, " ").trim().toLowerCase();
 
   /* Only compute spec rows when at least 2 models selected */
-  const filledSlots = slots.filter(
-    (s): s is SlotVersion => s !== null
-  );
+  const filledSlots = slots.filter((s): s is SlotVersion => s !== null);
   const hasComparison = filledSlots.length >= 2;
 
   const specRows = hasComparison
@@ -856,8 +969,7 @@ export default function CompareGrid({
         );
         const filled = values.filter((v): v is string => v !== null);
         const hasDifference =
-          filled.length >= 2 &&
-          new Set(filled.map(normalizeValue)).size > 1;
+          filled.length >= 2 && new Set(filled.map(normalizeValue)).size > 1;
 
         // Determine which column(s) have the "best" value
         let bestIndices: number[] = [];
@@ -865,9 +977,10 @@ export default function CompareGrid({
           const nums = values.map((v) => (v ? extractNumber(v) : null));
           const validNums = nums.filter((n): n is number => n !== null);
           if (validNums.length >= 2) {
-            const bestVal = row.betterIs === "higher"
-              ? Math.max(...validNums)
-              : Math.min(...validNums);
+            const bestVal =
+              row.betterIs === "higher"
+                ? Math.max(...validNums)
+                : Math.min(...validNums);
             bestIndices = nums
               .map((n, i) => (n === bestVal ? i : -1))
               .filter((i) => i !== -1);
@@ -878,8 +991,7 @@ export default function CompareGrid({
       })
     : [];
 
-  const visibleSpecRows =
-    specRows;
+  const visibleSpecRows = specRows;
 
   const updateSlot = (index: number, version: SlotVersion | null) => {
     const next = [...slots] as SlotTuple;
@@ -929,37 +1041,40 @@ export default function CompareGrid({
           >
             <div
               className="grid items-center gap-0.5"
-              style={{ gridTemplateColumns: "minmax(0,1fr) 1.375rem minmax(0,1fr) 1.375rem minmax(0,1fr)" }}
+              style={{
+                gridTemplateColumns:
+                  "minmax(0,1fr) 1.375rem minmax(0,1fr) 1.375rem minmax(0,1fr)",
+              }}
             >
-            {slots.map((slot, i) => (
-              <Fragment key={`m-${i}`}>
-                {i > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => swapSlots(i - 1, i)}
-                    disabled={!slots[i - 1] && !slot}
-                    className="compare-swap-button h-[1.375rem] w-[1.375rem]"
-                    aria-label={`${labels.swapModels}: ${i} / ${i + 1}`}
-                    title={labels.swapModels}
-                  >
-                    <SwapColumnsIcon className="h-2.5 w-2.5" />
-                  </button>
-                )}
-                <div className={getSwapClass(i)}>
-                  <ModelDropdown
-                    selected={slot}
-                    onSelect={(v) => updateSlot(i, v)}
-                    onClear={() => updateSlot(i, null)}
-                    locale={locale}
-                    blockedIds={blockedFor(i)}
-                    placeholder={labels.selectModel}
-                    clearLabel={labels.clearModel}
-                    compact
-                    openRequestKey={openRequests[i]}
-                  />
-                </div>
-              </Fragment>
-            ))}
+              {slots.map((slot, i) => (
+                <Fragment key={`m-${i}`}>
+                  {i > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => swapSlots(i - 1, i)}
+                      disabled={!slots[i - 1] && !slot}
+                      className="compare-swap-button h-[1.375rem] w-[1.375rem]"
+                      aria-label={`${labels.swapModels}: ${i} / ${i + 1}`}
+                      title={labels.swapModels}
+                    >
+                      <SwapColumnsIcon className="h-2.5 w-2.5" />
+                    </button>
+                  )}
+                  <div className={getSwapClass(i)}>
+                    <ModelDropdown
+                      selected={slot}
+                      onSelect={(v) => updateSlot(i, v)}
+                      onClear={() => updateSlot(i, null)}
+                      locale={locale}
+                      blockedIds={blockedFor(i)}
+                      placeholder={labels.selectModel}
+                      clearLabel={labels.clearModel}
+                      compact
+                      openRequestKey={openRequests[i]}
+                    />
+                  </div>
+                </Fragment>
+              ))}
             </div>
           </div>
         </div>
@@ -975,36 +1090,39 @@ export default function CompareGrid({
           >
             <div
               className="grid items-center gap-3"
-              style={{ gridTemplateColumns: "minmax(0,1fr) 2.75rem minmax(0,1fr) 2.75rem minmax(0,1fr)" }}
+              style={{
+                gridTemplateColumns:
+                  "minmax(0,1fr) 2.75rem minmax(0,1fr) 2.75rem minmax(0,1fr)",
+              }}
             >
-            {slots.map((slot, i) => (
-              <Fragment key={`d-${i}`}>
-                {i > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => swapSlots(i - 1, i)}
-                    disabled={!slots[i - 1] && !slot}
-                    className="compare-swap-button h-11 w-11"
-                    aria-label={`${labels.swapModels}: ${i} / ${i + 1}`}
-                    title={labels.swapModels}
-                  >
-                    <SwapColumnsIcon className="h-4 w-4" />
-                  </button>
-                )}
-                <div className={getSwapClass(i)}>
-                  <ModelDropdown
-                    selected={slot}
-                    onSelect={(v) => updateSlot(i, v)}
-                    onClear={() => updateSlot(i, null)}
-                    locale={locale}
-                    blockedIds={blockedFor(i)}
-                    placeholder={labels.selectModel}
-                    clearLabel={labels.clearModel}
-                    openRequestKey={openRequests[i]}
-                  />
-                </div>
-              </Fragment>
-            ))}
+              {slots.map((slot, i) => (
+                <Fragment key={`d-${i}`}>
+                  {i > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => swapSlots(i - 1, i)}
+                      disabled={!slots[i - 1] && !slot}
+                      className="compare-swap-button h-11 w-11"
+                      aria-label={`${labels.swapModels}: ${i} / ${i + 1}`}
+                      title={labels.swapModels}
+                    >
+                      <SwapColumnsIcon className="h-4 w-4" />
+                    </button>
+                  )}
+                  <div className={getSwapClass(i)}>
+                    <ModelDropdown
+                      selected={slot}
+                      onSelect={(v) => updateSlot(i, v)}
+                      onClear={() => updateSlot(i, null)}
+                      locale={locale}
+                      blockedIds={blockedFor(i)}
+                      placeholder={labels.selectModel}
+                      clearLabel={labels.clearModel}
+                      openRequestKey={openRequests[i]}
+                    />
+                  </div>
+                </Fragment>
+              ))}
             </div>
           </div>
         </div>
@@ -1054,7 +1172,9 @@ export default function CompareGrid({
                     </p>
                     <div className="mt-auto grid grid-cols-1 gap-1.5 pt-2 md:grid-cols-2 md:gap-2 md:pt-5">
                       <Link
-                        href={`/${locale}/booking?version=${encodeURIComponent(slot.id)}`}
+                        href={`/${locale}/booking?version=${encodeURIComponent(
+                          slot.id
+                        )}`}
                         className="compare-card-action compare-card-action-primary"
                       >
                         {labels.testDrive}
@@ -1136,41 +1256,59 @@ export default function CompareGrid({
 
           {/* Grouped specification cards */}
           {hasComparison && (
-            <div className="space-y-4 bg-[#EEF0F1] p-3 md:space-y-5 md:p-6">
+            <div className="space-y-4 bg-[#EEF0F1] py-3 md:space-y-5 md:p-6">
               {SPEC_GROUPS.map((group, groupIndex) => {
-                const rows = visibleSpecRows.filter((row) => group.rows.includes(row.key));
+                const rows = visibleSpecRows.filter((row) =>
+                  group.rows.includes(row.key)
+                );
                 if (rows.length === 0) return null;
 
                 return (
-                  <section key={group.key} className="overflow-hidden rounded-xl border border-byd-red/70 bg-white shadow-[0_12px_30px_rgba(24,28,32,0.05)]">
+                  <section
+                    key={group.key}
+                    className="overflow-hidden border border-byd-red/70 bg-white shadow-[0_12px_30px_rgba(24,28,32,0.05)] md:rounded-xl"
+                  >
                     <div className="compare-group-heading flex items-center gap-3 px-4 py-3 md:px-6 md:py-4">
-                      <span className="compare-group-index flex h-7 w-7 items-center justify-center text-[10px] font-semibold md:h-8 md:w-8 md:text-xs">0{groupIndex + 1}</span>
-                      <h3 className="compare-group-title text-sm uppercase tracking-[0.12em] md:text-base">{t(group.title, locale)}</h3>
+                      <span className="compare-group-index flex h-7 w-7 items-center justify-center text-[10px] font-semibold md:h-8 md:w-8 md:text-xs">
+                        0{groupIndex + 1}
+                      </span>
+                      <h3 className="compare-group-title text-sm uppercase tracking-[0.12em] md:text-base">
+                        {t(group.title, locale)}
+                      </h3>
                     </div>
                     <div className="divide-y divide-[#E6E9EA]">
                       {rows.map((row) => (
                         <div key={row.key} className="bg-white">
                           <div className="border-b border-[#EEF0F1] bg-[#FAFBFB] px-4 py-2.5 text-center md:px-6">
-                            <span className="compare-row-label inline-flex px-1 text-xs uppercase tracking-[0.12em] md:text-[0.9rem]">{t(row.label, locale)}</span>
+                            <span className="compare-row-label inline-flex px-1 text-xs uppercase tracking-[0.12em] md:text-[0.9rem]">
+                              {t(row.label, locale)}
+                            </span>
                           </div>
                           <div className="grid grid-cols-3">
                             {row.values.map((value, ci) => {
-                              const isBest = comparisonMode === "differences" && row.hasDifference && row.bestIndices.includes(ci);
+                              const isBest =
+                                comparisonMode === "differences" &&
+                                row.hasDifference &&
+                                row.bestIndices.includes(ci);
                               return (
                                 <div
                                   key={`${row.key}-${ci}`}
                                   title={t(row.label, locale)}
-                                  className={`flex min-h-[3.4rem] items-center justify-center px-2 py-3 text-center leading-5 md:min-h-[4.25rem] md:px-5 md:py-4 ${getSwapClass(ci)} ${
+                                  className={`flex min-h-[3.4rem] items-center justify-center px-2 py-3 text-center leading-5 md:min-h-[4.25rem] md:px-5 md:py-4 ${getSwapClass(
+                                    ci
+                                  )} ${
                                     ci < 2 ? "border-r border-[#E6E9EA]" : ""
                                   } ${
                                     value === null
                                       ? "text-[11px] text-[#62676A] md:text-sm"
                                       : isBest
-                                        ? "text-[13px] font-bold text-byd-red md:text-base"
-                                        : "text-[11px] font-semibold text-[#252728] md:text-sm"
+                                      ? "text-[13px] font-bold text-byd-red md:text-base"
+                                      : "text-[11px] font-semibold text-[#252728] md:text-sm"
                                   }`}
                                 >
-                                  <span className="w-full break-words">{value ?? "—"}</span>
+                                  <span className="w-full break-words">
+                                    {value ?? "—"}
+                                  </span>
                                 </div>
                               );
                             })}
@@ -1196,20 +1334,24 @@ export default function CompareGrid({
                 {slots.map((slot, ci) => (
                   <div
                     key={`price-${ci}`}
-                    className={`flex items-center justify-center px-3 py-3 md:px-5 md:py-4 ${getSwapClass(ci)} ${
-                      ci < 2 ? "border-r border-[#E6E9EA]" : ""
-                    }`}
+                    className={`flex items-center justify-center px-3 py-3 md:px-5 md:py-4 ${getSwapClass(
+                      ci
+                    )} ${ci < 2 ? "border-r border-[#E6E9EA]" : ""}`}
                   >
                     {slot ? (
                       <div className="grid w-full gap-2">
                         <Link
-                          href={`/${locale}/contact?subject=${encodeURIComponent(slot.familyName + " " + slot.label)}`}
+                          href={`/${locale}/contact?subject=${encodeURIComponent(
+                            slot.familyName + " " + slot.label
+                          )}`}
                           className="compare-pricing-cta compare-contact-cta inline-flex min-h-[2.75rem] w-full items-center justify-center gap-1.5 rounded-none border border-[#C7CDD0] px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-[#252728] transition-colors hover:border-byd-red hover:text-byd-red md:px-3 md:text-[12px]"
                         >
                           {labels.pricingValue}
                         </Link>
                         <Link
-                          href={`/${locale}/booking?version=${encodeURIComponent(slot.id)}`}
+                          href={`/${locale}/booking?version=${encodeURIComponent(
+                            slot.id
+                          )}`}
                           className="inline-flex min-h-[2.75rem] w-full items-center justify-center bg-byd-red px-2 py-2 text-center text-[10px] font-semibold leading-[1.15] text-white transition-colors hover:bg-[#A80912] md:px-3 md:text-[12px]"
                         >
                           {locale === "ka" ? "ტესტ დრაივი" : "BOOK TEST DRIVE"}
@@ -1236,7 +1378,6 @@ export default function CompareGrid({
           )}
         </div>
       </div>
-
     </div>
   );
 }
