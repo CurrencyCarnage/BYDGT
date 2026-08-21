@@ -3395,41 +3395,37 @@
   opacity: 1;
 }
 
-@keyframes showcase-caption-out {
-  0%, 25% {
+@keyframes showcase-caption-fade-out {
+  0% {
     opacity: 1;
-    transform: translateY(0);
   }
-  65%, 100% {
+  70%, 100% {
     opacity: 0;
-    transform: translateY(-0.08em);
   }
 }
 
-@keyframes showcase-caption-in {
-  0%, 25% {
+@keyframes showcase-caption-fade-in {
+  0%, 30% {
     opacity: 0;
-    transform: translateY(0.1em);
   }
-  65%, 100% {
+  100% {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-.showcase-caption-out,
-.showcase-caption-in {
+.showcase-caption-fade-out,
+.showcase-caption-fade-in {
   animation-fill-mode: both;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: opacity, transform;
+  will-change: opacity;
 }
 
-.showcase-caption-out {
-  animation-name: showcase-caption-out;
+.showcase-caption-fade-out {
+  animation-name: showcase-caption-fade-out;
 }
 
-.showcase-caption-in {
-  animation-name: showcase-caption-in;
+.showcase-caption-fade-in {
+  animation-name: showcase-caption-fade-in;
 }
 
 /* ── ModelShowcase entrance animations ─────────────────────────────────────

@@ -723,6 +723,7 @@ function OneLineShowcase({
   const [documentVisible, setDocumentVisible] = useState(true);
 
   const sectionRef = useRef<HTMLElement>(null);
+  const captionRef = useRef<HTMLHeadingElement>(null);
   const incomingBackgroundRef = useRef<HTMLDivElement>(null);
   const incomingCarRef = useRef<HTMLDivElement>(null);
   const incomingFrontWheelRef = useRef<HTMLImageElement>(null);
@@ -824,6 +825,7 @@ function OneLineShowcase({
     if (!transition) return;
 
     const incomingCar = incomingCarRef.current;
+    const caption = captionRef.current;
     const incomingBackground = incomingBackgroundRef.current;
     const incomingFrontWheel = incomingFrontWheelRef.current;
     const incomingRearWheel = incomingRearWheelRef.current;
@@ -900,6 +902,24 @@ function OneLineShowcase({
       ],
       incomingTiming
     );
+    const fromLightScene = transition.from === 1 || transition.from === 3;
+    const toLightScene = transition.to === 1 || transition.to === 3;
+    const captionAnimation = caption?.animate(
+      toLightScene
+        ? [
+            { color: fromLightScene ? "#111213" : "#FFFFFF" },
+            { offset: 0.33, color: "#9AA0A4" },
+            { offset: 0.67, color: "#4E5356" },
+            { color: "#111213" },
+          ]
+        : [
+            { color: fromLightScene ? "#111213" : "#FFFFFF" },
+            { offset: 0.33, color: "#4E5356" },
+            { offset: 0.67, color: "#9AA0A4" },
+            { color: "#FFFFFF" },
+          ],
+      incomingTiming
+    );
     const incomingAnimation = incomingCar.animate(
       [
         { transform: "translateX(110vw)", opacity: "0" },
@@ -942,6 +962,7 @@ function OneLineShowcase({
     // removing it as soon as only the incoming car finishes.
     const animations = [
       backgroundAnimation,
+      captionAnimation,
       incomingAnimation,
       outgoingAnimation,
       incomingFrontAnimation,
@@ -982,6 +1003,7 @@ function OneLineShowcase({
       }
       window.clearTimeout(sceneToneTimer);
       backgroundAnimation.cancel();
+      captionAnimation?.cancel();
       incomingAnimation.cancel();
       outgoingAnimation.cancel();
       incomingFrontAnimation?.cancel();
@@ -1058,11 +1080,6 @@ function OneLineShowcase({
   const captionTransitionDuration = transition?.kind === "auto"
     ? AUTO_ROLL_DURATION_MS
     : MANUAL_INCOMING_DURATION_MS;
-  const captionTransitionEasing = transition?.kind === "auto"
-    ? "linear"
-    : MANUAL_EASING;
-  const captionColorFor = (index: number) =>
-    index === 1 || index === 3 ? "#111213" : "#ffffff";
   const lightScene = sceneToneIndex === 1 || sceneToneIndex === 3;
   const isAnimating = transition !== null || !initialEntryComplete;
   const nextDisabled = isAnimating || autoRollState !== "stopped";
@@ -1127,7 +1144,7 @@ function OneLineShowcase({
       ) : null}
       <div className="pointer-events-none relative z-20 section-container flex min-h-[inherit] flex-col px-4 pb-0 pt-6 md:pt-8">
         <div className="flex items-start justify-end">
-          <div className="flex max-w-[15rem] flex-col items-end gap-1.5">
+          <div className="relative flex max-w-[15rem] flex-col items-end gap-1.5">
             <button
               type="button"
               onClick={toggleAutoRoll}
@@ -1185,7 +1202,7 @@ function OneLineShowcase({
               <p
                 id="auto-roll-status"
                 aria-live="polite"
-                className={`text-right text-[10px] leading-4 ${
+                className={`absolute right-0 top-[calc(100%+0.375rem)] w-[15rem] text-right text-[10px] leading-4 ${
                   lightScene ? "text-black/65" : "text-white/65"
                 }`}
               >
@@ -1195,54 +1212,45 @@ function OneLineShowcase({
           </div>
         </div>
         <h3
-          className={`mx-auto mt-3 w-[11ch] max-w-[calc(100vw-2rem)] bg-transparent text-center text-[clamp(2.2rem,6vw,4.75rem)] font-semibold leading-[0.9] select-none ${
-            lightScene ? "text-[#111213]" : "text-white"
-          }`}
-          style={{ letterSpacing: "-0.045em" }}
+          ref={captionRef}
+          className="absolute inset-x-0 top-[5rem] mx-auto h-[1.8em] w-[11ch] max-w-[calc(100vw-2rem)] bg-transparent text-center text-[clamp(2.2rem,6vw,4.75rem)] font-semibold leading-[0.9] select-none md:top-[5.5rem] 2xl:top-[5.75rem]"
+          style={{
+            color: lightScene ? "#111213" : "#FFFFFF",
+            letterSpacing: "-0.045em",
+          }}
         >
-          {animateCaption && transition ? (
-            <>
-              <span
-                key={`caption-${transition.id}`}
-                aria-hidden="true"
-                className="relative grid place-items-center"
-              >
+          <Link
+            href={displayedModel.href}
+            aria-label={
+              ka
+                ? `${displayedModel.name}-ის ნახვა`
+                : `View ${displayedModel.name}`
+            }
+            className="pointer-events-auto absolute inset-0 block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
+          >
+            {animateCaption && transition ? (
+              <>
                 <span
-                  className="showcase-caption-out col-start-1 row-start-1"
-                  style={{
-                    animationDuration: `${captionTransitionDuration}ms`,
-                    animationTimingFunction: captionTransitionEasing,
-                    color: captionColorFor(transition.from),
-                  }}
+                  aria-hidden="true"
+                  className="showcase-caption-fade-out absolute inset-x-0 top-0 block"
+                  style={{ animationDuration: `${captionTransitionDuration}ms` }}
                 >
                   {MODELS[transition.from].name}
                 </span>
                 <span
-                  className="showcase-caption-in col-start-1 row-start-1"
-                  style={{
-                    animationDuration: `${captionTransitionDuration}ms`,
-                    animationTimingFunction: captionTransitionEasing,
-                    color: captionColorFor(transition.to),
-                  }}
+                  aria-hidden="true"
+                  className="showcase-caption-fade-in absolute inset-x-0 top-0 block"
+                  style={{ animationDuration: `${captionTransitionDuration}ms` }}
                 >
                   {displayedModel.name}
                 </span>
+              </>
+            ) : (
+              <span className="absolute inset-x-0 top-0 block">
+                {displayedModel.name}
               </span>
-              <span className="sr-only">{displayedModel.name}</span>
-            </>
-          ) : (
-            <Link
-              href={displayedModel.href}
-              aria-label={
-                ka
-                  ? `${displayedModel.name}-ის ნახვა`
-                  : `View ${displayedModel.name}`
-              }
-              className="pointer-events-auto transition-opacity duration-200 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
-            >
-              {displayedModel.name}
-            </Link>
-          )}
+            )}
+          </Link>
         </h3>
       </div>
 
