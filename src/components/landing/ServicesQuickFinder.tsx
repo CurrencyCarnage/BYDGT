@@ -149,6 +149,9 @@ export default function ServicesQuickFinder({ models, closeModelPickerRequestKey
             multiple
             value={categories}
             onChange={(value) => { setCategories(value); clearError("category"); }}
+            closeRequestKey={closeModelPickerRequestKey}
+            closeOnMenuPointerLeave
+            onMenuPointerLeave={onModelPickerPointerLeave}
             buttonClassName="!min-h-[32px] !py-1.5"
             placeholder={tSelect("multiplePlaceholder")}
             options={serviceCategories.map((item) => ({ value: item, label: t(`categories.${item}`) }))}

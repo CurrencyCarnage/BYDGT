@@ -363,6 +363,14 @@
     color: #252728 !important;
   }
 
+  /* Product pickers retain their dark/red surfaces in light mode. */
+  html.light [data-product-picker-trigger] .text-white,
+  html.light [data-product-picker-trigger] [class*="text-white/"],
+  html.light [data-product-picker-menu] .text-white,
+  html.light [data-product-picker-menu] [class*="text-white/"] {
+    color: #FFFFFF !important;
+  }
+
   html.light .text-text-secondary,
   html.light [class*="text-[#D4D8DB]"] {
     color: var(--theme-text-secondary) !important;

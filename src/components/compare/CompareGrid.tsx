@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
+import ProductPickerField, { type ProductPickerOption } from "@/components/ui/ProductPickerField";
+import { getTrimsForVersion } from "@/lib/test-drive";
 
 type LocaleCode = "en" | "ka";
 type Bilingual = { en: string; ka: string };
@@ -592,7 +594,9 @@ const SPEC_GROUPS: { key: string; title: Bilingual; rows: string[] }[] = [
 
 interface ModelDropdownProps {
   selected: SlotVersion | null;
+  selectedTrimId: string;
   onSelect: (version: SlotVersion) => void;
+  onTrimSelect: (trimId: string) => void;
   onClear: () => void;
   locale: LocaleCode;
   blockedIds: string[];
@@ -604,7 +608,9 @@ interface ModelDropdownProps {
 
 function ModelDropdown({
   selected,
+  selectedTrimId,
   onSelect,
+  onTrimSelect,
   onClear,
   locale,
   blockedIds,
@@ -631,6 +637,40 @@ function ModelDropdown({
     if (!openRequestKey) return;
     setOpen(true);
   }, [openRequestKey]);
+
+  const sharedOptions: ProductPickerOption[] = ALL_VERSIONS
+    .filter((option) => option.id === selected?.id || !blockedIds.includes(option.id))
+    .map((option) => ({
+      id: option.id,
+      name: option.familyName,
+      image: option.image,
+      powertrain: option.type,
+      variants: getTrimsForVersion(option.id).map((trim) => ({ id: trim.id, name: trim.label })),
+    }));
+
+  if (sharedOptions.length) {
+    return (
+      <ProductPickerField
+        value={selected?.id ?? ""}
+        secondaryValue={selectedTrimId}
+        options={sharedOptions}
+        onChange={(id) => {
+          const option = ALL_VERSIONS.find((item) => item.id === id);
+          if (option) onSelect(option);
+        }}
+        onSecondaryChange={onTrimSelect}
+        onClear={onClear}
+        placeholder={placeholder}
+        clearLabel={clearLabel}
+        appearance="services"
+        groupedOptions
+        groupedOptionsLabel={locale === "ka" ? "კომპლექტაციები" : "Trims"}
+        compact={compact}
+        openRequestKey={openRequestKey}
+        aria-label={placeholder}
+      />
+    );
+  }
 
   return (
     <div ref={rootRef} className="relative">
@@ -859,6 +899,7 @@ function ModelDropdown({
 }
 
 type SlotTuple = [SlotVersion | null, SlotVersion | null, SlotVersion | null];
+type TrimTuple = [string, string, string];
 
 const persistSlots = (newSlots: SlotTuple) => {
   try {
@@ -879,6 +920,7 @@ export default function CompareGrid({
 }) {
   const locale = useLocale() as LocaleCode;
   const [slots, setSlots] = useState<SlotTuple>([null, null, null]);
+  const [slotTrims, setSlotTrims] = useState<TrimTuple>(["", "", ""]);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [comparisonMode, setComparisonMode] = useState<"all" | "differences">(
     "all"
@@ -996,7 +1038,20 @@ export default function CompareGrid({
     const next = [...slots] as SlotTuple;
     next[index] = version;
     setSlots(next);
+    setSlotTrims((current) => {
+      const trims = [...current] as TrimTuple;
+      if (slots[index]?.id !== version?.id) trims[index] = "";
+      return trims;
+    });
     persistSlots(next);
+  };
+
+  const updateTrim = (index: number, trimId: string) => {
+    setSlotTrims((current) => {
+      const next = [...current] as TrimTuple;
+      next[index] = trimId;
+      return next;
+    });
   };
 
   const requestSlotSelect = (index: number) => {
@@ -1012,6 +1067,11 @@ export default function CompareGrid({
     const next = [...slots] as SlotTuple;
     [next[left], next[right]] = [next[right], next[left]];
     setSlots(next);
+    setSlotTrims((current) => {
+      const trims = [...current] as TrimTuple;
+      [trims[left], trims[right]] = [trims[right], trims[left]];
+      return trims;
+    });
     persistSlots(next);
     setSwapAnimation({ left, right, nonce: Date.now() });
   };
@@ -1062,7 +1122,9 @@ export default function CompareGrid({
                   <div className={getSwapClass(i)}>
                     <ModelDropdown
                       selected={slot}
+                      selectedTrimId={slotTrims[i]}
                       onSelect={(v) => updateSlot(i, v)}
+                      onTrimSelect={(trimId) => updateTrim(i, trimId)}
                       onClear={() => updateSlot(i, null)}
                       locale={locale}
                       blockedIds={blockedFor(i)}
@@ -1111,7 +1173,9 @@ export default function CompareGrid({
                   <div className={getSwapClass(i)}>
                     <ModelDropdown
                       selected={slot}
+                      selectedTrimId={slotTrims[i]}
                       onSelect={(v) => updateSlot(i, v)}
+                      onTrimSelect={(trimId) => updateTrim(i, trimId)}
                       onClear={() => updateSlot(i, null)}
                       locale={locale}
                       blockedIds={blockedFor(i)}

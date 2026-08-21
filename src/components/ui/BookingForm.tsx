@@ -146,10 +146,6 @@ export default function BookingForm({
   const [phoneValid, setPhoneValid] = useState(false);
   const [showFieldErrors, setShowFieldErrors] = useState(false);
 
-  const selectedFamily = testDriveModels.find(
-    (m) => m.id === form.modelFamilyId
-  );
-  const versions = selectedFamily?.versions ?? [];
   const trims = form.versionId ? getTrimsForVersion(form.versionId) : [];
 
   /** A version offering exactly one trim needs no second choice. */
@@ -200,45 +196,33 @@ export default function BookingForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialModelId, initialTrimId, initialVersionId]);
 
-  const handleVersionChange = (versionId: string) => {
-    setError("");
-    setForm((prev) =>
-      // Clicking the selected version clears it, and the trim with it.
-      prev.versionId === versionId
-        ? { ...prev, versionId: "", trimId: "" }
-        : { ...prev, versionId, trimId: soleTrimFor(versionId) },
-    );
-  };
-
-  const handleTrimChange = (trimId: string) => {
-    setError("");
-    setForm((prev) => ({ ...prev, trimId: prev.trimId === trimId ? "" : trimId }));
-  };
-
   const set = (field: string, value: string) => {
     setError("");
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleModelChange = (modelId: string) => {
+  const handleProductChange = (versionId: string) => {
     setError("");
-    const family = testDriveModels.find((model) => model.id === modelId);
-    // A single-powertrain product needs no second choice — pick it automatically.
-    const onlyVersionId = family?.versions.length === 1 ? family.versions[0].id : "";
+    const family = testDriveModels.find((model) =>
+      model.versions.some((version) => version.id === versionId)
+    );
     setForm((prev) => ({
       ...prev,
-      modelFamilyId: modelId,
-      versionId: onlyVersionId,
-      trimId: soleTrimFor(onlyVersionId),
+      modelFamilyId: family?.id ?? "",
+      versionId,
+      trimId: prev.versionId === versionId ? prev.trimId : "",
     }));
   };
 
-  const productOptions: ProductPickerOption[] = testDriveModels.map((model) => ({
-    id: model.id,
-    name: model.name,
-    subtitle: model.versions.map((version) => version.label).join(" · "),
-    image: PRODUCT_IMAGES[model.id] ?? "/images/models/seal-06-dmi/hero.jpg",
-  }));
+  const productOptions: ProductPickerOption[] = testDriveModels.flatMap((model) =>
+    model.versions.map((version) => ({
+      id: version.id,
+      name: model.name,
+      image: PRODUCT_IMAGES[model.id] ?? "/images/models/seal-06-dmi/hero.jpg",
+      powertrain: version.label.includes("EV") ? "EV" : "PHEV",
+      variants: getTrimsForVersion(version.id).map((trim) => ({ id: trim.id, name: trim.label })),
+    }))
+  );
 
   const validateAndOpenModal = (e: React.FormEvent) => {
     e.preventDefault();
@@ -477,115 +461,28 @@ export default function BookingForm({
           )}
         </div>
 
-        {/* Product + Version — equal-height columns keep labels, controls and
-            helper text on shared baselines. */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-          <div className="flex h-full flex-col">
-            <label
-              className="byd-field-label"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {t.model}
-            </label>
-            <ProductPickerField
-              aria-label={t.model}
-              value={form.modelFamilyId}
-              options={productOptions}
-              onChange={handleModelChange}
-              onClear={() => setForm((prev) => ({ ...prev, modelFamilyId: "", versionId: "", trimId: "" }))}
-              clearLabel={t.clearModel}
-              placeholder={t.selectModel}
-            />
-            <p
-              className="byd-field-helper"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {t.modelHelper}
-            </p>
-          </div>
-          <div className="flex h-full flex-col">
-            <label
-              className="byd-field-label"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {t.version} {selectedFamily && <span className="text-byd-red">*</span>}
-            </label>
-            <div
-              role="radiogroup"
-              aria-label={t.version}
-              className={`byd-version-toggle ${selectedFamily ? "" : "is-locked"}`}
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {selectedFamily ? (
-                versions.map((version) => {
-                  const isSelected = form.versionId === version.id;
-                  return (
-                    <button
-                      key={version.id}
-                      type="button"
-                      role="radio"
-                      aria-checked={isSelected}
-                      onClick={() => handleVersionChange(version.id)}
-                      className={`byd-version-option ${isSelected ? "is-selected" : ""}`}
-                    >
-                      {version.label}
-                    </button>
-                  );
-                })
-              ) : (
-                <span className="byd-version-placeholder">{t.versionLocked}</span>
-              )}
-            </div>
-            <p
-              className="byd-field-helper"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {t.versionHelper}
-            </p>
-          </div>
+        <div className="flex flex-col">
+          <label className="byd-field-label" style={{ fontFamily: "var(--font-montserrat)" }}>
+            {t.model}
+          </label>
+          <ProductPickerField
+            aria-label={t.model}
+            value={form.versionId}
+            options={productOptions}
+            onChange={handleProductChange}
+            onClear={() => setForm((prev) => ({ ...prev, modelFamilyId: "", versionId: "", trimId: "" }))}
+            clearLabel={t.clearModel}
+            placeholder={t.selectModel}
+            appearance="services"
+            groupedOptions
+            groupedOptionsLabel={t.trim}
+            secondaryValue={form.trimId}
+            onSecondaryChange={(trimId) => set("trimId", trimId)}
+          />
+          <p className="byd-field-helper" style={{ fontFamily: "var(--font-montserrat)" }}>
+            {t.modelHelper}
+          </p>
         </div>
-
-        {/* Trim — revealed once a version is chosen. Keyed on versionId so the
-            pop-in replays whenever the trim set changes. */}
-        {trims.length > 0 && (
-          <div key={form.versionId} className="byd-trim-block flex flex-col">
-            <label
-              className="byd-field-label"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {t.trim} <span className="text-byd-red">*</span>
-            </label>
-            <div
-              role="radiogroup"
-              aria-label={t.trim}
-              className="byd-trim-toggle"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {trims.map((trim, index) => {
-                const isSelected = form.trimId === trim.id;
-                return (
-                  <button
-                    key={trim.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={isSelected}
-                    onClick={() => handleTrimChange(trim.id)}
-                    className={`byd-trim-option ${isSelected ? "is-selected" : ""}`}
-                    style={{ animationDelay: `${index * 52}ms` }}
-                  >
-                    {trim.label}
-                  </button>
-                );
-              })}
-            </div>
-            <p
-              className="byd-field-helper"
-              style={{ fontFamily: "var(--font-montserrat)" }}
-            >
-              {t.trimHelper}
-            </p>
-          </div>
-        )}
 
         {/* Date + Time — one combined scheduler */}
         <div>

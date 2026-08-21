@@ -26,7 +26,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 export default async function ServicesPage({ searchParams }: { searchParams: ServicesSearchParams }) {
   const model = firstValue(searchParams.model);
+  const trim = firstValue(searchParams.trim);
   const year = firstValue(searchParams.year);
   const categories = categoryValues(searchParams.category);
-  return <ServicesHub initialSelection={{ model, year, categories }} />;
+  return <ServicesHub initialSelection={{ model, trim, year, categories }} />;
 }

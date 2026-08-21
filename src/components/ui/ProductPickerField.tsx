@@ -30,6 +30,7 @@ type ProductPickerFieldProps = {
   clearLabel?: string;
   onClear?: () => void;
   closeRequestKey?: string | number;
+  openRequestKey?: string | number;
   closeOnMenuPointerLeave?: boolean;
   onMenuPointerLeave?: (relatedTarget: EventTarget | null) => void;
   appearance?: "default" | "services";
@@ -37,6 +38,7 @@ type ProductPickerFieldProps = {
   groupedOptionsLabel?: string;
   secondaryValue?: string;
   onSecondaryChange?: (id: string) => void;
+  compact?: boolean;
   "aria-label"?: string;
   "aria-describedby"?: string;
   "aria-invalid"?: boolean;
@@ -64,6 +66,7 @@ export default function ProductPickerField({
   clearLabel,
   onClear,
   closeRequestKey,
+  openRequestKey,
   closeOnMenuPointerLeave = false,
   onMenuPointerLeave,
   appearance = "default",
@@ -71,6 +74,7 @@ export default function ProductPickerField({
   groupedOptionsLabel = "Trims",
   secondaryValue = "",
   onSecondaryChange,
+  compact = false,
   "aria-label": ariaLabel,
   "aria-describedby": ariaDescribedBy,
   "aria-invalid": ariaInvalid,
@@ -85,6 +89,7 @@ export default function ProductPickerField({
   const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const typeaheadRef = useRef("");
   const typeaheadTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const handledOpenRequestKey = useRef(openRequestKey);
   const triggerId = id ?? `product-picker-${generatedId}`;
   const listboxId = `${triggerId}-listbox`;
   const selected = options.find((option) => option.id === value) ?? null;
@@ -131,7 +136,10 @@ export default function ProductPickerField({
     const spaceAbove = rect.top - viewportTop - VIEWPORT_GAP - menuGap;
     const above = spaceBelow < Math.min(220, spaceAbove);
     const availableHeight = Math.max(120, above ? spaceAbove : spaceBelow);
-    const width = Math.min(rect.width, viewportWidth - VIEWPORT_GAP * 2);
+    const width = Math.min(
+      groupedOptions ? Math.max(rect.width, 320) : rect.width,
+      viewportWidth - VIEWPORT_GAP * 2
+    );
     const left = Math.min(
       Math.max(rect.left, viewportLeft + VIEWPORT_GAP),
       viewportLeft + viewportWidth - width - VIEWPORT_GAP
@@ -144,7 +152,7 @@ export default function ProductPickerField({
       maxHeight: Math.min(MENU_MAX_HEIGHT, availableHeight),
       above,
     });
-  }, [isServicesAppearance]);
+  }, [groupedOptions, isServicesAppearance]);
 
   const openMenu = useCallback(() => {
     setActiveIndex(selectedIndex >= 0 ? selectedIndex : 0);
@@ -197,6 +205,12 @@ export default function ProductPickerField({
   useEffect(() => {
     closeMenu();
   }, [closeMenu, closeRequestKey]);
+
+  useEffect(() => {
+    if (!openRequestKey || handledOpenRequestKey.current === openRequestKey) return;
+    handledOpenRequestKey.current = openRequestKey;
+    openMenu();
+  }, [openMenu, openRequestKey]);
 
   useEffect(() => {
     if (!open || !menuPosition || groupedOptions) return;
@@ -645,6 +659,7 @@ export default function ProductPickerField({
       <div
         ref={triggerRef}
         id={triggerId}
+        data-product-picker-trigger
         role="combobox"
         tabIndex={0}
         onClick={() => {
@@ -664,8 +679,12 @@ export default function ProductPickerField({
         aria-describedby={ariaDescribedBy}
         aria-invalid={ariaInvalid}
         className={`flex ${
-          isServicesAppearance ? "min-h-[52px] py-1.5" : "min-h-[68px] py-3"
-        } w-full cursor-pointer items-center justify-between gap-3 rounded-2xl border px-4 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/55 ${
+          compact
+            ? "min-h-[44px] py-1.5"
+            : isServicesAppearance
+            ? "min-h-[52px] py-1.5"
+            : "min-h-[68px] py-3"
+        } w-full cursor-pointer items-center justify-between ${compact ? "gap-1 px-2" : "gap-3 px-4"} rounded-2xl border text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-byd-red/55 ${
           isServicesAppearance
             ? ariaInvalid
               ? "border-white bg-byd-red text-white shadow-[0_0_0_2px_rgba(255,255,255,0.18)]"
@@ -680,8 +699,8 @@ export default function ProductPickerField({
         }`}
       >
         {selected ? (
-          <div className="flex min-w-0 items-center gap-3">
-            <div className="relative h-10 w-12 shrink-0 overflow-hidden rounded-lg bg-[#ECEFF1]">
+          <div className={`flex min-w-0 items-center ${compact ? "gap-1.5" : "gap-3"}`}>
+            <div className={`relative shrink-0 overflow-hidden bg-[#ECEFF1] ${compact ? "h-8 w-9 rounded-md" : "h-10 w-12 rounded-lg"}`}>
               <Image
                 src={selected.image}
                 alt=""
@@ -693,13 +712,13 @@ export default function ProductPickerField({
             </div>
             <div className="min-w-0">
               <p
-                className={`truncate text-[15px] font-semibold ${
+                className={`truncate font-semibold ${compact ? "text-[11px]" : "text-[15px]"} ${
                   isServicesAppearance ? "text-white" : "text-[#252728]"
                 }`}
               >
                 {selected.name}
               </p>
-              {(selectedVariant || selected.subtitle) && (
+              {!compact && (selectedVariant || selected.subtitle) && (
                 <p
                   className={`truncate text-xs ${
                     isServicesAppearance ? "text-white/70" : "text-[#686D71]"
@@ -711,9 +730,9 @@ export default function ProductPickerField({
             </div>
           </div>
         ) : (
-          <div className="flex min-w-0 items-center gap-3">
+          <div className={`flex min-w-0 items-center ${compact ? "gap-1.5" : "gap-3"}`}>
             <div
-              className={`flex h-10 w-12 shrink-0 items-center justify-center rounded-lg border border-dashed ${
+              className={`flex shrink-0 items-center justify-center border border-dashed ${compact ? "h-8 w-9 rounded-md" : "h-10 w-12 rounded-lg"} ${
                 isServicesAppearance
                   ? "border-white/35 bg-white/10"
                   : "border-[#C7CDD0] bg-[#F0F2F3]"
@@ -736,13 +755,13 @@ export default function ProductPickerField({
                 />
               </svg>
             </div>
-            <p
+            {!compact && <p
               className={`text-[14px] ${
                 isServicesAppearance ? "text-white" : "text-[#686D71]"
               }`}
             >
               {placeholder}
-            </p>
+            </p>}
           </div>
         )}
 
@@ -757,7 +776,7 @@ export default function ProductPickerField({
                 onClear();
                 closeMenu();
               }}
-              className={`inline-flex h-8 w-8 items-center justify-center rounded-full border transition-colors duration-200 focus:outline-none focus-visible:ring-2 ${
+              className={`inline-flex ${compact ? "h-6 w-6" : "h-8 w-8"} items-center justify-center rounded-full border transition-colors duration-200 focus:outline-none focus-visible:ring-2 ${
                 isServicesAppearance
                   ? "border-white/25 bg-white/10 text-white hover:border-white/45 hover:bg-white/20 focus-visible:ring-white/60"
                   : "border-byd-red/20 bg-byd-red/[0.06] text-byd-red hover:border-byd-red/40 hover:bg-byd-red/10 focus-visible:ring-byd-red/50"

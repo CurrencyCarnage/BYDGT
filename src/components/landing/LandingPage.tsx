@@ -136,7 +136,15 @@ export default function LandingPage({ serviceModels }: { serviceModels: ServiceP
         <div
           className={styles.panels}
           onPointerLeave={(event) => {
+            const relatedTarget = event.relatedTarget;
+            if (
+              relatedTarget instanceof Element &&
+              relatedTarget.closest('[data-product-picker-menu], .byd-select-menu')
+            ) return;
             if (!event.currentTarget.contains(document.activeElement)) {
+              if (activeDesktopPanel === "services") {
+                setServicesPickerDismissKey((current) => current + 1);
+              }
               setActiveDesktopPanel(null);
             }
           }}

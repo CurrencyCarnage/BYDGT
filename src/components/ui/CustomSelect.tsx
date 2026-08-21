@@ -31,6 +31,9 @@ type SharedSelectProps = {
   searchable?: boolean;
   searchPlaceholder?: string;
   menuMinWidth?: number;
+  closeRequestKey?: string | number;
+  closeOnMenuPointerLeave?: boolean;
+  onMenuPointerLeave?: (relatedTarget: EventTarget | null) => void;
   "aria-label"?: string;
   "aria-describedby"?: string;
   "aria-invalid"?: boolean;
@@ -80,6 +83,9 @@ const CustomSelect = forwardRef<HTMLButtonElement, CustomSelectProps>(function C
     searchable = false,
     searchPlaceholder,
     menuMinWidth = 0,
+    closeRequestKey,
+    closeOnMenuPointerLeave = false,
+    onMenuPointerLeave,
     className = "",
     buttonClassName = "",
     style,
@@ -194,6 +200,10 @@ const CustomSelect = forwardRef<HTMLButtonElement, CustomSelectProps>(function C
   useEffect(() => {
     if (disabled) setOpen(false);
   }, [disabled]);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [closeRequestKey]);
 
   useEffect(() => {
     if (!open) return;
@@ -346,6 +356,15 @@ const CustomSelect = forwardRef<HTMLButtonElement, CustomSelectProps>(function C
   const menu = open && menuPosition && (
     <div
       ref={menuRef}
+      onPointerLeave={
+        closeOnMenuPointerLeave
+          ? (event) => {
+              if (event.pointerType !== "mouse") return;
+              setOpen(false);
+              onMenuPointerLeave?.(event.relatedTarget);
+            }
+          : undefined
+      }
       style={{
         position: "fixed",
         left: menuPosition.left,
@@ -355,8 +374,10 @@ const CustomSelect = forwardRef<HTMLButtonElement, CustomSelectProps>(function C
         width: menuPosition.width,
         maxHeight: menuPosition.maxHeight,
       }}
-      className={`byd-select-menu z-[80] flex overflow-hidden border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-alt)] shadow-[var(--theme-menu-shadow)] ${
-        menuPosition.bottomSheet || searchable ? "flex-col" : ""
+      className={`byd-select-menu z-[80] overflow-hidden border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-alt)] shadow-[var(--theme-menu-shadow)] ${
+        isMultiple && !menuPosition.bottomSheet && !searchable
+          ? "grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
+          : "flex flex-col"
       }`}
     >
       {menuPosition.bottomSheet && (
@@ -404,7 +425,11 @@ const CustomSelect = forwardRef<HTMLButtonElement, CustomSelectProps>(function C
         role="listbox"
         aria-labelledby={triggerId}
         aria-multiselectable={isMultiple || undefined}
-        className="min-h-0 flex-1 overflow-auto py-1"
+        className={`min-h-0 flex-1 overflow-auto py-1 ${
+          isMultiple && !menuPosition.bottomSheet && !searchable
+            ? "border-r border-[var(--theme-border-subtle)]"
+            : ""
+        }`}
       >
         {visibleOptions.map((option, index) => {
           const active = index === activeIndex;
@@ -447,12 +472,28 @@ const CustomSelect = forwardRef<HTMLButtonElement, CustomSelectProps>(function C
         )}
       </div>
       {isMultiple && (
-        <div className="flex min-h-11 shrink-0 items-center justify-between border-t border-[var(--theme-border-subtle)] bg-[var(--theme-surface-bg)] px-2">
-          <button type="button" onClick={() => props.onChange([])} disabled={props.value.length === 0} className="min-h-11 px-3 text-sm font-semibold text-[var(--theme-text-secondary)] disabled:opacity-40">
+        <div className={`flex min-h-0 flex-col bg-[var(--theme-surface-bg)] ${
+          menuPosition.bottomSheet || searchable
+            ? "max-h-40 border-t border-[var(--theme-border-subtle)]"
+            : ""
+        }`}>
+          <div className="min-h-0 flex-1 overflow-auto p-2">
+            {selectedOptions.map((option) => (
+              <div key={option.value} className="mb-1 flex min-h-9 items-center justify-between gap-2 border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-alt)] px-2.5 text-sm text-[var(--theme-text-primary)] last:mb-0">
+                <span className="min-w-0 truncate">{option.shortLabel ?? option.label}</span>
+                <button
+                  type="button"
+                  onClick={() => props.onChange(props.value.filter((value) => value !== option.value))}
+                  className="flex h-7 w-7 shrink-0 items-center justify-center text-lg leading-none text-byd-red"
+                  aria-label={`${t("clearAll")}: ${option.label}`}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+          <button type="button" onClick={() => props.onChange([])} disabled={props.value.length === 0} className="min-h-11 shrink-0 border-t border-[var(--theme-border-subtle)] px-3 text-left text-sm font-semibold text-byd-red disabled:text-[var(--theme-text-secondary)] disabled:opacity-40">
             {t("clearAll")}
-          </button>
-          <button type="button" onClick={() => { setOpen(false); triggerRef.current?.focus(); }} className="min-h-11 px-3 text-sm font-semibold text-byd-red">
-            {t("done")}
           </button>
         </div>
       )}
