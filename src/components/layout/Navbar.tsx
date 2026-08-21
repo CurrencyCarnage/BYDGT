@@ -738,7 +738,6 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
   const isCompanyInfoPage =
     pathname === "/about" || pathname === "/contact" || pathname === "/news" || pathname.startsWith("/news/");
   const showCompanyInfoNav = isGateway || (!isPassengerContextPage && isCompanyInfoPage);
-  const showNewsInPassengerContext = isPassengerContextPage && isCompanyInfoPage;
   const useGatewayHeaderLayout = isGateway;
   const serviceSectionLinks = [
     { id: "service", href: "/services/service" },
@@ -776,7 +775,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
     activePath: "/contact",
   };
   const leadingNavLinks = homeLink
-    ? [homeLink, aboutLink, ...(showNewsInPassengerContext ? [newsLink] : [])]
+    ? [homeLink, aboutLink]
     : showCompanyInfoNav
       ? [aboutLink, newsLink, contactLink]
       : [aboutLink];

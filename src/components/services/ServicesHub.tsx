@@ -109,7 +109,7 @@ function RequestForm({ t, kind }: { t: ReturnType<typeof useTranslations>; kind:
   const availability = useAvailability(TIME_SLOTS);
   const fields: RequestField[] = kind === "appointment"
     ? [
-      { key: "model", kind: "select" }, { key: "year", kind: "select" },
+      { key: "model", kind: "select", optional: true }, { key: "year", kind: "select" },
       { key: "serviceType", kind: "select" },
       { key: "name", kind: "text" }, { key: "phone", kind: "phone" },
       { key: "schedule", kind: "datetime", wide: true },

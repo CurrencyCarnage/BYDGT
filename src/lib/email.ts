@@ -12,7 +12,7 @@ export function getAdminEmail() {
 }
 
 export function buildAdminTestDriveEmail(b: TestDriveBooking) {
-  const subject = `New Test Drive Request — ${b.modelFamilyName} / ${b.versionLabel}`;
+  const subject = `New Test Drive Request — ${b.modelFamilyName || "Product not specified"}${b.versionLabel ? ` / ${b.versionLabel}` : ""}`;
   const body = `
 New Test Drive Booking
 ──────────────────────
@@ -20,8 +20,8 @@ New Test Drive Booking
 Name:            ${b.fullName}
 Phone:           ${b.phone}
 Email:           ${b.email}
-Product:         ${b.modelFamilyName}
-Version:         ${b.versionLabel}
+Product:         ${b.modelFamilyName || "—"}
+Version:         ${b.versionLabel || "—"}
 Trim:            ${b.trimLabel || "—"}
 Preferred Date:  ${formatIsoDateForDisplay(b.preferredDate)}
 Preferred Time:  ${b.preferredTimeSlot}
@@ -62,8 +62,8 @@ export function buildCustomerTestDriveEmail(
 
 თქვენი მოთხოვნა
 ────────────────
-პროდუქტი:        ${b.modelFamilyName}
-ვერსია:          ${b.versionLabel}
+პროდუქტი:        ${b.modelFamilyName || "—"}
+ვერსია:          ${b.versionLabel || "—"}
 კომპლექტაცია:    ${b.trimLabel || "—"}
 სასურველი თარიღი: ${formatIsoDateForDisplay(b.preferredDate)}
 სასურველი დრო:   ${b.preferredTimeSlot}
@@ -86,8 +86,8 @@ Thank you for your interest in BYD. We have received your test drive request and
 
 Your request
 ─────────────
-Product:         ${b.modelFamilyName}
-Version:         ${b.versionLabel}
+Product:         ${b.modelFamilyName || "—"}
+Version:         ${b.versionLabel || "—"}
 Trim:            ${b.trimLabel || "—"}
 Preferred date:  ${formatIsoDateForDisplay(b.preferredDate)}
 Preferred time:  ${b.preferredTimeSlot}

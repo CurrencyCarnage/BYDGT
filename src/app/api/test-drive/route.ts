@@ -95,8 +95,6 @@ export async function POST(req: NextRequest) {
       "fullName",
       "phone",
       "email",
-      "modelFamilyId",
-      "versionId",
       "preferredDate",
       "preferredTimeSlot",
     ] as const;
@@ -153,13 +151,17 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Resolve model / version ─────────────────────────────────
-    const family = testDriveModels.find((m) => m.id === body.modelFamilyId);
-    if (!family) return NextResponse.json({ error: messages.product }, { status: 400 });
+    const modelFamilyId = typeof body.modelFamilyId === "string" ? body.modelFamilyId.trim() : "";
+    const versionId = typeof body.versionId === "string" ? body.versionId.trim() : "";
+    const family = modelFamilyId ? testDriveModels.find((m) => m.id === modelFamilyId) : undefined;
+    if (modelFamilyId && !family) return NextResponse.json({ error: messages.product }, { status: 400 });
+    if (family && !versionId) return NextResponse.json({ error: messages.version }, { status: 400 });
+    if (!family && versionId) return NextResponse.json({ error: messages.product }, { status: 400 });
 
-    const version = family.versions.find((v) => v.id === body.versionId);
-    if (!version) return NextResponse.json({ error: messages.version }, { status: 400 });
+    const version = family?.versions.find((v) => v.id === versionId);
+    if (versionId && !version) return NextResponse.json({ error: messages.version }, { status: 400 });
     const trimId = typeof body.trimId === "string" && body.trimId.trim() ? body.trimId.trim() : undefined;
-    const trimLabel = trimId ? getOfficialTrimLabel(version.id, trimId) : undefined;
+    const trimLabel = trimId && version ? getOfficialTrimLabel(version.id, trimId) : undefined;
     if (trimId && !trimLabel) {
       return NextResponse.json({ error: messages.trim }, { status: 400 });
     }
@@ -178,10 +180,10 @@ export async function POST(req: NextRequest) {
       phone:     normalizedPhone.e164,
       phoneCountry: normalizedPhone.country,
       email,
-      modelFamilyId:   family.id,
-      modelFamilyName: family.name,
-      versionId:    version.id,
-      versionLabel: version.label,
+      modelFamilyId:   family?.id ?? "",
+      modelFamilyName: family?.name ?? "",
+      versionId:    version?.id ?? "",
+      versionLabel: version?.label ?? "",
       trimId,
       trimLabel,
       preferredDate:     body.preferredDate,

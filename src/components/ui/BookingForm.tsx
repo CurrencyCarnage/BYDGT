@@ -258,8 +258,6 @@ export default function BookingForm({
       "fullName",
       "phone",
       "email",
-      "modelFamilyId",
-      "versionId",
       "preferredDate",
       "preferredTimeSlot",
     ] as const;
@@ -268,6 +266,12 @@ export default function BookingForm({
         setError(t.validationError);
         return;
       }
+    }
+
+    // Product selection is optional, but a selected product still needs a version.
+    if (form.modelFamilyId && !form.versionId) {
+      setError(t.validationError);
+      return;
     }
 
     // Trim is required only where the chosen version actually offers trims.
@@ -481,7 +485,7 @@ export default function BookingForm({
               className="byd-field-label"
               style={{ fontFamily: "var(--font-montserrat)" }}
             >
-              {t.model} <span className="text-byd-red">*</span>
+              {t.model}
             </label>
             <ProductPickerField
               aria-label={t.model}
@@ -504,7 +508,7 @@ export default function BookingForm({
               className="byd-field-label"
               style={{ fontFamily: "var(--font-montserrat)" }}
             >
-              {t.version} <span className="text-byd-red">*</span>
+              {t.version} {selectedFamily && <span className="text-byd-red">*</span>}
             </label>
             <div
               role="radiogroup"
