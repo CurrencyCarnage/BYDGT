@@ -949,9 +949,8 @@ export default function CompareGrid({
     clearModel: locale === "ka" ? "პროდუქტის წაშლა" : "Remove product",
     emptySlot:
       locale === "ka" ? "პროდუქტი არ არის არჩეული" : "No product selected",
-    showAll: locale === "ka" ? "ყველა მონაცემი" : "All specs",
-    showDifferences: locale === "ka" ? "განსხვავებები" : "Differences",
-    specModeLabel: locale === "ka" ? "სპეციფიკაციების ჩვენება" : "Spec display",
+    highlightDifferences:
+      locale === "ka" ? "განსხვავებების გამოკვეთა" : "Highlight differences",
     swapModels: locale === "ka" ? "სვეტების გაცვლა" : "Swap columns",
   };
 
@@ -1221,42 +1220,53 @@ export default function CompareGrid({
           {/* Spec display controls */}
           {hasComparison && (
             <div className="flex justify-center border-b border-[#DDE1E3] bg-[#FAFBFB] px-3 py-3 md:px-5 md:py-4">
-              <div
-                className="inline-grid w-full grid-cols-2 rounded-full border border-[#DDE1E3] bg-white p-1 shadow-[0_8px_22px_rgba(24,28,32,0.06)] md:w-auto"
-                role="group"
-                aria-label={labels.specModeLabel}
+              <button
+                type="button"
+                onClick={() =>
+                  setComparisonMode((mode) =>
+                    mode === "differences" ? "all" : "differences"
+                  )
+                }
+                aria-pressed={comparisonMode === "differences"}
+                aria-controls="compare-specifications"
+                className={`compare-differences-toggle inline-flex min-h-11 w-full cursor-pointer items-center justify-center gap-2.5 rounded-full border px-4 text-xs font-semibold leading-5 transition-[background-color,border-color,color,box-shadow] duration-200 focus:outline-none focus-visible:ring-[3px] focus-visible:ring-byd-red focus-visible:ring-offset-2 md:w-auto md:min-w-[12rem] md:px-5 ${
+                  comparisonMode === "differences"
+                    ? "border-byd-red bg-byd-red text-white shadow-[0_8px_18px_rgba(215,12,25,0.22)]"
+                    : "border-[#DDE1E3] bg-white text-[#4E5356] shadow-[0_8px_22px_rgba(24,28,32,0.06)] hover:border-byd-red/55"
+                }`}
               >
-                <button
-                  type="button"
-                  onClick={() => setComparisonMode("all")}
-                  className={`min-h-[2.4rem] rounded-full px-4 text-[11px] font-semibold transition-colors duration-200 md:min-w-[8rem] md:text-[12px] ${
-                    comparisonMode === "all"
-                      ? "bg-[#252728] text-white shadow-[0_8px_18px_rgba(24,28,32,0.18)]"
-                      : "text-[#686D71] hover:bg-[#F0F2F3] hover:text-[#252728]"
-                  }`}
-                  aria-pressed={comparisonMode === "all"}
-                >
-                  {labels.showAll}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setComparisonMode("differences")}
-                  className={`min-h-[2.4rem] rounded-full px-4 text-[11px] font-semibold transition-colors duration-200 md:min-w-[9.5rem] md:text-[12px] ${
+                <span
+                  aria-hidden="true"
+                  className={`flex h-4 w-4 items-center justify-center rounded-full border transition-colors duration-200 ${
                     comparisonMode === "differences"
-                      ? "bg-[#252728] text-white shadow-[0_8px_18px_rgba(24,28,32,0.18)]"
-                      : "text-[#686D71] hover:bg-[#F0F2F3] hover:text-[#252728]"
+                      ? "border-white/70 bg-white/15"
+                      : "border-[#A8AEB1] bg-transparent"
                   }`}
-                  aria-pressed={comparisonMode === "differences"}
                 >
-                  {labels.showDifferences}
-                </button>
-              </div>
+                  {comparisonMode === "differences" && (
+                    <svg
+                      className="h-2.5 w-2.5"
+                      fill="none"
+                      viewBox="0 0 12 12"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m2.5 6 2.1 2.1L9.5 3.5"
+                      />
+                    </svg>
+                  )}
+                </span>
+                {labels.highlightDifferences}
+              </button>
             </div>
           )}
 
           {/* Grouped specification cards */}
           {hasComparison && (
-            <div className="space-y-4 bg-[#EEF0F1] py-3 md:space-y-5 md:p-6">
+            <div id="compare-specifications" className="space-y-4 bg-[#EEF0F1] py-3 md:space-y-5 md:p-6">
               {SPEC_GROUPS.map((group, groupIndex) => {
                 const rows = visibleSpecRows.filter((row) =>
                   group.rows.includes(row.key)

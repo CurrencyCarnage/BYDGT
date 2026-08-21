@@ -192,9 +192,11 @@
       },
       "form": {
         "modelLabel": "BYD product",
+        "trimLabel": "Trims",
         "yearLabel": "Product year",
         "categoryLabel": "Category",
         "modelPlaceholder": "Select Product",
+        "clearModel": "Remove selected product",
         "yearPlaceholder": "Select Year",
         "categoryPlaceholder": "Select Category",
         "submit": "Find Parts & Fluids",

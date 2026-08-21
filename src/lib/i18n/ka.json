@@ -192,9 +192,11 @@
       },
       "form": {
         "modelLabel": "BYD-ის პროდუქტი",
+        "trimLabel": "კომპლექტაციები",
         "yearLabel": "პროდუქტის წელი",
         "categoryLabel": "კატეგორია",
         "modelPlaceholder": "აირჩიეთ პროდუქტი",
+        "clearModel": "არჩეული პროდუქტის წაშლა",
         "yearPlaceholder": "აირჩიეთ წელი",
         "categoryPlaceholder": "აირჩიეთ კატეგორია",
         "submit": "ნაწილებისა და სითხეების ძიება",

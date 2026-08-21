@@ -10,7 +10,7 @@ export { getLocalizedValue, getOfficialVariants, getVariantDetails, formatPrice 
 
 const MODELS_DIR = path.join(process.cwd(), "content", "models");
 let d1Ready: Promise<void> | null = null;
-const OFFICIAL_MODEL_CONTENT_VERSION = "2026-07-22-official-specs-v1";
+const OFFICIAL_MODEL_CONTENT_VERSION = "2026-08-21-model-years-v2";
 
 function sanitizeModelId(id: string) {
   return id.replace(/[^a-z0-9-]/gi, "").toLowerCase();
@@ -175,9 +175,12 @@ export async function createModel(model: CarModel): Promise<CarModel> {
     throw new Error("Invalid product ID");
   }
 
+  const modelYears = model.years?.length ? Array.from(new Set(model.years)) : [model.year || 2026];
   const newModel = {
     ...model,
     id: safeId,
+    year: model.year || modelYears[0],
+    years: modelYears,
     isAvailable: false,
     currency: model.currency || "USD",
   };
@@ -218,7 +221,8 @@ export async function createModel(model: CarModel): Promise<CarModel> {
 }
 
 export async function updateModel(id: string, model: CarModel): Promise<CarModel> {
-  const updatedModel = { ...model, id };
+  const modelYears = model.years?.length ? Array.from(new Set(model.years)) : [model.year || 2026];
+  const updatedModel = { ...model, id, year: model.year || modelYears[0], years: modelYears };
   const db = getDb();
 
   if (db) {

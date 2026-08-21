@@ -60,6 +60,8 @@ export interface CarSpecs {
 
 export interface CarModel {
   id: string;
+  year: number;
+  years?: number[];
   name: LocalizedString;
   tagline: LocalizedString;
   category: string;

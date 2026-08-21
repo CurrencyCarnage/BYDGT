@@ -861,6 +861,18 @@
 }
 
 @layer components {
+  .product-picker-trim-pane {
+    animation: product-picker-trim-pop 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes product-picker-trim-pop {
+    from { opacity: 0; transform: translateX(0.7rem) scale(0.985); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-picker-trim-pane { animation: none; }
+  }
 
   /* ── Glass card — media/hero sections only ───────────────────── */
   .glass-card {
@@ -2841,6 +2853,12 @@
   html:not(.light) .compare-module .compare-matrix-surface button:hover {
     background: rgba(255, 255, 255, 0.03) !important;
   }
+  html:not(.light) .compare-module .compare-matrix-surface .compare-differences-toggle[aria-pressed="true"],
+  html:not(.light) .compare-module .compare-matrix-surface .compare-differences-toggle[aria-pressed="true"]:hover {
+    background: #D70C19 !important;
+    border-color: #D70C19 !important;
+    color: #FFFFFF !important;
+  }
   html:not(.light) .compare-module .compare-matrix-surface .bg-\[\#F0F2F3\] {
     background-color: #2A2D2F !important;
   }
@@ -2898,9 +2916,11 @@
     color: #FFFFFF;
   }
 
-  /* Keep comparison row captions distinct from values in dark mode. */
+  /* Keep comparison section and row captions on the same BYD red token as highlighted values. */
+  html:not(.light) .compare-module .compare-matrix-surface .compare-group-title,
+  html:not(.light) .compare-module .compare-matrix-surface .compare-group-index,
   html:not(.light) .compare-module .compare-matrix-surface .compare-row-label {
-    color: #FF4D59;
+    color: #D70C19;
   }
 
   html:not(.light) .compare-module .compare-matrix-surface .text-byd-red,
@@ -3373,6 +3393,43 @@
 .showcase-car-stage {
   transform: none;
   opacity: 1;
+}
+
+@keyframes showcase-caption-out {
+  0%, 25% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  65%, 100% {
+    opacity: 0;
+    transform: translateY(-0.08em);
+  }
+}
+
+@keyframes showcase-caption-in {
+  0%, 25% {
+    opacity: 0;
+    transform: translateY(0.1em);
+  }
+  65%, 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.showcase-caption-out,
+.showcase-caption-in {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.showcase-caption-out {
+  animation-name: showcase-caption-out;
+}
+
+.showcase-caption-in {
+  animation-name: showcase-caption-in;
 }
 
 /* ── ModelShowcase entrance animations ─────────────────────────────────────

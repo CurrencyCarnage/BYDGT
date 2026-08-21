@@ -200,6 +200,17 @@ export default function ModelEditForm({ initialModel, mode = "edit" }: Props) {
       {/* Section: Basic Info */}
       <Section title="Basic Information">
         <div className="grid grid-cols-2 gap-4">
+          <Field label="Model Year">
+            <input
+              type="number"
+              min={1900}
+              max={2100}
+              step={1}
+              value={model.year}
+              onChange={(e) => set("year", Number(e.target.value))}
+              className={inputCls}
+            />
+          </Field>
           <Field label="Base Price (USD)">
             <input
               type="number"

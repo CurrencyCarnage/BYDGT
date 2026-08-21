@@ -1052,6 +1052,17 @@ function OneLineShowcase({
   const displayedIndex = transition?.to ?? settledIndex;
   const backgroundIndex = transition?.from ?? settledIndex;
   const displayedModel = MODELS[displayedIndex];
+  const animateCaption = Boolean(
+    transition && (!reducedMotion || motionOptIn)
+  );
+  const captionTransitionDuration = transition?.kind === "auto"
+    ? AUTO_ROLL_DURATION_MS
+    : MANUAL_INCOMING_DURATION_MS;
+  const captionTransitionEasing = transition?.kind === "auto"
+    ? "linear"
+    : MANUAL_EASING;
+  const captionColorFor = (index: number) =>
+    index === 1 || index === 3 ? "#111213" : "#ffffff";
   const lightScene = sceneToneIndex === 1 || sceneToneIndex === 3;
   const isAnimating = transition !== null || !initialEntryComplete;
   const nextDisabled = isAnimating || autoRollState !== "stopped";
@@ -1184,22 +1195,54 @@ function OneLineShowcase({
           </div>
         </div>
         <h3
-          className={`mx-auto mt-3 max-w-[11ch] bg-transparent text-center text-[clamp(2.2rem,6vw,4.75rem)] font-semibold leading-[0.9] select-none ${
+          className={`mx-auto mt-3 w-[11ch] max-w-[calc(100vw-2rem)] bg-transparent text-center text-[clamp(2.2rem,6vw,4.75rem)] font-semibold leading-[0.9] select-none ${
             lightScene ? "text-[#111213]" : "text-white"
           }`}
           style={{ letterSpacing: "-0.045em" }}
         >
-          <Link
-            href={displayedModel.href}
-            aria-label={
-              ka
-                ? `${displayedModel.name}-ის ნახვა`
-                : `View ${displayedModel.name}`
-            }
-            className="pointer-events-auto transition-opacity duration-200 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
-          >
-            {displayedModel.name}
-          </Link>
+          {animateCaption && transition ? (
+            <>
+              <span
+                key={`caption-${transition.id}`}
+                aria-hidden="true"
+                className="relative grid place-items-center"
+              >
+                <span
+                  className="showcase-caption-out col-start-1 row-start-1"
+                  style={{
+                    animationDuration: `${captionTransitionDuration}ms`,
+                    animationTimingFunction: captionTransitionEasing,
+                    color: captionColorFor(transition.from),
+                  }}
+                >
+                  {MODELS[transition.from].name}
+                </span>
+                <span
+                  className="showcase-caption-in col-start-1 row-start-1"
+                  style={{
+                    animationDuration: `${captionTransitionDuration}ms`,
+                    animationTimingFunction: captionTransitionEasing,
+                    color: captionColorFor(transition.to),
+                  }}
+                >
+                  {displayedModel.name}
+                </span>
+              </span>
+              <span className="sr-only">{displayedModel.name}</span>
+            </>
+          ) : (
+            <Link
+              href={displayedModel.href}
+              aria-label={
+                ka
+                  ? `${displayedModel.name}-ის ნახვა`
+                  : `View ${displayedModel.name}`
+              }
+              className="pointer-events-auto transition-opacity duration-200 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-byd-red"
+            >
+              {displayedModel.name}
+            </Link>
+          )}
         </h3>
       </div>
 

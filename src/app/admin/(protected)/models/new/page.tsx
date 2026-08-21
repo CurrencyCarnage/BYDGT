@@ -4,6 +4,8 @@ import type { CarModel } from "@/lib/types";
 
 const emptyModel: CarModel = {
   id: "",
+  year: 2026,
+  years: [2026],
   name: { en: "", ka: "" },
   tagline: { en: "", ka: "" },
   category: "",

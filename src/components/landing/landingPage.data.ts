@@ -32,13 +32,24 @@ export const landingPanels: readonly LandingPanelDefinition[] = [
   { id: "services", number: "03", href: "/services", desktopImage: servicesDesktop, mobileImage: servicesMobile, lightDesktopImage: lightServicesDesktop, lightMobileImage: lightServicesMobile, featureKeys: ["service", "parts", "accessories", "finder"] },
 ] as const;
 
-export const serviceModels = [
-  { value: "sealion-06-dmi", label: "Sealion 06 DM-i" },
-  { value: "seal-06-dmi", label: "Seal 06 DM-i" },
-  { value: "yuan-up-ev", label: "Yuan Up EV" },
-  { value: "yuan-up-dmi", label: "Yuan Up DM-i" },
-] as const;
+export type ServicePickerModel = {
+  value: string;
+  label: string;
+  name: string;
+  image: string;
+  powertrain: "EV" | "PHEV";
+  years: number[];
+  variants: Array<{ value: string; label: string }>;
+};
 
-export const serviceYears = ["2026", "2025", "2024", "2023", "2022", "2021"] as const;
+export const serviceYears = ["2026"] as const;
+
+export const serviceModels = [
+  { value: "sealion-06-dmi", label: "Sealion 06 DM-i", name: "BYD Sealion 06 DM-i", image: "/images/models/sealion-06-dmi/hero-smoke-grey.jpg", year: 2026 },
+  { value: "sealion-06-ev", label: "Sealion 06 EV", name: "BYD Sealion 06 EV", image: "/images/models/sealion-06-dmi/hero-smoke-grey.jpg", year: 2026 },
+  { value: "seal-06-dmi", label: "Seal 06 DM-i", name: "BYD Seal 06 DM-i", image: "/images/models/seal-06-dmi/hero.jpg", year: 2026 },
+  { value: "yuan-up-ev", label: "Yuan Up EV", name: "BYD Yuan Up EV", image: "/images/models/yuan-up-ev/hero.jpg", year: 2026 },
+  { value: "yuan-up-dmi", label: "Yuan Up DM-i", name: "BYD Yuan Up DM-i", image: "/images/models/yuan-up-dmi/hero.jpg", year: 2026 },
+] as const;
 
 export const serviceCategories = ["fluids", "filters", "brakes", "suspension", "electrical", "exterior", "interior", "other"] as const;

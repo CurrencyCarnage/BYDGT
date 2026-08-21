@@ -320,9 +320,8 @@ export default async function AboutPage() {
         <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
         <div className="relative section-container">
           <ScrollReveal>
-            <span className="mb-7 block h-[2px] w-12 bg-byd-red" />
             <h1
-              className="mb-6 max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl md:text-[4rem]"
+              className="mb-6 max-w-[38.4rem] text-4xl font-bold leading-tight text-white sm:text-5xl md:text-[4rem]"
               style={{
                 fontFamily: "var(--font-montserrat)",
                 letterSpacing: "-0.02em",
@@ -331,7 +330,7 @@ export default async function AboutPage() {
               {c.heroTitle}
             </h1>
             <p
-              className="max-w-2xl text-base font-light leading-relaxed text-white/70 md:text-xl"
+              className="max-w-[33.6rem] text-base font-light leading-relaxed text-white/70 md:text-xl"
               style={{ fontFamily: "var(--font-montserrat)" }}
             >
               {c.heroSubtitle}
@@ -405,7 +404,7 @@ export default async function AboutPage() {
           <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {c.features.map((feat, i) => (
               <ScrollReveal key={feat.title} delay={i * 0.08}>
-                <article className="h-full">
+                <article className="h-full text-center">
                   <div className="mb-6 flex h-14 items-start justify-center text-byd-red">
                     <FeatureIcon index={i} />
                   </div>

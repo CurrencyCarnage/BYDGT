@@ -375,6 +375,8 @@ function MegaMenu({
     modelPage * MEGA_MODELS_PER_PAGE,
     (modelPage + 1) * MEGA_MODELS_PER_PAGE
   );
+  const modelColumnCount = Math.max(visibleModels.length, 1);
+  const panelWidth = `min(${modelColumnCount * 22}rem, calc(100vw - 7rem))`;
   const canShowNextModels = modelPage < pageCount - 1;
 
   const showNextModels = () => {
@@ -399,20 +401,27 @@ function MegaMenu({
       {/* Invisible bridge covers the gap between nav bottom and panel top */}
       <div className="h-2 w-full" />
 
-      <div className="mx-auto flex max-w-[96.5rem] items-stretch gap-2" data-mega-menu>
+      <div
+        className="relative mx-auto transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+        style={{ width: panelWidth }}
+        data-mega-menu
+      >
         <div
-          className="mega-menu-panel min-w-0 flex-1 overflow-hidden"
+          className="mega-menu-panel min-w-0 overflow-hidden"
           style={{
             background: "var(--theme-menu-bg)",
             border:     "1px solid var(--theme-border-subtle)",
             boxShadow:  "var(--theme-menu-shadow)",
           }}
         >
-          {/* 2 × 2 model grid */}
+          {/* Content-hugging model grid */}
           {category === "passenger" ? (
             <>
           <DrivetrainFilter value={drivetrain} onChange={selectDrivetrain} locale={locale} />
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/[0.04] p-px">
+          <div
+            className="grid gap-px bg-white/[0.04] p-px"
+            style={{ gridTemplateColumns: `repeat(${modelColumnCount}, minmax(0, 22rem))` }}
+          >
             {visibleModels.map((model, i) => (
               <motion.div
                 key={model.id}
@@ -423,7 +432,7 @@ function MegaMenu({
                 <Link
                   href={`/catalog/${model.id}`}
                   onClick={onClose}
-                  className="mega-menu-card group flex flex-col bg-[#1A1C1D] hover:bg-[#222425] transition-colors duration-180 overflow-hidden"
+                  className="mega-menu-card group flex flex-col overflow-hidden bg-[#1A1C1D] transition-colors duration-180 hover:bg-[#222425] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-byd-red/70"
                   style={{ borderLeft: "2px solid transparent" }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.borderLeftColor = "#D70C19";
@@ -462,31 +471,6 @@ function MegaMenu({
               </div>
             )}
           </div>
-
-          {/* Footer: view all */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.18, duration: 0.2 }}
-            className="border-t border-white/[0.06]"
-          >
-            <Link
-              href="/catalog"
-              onClick={onClose}
-              className="group flex items-center justify-center gap-2 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40 hover:text-white/80 transition-colors duration-200"
-            >
-              {ka ? "ყველა პროდუქტის ნახვა" : "View all products"}
-              <svg
-                className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </motion.div>
             </>
           ) : (
             <>
@@ -566,7 +550,7 @@ function MegaMenu({
           )}
         </div>
 
-        <div className="hidden w-12 shrink-0 items-center justify-center md:flex">
+        <div className="absolute left-[calc(100%+0.5rem)] top-1/2 hidden -translate-y-1/2 md:flex">
           <button
             type="button"
             onClick={showNextModels}
@@ -608,6 +592,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
   const [overLightSurface, setOverLightSurface] = useState(false);
   const [theme, setTheme]                 = useState<"dark" | "light">("dark");
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const productsLinkRef = useRef<HTMLAnchorElement | null>(null);
 
   const t       = useTranslations("nav");
   const tCommon = useTranslations("common");
@@ -750,7 +735,11 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
   ) : (
     <NavLabel labelKey="bookTestDrive" ka={ka}>{tCommon("bookTestDrive")}</NavLabel>
   );
-  const showCompanyInfoNav = isGateway;
+  const isCompanyInfoPage =
+    pathname === "/about" || pathname === "/contact" || pathname === "/news" || pathname.startsWith("/news/");
+  const showCompanyInfoNav = isGateway || (!isPassengerContextPage && isCompanyInfoPage);
+  const showNewsInPassengerContext = isPassengerContextPage && isCompanyInfoPage;
+  const useGatewayHeaderLayout = isGateway;
   const serviceSectionLinks = [
     { id: "service", href: "/services/service" },
     { id: "spare-parts", href: "/services/spare-parts" },
@@ -787,7 +776,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
     activePath: "/contact",
   };
   const leadingNavLinks = homeLink
-    ? [homeLink, aboutLink]
+    ? [homeLink, aboutLink, ...(showNewsInPassengerContext ? [newsLink] : [])]
     : showCompanyInfoNav
       ? [aboutLink, newsLink, contactLink]
       : [aboutLink];
@@ -826,7 +815,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
             priority
             className="block h-[15px] w-auto flex-shrink-0 group-hover:opacity-80 transition-opacity duration-200"
           />
-          <div className={`${showCompanyInfoNav ? "hidden lg:flex" : "hidden sm:flex"} h-full items-center gap-2 text-white/55 group-hover:text-white/75 transition-colors duration-200`}>
+          <div className={`${useGatewayHeaderLayout ? "hidden lg:flex" : "hidden sm:flex"} h-full items-center gap-2 text-white/55 group-hover:text-white/75 transition-colors duration-200`}>
             <span className="text-[15px] font-semibold tracking-[0.04em] leading-none">
               {ka ? "თბილისი" : "Tbilisi"}
             </span>
@@ -837,7 +826,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
 
         {/* ── Desktop nav ──────────────────────────────────────── */}
         <div className={`hidden md:flex items-center gap-7 ${
-          showCompanyInfoNav ? "absolute left-1/2 -translate-x-1/2" : "flex-1 justify-center"
+          useGatewayHeaderLayout ? "absolute left-1/2 -translate-x-1/2" : "flex-1 justify-center"
         }`}>
 
           {/* Home, About */}
@@ -857,13 +846,27 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
             className="relative"
             onMouseEnter={openMega}
             onMouseLeave={() => scheduleMegaClose(200)}
+            onFocusCapture={openMega}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) closeMegaImmediate();
+            }}
+            onKeyDown={(event) => {
+              if (event.key !== "Escape") return;
+              event.preventDefault();
+              closeMegaImmediate();
+              productsLinkRef.current?.focus();
+            }}
           >
-            <button
-              className={`nav-link text-sm flex items-center gap-1 ${
+            <Link
+              ref={productsLinkRef}
+              href="/catalog"
+              onClick={closeMegaImmediate}
+              aria-haspopup="true"
+              aria-expanded={megaOpen}
+              aria-controls="desktop-products-preview"
+              className={`nav-link flex items-center gap-1 text-sm focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70 ${
                 pathname.startsWith("/catalog") ? "active" : ""
               }`}
-              aria-expanded={megaOpen}
-              aria-haspopup="true"
             >
               <NavLabel labelKey="catalog" ka={ka}>
                 {ka ? "პროდუქტები" : "Products"}
@@ -879,11 +882,11 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </motion.svg>
-            </button>
+            </Link>
 
             <AnimatePresence>
               {megaOpen && (isServicesSection ? (
-                <div onMouseEnter={openMega} onMouseLeave={() => scheduleMegaClose(200)}>
+                <div id="desktop-products-preview" onMouseEnter={openMega} onMouseLeave={() => scheduleMegaClose(200)}>
                   <ServicesMegaMenu
                     locale={locale}
                     onClose={closeMegaImmediate}
@@ -892,7 +895,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
                   />
                 </div>
               ) : (
-                <div onMouseEnter={openMega} onMouseLeave={() => scheduleMegaClose(200)}>
+                <div id="desktop-products-preview" onMouseEnter={openMega} onMouseLeave={() => scheduleMegaClose(200)}>
                   <MegaMenu locale={locale} onClose={closeMegaImmediate} models={models} />
                 </div>
               ))}
@@ -968,7 +971,7 @@ export default function Navbar({ models }: { models: ProductMenuModel[] }) {
             <Link
               href={primaryCtaHref}
               className={`navbar-book-test-drive items-center gap-2 px-5 py-2.5 bg-byd-red text-[13px] font-bold tracking-[0.1em] uppercase transition-colors duration-200 ${
-                showCompanyInfoNav ? "hidden xl:inline-flex" : "hidden sm:inline-flex"
+                useGatewayHeaderLayout ? "hidden xl:inline-flex" : "hidden sm:inline-flex"
               }`}
             >
               {primaryCtaLabel}

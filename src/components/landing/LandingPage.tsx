@@ -1,24 +1,16 @@
 "use client";
 
 import { getImageProps } from "next/image";
-import { MouseEvent, PointerEvent, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { PointerEvent, useEffect, useState, useSyncExternalStore } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Link } from "@/i18n/routing";
-import { landingPanels, LandingPanelDefinition, LandingPanelId } from "./landingPage.data";
+import { landingPanels, LandingPanelDefinition, LandingPanelId, type ServicePickerModel } from "./landingPage.data";
 import ServicesQuickFinder from "./ServicesQuickFinder";
 import styles from "./landingPage.module.css";
 
 const MOBILE_QUERY = "(max-width: 767px)";
 const SERVICES_ASSET_VERSION = "20260815-2";
-
-function ArrowIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-5-5 5 5-5 5" />
-    </svg>
-  );
-}
 
 function CategoryIcon({ id }: { id: LandingPanelId }) {
   if (id === "services") {
@@ -108,83 +100,34 @@ function TrustIcon({ index }: { index: number }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d={paths[index]} /></svg>;
 }
 
-export default function LandingPage() {
+export default function LandingPage({ serviceModels }: { serviceModels: ServicePickerModel[] }) {
   const t = useTranslations("landing");
   const locale = useLocale();
   const isLightMode = useSyncExternalStore(subscribeToTheme, isLightTheme, () => false);
   const [activeDesktopPanel, setActiveDesktopPanel] = useState<LandingPanelId | null>(null);
-  const [expandedMobilePanel, setExpandedMobilePanel] = useState<LandingPanelId | null>(null);
-  const panelRefs = useRef<Partial<Record<LandingPanelId, HTMLElement | null>>>({});
+  const [servicesPickerDismissKey, setServicesPickerDismissKey] = useState(0);
 
   useEffect(() => {
     const media = window.matchMedia(MOBILE_QUERY);
-    const resetLayoutState = () => {
-      setActiveDesktopPanel(null);
-      setExpandedMobilePanel(null);
-    };
+    const resetLayoutState = () => setActiveDesktopPanel(null);
     media.addEventListener("change", resetLayoutState);
     return () => media.removeEventListener("change", resetLayoutState);
   }, []);
 
   useEffect(() => {
     setActiveDesktopPanel(null);
-    setExpandedMobilePanel(null);
   }, [locale]);
 
-  useEffect(() => {
-    if (!expandedMobilePanel || !window.matchMedia(MOBILE_QUERY).matches) return;
-
-    const panelId = expandedMobilePanel;
-    const frame = requestAnimationFrame(() => {
-      const panel = panelRefs.current[panelId];
-      if (!panel) return;
-
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const nav = document.querySelector("nav[data-gateway='true']") ?? document.querySelector("nav");
-      const navOffset = Math.max(0, nav?.getBoundingClientRect().bottom ?? 0) + 8;
-      const top = Math.max(0, window.scrollY + panel.getBoundingClientRect().top - navOffset);
-
-      if (reduceMotion) {
-        window.scrollTo(0, top);
-      } else {
-        window.scrollTo({ top, behavior: "smooth" });
-      }
-    });
-
-    return () => cancelAnimationFrame(frame);
-  }, [expandedMobilePanel]);
-
   const isMobileViewport = () => window.matchMedia(MOBILE_QUERY).matches;
-
-  const scrollToPageTop = () => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) {
-      window.scrollTo(0, 0);
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  const togglePanel = (id: LandingPanelId) => {
-    if (!isMobileViewport()) {
-      setActiveDesktopPanel(id);
-      return;
-    }
-
-    const isClosingPanel = expandedMobilePanel === id;
-    setExpandedMobilePanel((current) => current === id ? null : id);
-
-    if (isClosingPanel) requestAnimationFrame(scrollToPageTop);
-  };
 
   const handlePanelPointerEnter = (event: PointerEvent<HTMLElement>, id: LandingPanelId) => {
     if (event.pointerType === "mouse" && !isMobileViewport()) setActiveDesktopPanel(id);
   };
 
-  const handlePanelClick = (event: MouseEvent<HTMLElement>, id: LandingPanelId) => {
-    const target = event.target as HTMLElement;
-    if (target.closest("a, button, form, input, select, textarea, label")) return;
-    togglePanel(id);
+  const handleServicesMenuPointerLeave = (relatedTarget: EventTarget | null) => {
+    if (relatedTarget instanceof Element && relatedTarget.closest('[data-panel="services"]')) return;
+    setServicesPickerDismissKey((current) => current + 1);
+    setActiveDesktopPanel(null);
   };
 
   return (
@@ -201,70 +144,74 @@ export default function LandingPage() {
           {landingPanels.map((panel, index) => {
             const isActive = activeDesktopPanel === panel.id;
             const isDimmed = activeDesktopPanel !== null && !isActive;
-            const isExpanded = expandedMobilePanel === panel.id;
-            const isOpen = isActive || isExpanded;
+            const isOpen = isActive;
+            const panelTitle = t(`${panel.id}.title`);
+            const mobilePanelTitle = t(`${panel.id}.mobileTitle`);
+            const panelSectionLabel = panelTitle === mobilePanelTitle
+              ? panelTitle
+              : `${panelTitle} / ${mobilePanelTitle}`;
             const panelClassName = [
               styles.panel,
               isActive ? styles.panelActive : "",
               isDimmed ? styles.panelDimmed : "",
-              isExpanded ? styles.mobileExpanded : "",
             ].filter(Boolean).join(" ");
 
             return (
               <article
                 key={panel.id}
                 data-panel={panel.id}
-                ref={(node) => { panelRefs.current[panel.id] = node; }}
                 className={panelClassName}
-                onClick={(event) => handlePanelClick(event, panel.id)}
                 onPointerEnter={(event) => handlePanelPointerEnter(event, panel.id)}
+                onPointerLeave={(event) => {
+                  if (panel.id === "services" && event.pointerType === "mouse") {
+                    const relatedTarget = event.relatedTarget;
+                    if (relatedTarget instanceof Element && relatedTarget.closest("[data-product-picker-menu]")) return;
+                    setServicesPickerDismissKey((current) => current + 1);
+                    setActiveDesktopPanel(null);
+                  }
+                }}
                 onFocusCapture={() => { if (!isMobileViewport()) setActiveDesktopPanel(panel.id); }}
                 onBlurCapture={(event) => {
+                  const nextTarget = event.relatedTarget;
+                  if (nextTarget instanceof Element && nextTarget.closest("[data-product-picker-menu]")) return;
                   if (!event.currentTarget.contains(event.relatedTarget) && !isMobileViewport()) setActiveDesktopPanel(null);
                 }}
                 onKeyDown={(event) => {
                   if (event.key !== "Escape") return;
-                  const isClosingPanel = expandedMobilePanel !== null;
                   setActiveDesktopPanel(null);
-                  setExpandedMobilePanel(null);
-                  if (isClosingPanel) requestAnimationFrame(scrollToPageTop);
                 }}
               >
                 <ResponsivePanelImage panel={panel} priority={index === 0} isLightMode={isLightMode} />
                 <div className={styles.panelOverlay} aria-hidden="true" />
+                <Link
+                  className={styles.panelLink}
+                  href={panel.href}
+                  aria-label={`${panelSectionLabel} — ${t(`${panel.id}.expandedCta`)}`}
+                  data-panel-link
+                />
 
                 <div className={styles.panelContent}>
-                  <button
-                    type="button"
-                    className={styles.panelToggle}
-                    onClick={() => togglePanel(panel.id)}
-                    aria-expanded={isOpen}
-                    aria-controls={`${panel.id}-panel-details`}
-                    aria-label={t(isOpen ? "common.collapse" : "common.expand", { section: t(`${panel.id}.title`) })}
-                  >
+                  <div className={styles.panelToggle} aria-hidden="true">
                     <span className={styles.panelMeta}>
                       <span className={styles.numberLine} aria-hidden="true" />
                       <span>{panel.number}</span>
                     </span>
                     <span className={styles.categoryIcon}><CategoryIcon id={panel.id} /></span>
-                    <span className={`${styles.panelTitle} ${styles.desktopPanelTitle}`}>{t(`${panel.id}.title`)}</span>
-                    <span className={`${styles.panelTitle} ${styles.mobilePanelTitle}`}>{t(`${panel.id}.mobileTitle`)}</span>
+                    <span className={`${styles.panelTitle} ${styles.desktopPanelTitle}`}>{panelTitle}</span>
+                    <span className={`${styles.panelTitle} ${styles.mobilePanelTitle}`}>{mobilePanelTitle}</span>
                     <span className={`${styles.panelDescription} ${styles.desktopDescription}`}>
                       {t(`${panel.id}.description`)}
                     </span>
                     <span className={`${styles.panelDescription} ${styles.mobileDescription}`}>
                       {t(`${panel.id}.compactDescription`)}
                     </span>
-                    <span className={styles.mobileArrow} aria-hidden="true">
-                      {isExpanded ? <span className={styles.closeMark}>×</span> : <ArrowIcon />}
-                    </span>
-                  </button>
+                  </div>
 
                   <div
                     id={`${panel.id}-panel-details`}
                     className={styles.panelDetailsGrid}
                     aria-hidden={!isOpen}
-                    inert={!isOpen}
+                    ref={(node) => { if (node) node.inert = !isOpen; }}
                   >
                     <div className={styles.panelDetailsInner}>
                       <p className={`${styles.expandedDescription} ${styles.desktopExpandedDescription}`}>{t(`${panel.id}.expandedDescription`)}</p>
@@ -281,14 +228,16 @@ export default function LandingPage() {
                           ))}
                         </ul>
                       )}
-                      {panel.id === "services" && <ServicesQuickFinder />}
+                      {panel.id === "services" && (
+                        <ServicesQuickFinder
+                          models={serviceModels}
+                          closeModelPickerRequestKey={servicesPickerDismissKey}
+                          onModelPickerPointerLeave={handleServicesMenuPointerLeave}
+                        />
+                      )}
                     </div>
                   </div>
 
-                  <Link className={styles.panelCta} href={panel.href}>
-                    <span>{t(isActive || isExpanded ? `${panel.id}.expandedCta` : "common.enter")}</span>
-                    <span className={styles.ctaArrow}><ArrowIcon /></span>
-                  </Link>
                 </div>
               </article>
             );

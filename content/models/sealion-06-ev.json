@@ -1,5 +1,7 @@
 {
   "id": "sealion-06-ev",
+  "year": 2026,
+  "years": [2026],
   "name": { "en": "BYD Sealion 06 EV", "ka": "BYD Sealion 06 EV" },
   "tagline": { "en": "Electric SUV with official BYD long-range configurations", "ka": "Electric SUV with official BYD long-range configurations" },
   "category": "SUV",
